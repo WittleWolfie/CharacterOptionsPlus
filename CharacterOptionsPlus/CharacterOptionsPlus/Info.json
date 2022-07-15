@@ -1,0 +1,10 @@
+﻿{
+  "Id": "CharacterOptionsPlus",
+  "DisplayName": "Character Options+",
+  "Author": "WittleWolfie",
+  "Version": "0.0.1",
+  "ManagerVersion": "0.21.3",
+  "Requirements": [],
+  "AssemblyName": "CharacterOptionsPlus.dll",
+  "EntryMethod": "CharacterOptionsPlus.Main.Load"
+}
