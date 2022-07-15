@@ -7,6 +7,11 @@ using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Stats;
+using Kingmaker.PubSubSystem;
+using Kingmaker.UnitLogic.ActivatableAbilities;
+using Kingmaker.UnitLogic.Buffs;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
+using System;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -48,6 +53,30 @@ namespace CharacterOptionsPlus.Feats
           onFactLostActions:
             ActionsBuilder.New().RemoveBuff(BuffName))
         .Configure();
+
+      EventBus.Subscribe(new InspiredRageDeactivationHandler());
+    }
+
+    private class InspiredRageDeactivationHandler : IActivatableAbilityWillStopHandler
+    {
+      public void HandleActivatableAbilityWillStop(ActivatableAbility ability)
+      {
+        try
+        {
+          if (ability?.Blueprint != ActivatableAbilityRefs.InspiredRageAbility.Reference.Get())
+          {
+            return;
+          }
+          Logger.Verbose("Inspired Rage deactivated.");
+
+          Buff skaldsVigor = ability.Owner.Buffs.GetBuff(BlueprintTool.Get<BlueprintBuff>(BuffGuid));
+          skaldsVigor?.Remove();
+        }
+        catch (Exception e)
+        {
+          Logger.Error("Error processing Raging Song deactivation.", e);
+        }
+      }
     }
   }
 }
