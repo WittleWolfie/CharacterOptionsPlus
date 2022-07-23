@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 3148299642
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: icons
+      Dependencies: {}

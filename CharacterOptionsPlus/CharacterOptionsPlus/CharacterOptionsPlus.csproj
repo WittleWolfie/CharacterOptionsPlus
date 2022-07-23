@@ -59,6 +59,9 @@
     <Reference Include="UnityEngine">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
@@ -73,6 +76,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\icons">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Info.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -131,11 +137,13 @@
       <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
       <ModConfig Include="$(OutputPath)\Info.json" />
       <Strings Include="$(OutputPath)\LocalizedStrings.json" />
+      <Icons Include="$(OutputPath)\Assets\icons" />
     </ItemGroup>
 
     <Copy SourceFiles="@(Assembly)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
     <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
     <Copy SourceFiles="@(Strings)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
+    <Copy SourceFiles="@(Icons)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
   </Target>
 
 </Project>
