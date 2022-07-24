@@ -76,7 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\icons">
+    <None Update="assets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Info.json">
