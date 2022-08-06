@@ -11,7 +11,10 @@ using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.EntitySystem;
+using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
+using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
@@ -44,7 +47,8 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
-      Logger.Verbose($"Configuring {FeatureName}");
+      Logger.Info($"Configuring {FeatureName}");
+      var skaldClass = CharacterClassRefs.SkaldClass.ToString();
 
       // Buff to apply fast healing
       BuffConfigurator.New(BuffName, BuffGuid)
@@ -55,8 +59,7 @@ namespace CharacterOptionsPlus.Feats
         .AddContextRankConfig(
           // Wrath uses the unchained version of Inspired Rage, this re-creates the progression of strength bonus:
           // +2 until level 8, then +4 until level 16, then +6.
-          ContextRankConfigs.ClassLevel(new string[] { CharacterClassRefs.SkaldClass.ToString() })
-            .WithCustomProgression((7, 2), (15, 4), (16, 6)))
+          ContextRankConfigs.ClassLevel(new string[] { skaldClass }).WithCustomProgression((7, 2), (15, 4), (16, 6)))
         .Configure();
 
       // Skald's Vigor feat
@@ -73,6 +76,8 @@ namespace CharacterOptionsPlus.Feats
          .SetDescription(GreaterFeatDescription)
          .SetIcon(GreaterIconName)
          .AddPrerequisiteFeature(FeatName)
+         // Since Performance isn't a skill in Wrath and there's not a great equivalent just make level 10 the pre-req.
+         .AddPrerequisiteCharacterLevel(10)
          .Configure();
 
       var applyBuff = ActionsBuilder.New().ApplyBuffPermanent(BuffName, isNotDispelable: true);
@@ -87,6 +92,7 @@ namespace CharacterOptionsPlus.Feats
               .Conditional(
                 ConditionsBuilder.New().CasterHasFact(GreaterFeatName),
                 ifTrue: applyBuff))
+        // Prevents Inspired Rage from being removed and reapplied each round.
         .SetStacking(StackingType.Ignore)
         .Configure();
 
@@ -97,8 +103,10 @@ namespace CharacterOptionsPlus.Feats
     {
       private readonly BlueprintActivatableAbility InspiredRage =
         ActivatableAbilityRefs.InspiredRageAbility.Reference.Get();
+      private readonly BlueprintBuff InspiredRageBuff = BuffRefs.InspiredRageEffectBuff.Reference.Get();
 
       private readonly BlueprintBuff SkaldsVigor = BlueprintTool.Get<BlueprintBuff>(BuffName);
+
 
       public void HandleActivatableAbilityWillStop(ActivatableAbility ability)
       {
@@ -110,8 +118,23 @@ namespace CharacterOptionsPlus.Feats
           }
           Logger.Info("Inspired Rage deactivated.");
 
-          Buff skaldsVigor = ability.Owner.Buffs.GetBuff(SkaldsVigor);
-          skaldsVigor?.Remove();
+          var inspiredRageBuff = ability.Owner.Buffs.GetBuff(InspiredRageBuff);
+          if (inspiredRageBuff is null)
+          {
+            Logger.Warn($"Inspired Rage buff missing from {ability.Owner.CharacterName}");
+            return;
+          }
+
+          var areaEntity = EntityService.Instance.GetEntity<AreaEffectEntityData>(inspiredRageBuff.SourceAreaEffectId);
+          foreach (var unit in areaEntity.InGameUnitsInside)
+          {
+            var skaldsVigor = unit.GetFact<Buff>(SkaldsVigor);
+            if (skaldsVigor?.Context?.MaybeCaster == ability.Owner.Unit)
+            {
+              Logger.Verbose($"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
+              skaldsVigor.Remove();
+            }
+          }
         }
         catch (Exception e)
         {
