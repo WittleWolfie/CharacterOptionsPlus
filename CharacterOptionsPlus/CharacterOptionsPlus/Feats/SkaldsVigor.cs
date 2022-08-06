@@ -7,7 +7,10 @@ using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
+using HarmonyLib;
+using Kingmaker;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.PubSubSystem;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
@@ -72,8 +75,7 @@ namespace CharacterOptionsPlus.Feats
          .AddPrerequisiteFeature(FeatName)
          .Configure();
 
-      var applyBuff =
-        ActionsBuilder.New().ApplyBuffPermanent(BuffName, asChild: true, sameDuration: true);
+      var applyBuff = ActionsBuilder.New().ApplyBuffPermanent(BuffName, isNotDispelable: true);
       BuffConfigurator.For(BuffRefs.InspiredRageEffectBuff)
         .AddFactContextActions(
           activated:
@@ -84,9 +86,8 @@ namespace CharacterOptionsPlus.Feats
                 ifTrue: applyBuff)
               .Conditional(
                 ConditionsBuilder.New().CasterHasFact(GreaterFeatName),
-                ifTrue: applyBuff),
-          deactivated:
-            ActionsBuilder.New().RemoveBuff(BuffName))
+                ifTrue: applyBuff))
+        .SetStacking(StackingType.Ignore)
         .Configure();
 
       EventBus.Subscribe(new InspiredRageDeactivationHandler());
@@ -94,17 +95,22 @@ namespace CharacterOptionsPlus.Feats
 
     private class InspiredRageDeactivationHandler : IActivatableAbilityWillStopHandler
     {
+      private readonly BlueprintActivatableAbility InspiredRage =
+        ActivatableAbilityRefs.InspiredRageAbility.Reference.Get();
+
+      private readonly BlueprintBuff SkaldsVigor = BlueprintTool.Get<BlueprintBuff>(BuffName);
+
       public void HandleActivatableAbilityWillStop(ActivatableAbility ability)
       {
         try
         {
-          if (ability?.Blueprint != ActivatableAbilityRefs.InspiredRageAbility.Reference.Get())
+          if (ability?.Blueprint != InspiredRage)
           {
             return;
           }
-          Logger.Verbose("Inspired Rage deactivated.");
+          Logger.Info("Inspired Rage deactivated.");
 
-          Buff skaldsVigor = ability.Owner.Buffs.GetBuff(BlueprintTool.Get<BlueprintBuff>(BuffGuid));
+          Buff skaldsVigor = ability.Owner.Buffs.GetBuff(SkaldsVigor);
           skaldsVigor?.Remove();
         }
         catch (Exception e)

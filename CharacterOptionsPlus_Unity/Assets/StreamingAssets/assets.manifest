@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 407296854
+CRC: 3767729490
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -15,6 +15,6 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/BundledAssets/icons/GreaterSkaldVigor.png
-- Assets/BundledAssets/icons/SkaldVigor.png
+- Assets/Icons/GreaterSkaldVigor.png
+- Assets/Icons/SkaldVigor.png
 Dependencies: []
