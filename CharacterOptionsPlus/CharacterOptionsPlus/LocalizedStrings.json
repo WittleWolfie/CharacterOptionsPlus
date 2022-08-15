@@ -29,6 +29,6 @@
 
   {
     "Key": "Hurtful.Description",
-    "enGB": "When you successfully demoralize an opponent within your melee reach with an Intimidate check, you can make a single melee attack against that creature as a swift action. If your attack fails to damage the target, its shaken condition from being demoralized immediately ends."
+    "enGB": "When you successfully demoralize an opponent within your melee reach with an Intimidate check, you can make a single melee attack against that creature as a swift action. If your attack misses the target, its shaken condition from being demoralized immediately ends."
   }
 ]
