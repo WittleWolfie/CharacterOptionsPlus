@@ -107,7 +107,6 @@ namespace CharacterOptionsPlus.Feats
 
       private readonly BlueprintBuff SkaldsVigor = BlueprintTool.Get<BlueprintBuff>(BuffName);
 
-
       public void HandleActivatableAbilityWillStop(ActivatableAbility ability)
       {
         try
