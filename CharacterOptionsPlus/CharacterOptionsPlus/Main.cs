@@ -60,6 +60,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Info("Patching feats.");
 
+        FuriousFocus.Configure();
         Hurtful.Configure();
         SkaldsVigor.Configure();
       }
