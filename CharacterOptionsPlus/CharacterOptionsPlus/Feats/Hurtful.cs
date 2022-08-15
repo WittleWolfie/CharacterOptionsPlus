@@ -72,6 +72,9 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(featureTags: FeatureTag.Melee | FeatureTag.Attack | FeatureTag.Skills)
         .AddPrerequisiteStatValue(StatType.Strength, 13)
         .AddPrerequisiteFeature(FeatureRefs.PowerAttackFeature.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.IntimidatingProwess.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.CornugonSmash.ToString())
+        .AddRecommendationStatMiminum(stat: StatType.SkillPersuasion, minimalValue: 1, goodIfHigher: true)
         .AddFacts(new() { ability })
         .Configure();
     }

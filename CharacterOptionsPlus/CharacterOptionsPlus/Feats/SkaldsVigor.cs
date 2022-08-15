@@ -10,6 +10,7 @@ using BlueprintCore.Utils.Types;
 using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
@@ -64,22 +65,30 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       // Skald's Vigor feat
-      FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
-        .SetDisplayName(FeatureDisplayName)
-        .SetDescription(FeatureDescription)
-        .SetIcon(IconName)
-        .AddPrerequisiteFeature(FeatureRefs.RagingSong.ToString())
-        .Configure();
+      var ragingSong = FeatureRefs.RagingSong.ToString();
+      var skaldsVigor =
+        FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+          .SetDisplayName(FeatureDisplayName)
+          .SetDescription(FeatureDescription)
+          .SetIcon(IconName)
+          .AddPrerequisiteFeature(ragingSong)
+          .AddRecommendationHasFeature(ragingSong)
+          .AddToIsPrerequisiteFor(GreaterFeatGuid) // Reference by Guid since it doesn't exist yet.
+          .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
+          .Configure();
       
       // Greater Skald's Vigor
-      FeatureConfigurator.New(GreaterFeatName, GreaterFeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
-         .SetDisplayName(GreaterFeatDisplayName)
-         .SetDescription(GreaterFeatDescription)
-         .SetIcon(GreaterIconName)
-         .AddPrerequisiteFeature(FeatName)
-         // Since Performance isn't a skill in Wrath and there's not a great equivalent just make level 10 the pre-req.
-         .AddPrerequisiteCharacterLevel(10)
-         .Configure();
+      var greaterSkaldsVigor =
+        FeatureConfigurator.New(GreaterFeatName, GreaterFeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+          .SetDisplayName(GreaterFeatDisplayName)
+          .SetDescription(GreaterFeatDescription)
+          .SetIcon(GreaterIconName)
+          .AddPrerequisiteFeature(FeatName)
+          // Since Performance isn't a skill in Wrath and there's not a great equivalent just make level 10 the pre-req.
+          .AddPrerequisiteCharacterLevel(10)
+          .AddRecommendationHasFeature(skaldsVigor)
+          .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
+          .Configure();
 
       var applyBuff = ActionsBuilder.New().ApplyBuffPermanent(BuffName, isNotDispelable: true);
       BuffConfigurator.For(BuffRefs.InspiredRageEffectBuff)
@@ -88,10 +97,10 @@ namespace CharacterOptionsPlus.Feats
             // Since it is actually part of the Inspired Rage buff it's not a valid dispel target.
             ActionsBuilder.New()
               .Conditional(
-                ConditionsBuilder.New().TargetIsYourself().HasFact(FeatName),
+                ConditionsBuilder.New().TargetIsYourself().HasFact(skaldsVigor),
                 ifTrue: applyBuff)
               .Conditional(
-                ConditionsBuilder.New().CasterHasFact(GreaterFeatName),
+                ConditionsBuilder.New().CasterHasFact(greaterSkaldsVigor),
                 ifTrue: applyBuff))
         // Prevents Inspired Rage from being removed and reapplied each round.
         .SetStacking(StackingType.Ignore)
