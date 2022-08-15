@@ -100,11 +100,11 @@ namespace CharacterOptionsPlus.Feats
 
     private class InspiredRageDeactivationHandler : UnitFactComponentDelegate, IActivatableAbilityWillStopHandler
     {
-      private readonly BlueprintActivatableAbility InspiredRage =
+      private static readonly BlueprintActivatableAbility InspiredRage =
         ActivatableAbilityRefs.InspiredRageAbility.Reference.Get();
-      private readonly BlueprintBuff InspiredRageBuff = BuffRefs.InspiredRageEffectBuff.Reference.Get();
+      private static readonly BlueprintBuff InspiredRageBuff = BuffRefs.InspiredRageEffectBuff.Reference.Get();
 
-      private readonly BlueprintBuff SkaldsVigor = BlueprintTool.Get<BlueprintBuff>(BuffName);
+      private static readonly BlueprintBuff SkaldsVigor = BlueprintTool.Get<BlueprintBuff>(BuffName);
 
       public void HandleActivatableAbilityWillStop(ActivatableAbility ability)
       {
