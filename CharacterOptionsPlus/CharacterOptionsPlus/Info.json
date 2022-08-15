@@ -4,7 +4,8 @@
   "Author": "WittleWolfie",
   "Version": "0.0.1",
   "ManagerVersion": "0.21.3",
-  "Requirements": [],
   "AssemblyName": "CharacterOptionsPlus.dll",
-  "EntryMethod": "CharacterOptionsPlus.Main.Load"
+  "EntryMethod": "CharacterOptionsPlus.Main.Load",
+  "Requirements": [ "TabletopTweaks-Core-0.4.4" ],
+  "LoadAfter": [ "TabletopTweaks-Core" ]
 }

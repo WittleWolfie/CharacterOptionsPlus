@@ -56,6 +56,9 @@
     <Reference Include="Owlcat.Runtime.Visual">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\Owlcat.Runtime.Visual.dll</HintPath>
     </Reference>
+    <Reference Include="TabletopTweaks-Core">
+      <HintPath>$(WrathPath)\Mods\TabletopTweaks-Core\TabletopTweaks-Core.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
@@ -77,6 +80,9 @@
 
   <ItemGroup>
     <None Update="assets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="characteroptionsplus_assets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Info.json">
@@ -127,7 +133,6 @@
 
       <!-- Project Entry Points -->
       <Entry Include="CharacterOptionsPlus.Main" />
-      <Entry Include="CharacterOptionsPlus.Main/BlueprintsCaches_Patch" />
     </ItemGroup>
 
     <Exec WorkingDirectory="$(OutputPath)" Command="@(ILStrip) @(LocalAssembly) @(LocalAssembly) -e @(Entry, ' -e ')" />
@@ -139,7 +144,7 @@
       <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
       <ModConfig Include="$(OutputPath)\Info.json" />
       <Strings Include="$(OutputPath)\LocalizedStrings.json" />
-      <Assets Include="$(OutputPath)\assets" />
+      <Assets Include="$(OutputPath)\*_assets" />
     </ItemGroup>
 
     <Copy SourceFiles="@(Assembly)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
