@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 1268919327
+CRC: 771990780
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: assets
+      Name: characteroptionsplus_assets
       Dependencies: {}
