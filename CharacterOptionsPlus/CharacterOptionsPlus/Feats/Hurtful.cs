@@ -1,0 +1,139 @@
+﻿using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Conditions.Builder.ContextEx;
+using BlueprintCore.Conditions.Builder.NewEx;
+using BlueprintCore.Utils;
+using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.ElementsSystem;
+using Kingmaker.EntitySystem.Stats;
+using Kingmaker.RuleSystem.Rules;
+using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Buffs;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Commands.Base;
+using Kingmaker.UnitLogic.Mechanics;
+using Kingmaker.UnitLogic.Mechanics.Actions;
+using TabletopTweaks.Core.NewEvents;
+
+namespace CharacterOptionsPlus.Feats
+{
+  public class Hurtful
+  {
+    private const string FeatName = "Hurtful";
+    private const string FeatGuid = "9474814d-363c-401d-9385-c2ce59fe2e3c";
+
+    private const string FeatDisplayName = "Hurtful.Name";
+    private const string FeatDescription = "Hurtful.Description";
+
+    private const string AbilityName = "Hurtful.Ability";
+    private const string AbilityGuid = "9ef73549-6706-4d33-abd0-bdfaa3ada6a8";
+
+    private const string BuffName = "Hurtful.Buff";
+    private const string BuffGuid = "4fd8ee4d-cf60-4b99-9316-e57a71be80ea";
+
+    private const string IconPrefix = "assets/icons/";
+    private const string IconName = IconPrefix + "hurtful.png";
+
+    private static readonly LogWrapper Logger = LogWrapper.Get(FeatName);
+
+    /// <summary>
+    /// Adds the Hurtful feat.
+    /// </summary>
+    public static void Configure()
+    {
+      Logger.EnableVerboseLogs = true;
+      Logger.Info($"Configuring {FeatName}");
+
+      var buff =
+        BuffConfigurator.New(BuffName, BuffGuid)
+          // No need to clutter the UI, the ability itself is sufficient to indicate it is active.
+          .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+          .AddComponent(
+            new HurtfulComponent(ConditionsBuilder.New().TargetInMeleeRange().HasActionsAvailable(requireSwift: true)))
+          .Configure();
+
+      // Toggle ability to enable / disable hurtful trigger
+      var ability =
+        ActivatableAbilityConfigurator.New(AbilityName, AbilityGuid)
+          .SetDisplayName(FeatDisplayName)
+          .SetDescription(FeatDescription)
+          .SetIcon(IconName)
+          .SetBuff(buff)
+          .Configure();
+
+      FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+        .SetDisplayName(FeatDisplayName)
+        .SetDescription(FeatDescription)
+        .SetIcon(IconName)
+        .AddFeatureTagsComponent(featureTags: FeatureTag.Melee | FeatureTag.Attack | FeatureTag.Skills)
+        .AddPrerequisiteStatValue(StatType.Strength, 13)
+        .AddPrerequisiteFeature(FeatureRefs.PowerAttackFeature.ToString())
+        .AddFacts(new() { ability })
+        .Configure();
+    }
+
+    [TypeId("fe3bdf24-c75d-4a6f-b8df-2df18f96ecbd")]
+    private class HurtfulComponent : UnitFactComponentDelegate, IDemoralizeHandler
+    {
+      private readonly ConditionsChecker Conditions;
+
+      public HurtfulComponent(ConditionsBuilder conditions)
+      {
+        Conditions = conditions.Build();
+      }
+
+      public void AfterIntimidateSuccess(Demoralize action, RuleSkillCheck intimidateCheck, Buff appliedBuff)
+      {
+        if (!Conditions.Check())
+        {
+          Logger.Verbose($"Conditions not met");
+          return;
+        }
+
+        var target = ContextData<MechanicsContext.Data>.Current?.CurrentTarget?.Unit;
+        if (target is null)
+        {
+          Logger.Warn($"No target for demoralize.");
+          return;
+        }
+
+        if (appliedBuff is null)
+        {
+          Logger.Verbose($"{target.CharacterName} immune to demoralize");
+          return;
+        }
+
+        Logger.Verbose($"{target.CharacterName} demoralized");
+        var caster = Context.MaybeCaster;
+        if (caster is null)
+        {
+          Logger.Warn($"Caster is missing");
+          return;
+        }
+
+        var threatHandMelee = caster.GetThreatHandMelee();
+        if (threatHandMelee is null)
+        {
+          Logger.Warn($"Unable to make melee attack");
+          return;
+        }
+
+        caster.SpendAction(UnitCommand.CommandType.Swift, isFullRound: False, timeSinceCommandStart: 0);
+        var attack =
+          Context.TriggerRule<RuleAttackWithWeapon>(
+            new(caster, target, threatHandMelee.Weapon, attackBonusPenalty: 0));
+
+        if (!attack.AttackRoll.IsHit)
+        {
+          Logger.Verbose($"Attack missed, removing demoralize effects: {appliedBuff.Name}");
+          target.RemoveFact(appliedBuff);
+        }
+      }
+    }
+  }
+}

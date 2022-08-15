@@ -19,5 +19,16 @@
   {
     "Key": "GreaterSkaldsVigor.Description",
     "enGB": "Your allies share in the fast healing granted by your Skald’s Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger."
+  },
+
+  {
+    "Key": "Hurtful.Name",
+    "ProcessTemplates": false,
+    "enGB": "Hurtful"
+  },
+
+  {
+    "Key": "Hurtful.Description",
+    "enGB": "When you successfully demoralize an opponent within your melee reach with an Intimidate check, you can make a single melee attack against that creature as a swift action. If your attack fails to damage the target, its shaken condition from being demoralized immediately ends."
   }
 ]

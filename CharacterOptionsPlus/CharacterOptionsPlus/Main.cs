@@ -1,8 +1,9 @@
 ﻿using BlueprintCore.Utils;
 using CharacterOptionsPlus.Feats;
 using HarmonyLib;
-using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.PubSubSystem;
 using System;
+using TabletopTweaks.Core.NewEvents;
 using UnityModManagerNet;
 
 namespace CharacterOptionsPlus
@@ -17,6 +18,7 @@ namespace CharacterOptionsPlus
       {
         var harmony = new Harmony(modEntry.Info.Id);
         harmony.PatchAll();
+        EventBus.Subscribe(new BlueprintCacheInitHandler());
         Logger.Info("Finished patching.");
       }
       catch (Exception e)
@@ -26,14 +28,17 @@ namespace CharacterOptionsPlus
       return true;
     }
 
-    [HarmonyPatch(typeof(BlueprintsCache))]
-    static class BlueprintsCaches_Patch
+    class BlueprintCacheInitHandler : IBlueprintCacheInitHandler
     {
       private static bool Initialized = false;
 
-      [HarmonyPriority(Priority.Last)]
-      [HarmonyPatch(nameof(BlueprintsCache.Init)), HarmonyPostfix]
-      static void Postfix()
+      public void AfterBlueprintCachePatches() { }
+
+      public void BeforeBlueprintCacheInit() { }
+
+      public void BeforeBlueprintCachePatches() { }
+
+      public void AfterBlueprintCacheInit()
       {
         try
         {
@@ -51,11 +56,11 @@ namespace CharacterOptionsPlus
           Logger.Error("Failed to initialize.", e);
         }
       }
-
       private static void PatchFeats()
       {
         Logger.Info("Patching feats.");
 
+        Hurtful.Configure();
         SkaldsVigor.Configure();
       }
     }
