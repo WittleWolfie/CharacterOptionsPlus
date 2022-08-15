@@ -78,7 +78,7 @@ namespace CharacterOptionsPlus.Feats
     }
 
     [TypeId("fe3bdf24-c75d-4a6f-b8df-2df18f96ecbd")]
-    private class HurtfulComponent : UnitFactComponentDelegate, IDemoralizeHandler
+    private class HurtfulComponent : UnitFactComponentDelegate, IInitiatorDemoralizeHandler
     {
       private readonly ConditionsChecker Conditions;
 
