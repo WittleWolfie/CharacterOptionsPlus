@@ -46,7 +46,6 @@ namespace CharacterOptionsPlus.Feats
     /// </summary>
     public static void Configure()
     {
-      Logger.EnableVerboseLogs = true;
       Logger.Info($"Configuring {FeatName}");
 
       var buff =
