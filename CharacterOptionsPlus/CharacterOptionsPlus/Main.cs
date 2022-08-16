@@ -56,6 +56,7 @@ namespace CharacterOptionsPlus
           Logger.Error("Failed to initialize.", e);
         }
       }
+
       private static void PatchFeats()
       {
         Logger.Info("Patching feats.");
