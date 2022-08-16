@@ -71,6 +71,8 @@ Adds character options from the tabletop ruleset.
 3. [![Download zip](https://custom-icon-badges.herokuapp.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download zip")](https://github.com/WittleWolfie/CharacterOptionsPlus/releases/latest/download/CharacterOptionsPlus.zip)
 4. Drag the zip file from from step #3 into the Unity Mod Manager window under the Mods tab
 
+I also recommend installing [TabletopTweaks-Base](https://github.com/Vek17/TabletopTweaks-Base) and [TabletopTweaks-Reworks](https://github.com/Vek17/TabletopTweaks-Reworks). They are not required but I developed the mod using them and there may bugs if you use it without them.
+
 ## Problems or Suggestions
 
 File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new) or reach out to me (@WittleWolfie) on [Discord](https://discord.com/invite/wotr) in the #mod-user-general channel.
