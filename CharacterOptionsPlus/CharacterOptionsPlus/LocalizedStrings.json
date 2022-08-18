@@ -7,7 +7,7 @@
 
   {
     "Key": "FuriousFocus.Description",
-    "enGB": "When you are wielding a two-handed weapon or a one-handed weapon with two hands, and using the Power Attack feat, you do not suffer Power Attack’s penalty on melee attack rolls on the first attack you make each turn. You still suffer the penalty on any additional attacks, including attacks of opportunity."
+    "enGB": "When you are wielding a two-handed weapon or a one-handed weapon with two hands, and using the Power Attack feat, you do not suffer Power Attackï¿½s penalty on melee attack rolls on the first attack you make each turn. You still suffer the penalty on any additional attacks, including attacks of opportunity."
   },
 
   {
@@ -40,6 +40,6 @@
 
   {
     "Key": "GreaterSkaldsVigor.Description",
-    "enGB": "Your allies share in the fast healing granted by your Skald’s Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger."
+    "enGB": "Your allies share in the fast healing granted by your Skald's Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger."
   }
 ]
