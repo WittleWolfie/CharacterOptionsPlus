@@ -6,6 +6,6 @@
   "ManagerVersion": "0.21.3",
   "AssemblyName": "CharacterOptionsPlus.dll",
   "EntryMethod": "CharacterOptionsPlus.Main.Load",
-  "Requirements": [ "TabletopTweaks-Core-0.4.4" ],
+  "Requirements": [ "TabletopTweaks-Core-0.4.5" ],
   "LoadAfter": [ "TabletopTweaks-Core" ]
 }
