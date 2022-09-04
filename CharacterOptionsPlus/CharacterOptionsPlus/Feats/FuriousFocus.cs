@@ -39,7 +39,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
-        .AddRecommendationBaseAttackPart(minPart: 0.7f)
+        .AddRecommendationThreeQuartersBAB()
         .AddRecommendationWeaponSubcategoryFocus(subcategory: WeaponSubCategory.TwoHanded, hasFocus: true)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Melee | FeatureTag.Damage)
         .AddPrerequisiteStatValue(StatType.Strength, 13)
