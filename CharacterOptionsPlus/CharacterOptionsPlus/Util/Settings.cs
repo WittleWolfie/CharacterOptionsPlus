@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Utils;
+using Kingmaker.Localization;
 using ModMenu.Settings;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 using Menu = ModMenu.ModMenu;
@@ -19,15 +20,22 @@ namespace CharacterOptionsPlus.Util
     internal static void Init()
     {
       Logger.Log("Initializing settings.");
-      var settings = SettingsBuilder.New(RootKey, LocalizationTool.GetString("Settings.Title"));
+      var settings = SettingsBuilder.New(RootKey, GetString("Settings.Title"));
 
-      settings.AddSubHeader(LocalizationTool.GetString("Settings.Feats.Title"));
+      settings.AddSubHeader(GetString("Settings.Feats.Title"), startExpanded: true);
       foreach (var (guid, name) in Guids.Feats)
       {
-        settings.AddToggle(Toggle.New(GetKey(guid), defaultValue: true, LocalizationTool.GetString(name)));
+        settings.AddToggle(
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+            .WithLongDescription(GetString("Settings.EnableFeature")));
       }
 
       Menu.AddSettings(settings);
+    }
+
+    private static LocalizedString GetString(string key)
+    {
+      return LocalizationTool.GetString(key);
     }
 
     private static string GetKey(string partialKey)
