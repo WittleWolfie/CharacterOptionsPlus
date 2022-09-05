@@ -1,6 +1,21 @@
 # Character Options+
 
-Adds character options from the tabletop ruleset.
+Adds character build options from the tabletop ruleset.
+
+### This mod creates a save dependency. Once you save with this mod enabled it must remain enabled or you will lose access to the save.
+
+## Installation
+
+1. Download and install [Unity Mod Manager](https://github.com/newman55/unity-mod-manager) (min v0.23)
+2. Install [ModFinder](https://github.com/Pathfinder-WOTR-Modding-Community/ModFinder) and use it to search for Character Options+
+3. Click "Install"
+    * If you don't have [TabletopTweaks-Core](https://github.com/Vek17/TabletopTweaks-Core) and [ModMenu](https://github.com/WittleWolfie/ModMenu) already, install them using ModFinder
+
+I also recommend installing [TabletopTweaks-Base](https://github.com/Vek17/TabletopTweaks-Base) and [TabletopTweaks-Reworks](https://github.com/Vek17/TabletopTweaks-Reworks). They are not required but I developed the mod using them and there may bugs if you use it without them.
+
+If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https://github.com/WittleWolfie/CharacterOptionsPlus/releases/latest) and install it using Unity Mod Manager. Make sure to install [TabletopTweaks-Core](https://github.com/Vek17/TabletopTweaks-Core) and [ModMenu](https://github.com/WittleWolfie/ModMenu) as well.
+
+### [Troubleshooting and Feedback](#problems-or-suggestions)
 
 ## New Content
 
@@ -63,19 +78,35 @@ Adds character options from the tabletop ruleset.
     * [Umbral Strike](https://www.d20pfsrd.com/magic/all-spells/u/umbral-strike/)
     * [Wall of Ice](https://www.d20pfsrd.com/magic/all-spells/w/wall-of-ice/)
     * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
-
-## Installation
-
-1. Download and install [Unity Mod Manager](https://github.com/newman55/unity-mod-manager) (min v0.23)
-2. Download and install [TabletopTweaks-Core](https://github.com/Vek17/TabletopTweaks-Core)
-3. [![Download zip](https://custom-icon-badges.herokuapp.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download zip")](https://github.com/WittleWolfie/CharacterOptionsPlus/releases/latest/download/CharacterOptionsPlus.zip)
-4. Drag the zip file from from step #3 into the Unity Mod Manager window under the Mods tab
-
-I also recommend installing [TabletopTweaks-Base](https://github.com/Vek17/TabletopTweaks-Base) and [TabletopTweaks-Reworks](https://github.com/Vek17/TabletopTweaks-Reworks). They are not required but I developed the mod using them and there may bugs if you use it without them.
-
+    
 ## Problems or Suggestions
 
 File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new) or reach out to me (@WittleWolfie) on [Discord](https://discord.com/invite/wotr) in the #mod-user-general channel.
+
+### Reporting Problems
+
+1. Use [ModFinder](https://github.com/Pathfinder-WOTR-Modding-Community/ModFinder) to install [Mewsifer Console](https://github.com/Pathfinder-WOTR-Modding-Community/MewsiferConsole) and Mewsifer Console Menu
+2. Reproduce the issue in-game
+3. Open Settings > Mods > Mewsifer Console and select "Mod Bug Report"
+    * ![Mewsifer Console Menu screenshot](https://github.com/WittleWolfie/CharacterOptionsPlus/blob/main/screenshots/bug_report.png)
+4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new) and attach the generated bug report
+
+### Mod Options
+
+This mod uses [Mod Menu](https://github.com/WittleWolfie/ModMenu), settings are in the game settings: Settings > Mods > Character Options+. They are not available in UMM.
+
+All settings changes require a restart to take effect.
+
+You can use options to disable any feature added. This will:
+
+* Prevent the feature from being selectable
+* Remove any effect from the feature
+* Remove any changes to existing mechanics
+
+This will not:
+
+* Remove the feature from characters
+* Grant a replacement feature for characters who have it
 
 ## Acknowledgements
 
