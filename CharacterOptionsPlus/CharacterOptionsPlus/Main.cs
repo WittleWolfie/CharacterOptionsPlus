@@ -50,6 +50,10 @@ namespace CharacterOptionsPlus
           }
           Initialized = true;
 
+
+          // Must init settings first
+          Settings.Init();
+
           PatchFeats();
         }
         catch (Exception e)
