@@ -22,6 +22,7 @@ namespace CharacterOptionsPlus.Util
       Logger.Log("Initializing settings.");
       var settings = SettingsBuilder.New(RootKey, GetString("Settings.Title"));
 
+      settings.AddDefaultButton(OnDefaultsApplied);
       settings.AddSubHeader(GetString("Settings.Feats.Title"), startExpanded: true);
       foreach (var (guid, name) in Guids.Feats)
       {
@@ -31,6 +32,11 @@ namespace CharacterOptionsPlus.Util
       }
 
       Menu.AddSettings(settings);
+    }
+
+    private static void OnDefaultsApplied()
+    {
+      Logger.Log($"Default settings restored.");
     }
 
     private static LocalizedString GetString(string key)
