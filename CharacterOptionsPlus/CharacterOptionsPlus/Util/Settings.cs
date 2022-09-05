@@ -20,9 +20,16 @@ namespace CharacterOptionsPlus.Util
     internal static void Init()
     {
       Logger.Log("Initializing settings.");
-      var settings = SettingsBuilder.New(RootKey, GetString("Settings.Title"));
+      var settings = SettingsBuilder.New(RootKey, GetString("Settings.Title")).AddDefaultButton(OnDefaultsApplied);
 
-      settings.AddDefaultButton(OnDefaultsApplied);
+      settings.AddSubHeader(GetString("Settings.Archetypes.Title"), startExpanded: true);
+      foreach (var (guid, name) in Guids.Archetypes)
+      {
+        settings.AddToggle(
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+            .WithLongDescription(GetString("Settings.EnableFeature")));
+      }
+
       settings.AddSubHeader(GetString("Settings.Feats.Title"), startExpanded: true);
       foreach (var (guid, name) in Guids.Feats)
       {

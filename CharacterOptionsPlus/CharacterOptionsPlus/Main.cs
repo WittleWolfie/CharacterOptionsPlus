@@ -1,4 +1,5 @@
-﻿using CharacterOptionsPlus.Feats;
+﻿using CharacterOptionsPlus.Archetypes;
+using CharacterOptionsPlus.Feats;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
 using Kingmaker.PubSubSystem;
@@ -54,12 +55,20 @@ namespace CharacterOptionsPlus
           // Must init settings first
           Settings.Init();
 
+          PatchArchetypes();
           PatchFeats();
         }
         catch (Exception e)
         {
           Logger.LogException("Failed to initialize.", e);
         }
+      }
+
+      private static void PatchArchetypes()
+      {
+        Logger.Log("Patching archetypes.");
+
+        ArrowsongMinstrel.Configure();
       }
 
       private static void PatchFeats()

@@ -1,4 +1,16 @@
 [
+  //** Archetypes **//
+  {
+    "Key": "ArrowsongMinstrel.Name",
+    "ProcessTemplates": false,
+    "enGB": "Arrowsong Minstrel"
+  },
+  {
+    "Key": "ArrowsongMinstrel.Description",
+    "enGB": "Arrowsong minstrels combine the elven traditions of archery, song, and spellcasting into a seamless harmony of dazzling magical effects."
+  },
+  //****************//
+
   //** Feats **//
   {
     "Key": "FuriousFocus.Name",
@@ -47,6 +59,12 @@
     "Key": "Settings.Title",
     "ProcessTemplates": false,
     "enGB": "Character Options+"
+  },
+
+  {
+    "Key": "Settings.Archetypes.Title",
+    "ProcessTemplates": false,
+    "enGB": "Archetypes"
   },
 
   {
