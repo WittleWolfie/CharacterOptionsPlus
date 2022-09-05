@@ -37,6 +37,29 @@ namespace CharacterOptionsPlus.Archetypes
       ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsingMinstrelArchetype, CharacterClassRefs.BardClass)
         .SetLocalizedName(ArchetypeDisplayName)
         .SetLocalizedDescription(ArchetypeDescription)
+
+        // TODO: Diminished spellcasting
+
+        // First remove the replaced features
+        .AddToRemoveFeatures(1, FeatureRefs.BardProficiencies.ToString())
+        .AddToRemoveFeatures(1, FeatureRefs.BardicKnowledge.ToString())
+
+        .AddToRemoveFeatures(2, FeatureRefs.BardWellVersed.ToString())
+        .AddToRemoveFeatures(2, FeatureSelectionRefs.BardTalentSelection.ToString()) // Level 2 Versatile Performance
+
+        .AddToRemoveFeatures(5, FeatureRefs.BardLoreMaster.ToString())
+        .AddToRemoveFeatures(6, FeatureRefs.FascinateFeature.ToString())
+        .AddToRemoveFeatures(8, FeatureRefs.DirgeOfDoomFeature.ToString())
+        .AddToRemoveFeatures(12, FeatureRefs.SoothingPerformanceFeature.ToString())
+
+        // All Inspire Competence
+        .AddToRemoveFeatures(3, FeatureRefs.InspireCompetenceFeature.ToString())
+        .AddToRemoveFeatures(7, FeatureRefs.InspireCompetenceFeature.ToString())
+        .AddToRemoveFeatures(11, FeatureRefs.InspireCompetenceFeature.ToString())
+        .AddToRemoveFeatures(15, FeatureRefs.InspireCompetenceFeature.ToString())
+        .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString())
+
+        // TODO: Add replacement features
         .Configure();
     }
   }
