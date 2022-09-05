@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
@@ -28,10 +29,26 @@ namespace CharacterOptionsPlus.Feats
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
-    /// <summary>
-    /// Adds the Furious Focus feat.
-    /// </summary>
-    public static void Configure()
+    internal static void Configure()
+    {
+      if (Settings.IsEnabled(Guids.SkaldsVigorFeat))
+        ConfigureEnabled();
+      else
+        ConfigureDisabled();
+    }
+
+    private static void ConfigureDisabled()
+    {
+      Logger.Log($"Configuring {FeatName} (disabled)");
+
+      FeatureConfigurator.New(FeatName, Guids.FuriousFocusFeat)
+        .SetDisplayName(FeatDisplayName)
+        .SetDescription(FeatDescription)
+        .SetIcon(IconName)
+        .Configure();
+    }
+
+    private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatName}");
 

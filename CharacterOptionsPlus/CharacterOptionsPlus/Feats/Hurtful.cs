@@ -39,10 +39,36 @@ namespace CharacterOptionsPlus.Feats
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
-    /// <summary>
-    /// Adds the Hurtful feat.
-    /// </summary>
-    public static void Configure()
+    internal static void Configure()
+    {
+      if (Settings.IsEnabled(Guids.HurtfulFeat))
+        ConfigureEnabled();
+      else
+        ConfigureDisabled();
+    }
+
+    private static void ConfigureDisabled()
+    {
+      Logger.Log($"Configuring {FeatName} (disabled)");
+
+      BuffConfigurator.New(BuffName, Guids.HurtfulBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .Configure();
+
+      ActivatableAbilityConfigurator.New(AbilityName, Guids.HurtfulAbility)
+        .SetDisplayName(FeatDisplayName)
+        .SetDescription(FeatDescription)
+        .SetIcon(IconName)
+        .Configure();
+
+      FeatureConfigurator.New(FeatName, Guids.HurtfulFeat)
+        .SetDisplayName(FeatDisplayName)
+        .SetDescription(FeatDescription)
+        .SetIcon(IconName)
+        .Configure();
+    }
+
+    private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatName}");
 

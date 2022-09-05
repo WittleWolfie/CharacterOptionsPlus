@@ -45,6 +45,37 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
+      if (Settings.IsEnabled(Guids.SkaldsVigorFeat))
+        ConfigureEnabled();
+      else
+        ConfigureDisabled();
+    }
+
+    private static void ConfigureDisabled()
+    {
+      Logger.Log($"Configuring {FeatureName} (disabled)");
+
+      BuffConfigurator.New(BuffName, Guids.SkaldsVigorBuff)
+        .SetDisplayName(FeatureDisplayName)
+        .SetDescription(FeatureDescription)
+        .SetIcon(IconName)
+        .Configure();
+
+      FeatureConfigurator.New(FeatName, Guids.SkaldsVigorFeat)
+        .SetDisplayName(FeatureDisplayName)
+        .SetDescription(FeatureDescription)
+        .SetIcon(IconName)
+        .Configure();
+
+      FeatureConfigurator.New(GreaterFeatName, Guids.SkaldsVigorGreaterFeat)
+        .SetDisplayName(GreaterFeatDisplayName)
+        .SetDescription(GreaterFeatDescription)
+        .SetIcon(GreaterIconName)
+        .Configure();
+    }
+
+    private static void ConfigureEnabled()
+    {
       Logger.Log($"Configuring {FeatureName}");
       var skaldClass = CharacterClassRefs.SkaldClass.ToString();
 
