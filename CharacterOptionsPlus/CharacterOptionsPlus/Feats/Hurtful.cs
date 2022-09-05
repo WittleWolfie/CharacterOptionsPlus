@@ -3,9 +3,8 @@ using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
-using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Conditions.Builder.NewEx;
-using BlueprintCore.Utils;
+using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
@@ -18,7 +17,9 @@ using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Commands.Base;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
+using System;
 using TabletopTweaks.Core.NewEvents;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -39,14 +40,14 @@ namespace CharacterOptionsPlus.Feats
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "hurtful.png";
 
-    private static readonly LogWrapper Logger = LogWrapper.Get(FeatName);
+    private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
     /// <summary>
     /// Adds the Hurtful feat.
     /// </summary>
     public static void Configure()
     {
-      Logger.Info($"Configuring {FeatName}");
+      Logger.Log($"Configuring {FeatName}");
 
       var buff =
         BuffConfigurator.New(BuffName, BuffGuid)
@@ -91,49 +92,56 @@ namespace CharacterOptionsPlus.Feats
 
       public void AfterIntimidateSuccess(Demoralize action, RuleSkillCheck intimidateCheck, Buff appliedBuff)
       {
-        if (!Conditions.Check())
+        try
         {
-          Logger.Verbose($"Conditions not met");
-          return;
+          if (!Conditions.Check())
+          {
+            Logger.NativeLog($"Conditions not met");
+            return;
+          }
+
+          var target = ContextData<MechanicsContext.Data>.Current?.CurrentTarget?.Unit;
+          if (target is null)
+          {
+            Logger.Warning($"No target for demoralize.");
+            return;
+          }
+
+          if (appliedBuff is null)
+          {
+            Logger.NativeLog($"{target.CharacterName} immune to demoralize");
+            return;
+          }
+
+          Logger.NativeLog($"{target.CharacterName} demoralized");
+          var caster = Context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning($"Caster is missing");
+            return;
+          }
+
+          var threatHandMelee = caster.GetThreatHandMelee();
+          if (threatHandMelee is null)
+          {
+            Logger.Warning($"Unable to make melee attack");
+            return;
+          }
+
+          caster.SpendAction(UnitCommand.CommandType.Swift, isFullRound: False, timeSinceCommandStart: 0);
+          var attack =
+            Context.TriggerRule<RuleAttackWithWeapon>(
+              new(caster, target, threatHandMelee.Weapon, attackBonusPenalty: 0));
+
+          if (!attack.AttackRoll.IsHit)
+          {
+            Logger.NativeLog($"Attack missed, removing demoralize effects: {appliedBuff.Name}");
+            target.RemoveFact(appliedBuff);
+          }
         }
-
-        var target = ContextData<MechanicsContext.Data>.Current?.CurrentTarget?.Unit;
-        if (target is null)
+        catch(Exception e)
         {
-          Logger.Warn($"No target for demoralize.");
-          return;
-        }
-
-        if (appliedBuff is null)
-        {
-          Logger.Verbose($"{target.CharacterName} immune to demoralize");
-          return;
-        }
-
-        Logger.Verbose($"{target.CharacterName} demoralized");
-        var caster = Context.MaybeCaster;
-        if (caster is null)
-        {
-          Logger.Warn($"Caster is missing");
-          return;
-        }
-
-        var threatHandMelee = caster.GetThreatHandMelee();
-        if (threatHandMelee is null)
-        {
-          Logger.Warn($"Unable to make melee attack");
-          return;
-        }
-
-        caster.SpendAction(UnitCommand.CommandType.Swift, isFullRound: False, timeSinceCommandStart: 0);
-        var attack =
-          Context.TriggerRule<RuleAttackWithWeapon>(
-            new(caster, target, threatHandMelee.Weapon, attackBonusPenalty: 0));
-
-        if (!attack.AttackRoll.IsHit)
-        {
-          Logger.Verbose($"Attack missed, removing demoralize effects: {appliedBuff.Name}");
-          target.RemoveFact(appliedBuff);
+          Logger.LogException("Failed to process hurtful.", e);
         }
       }
     }

@@ -1,16 +1,17 @@
-﻿using BlueprintCore.Utils;
-using CharacterOptionsPlus.Feats;
+﻿using CharacterOptionsPlus.Feats;
+using CharacterOptionsPlus.Util;
 using HarmonyLib;
 using Kingmaker.PubSubSystem;
 using System;
 using TabletopTweaks.Core.NewEvents;
 using UnityModManagerNet;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus
 {
   public static class Main
   {
-    private static readonly LogWrapper Logger = LogWrapper.Get("CharacterOptionsPlus");
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(Main));
 
     public static bool Load(UnityModManager.ModEntry modEntry)
     {
@@ -19,11 +20,11 @@ namespace CharacterOptionsPlus
         var harmony = new Harmony(modEntry.Info.Id);
         harmony.PatchAll();
         EventBus.Subscribe(new BlueprintCacheInitHandler());
-        Logger.Info("Finished patching.");
+        Logger.Log("Finished patching.");
       }
       catch (Exception e)
       {
-        Logger.Error("Failed to patch", e);
+        Logger.LogException("Failed to patch", e);
       }
       return true;
     }
@@ -44,7 +45,7 @@ namespace CharacterOptionsPlus
         {
           if (Initialized)
           {
-            Logger.Info("Already initialized blueprints cache.");
+            Logger.Log("Already initialized blueprints cache.");
             return;
           }
           Initialized = true;
@@ -53,13 +54,13 @@ namespace CharacterOptionsPlus
         }
         catch (Exception e)
         {
-          Logger.Error("Failed to initialize.", e);
+          Logger.LogException("Failed to initialize.", e);
         }
       }
 
       private static void PatchFeats()
       {
-        Logger.Info("Patching feats.");
+        Logger.Log("Patching feats.");
 
         FuriousFocus.Configure();
         Hurtful.Configure();

@@ -7,11 +7,9 @@ using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
-using HarmonyLib;
-using Kingmaker;
+using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
-using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
@@ -20,6 +18,7 @@ using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using System;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -44,11 +43,11 @@ namespace CharacterOptionsPlus.Feats
     internal const string IconName = IconPrefix + "skaldvigor.png";
     internal const string GreaterIconName = IconPrefix + "greaterskaldvigor.png";
 
-    private static readonly LogWrapper Logger = LogWrapper.Get(FeatureName);
+    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {
-      Logger.Info($"Configuring {FeatureName}");
+      Logger.Log($"Configuring {FeatureName}");
       var skaldClass = CharacterClassRefs.SkaldClass.ToString();
 
       // Buff to apply fast healing
@@ -123,12 +122,12 @@ namespace CharacterOptionsPlus.Feats
           {
             return;
           }
-          Logger.Info("Inspired Rage deactivated.");
+          Logger.Log("Inspired Rage deactivated.");
 
           var inspiredRageBuff = ability.Owner.Buffs.GetBuff(InspiredRageBuff);
           if (inspiredRageBuff is null)
           {
-            Logger.Warn($"Inspired Rage buff missing from {ability.Owner.CharacterName}");
+            Logger.Warning($"Inspired Rage buff missing from {ability.Owner.CharacterName}");
             return;
           }
 
@@ -138,14 +137,14 @@ namespace CharacterOptionsPlus.Feats
             var skaldsVigor = unit.GetFact<Buff>(SkaldsVigor);
             if (skaldsVigor?.Context?.MaybeCaster == ability.Owner.Unit)
             {
-              Logger.Verbose($"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
+              Logger.NativeLog($"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
               skaldsVigor.Remove();
             }
           }
         }
         catch (Exception e)
         {
-          Logger.Error("Error processing Raging Song deactivation.", e);
+          Logger.LogException("Error processing Raging Song deactivation.", e);
         }
       }
     }

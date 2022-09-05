@@ -1,6 +1,6 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
-using BlueprintCore.Utils;
+using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
@@ -12,6 +12,7 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using System;
 using System.Linq;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -26,14 +27,14 @@ namespace CharacterOptionsPlus.Feats
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "furiousfocus.png";
 
-    private static readonly LogWrapper Logger = LogWrapper.Get(FeatName);
+    private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
     /// <summary>
     /// Adds the Furious Focus feat.
     /// </summary>
     public static void Configure()
     {
-      Logger.Info($"Configuring {FeatName}");
+      Logger.Log($"Configuring {FeatName}");
 
       FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat, FeatureGroup.RangerStyle)
         .SetDisplayName(FeatDisplayName)
@@ -66,14 +67,14 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.Weapon is null || !evt.Weapon.Blueprint.IsTwoHanded)
           {
-            Logger.Verbose("Skipped: not a 2H weapon attack.");
+            Logger.NativeLog("Skipped: not a 2H weapon attack.");
             return;
           }
 
           var rule = evt.Reason.Rule;
           if (rule is RuleAttackWithWeapon attackRule && !attackRule.IsFirstAttack)
           {
-            Logger.Verbose("Skipped: not first attack");
+            Logger.NativeLog("Skipped: not first attack");
             return;
           }
 
@@ -84,16 +85,16 @@ namespace CharacterOptionsPlus.Feats
               .FirstOrDefault();
           if (powerAttackModifier is null)
           {
-            Logger.Verbose("Skipped: power attack not applied");
+            Logger.NativeLog("Skipped: power attack not applied");
             return;
           }
 
-          Logger.Verbose($"Adding attack bonus to {Owner.CharacterName}'s attack");
+          Logger.NativeLog($"Adding attack bonus to {Owner.CharacterName}'s attack");
           evt.AddModifier(new Modifier(-powerAttackModifier.Value.Value, Fact, ModifierDescriptor.UntypedStackable));
         }
         catch (Exception e)
         {
-          Logger.Error("Failed to handle event.", e);
+          Logger.LogException("Failed to handle event.", e);
         }
       }
     }
