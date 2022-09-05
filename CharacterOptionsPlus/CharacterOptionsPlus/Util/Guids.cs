@@ -1,4 +1,6 @@
-﻿namespace CharacterOptionsPlus.Util
+﻿using CharacterOptionsPlus.Feats;
+
+namespace CharacterOptionsPlus.Util
 {
   /// <summary>
   /// List of new Guids.
@@ -16,5 +18,13 @@
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
     //***********//
+
+    internal static readonly (string guid, string displayName)[] Feats =
+      new (string, string)[]
+      {
+        (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
+        (HurtfulFeat, Hurtful.FeatDisplayName),
+        (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
+      };
   }
 }

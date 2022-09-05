@@ -27,7 +27,7 @@ namespace CharacterOptionsPlus.Feats
   {
     private const string FeatName = "Hurtful";
 
-    private const string FeatDisplayName = "Hurtful.Name";
+    internal const string FeatDisplayName = "Hurtful.Name";
     private const string FeatDescription = "Hurtful.Description";
 
     private const string AbilityName = "Hurtful.Ability";

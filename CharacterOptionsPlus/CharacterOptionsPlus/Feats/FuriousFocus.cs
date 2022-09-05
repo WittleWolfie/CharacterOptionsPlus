@@ -18,9 +18,9 @@ namespace CharacterOptionsPlus.Feats
 {
   public class FuriousFocus
   {
-    private const string FeatName = "FuriousFocus";
+    internal const string FeatName = "FuriousFocus";
 
-    private const string FeatDisplayName = "FuriousFocus.Name";
+    internal const string FeatDisplayName = "FuriousFocus.Name";
     private const string FeatDescription = "FuriousFocus.Description";
 
     private const string IconPrefix = "assets/icons/";

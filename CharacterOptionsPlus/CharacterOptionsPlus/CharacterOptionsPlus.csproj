@@ -68,6 +68,11 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    
+    <!-- ModMenu -->
+    <Reference Include="ModMenu">
+      <HintPath>$(WrathPath)\Mods\ModMenu\ModMenu.dll</HintPath>
+    </Reference>
 
     <!-- UMM & Harmony -->
     <Reference Include="0Harmony">
