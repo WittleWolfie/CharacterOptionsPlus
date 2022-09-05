@@ -26,6 +26,8 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ## Planned Content
 
+### NOT IMPLEMENTED YET (YOU KNOW, PLANNED)
+
 * Archetypes
     * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
 
