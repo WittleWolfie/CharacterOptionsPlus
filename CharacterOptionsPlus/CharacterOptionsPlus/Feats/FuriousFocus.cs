@@ -19,7 +19,6 @@ namespace CharacterOptionsPlus.Feats
   public class FuriousFocus
   {
     private const string FeatName = "FuriousFocus";
-    private const string FeatGuid = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
     private const string FeatDisplayName = "FuriousFocus.Name";
     private const string FeatDescription = "FuriousFocus.Description";
@@ -36,20 +35,21 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName}");
 
-      FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat, FeatureGroup.RangerStyle)
-        .SetDisplayName(FeatDisplayName)
-        .SetDescription(FeatDescription)
-        .SetIcon(IconName)
-        .AddRecommendationThreeQuartersBAB()
-        .AddRecommendationWeaponSubcategoryFocus(subcategory: WeaponSubCategory.TwoHanded, hasFocus: true)
-        .AddFeatureTagsComponent(featureTags: FeatureTag.Melee | FeatureTag.Damage)
-        .AddPrerequisiteStatValue(StatType.Strength, 13)
-        .AddPrerequisiteStatValue(StatType.BaseAttackBonus, 1)
-        .AddPrerequisiteFeature(FeatureRefs.PowerAttackFeature.ToString())
-        .AddComponent<FuriousFocusBonus>()
-        // FeatureGroup.RangerStyle isn't associated with a selection, this adds it to the appropriate selections.
-        .AddToRangerStyles(RangerStyle.TwoHanded6)
-        .Configure();
+      FeatureConfigurator.New(
+        FeatName, Guids.FuriousFocusFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat, FeatureGroup.RangerStyle)
+          .SetDisplayName(FeatDisplayName)
+          .SetDescription(FeatDescription)
+          .SetIcon(IconName)
+          .AddRecommendationThreeQuartersBAB()
+          .AddRecommendationWeaponSubcategoryFocus(subcategory: WeaponSubCategory.TwoHanded, hasFocus: true)
+          .AddFeatureTagsComponent(featureTags: FeatureTag.Melee | FeatureTag.Damage)
+          .AddPrerequisiteStatValue(StatType.Strength, 13)
+          .AddPrerequisiteStatValue(StatType.BaseAttackBonus, 1)
+          .AddPrerequisiteFeature(FeatureRefs.PowerAttackFeature.ToString())
+          .AddComponent<FuriousFocusBonus>()
+          // FeatureGroup.RangerStyle isn't associated with a selection, this adds it to the appropriate selections.
+          .AddToRangerStyles(RangerStyle.TwoHanded6)
+          .Configure();
     }
 
     [TypeId("d7aa29aa-b4d0-4739-8856-6ee954d84aa8")]

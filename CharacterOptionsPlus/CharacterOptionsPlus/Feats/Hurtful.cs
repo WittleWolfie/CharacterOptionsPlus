@@ -26,16 +26,13 @@ namespace CharacterOptionsPlus.Feats
   public class Hurtful
   {
     private const string FeatName = "Hurtful";
-    private const string FeatGuid = "9474814d-363c-401d-9385-c2ce59fe2e3c";
 
     private const string FeatDisplayName = "Hurtful.Name";
     private const string FeatDescription = "Hurtful.Description";
 
     private const string AbilityName = "Hurtful.Ability";
-    private const string AbilityGuid = "9ef73549-6706-4d33-abd0-bdfaa3ada6a8";
 
     private const string BuffName = "Hurtful.Buff";
-    private const string BuffGuid = "4fd8ee4d-cf60-4b99-9316-e57a71be80ea";
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "hurtful.png";
@@ -50,7 +47,7 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName}");
 
       var buff =
-        BuffConfigurator.New(BuffName, BuffGuid)
+        BuffConfigurator.New(BuffName, Guids.HurtfulBuff)
           // No need to clutter the UI, the ability itself is sufficient to indicate it is active.
           .SetFlags(BlueprintBuff.Flags.HiddenInUi)
           .AddComponent(
@@ -59,14 +56,14 @@ namespace CharacterOptionsPlus.Feats
 
       // Toggle ability to enable / disable hurtful trigger
       var ability =
-        ActivatableAbilityConfigurator.New(AbilityName, AbilityGuid)
+        ActivatableAbilityConfigurator.New(AbilityName, Guids.HurtfulAbility)
           .SetDisplayName(FeatDisplayName)
           .SetDescription(FeatDescription)
           .SetIcon(IconName)
           .SetBuff(buff)
           .Configure();
 
-      FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+      FeatureConfigurator.New(FeatName, Guids.HurtfulFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
         .SetIcon(IconName)

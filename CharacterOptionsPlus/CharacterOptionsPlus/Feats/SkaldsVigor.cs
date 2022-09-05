@@ -10,6 +10,7 @@ using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
@@ -29,15 +30,12 @@ namespace CharacterOptionsPlus.Feats
     internal const string FeatureDescription = "SkaldsVigor.Description";
 
     internal const string FeatName = "SkaldsVigor.Feat";
-    internal const string FeatGuid = "55dd527b-8721-426b-aaa2-036ccc9a0458";
 
     internal const string GreaterFeatName = "GreaterSkaldsVigor.Feat";
-    internal const string GreaterFeatGuid = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string GreaterFeatDisplayName = "GreaterSkaldsVigor.Name";
     internal const string GreaterFeatDescription = "GreaterSkaldsVigor.Description";
 
     internal const string BuffName = "SkaldsVigor.Buff";
-    internal const string BuffGuid = "9e67121d-0433-4706-a107-7796187df3e1";
 
     internal const string IconPrefix = "assets/icons/";
     internal const string IconName = IconPrefix + "skaldvigor.png";
@@ -51,7 +49,7 @@ namespace CharacterOptionsPlus.Feats
       var skaldClass = CharacterClassRefs.SkaldClass.ToString();
 
       // Buff to apply fast healing
-      BuffConfigurator.New(BuffName, BuffGuid)
+      BuffConfigurator.New(BuffName, Guids.SkaldsVigorBuff)
         .SetDisplayName(FeatureDisplayName)
         .SetDescription(FeatureDescription)
         .SetIcon(IconName)
@@ -66,28 +64,29 @@ namespace CharacterOptionsPlus.Feats
       // Skald's Vigor feat
       var ragingSong = FeatureRefs.RagingSong.ToString();
       var skaldsVigor =
-        FeatureConfigurator.New(FeatName, FeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+        FeatureConfigurator.New(FeatName, Guids.SkaldsVigorFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat)
           .SetDisplayName(FeatureDisplayName)
           .SetDescription(FeatureDescription)
           .SetIcon(IconName)
           .AddPrerequisiteFeature(ragingSong)
           .AddRecommendationHasFeature(ragingSong)
-          .AddToIsPrerequisiteFor(GreaterFeatGuid) // Reference by Guid since it doesn't exist yet.
+          .AddToIsPrerequisiteFor(Guids.SkaldsVigorGreaterFeat) // Reference by Guid since it doesn't exist yet.
           .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
           .Configure();
       
       // Greater Skald's Vigor
       var greaterSkaldsVigor =
-        FeatureConfigurator.New(GreaterFeatName, GreaterFeatGuid, FeatureGroup.Feat, FeatureGroup.CombatFeat)
-          .SetDisplayName(GreaterFeatDisplayName)
-          .SetDescription(GreaterFeatDescription)
-          .SetIcon(GreaterIconName)
-          .AddPrerequisiteFeature(FeatName)
-          // Since Performance isn't a skill in Wrath and there's not a great equivalent just make level 10 the pre-req.
-          .AddPrerequisiteCharacterLevel(10)
-          .AddRecommendationHasFeature(skaldsVigor)
-          .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
-          .Configure();
+        FeatureConfigurator.New(
+          GreaterFeatName, Guids.SkaldsVigorGreaterFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+            .SetDisplayName(GreaterFeatDisplayName)
+            .SetDescription(GreaterFeatDescription)
+            .SetIcon(GreaterIconName)
+            .AddPrerequisiteFeature(FeatName)
+            // Since Performance isn't a skill in Wrath and there's not a great equivalent just make level 10 the pre-req.
+            .AddPrerequisiteCharacterLevel(10)
+            .AddRecommendationHasFeature(skaldsVigor)
+            .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
+            .Configure();
 
       var applyBuff = ActionsBuilder.New().ApplyBuffPermanent(BuffName, isNotDispelable: true);
       BuffConfigurator.For(BuffRefs.InspiredRageEffectBuff)
@@ -106,6 +105,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
     }
 
+    [TypeId("5ae05713-a303-4b4e-8bec-be5f6d17108a")]
     private class InspiredRageDeactivationHandler : UnitFactComponentDelegate, IActivatableAbilityWillStopHandler
     {
       private static readonly BlueprintActivatableAbility InspiredRage =
