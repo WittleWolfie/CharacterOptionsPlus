@@ -31,7 +31,7 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.SkaldsVigorFeat))
+      if (Settings.IsEnabled(Guids.FuriousFocusFeat))
         ConfigureEnabled();
       else
         ConfigureDisabled();
