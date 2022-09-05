@@ -41,11 +41,12 @@ namespace CharacterOptionsPlus.Archetypes
         // TODO: Diminished spellcasting
 
         // First remove the replaced features
-        .AddToRemoveFeatures(1, FeatureRefs.BardProficiencies.ToString())
-        .AddToRemoveFeatures(1, FeatureRefs.BardicKnowledge.ToString())
+        .AddToRemoveFeatures(1, FeatureRefs.BardProficiencies.ToString(), FeatureRefs.BardicKnowledge.ToString())
 
-        .AddToRemoveFeatures(2, FeatureRefs.BardWellVersed.ToString())
-        .AddToRemoveFeatures(2, FeatureSelectionRefs.BardTalentSelection.ToString()) // Level 2 Versatile Performance
+        // Remove the bard talent which is a stand-in for Versatile Performance
+        // Notably BardTalentSelection is the incorrect reference!
+        .AddToRemoveFeatures(
+          2, FeatureRefs.BardWellVersed.ToString(), FeatureSelectionRefs.BardTalentSelection_0.ToString())
 
         .AddToRemoveFeatures(5, FeatureRefs.BardLoreMaster.ToString())
         .AddToRemoveFeatures(6, FeatureRefs.FascinateFeature.ToString())
