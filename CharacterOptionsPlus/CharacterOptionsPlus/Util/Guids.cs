@@ -1,4 +1,5 @@
-﻿using CharacterOptionsPlus.Feats;
+﻿using CharacterOptionsPlus.Archetypes;
+using CharacterOptionsPlus.Feats;
 
 namespace CharacterOptionsPlus.Util
 {
@@ -7,6 +8,16 @@ namespace CharacterOptionsPlus.Util
   /// </summary>
   internal static class Guids
   {
+    //** Archetypes **//
+    internal const string ArrowsingMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
+    //****************//
+
+    internal static readonly (string guid, string displayName)[] Archetypes =
+      new (string, string)[]
+      {
+        (ArrowsingMinstrelArchetype, ArrowsongMinstrel.ArchetypeDisplayName),
+      };
+
     //** Feats **//
     internal const string FuriousFocusFeat = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
