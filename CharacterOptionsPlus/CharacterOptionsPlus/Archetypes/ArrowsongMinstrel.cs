@@ -28,40 +28,41 @@ namespace CharacterOptionsPlus.Archetypes
     private static void ConfigureDisabled()
     {
       Logger.Log($"Configuring {ArchetypeName} (disabled)");
+      ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsingMinstrelArchetype)
+        .SetLocalizedName(ArchetypeDisplayName)
+        .SetLocalizedDescription(ArchetypeDescription)
+        .Configure(); 
     }
 
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {ArchetypeName}");
 
-      ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsingMinstrelArchetype, CharacterClassRefs.BardClass)
-        .SetLocalizedName(ArchetypeDisplayName)
-        .SetLocalizedDescription(ArchetypeDescription)
+      var archetype =
+        ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsingMinstrelArchetype, CharacterClassRefs.BardClass)
+          .SetLocalizedName(ArchetypeDisplayName)
+          .SetLocalizedDescription(ArchetypeDescription);
 
-        // TODO: Diminished spellcasting
-
-        // First remove the replaced features
+      // Remove features
+      archetype
         .AddToRemoveFeatures(1, FeatureRefs.BardProficiencies.ToString(), FeatureRefs.BardicKnowledge.ToString())
-
         // Remove the bard talent which is a stand-in for Versatile Performance
         // Notably BardTalentSelection is the incorrect reference!
         .AddToRemoveFeatures(
           2, FeatureRefs.BardWellVersed.ToString(), FeatureSelectionRefs.BardTalentSelection_0.ToString())
-
         .AddToRemoveFeatures(5, FeatureRefs.BardLoreMaster.ToString())
         .AddToRemoveFeatures(6, FeatureRefs.FascinateFeature.ToString())
         .AddToRemoveFeatures(8, FeatureRefs.DirgeOfDoomFeature.ToString())
         .AddToRemoveFeatures(12, FeatureRefs.SoothingPerformanceFeature.ToString())
-
-        // All Inspire Competence
-        .AddToRemoveFeatures(3, FeatureRefs.InspireCompetenceFeature.ToString())
+        .AddToRemoveFeatures(3, FeatureRefs.InspireCompetenceFeature.ToString()) // All Inspire Competence
         .AddToRemoveFeatures(7, FeatureRefs.InspireCompetenceFeature.ToString())
         .AddToRemoveFeatures(11, FeatureRefs.InspireCompetenceFeature.ToString())
         .AddToRemoveFeatures(15, FeatureRefs.InspireCompetenceFeature.ToString())
-        .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString())
+        .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
-        // TODO: Add replacement features
-        .Configure();
+     // TODO: Add features
+
+      archetype.Configure();
     }
   }
 }
