@@ -10,6 +10,7 @@ namespace CharacterOptionsPlus.Util
   {
     //** Archetypes **//
     internal const string ArrowsingMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
+    internal const string ArrowsingMinstrelSpellList = "74f9286f-6e8e-46ba-8de8-995759759b2f";
     //****************//
 
     internal static readonly (string guid, string displayName)[] Archetypes =
