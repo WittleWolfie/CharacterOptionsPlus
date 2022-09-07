@@ -3,10 +3,13 @@ using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using System.Collections.Generic;
 using System.Linq;
+using TabletopTweaks.Core.NewComponents;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Archetypes
@@ -18,6 +21,8 @@ namespace CharacterOptionsPlus.Archetypes
     internal const string ArchetypeDisplayName = "ArrowsongMinstrel.Name";
     private const string ArchetypeDescription = "ArrowsongMinstrel.Description";
 
+    private const string ArcaneArchery = "ArrowsingMinstrel.ArcaneArchery";
+
     private const string SpellListName = "ArrowsongMinstrel.SpellList";
 
     private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
@@ -27,7 +32,7 @@ namespace CharacterOptionsPlus.Archetypes
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.ArrowsingMinstrelArchetype))
+      if (Settings.IsEnabled(Guids.ArrowsongMinstrelArchetype))
         ConfigureEnabled();
       else
         ConfigureDisabled();
@@ -36,7 +41,7 @@ namespace CharacterOptionsPlus.Archetypes
     private static void ConfigureDisabled()
     {
       Logger.Log($"Configuring {ArchetypeName} (disabled)");
-      ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsingMinstrelArchetype)
+      ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsongMinstrelArchetype)
         .SetLocalizedName(ArchetypeDisplayName)
         .SetLocalizedDescription(ArchetypeDescription)
         .Configure(); 
@@ -47,7 +52,7 @@ namespace CharacterOptionsPlus.Archetypes
       Logger.Log($"Configuring {ArchetypeName}");
 
       var archetype =
-        ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsingMinstrelArchetype, CharacterClassRefs.BardClass)
+        ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsongMinstrelArchetype, CharacterClassRefs.BardClass)
           .SetLocalizedName(ArchetypeDisplayName)
           .SetLocalizedDescription(ArchetypeDescription);
 
@@ -55,7 +60,7 @@ namespace CharacterOptionsPlus.Archetypes
       archetype
         .AddToRemoveFeatures(1, FeatureRefs.BardProficiencies.ToString(), FeatureRefs.BardicKnowledge.ToString())
         // Remove the bard talent which is a stand-in for Versatile Performance
-        // Notably BardTalentSelection is the incorrect reference!
+        // Notably BardTalentSelection is the incorrect reference, gotta have _0!
         .AddToRemoveFeatures(
           2, FeatureRefs.BardWellVersed.ToString(), FeatureSelectionRefs.BardTalentSelection_0.ToString())
         .AddToRemoveFeatures(5, FeatureRefs.BardLoreMaster.ToString())
@@ -69,13 +74,28 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
      // TODO: Add features
+     // TODO: Replace spellbook
 
       archetype.Configure();
     }
 
+    private static BlueprintFeature CreateArcaneArchery()
+    {
+      // TODO: Create a new spellbook that copies Bard w/ diminished casting
+      return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
+        .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
+        .Configure();
+    }
+
+    private static BlueprintFeature CreateBonusSpellSelection()
+    {
+      // TODO Bonus selection feature (at least the one used from level 4+, initial one probably should be in ArcaneArchery
+      return null;
+    }
+
     private static readonly BlueprintSpellList WizardEvocationSpells =
       SpellListRefs.WizardEvocationSpellList.Reference.Get();
-    private static BlueprintSpellList ConfigureArcaneArcherySpellSelection()
+    private static BlueprintSpellList CreateArcaneArcherySpellList()
     {
       var firstLevelSpells = new SpellLevelList(1)
       {
@@ -123,7 +143,7 @@ namespace CharacterOptionsPlus.Archetypes
       };
 
       return
-        SpellListConfigurator.New(SpellListName, Guids.ArrowsingMinstrelSpellList)
+        SpellListConfigurator.New(SpellListName, Guids.ArrowsongMinstrelSpellList)
           .AddToSpellsByLevel(
             firstLevelSpells,
             secondLevelSpells,

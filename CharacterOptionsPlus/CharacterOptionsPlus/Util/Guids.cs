@@ -9,14 +9,15 @@ namespace CharacterOptionsPlus.Util
   internal static class Guids
   {
     //** Archetypes **//
-    internal const string ArrowsingMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
-    internal const string ArrowsingMinstrelSpellList = "74f9286f-6e8e-46ba-8de8-995759759b2f";
+    internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
+    internal const string ArrowsongMinstrelSpellList = "74f9286f-6e8e-46ba-8de8-995759759b2f";
+    internal const string ArrowsongMinstrelArcaneArchery = "23d3d217-93cc-4ae6-a034-860c89561253";
     //****************//
 
     internal static readonly (string guid, string displayName)[] Archetypes =
       new (string, string)[]
       {
-        (ArrowsingMinstrelArchetype, ArrowsongMinstrel.ArchetypeDisplayName),
+        (ArrowsongMinstrelArchetype, ArrowsongMinstrel.ArchetypeDisplayName),
       };
 
     //** Feats **//
