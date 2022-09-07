@@ -58,7 +58,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Burning Disarm](https://www.d20pfsrd.com/magic/all-spells/b/burning-disarm/)
     * [Cone of Cold](https://www.d20pfsrd.com/magic/all-spells/c/cone-of-cold/)
         * Replace Icy Prison in Winter Patron bonus spells
-    * [Deadly Juggernaut](https://www.d20pfsrd.com/magic/all-spells/d/deadly-juggernaut/)
+    * [Deadly Juggernaut](https://www.d20pfsrd.com/magic/all-spells/d/deadly-juggernaut/)  (Maybe, already in another mod)
     * [Desecrate](https://www.d20pfsrd.com/magic/all-spells/d/desecrate/)
     * [Dimensional Blade](https://www.d20pfsrd.com/magic/all-spells/d/dimensional-blade/)
     * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
@@ -72,14 +72,13 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Invisibility Purge](https://www.d20pfsrd.com/magic/all-spells/i/invisibility-purge/)
     * [Ironskin](https://www.d20pfsrd.com/magic/all-spells/i/ironskin/)
     * [Judgement Light](https://www.d20pfsrd.com/magic/all-spells/j/judgment-light/)
-    * [Keen Edge](https://www.d20pfsrd.com/magic/all-spells/k/keen-edge/)
+    * [Keen Edge](https://www.d20pfsrd.com/magic/all-spells/k/keen-edge/) (Maybe, already in another mod)
     * [Nine Lives](https://www.d20pfsrd.com/magic/all-spells/n/nine-lives/)
     * [Screaming Flames](https://www.d20pfsrd.com/magic/all-spells/s/screaming-flames/)
     * [Shield of Fortification](https://www.d20pfsrd.com/magic/all-spells/s/shield-of-fortification/)
     * [Stricken Heart](https://www.d20pfsrd.com/magic/all-spells/s/stricken-heart/)
-    * [Umbral Strike](https://www.d20pfsrd.com/magic/all-spells/u/umbral-strike/)
     * [Wall of Ice](https://www.d20pfsrd.com/magic/all-spells/w/wall-of-ice/)
-    * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
+    * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/) (Maybe, already in another mod)
     
 ## Problems or Suggestions
 
