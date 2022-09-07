@@ -17,6 +17,8 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ### [Troubleshooting and Feedback](#problems-or-suggestions)
 
+### [Settings are NOT in UMM, they use Mod Menu](#mod-options) 
+
 ## New Content
 
 * Feats
@@ -93,6 +95,8 @@ File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/i
 4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new) and attach the generated bug report
 
 ### Mod Options
+
+![Mod options screenshot](https://github.com/WittleWolfie/CharacterOptionsPlus/blob/main/screenshots/settings.png)
 
 This mod uses [Mod Menu](https://github.com/WittleWolfie/ModMenu), settings are in the game settings: Settings > Mods > Character Options+. They are not available in UMM.
 
