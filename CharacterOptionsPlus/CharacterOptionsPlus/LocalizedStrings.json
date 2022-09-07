@@ -9,6 +9,14 @@
     "Key": "ArrowsongMinstrel.Description",
     "enGB": "Arrowsong minstrels combine the elven traditions of archery, song, and spellcasting into a seamless harmony of dazzling magical effects."
   },
+  {
+    "Key": "ArrowsongMinstrel.Proficiencies",
+    "enGB": "Arrowsong Minstrel Proficiencies"
+  },
+  {
+    "Key": "ArrowsongMinstrel.Proficiencies.Description",
+    "enGB": "An arrowsong minstrel is proficient with all simple weapons, plus the longbow, shortsword, and shortbow. Arrowsong minstrels are also proficient with light armor and shields (except tower shields). An arrowsong minstrel can cast bard spells while wearing light armor and using a shield without incurring the normal arcane spell failure chance. Like any other arcane spellcaster, An arrowsong minstrel wearing medium or heavy armor incurs a chance of arcane spell failure if the spell in question has a somatic component. A multiclass arrowsong minstrel still incurs the normal arcane spell failure chance for arcane spells received from other classes."
+  },
   //****************//
 
   //** Feats **//

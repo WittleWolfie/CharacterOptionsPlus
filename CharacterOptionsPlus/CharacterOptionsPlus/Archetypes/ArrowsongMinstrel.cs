@@ -5,11 +5,12 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
-using Kingmaker.UnitLogic.Abilities.Blueprints;
-using System.Collections.Generic;
+using Kingmaker.Enums;
+using Kingmaker.UnitLogic.FactLogic;
+using System;
 using System.Linq;
-using TabletopTweaks.Core.NewComponents;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Archetypes
@@ -21,9 +22,15 @@ namespace CharacterOptionsPlus.Archetypes
     internal const string ArchetypeDisplayName = "ArrowsongMinstrel.Name";
     private const string ArchetypeDescription = "ArrowsongMinstrel.Description";
 
+    private const string ProficienciesDisplayName = "ArrowsongMinstrel.Proficiencies";
+    private const string ProficienciesDescription = "ArrowsongMinstrel.Proficiencies.Description";
+
     private const string ArcaneArchery = "ArrowsingMinstrel.ArcaneArchery";
 
-    private const string SpellListName = "ArrowsongMinstrel.SpellList";
+    private const string Proficiencies = "ArrowsongMinstrel.Proficiencies";
+    private const string Spellbook = "ArrowsongMinstrel.Spellbook";
+    private const string SpellList = "ArrowsongMinstrel.SpellList";
+    private const string SpellsPerDay = "ArrowsongMinstrel.SpellsPerDay";
 
     private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
 
@@ -54,7 +61,8 @@ namespace CharacterOptionsPlus.Archetypes
       var archetype =
         ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsongMinstrelArchetype, CharacterClassRefs.BardClass)
           .SetLocalizedName(ArchetypeDisplayName)
-          .SetLocalizedDescription(ArchetypeDescription);
+          .SetLocalizedDescription(ArchetypeDescription)
+          .SetReplaceSpellbook(CreateSpellbook());
 
       // Remove features
       archetype
@@ -73,15 +81,70 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToRemoveFeatures(15, FeatureRefs.InspireCompetenceFeature.ToString())
         .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
-     // TODO: Add features
-     // TODO: Replace spellbook
+ 
+      archetype
+        .AddToAddFeatures(1, CreateArcaneArchery(), CreateProficiencies()) // TODO: Bonus spell selection
+        .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString());
+      // TODO: Arrowsong Strike at 6
+      // TODO: Full-attack Arrowsong Strike at 18
+      // TODO: Bonus spell selection at 4 / 8 / 12 / 16 / 20
 
       archetype.Configure();
     }
 
+    // TODO: Icon!
+    private static BlueprintFeature CreateProficiencies()
+    {
+      var bardProficiencies = FeatureRefs.BardProficiencies.Reference.Get();
+      return FeatureConfigurator.New(Proficiencies, Guids.ArrowsongMinstrelProficiencies)
+        .SetDisplayName(ProficienciesDisplayName)
+        .SetDescription(ProficienciesDescription)
+        .SetIsClassFeature(true)
+        .AddComponent(bardProficiencies.GetComponent<AddFacts>())
+        .AddComponent(bardProficiencies.GetComponent<ArcaneArmorProficiency>())
+        .AddProficiencies(
+          weaponProficiencies:
+            new WeaponCategory[]
+            {
+              WeaponCategory.Longbow,
+              WeaponCategory.Shortbow,
+              WeaponCategory.Shortsword,
+            })
+        .Configure();
+    }
+
+    private static BlueprintSpellbook CreateSpellbook()
+    {
+      return SpellbookConfigurator.New(Spellbook, Guids.ArrowsongMinstrelSpellbook)
+        .SetName(ArchetypeDisplayName)
+        .SetSpellsPerDay(GetSpellSlots())
+        .SetSpellsKnown(SpellsTableRefs.BardSpellsKnownTable.ToString())
+        .SetSpellList(SpellListRefs.BardSpellList.ToString())
+        .SetCharacterClass(CharacterClassRefs.BardClass.ToString())
+        .SetCastingAttribute(StatType.Charisma)
+        .SetSpontaneous(true)
+        .SetIsArcane(true)
+        .Configure();
+    }
+
+    // Generates the diminished spell slots
+    private static BlueprintSpellsTable GetSpellSlots()
+    {
+      var bardSpellSlots = SpellsTableRefs.BardSpellSlotsTable.Reference.Get();
+      var levelEntries =
+        bardSpellSlots.Levels.Select(
+          l =>
+          {
+            var count = l.Count.Select(c => Math.Max(0, c - 1)).ToArray();
+            return new SpellsLevelEntry { Count = count };
+          });
+      return SpellsTableConfigurator.New(SpellsPerDay, Guids.ArrowsongMinstrelSpellsPerDay)
+        .SetLevels(levelEntries.ToArray())
+        .Configure();
+    }
+
     private static BlueprintFeature CreateArcaneArchery()
     {
-      // TODO: Create a new spellbook that copies Bard w/ diminished casting
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
         .Configure();
@@ -143,7 +206,7 @@ namespace CharacterOptionsPlus.Archetypes
       };
 
       return
-        SpellListConfigurator.New(SpellListName, Guids.ArrowsongMinstrelSpellList)
+        SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList)
           .AddToSpellsByLevel(
             firstLevelSpells,
             secondLevelSpells,
