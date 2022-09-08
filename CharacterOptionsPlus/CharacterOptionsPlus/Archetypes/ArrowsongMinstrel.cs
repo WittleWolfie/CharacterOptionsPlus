@@ -4,6 +4,7 @@ using BlueprintCore.Blueprints.References;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
@@ -11,6 +12,7 @@ using Kingmaker.Enums;
 using Kingmaker.UnitLogic.FactLogic;
 using System;
 using System.Linq;
+using TabletopTweaks.Core.NewComponents;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Archetypes
@@ -31,6 +33,10 @@ namespace CharacterOptionsPlus.Archetypes
     private const string Spellbook = "ArrowsongMinstrel.Spellbook";
     private const string SpellList = "ArrowsongMinstrel.SpellList";
     private const string SpellsPerDay = "ArrowsongMinstrel.SpellsPerDay";
+    
+    private const string SpellSelection = "ArrowsongMinstrel.SpellSelection";
+    private const string SpellSelectionName = "ArrowsongMinstrel.ArcaneArchery.BonusSpells";
+    private const string SpellSelectionDescription = "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description";
 
     private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
 
@@ -143,17 +149,30 @@ namespace CharacterOptionsPlus.Archetypes
         .Configure();
     }
 
+    // TODO: ICON
     private static BlueprintFeature CreateArcaneArchery()
     {
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
         .Configure();
     }
-
+    
+    // TODO: Icon!
     private static BlueprintFeature CreateBonusSpellSelection()
     {
       // TODO Bonus selection feature (at least the one used from level 4+, initial one probably should be in ArcaneArchery
-      return null;
+      return FeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
+        .SetDisplayName(SpellSelectionName)
+        .SetDescription(SpellSelectionDescription)
+        .SetIsClassFeature(true)
+        // Actually this probably doesn't work. This will grant them as spells known. OOPS.
+        .AddComponent<AdditionalSpellSelection>(
+          c =>
+          {
+            c.m_SpellCastingClass = CharacterClassRefs.MagusClass.Cast<BlueprintCharacterClassReference>().Reference;
+            c.m_SpellList = CreateArcaneArcherySpellList().ToReference<BlueprintSpellListReference>();
+          })
+        .Configure();
     }
 
     private static readonly BlueprintSpellList WizardEvocationSpells =
