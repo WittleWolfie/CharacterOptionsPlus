@@ -4,15 +4,15 @@ using BlueprintCore.Blueprints.References;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
-using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using TabletopTweaks.Core.NewComponents;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Archetypes
@@ -165,63 +165,81 @@ namespace CharacterOptionsPlus.Archetypes
         .SetDisplayName(SpellSelectionName)
         .SetDescription(SpellSelectionDescription)
         .SetIsClassFeature(true)
-        // Actually this probably doesn't work. This will grant them as spells known. OOPS.
-        .AddComponent<AdditionalSpellSelection>(
-          c =>
-          {
-            c.m_SpellCastingClass = CharacterClassRefs.MagusClass.Cast<BlueprintCharacterClassReference>().Reference;
-            c.m_SpellList = CreateArcaneArcherySpellList().ToReference<BlueprintSpellListReference>();
-          })
+        // TODO: Use my new unit part & component
         .Configure();
     }
 
+    private static readonly BlueprintSpellList BardSpells = SpellListRefs.BardSpellList.Reference.Get();
     private static readonly BlueprintSpellList WizardEvocationSpells =
       SpellListRefs.WizardEvocationSpellList.Reference.Get();
     private static BlueprintSpellList CreateArcaneArcherySpellList()
     {
+      var bardSpells = new List<BlueprintAbility>();
+      bardSpells.AddRange(BardSpells.GetSpells(1));
+      bardSpells.AddRange(BardSpells.GetSpells(2));
+      bardSpells.AddRange(BardSpells.GetSpells(3));
+      bardSpells.AddRange(BardSpells.GetSpells(4));
+      bardSpells.AddRange(BardSpells.GetSpells(5));
+      bardSpells.AddRange(BardSpells.GetSpells(6));
+
       var firstLevelSpells = new SpellLevelList(1)
       {
         m_Spells =
-        WizardEvocationSpells.GetSpells(1)
-          .Select(s => s.ToReference<BlueprintAbilityReference>())
-          .Append(AbilityRefs.MagicWeapon.Cast<BlueprintAbilityReference>().Reference)
-          .Append(AbilityRefs.TrueStrike.Cast<BlueprintAbilityReference>().Reference)
-          .ToList()
+          WizardEvocationSpells.GetSpells(1)
+            .Except(bardSpells)
+            .Select(s => s.ToReference<BlueprintAbilityReference>())
+            .Append(AbilityRefs.MagicWeapon.Cast<BlueprintAbilityReference>().Reference)
+            .Append(AbilityRefs.TrueStrike.Cast<BlueprintAbilityReference>().Reference)
+            .ToList()
       };
 
       var secondLevelSpells = new SpellLevelList(2)
       {
         m_Spells =
-        WizardEvocationSpells.GetSpells(2)
-          .Select(s => s.ToReference<BlueprintAbilityReference>())
-          .Append(AbilityRefs.ProtectionFromArrows.Cast<BlueprintAbilityReference>().Reference)
-          .Append(AbilityRefs.AcidArrow.Cast<BlueprintAbilityReference>().Reference)
-          .ToList()
+          WizardEvocationSpells.GetSpells(2)
+            .Except(bardSpells)
+            .Select(s => s.ToReference<BlueprintAbilityReference>())
+            .Append(AbilityRefs.ProtectionFromArrows.Cast<BlueprintAbilityReference>().Reference)
+            .Append(AbilityRefs.AcidArrow.Cast<BlueprintAbilityReference>().Reference)
+            .ToList()
       };
 
       var thirdLevelSpells = new SpellLevelList(3)
       {
         m_Spells =
-        WizardEvocationSpells.GetSpells(3)
-          .Select(s => s.ToReference<BlueprintAbilityReference>())
-          .Append(AbilityRefs.MagicWeaponGreater.Cast<BlueprintAbilityReference>().Reference)
-          .Append(AbilityRefs.ProtectionFromArrowsCommunal.Cast<BlueprintAbilityReference>().Reference)
-          .ToList()
+          WizardEvocationSpells.GetSpells(3)
+            .Except(bardSpells)
+            .Select(s => s.ToReference<BlueprintAbilityReference>())
+            .Append(AbilityRefs.MagicWeaponGreater.Cast<BlueprintAbilityReference>().Reference)
+            .Append(AbilityRefs.ProtectionFromArrowsCommunal.Cast<BlueprintAbilityReference>().Reference)
+            .ToList()
       };
 
       var fourthLevelSpells = new SpellLevelList(4)
       {
-        m_Spells = WizardEvocationSpells.GetSpells(4).Select(s => s.ToReference<BlueprintAbilityReference>()).ToList()
+        m_Spells =
+          WizardEvocationSpells.GetSpells(4)
+            .Except(bardSpells)
+            .Select(s => s.ToReference<BlueprintAbilityReference>())
+            .ToList()
       };
 
       var fifthLevelSpells = new SpellLevelList(5)
       {
-        m_Spells = WizardEvocationSpells.GetSpells(5).Select(s => s.ToReference<BlueprintAbilityReference>()).ToList()
+        m_Spells =
+          WizardEvocationSpells.GetSpells(5)
+            .Except(bardSpells)
+            .Select(s => s.ToReference<BlueprintAbilityReference>())
+            .ToList()
       };
 
       var sixthLevelSpells = new SpellLevelList(6)
       {
-        m_Spells = WizardEvocationSpells.GetSpells(6).Select(s => s.ToReference<BlueprintAbilityReference>()).ToList()
+        m_Spells =
+          WizardEvocationSpells.GetSpells(6)
+            .Except(bardSpells)
+            .Select(s => s.ToReference<BlueprintAbilityReference>())
+            .ToList()
       };
 
       return
