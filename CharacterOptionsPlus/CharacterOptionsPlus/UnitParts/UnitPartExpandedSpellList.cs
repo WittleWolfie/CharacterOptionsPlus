@@ -134,12 +134,14 @@ namespace CharacterOptionsPlus.UnitParts
       [HarmonyPatch(nameof(LevelUpState.GetSpellSelection)), HarmonyPostfix]
       static void GetSpellSelection(LevelUpState __instance, SpellSelectionData __result)
       {
+        Logger.NativeLog("Getting spell selection.");
         __result = __instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result);
       }
 
       [HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPostfix]
       static void DemandSpellSelection(LevelUpState __instance, SpellSelectionData __result)
       {
+        Logger.NativeLog("Demanding spell selection.");
         __result = __instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result);
       }
     }
@@ -169,6 +171,7 @@ namespace CharacterOptionsPlus.UnitParts
     public AddSpellToSpellList(BlueprintCharacterClassReference clazz, BlueprintSpellListReference sourceSpellList)
     {
       Clazz = clazz;
+      SourceSpellList = sourceSpellList;
     }
 
     public override void OnActivate()
