@@ -1,5 +1,10 @@
 ﻿using CharacterOptionsPlus.Archetypes;
 using CharacterOptionsPlus.Feats;
+using Kingmaker.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Util
 {
@@ -8,6 +13,8 @@ namespace CharacterOptionsPlus.Util
   /// </summary>
   internal static class Guids
   {
+    private static ModLogger Logger = Logging.GetLogger(nameof(Guids));
+
     //** Archetypes **//
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
     internal const string ArrowsongMinstrelArcaneArchery = "23d3d217-93cc-4ae6-a034-860c89561253";
@@ -43,5 +50,42 @@ namespace CharacterOptionsPlus.Util
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
+
+
+    //** Dynamic GUIDs **//
+    private const string GUID_0 = "4d802e91-ea0e-41bd-9ebe-1e92263605e8";
+    private const string GUID_1 = "6ba9a23f-30af-4e26-9c4a-836cc7431c4f";
+    private const string GUID_2 = "3da99391-21de-4c43-b3fa-34fe8dc822bb";
+    private const string GUID_3 = "1e4b3c37-9746-48a0-8bdd-4abaf1dd8414";
+    private const string GUID_4 = "69ece93c-ac3f-472e-8d50-1b994a1b294f";
+    private const string GUID_5 = "00d4365c-dc04-4ca9-a465-5c6e778a8d18";
+    private const string GUID_6 = "23534d14-8d85-45f3-bcee-c2c618582983";
+    private const string GUID_7 = "187ad65f-5e2e-4c81-aa29-e42f70a4ffc5";
+    private const string GUID_8 = "fd85b244-42fc-4d2c-90c9-d438a3797971";
+    private const string GUID_9 = "fa0dc9ed-bd43-4f6f-85c1-02f1aaf2ce31";
+    //*******************//
+
+    private static readonly List<string> GUIDS =
+      new() { GUID_0, GUID_1, GUID_2, GUID_3, GUID_4, GUID_5, GUID_6, GUID_7, GUID_8, GUID_9 };
+
+    /// <summary>
+    /// Reserves and returns one of the cached GUIDs used for dynamic blueprint generation.
+    /// </summary>
+    /// 
+    /// <remarks>Will generat new GUIDs if all cached GUIDs are reserved.</remarks>
+    internal static string ReserveDynamic()
+    {
+      string guid;
+      if (GUIDS.Any())
+      {
+        guid = GUIDS[0];
+        GUIDS.RemoveAt(0);
+        Logger.NativeLog($"Reserving dynamic guid {guid}");
+        return guid;
+      }
+      guid = Guid.NewGuid().ToString();
+      Logger.NativeLog($"Generating dynamic guid {guid}");
+      return guid;
+    }
   }
 }
