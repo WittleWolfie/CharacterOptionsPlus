@@ -55,7 +55,7 @@ namespace CharacterOptionsPlus
           // Must init settings first
           Settings.Init();
 
-          PatchArchetypes();
+//          PatchArchetypes();
           PatchFeats();
         }
         catch (Exception e)
