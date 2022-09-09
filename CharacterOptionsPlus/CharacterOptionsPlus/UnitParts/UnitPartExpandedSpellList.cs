@@ -1,12 +1,17 @@
-﻿using CharacterOptionsPlus.Util;
+﻿using BlueprintCore.Blueprints.Configurators.Classes.Spells;
+using CharacterOptionsPlus.Util;
+using HarmonyLib;
 using Kingmaker.Blueprints;
-using Kingmaker.EntitySystem.Entities;
-using Kingmaker.PubSubSystem;
+using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Class.LevelUp;
-using Kingmaker.UnitLogic.Mechanics;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
@@ -17,41 +22,143 @@ namespace CharacterOptionsPlus.UnitParts
   /// </summary>
   public class UnitPartExpandedSpellList : OldStyleUnitPart
   {
-    public readonly List<BlueprintAbility> ExtraSpells = new();
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartExpandedSpellList));
+
+    [JsonProperty]
+    public Dictionary<BlueprintCharacterClassReference, List<SpellLevelList>> ExtraSpells = new();
+
+    public void AddSpells(
+      BlueprintCharacterClassReference clazz, int level, params BlueprintAbilityReference[] spells)
+    {
+      Logger.NativeLog($"Adding to spell list for {Owner.CharacterName} - {clazz}");
+
+      if (!ExtraSpells.ContainsKey(clazz))
+        ExtraSpells.Add(clazz, new());
+      var spellLevelList =
+        ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault() ?? new SpellLevelList(level);
+      spellLevelList.m_Spells.AddRange(spells);
+
+      // Update the cached spell list if it exists
+      if (ExpandedSpellLists.ContainsKey(clazz))
+        UpdateExpandedSpellList(clazz, spellLevelList);
+    }
+
+    public SpellSelectionData GetSpellSelection(SpellSelectionData spellSelection)
+    {
+      if (!ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
+        return spellSelection;
+
+      Logger.NativeLog(
+        $"Returning spell selection with expanded spells for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
+      return new(
+        spellSelection.Spellbook,
+        GetExpandedSpellList(spellSelection.Spellbook.m_CharacterClass, spellSelection.SpellList));
+    }
+
+    private readonly Dictionary<BlueprintCharacterClassReference, BlueprintSpellList> ExpandedSpellLists =
+      new();
+    private BlueprintSpellList GetExpandedSpellList(
+      BlueprintCharacterClassReference clazz, BlueprintSpellList spellList)
+    {
+      if (ExpandedSpellLists.ContainsKey(clazz))
+        return ExpandedSpellLists[clazz];
+
+      var guid = Guids.ReserveDynamic();
+      Logger.NativeLog($"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
+      var extraSpells = ExtraSpells[clazz];
+      var expandedSpellList =
+        SpellListConfigurator.New(Guids.ReserveDynamic(), $"ExpandedSpellList_{Owner.CharacterName}_{clazz}")
+          .SetSpellsByLevel(Combine(spellList.SpellsByLevel, extraSpells))
+          .Configure();
+      ExpandedSpellLists.Add(clazz, expandedSpellList);
+      return expandedSpellList;
+    }
+
+    private void UpdateExpandedSpellList(BlueprintCharacterClassReference clazz, SpellLevelList extraSpells)
+    {
+      Logger.NativeLog($"Updating expanded spell list for {Owner.CharacterName} - {clazz}");
+      ExpandedSpellLists[clazz].SpellsByLevel =
+        Combine(ExpandedSpellLists[clazz].SpellsByLevel, new() { extraSpells });
+    }
+
+    private static SpellLevelList[] Combine(SpellLevelList[] baseList, List<SpellLevelList> extraSpells)
+    {
+      var spellLevelList = new SpellLevelList[baseList.Length];
+      for (int i = 0; i < baseList.Length; i++)
+      {
+        var list = new SpellLevelList(baseList[i].SpellLevel);
+        list.m_Spells.AddRange(baseList[i].m_Spells);
+
+        var extraList = extraSpells.Where(l => l.SpellLevel == list.SpellLevel).FirstOrDefault();
+        if (extraList is not null)
+          list.m_Spells.AddRange(extraList.m_Spells);
+
+        spellLevelList[i] = list;
+      }
+      return spellLevelList;
+    }
+
+    [HarmonyPatch(typeof(LevelUpState))]
+    static class LevelUpState_Patch
+    {
+      [HarmonyPatch(nameof(LevelUpState.GetSpellSelection)), HarmonyPostfix]
+      static void GetSpellSelection(LevelUpState __instance, SpellSelectionData __result)
+      {
+        __result = __instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result);
+      }
+
+      [HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPostfix]
+      static void DemandSpellSelection(LevelUpState __instance, SpellSelectionData __result)
+      {
+        __result = __instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result);
+      }
+    }
   }
 
+
   /// <summary>
-  /// Allows the user to select spells and add them to their spell list.
+  /// Adds selected spells to the character's spell list.
   /// </summary>
-  // TODO: Don't forget attributes and typeid and shit
-  public class AddSpellsToSpellList : UnitFactComponentDelegate, IUnitCompleteLevelUpHandler
+  /// 
+  /// <remarks>
+  /// Add to a BlueprintParametrizedFeature with <c>FeatureParameterType.Custom</c> where
+  /// <c>BlueprintParameterVariants</c> contains the spells available to select. The <c>sourceSpellList</c> passed to
+  /// the constructor should contain all the spells in the blueprint.
+  /// </remarks>
+  [AllowedOn(typeof(BlueprintParametrizedFeature), true)]
+  [TypeId("5b143c58-e784-45de-87a1-b1bbae34db7c")]
+  public class AddSpellsToSpellList : UnitFactComponentDelegate
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(AddSpellsToSpellList));
 
-    private readonly BlueprintSpellListReference SpellList;
-    private readonly ContextValue Count;
+    private readonly BlueprintCharacterClassReference Clazz;
+    private readonly BlueprintSpellListReference SourceSpellList;
 
-    public AddSpellsToSpellList(BlueprintSpellListReference spellList, ContextValue count)
+    /// <param name="clazz">Class spellbook to which the spell is added</param>
+    /// <param name="sourceSpellList">Spell list used as the source for determining spell level</param>
+    public AddSpellsToSpellList(BlueprintCharacterClassReference clazz, BlueprintSpellListReference sourceSpellList)
     {
-      SpellList = spellList;
-      Count = count;
+      Clazz = clazz;
     }
 
     public override void OnActivate()
     {
-      LevelUpController controller = Kingmaker.Game.Instance?.LevelUpController;
-      if (controller is null)
-        return;
+      try
+      {
+        if (Param?.Blueprint is not BlueprintAbility spell)
+          return;
 
-      // TODO: I'm not even sure I need this activate but generally my thought is:
-      // * Patch `AddClassLevels.PerformSelections`
-      // * When it is called last (line 308 / priority null), if AddSpellsToSpellList is there then inject a selection for spells
-      // * Patch `AddClassLevels.PerformSpellSelections` or something in `LevelUpController` to add spells from UnitPart
-    }
-
-    public void HandleUnitCompleteLevelup(UnitEntityData unit)
-    {
-      throw new System.NotImplementedException();
+        Logger.Log($"Adding {spell.Name} to {Owner.CharacterName} - {Clazz}");
+        var spellRef = spell.ToReference<BlueprintAbilityReference>();
+        int spellLevel =
+          SourceSpellList.Get().SpellsByLevel.Where(list => list.m_Spells.Contains(spellRef)).First().SpellLevel;
+        Owner.Ensure<UnitPartExpandedSpellList>().AddSpells(
+          Clazz, spellLevel, spell.ToReference<BlueprintAbilityReference>());
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("Failed to add extra spell to spell list.", e);
+      }
     }
   }
 }
