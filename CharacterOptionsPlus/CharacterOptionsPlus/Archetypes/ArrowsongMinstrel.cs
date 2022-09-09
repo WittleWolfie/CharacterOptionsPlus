@@ -2,12 +2,14 @@
 using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
@@ -110,9 +112,10 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
 
-      var bonusSpellSelection = CreateBonusSpellSelection();
+      var bonusSpellList = CreateBonusSpellList();
+      var bonusSpellSelection = CreateBonusSpellSelection(bonusSpellList);
       archetype
-        .AddToAddFeatures(1, CreateArcaneArchery(bonusSpellSelection), CreateProficiencies())
+        .AddToAddFeatures(1, CreateArcaneArchery(bonusSpellSelection), CreateProficiencies(), bonusSpellSelection)
         .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString())
 
         .AddToAddFeatures(4, bonusSpellSelection)
@@ -182,25 +185,30 @@ namespace CharacterOptionsPlus.Archetypes
     {
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
-        .AddComponent(
-          new AddFeature(
-            spellSelectionFeature.ToReference<BlueprintFeatureReference>(),
-            ContextValues.Property(UnitProperty.StatBonusCharisma)))
         .SetIsClassFeature(true)
         .Configure();
     }
     
-    private static BlueprintFeature CreateBonusSpellSelection()
+    private static BlueprintFeature CreateBonusSpellSelection(BlueprintSpellList bonusSpells)
     {
-      return ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
-        .SetDisplayName(SpellSelectionName)
-        .SetDescription(SpellSelectionDescription)
-        .SetIsClassFeature(true)
-        .AddComponent(
-          new AddSpellToSpellList(
-            CharacterClassRefs.BardClass.Cast<BlueprintCharacterClassReference>().Reference,
-            CreateBonusSpellList().ToReference<BlueprintSpellListReference>()))
-        .Configure();
+      var selection =
+        ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
+          .SetDisplayName(SpellSelectionName)
+          .SetDescription(SpellSelectionDescription)
+          .SetParameterType(FeatureParameterType.Custom)
+          .SetIsClassFeature(true)
+          .AddComponent(
+            new AddSpellToSpellList(
+              CharacterClassRefs.BardClass.Cast<BlueprintCharacterClassReference>().Reference,
+              bonusSpells.ToReference<BlueprintSpellListReference>()));
+
+      // I could not get a cast of list items to work to save my life so this is what you get
+      foreach (var spell in bonusSpells.SpellsByLevel.SelectMany(list => list.m_Spells))
+      {
+        selection.AddToBlueprintParameterVariants(
+          BlueprintTool.GetRef<AnyBlueprintReference>(spell.deserializedGuid.ToString()));
+      }
+      return selection.Configure();
     }
 
     private static readonly BlueprintSpellList BardSpells = SpellListRefs.BardSpellList.Reference.Get();
