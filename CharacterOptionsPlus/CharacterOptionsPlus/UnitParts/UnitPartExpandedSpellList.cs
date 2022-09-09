@@ -43,6 +43,23 @@ namespace CharacterOptionsPlus.UnitParts
         UpdateExpandedSpellList(clazz, spellLevelList);
     }
 
+    public void RemoveSpells(
+      BlueprintCharacterClassReference clazz, int level, params BlueprintAbilityReference[] spells)
+    {
+      Logger.NativeLog($"Removing from spell list for {Owner.CharacterName} - {clazz}");
+
+      if (!ExtraSpells.ContainsKey(clazz))
+        return;
+
+      var spellLevelList =
+        ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault() ?? new SpellLevelList(level);
+      spellLevelList.m_Spells = spellLevelList.m_Spells.Except(spells).ToList();
+
+      // Update the cached spell list if it exists
+      if (ExpandedSpellLists.ContainsKey(clazz))
+        UpdateExpandedSpellList(clazz, spellLevelList);
+    }
+
     public SpellSelectionData GetSpellSelection(SpellSelectionData spellSelection)
     {
       if (!ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
@@ -74,11 +91,24 @@ namespace CharacterOptionsPlus.UnitParts
       return expandedSpellList;
     }
 
-    private void UpdateExpandedSpellList(BlueprintCharacterClassReference clazz, SpellLevelList extraSpells)
+    private void UpdateExpandedSpellList(BlueprintCharacterClassReference clazz, SpellLevelList newSpellLevelList)
     {
       Logger.NativeLog($"Updating expanded spell list for {Owner.CharacterName} - {clazz}");
-      ExpandedSpellLists[clazz].SpellsByLevel =
-        Combine(ExpandedSpellLists[clazz].SpellsByLevel, new() { extraSpells });
+      Replace(ExpandedSpellLists[clazz].SpellsByLevel, newSpellLevelList);
+    }
+
+    private static void Replace(SpellLevelList[] baseList, SpellLevelList newList)
+    {
+      for (int i = 0; i < baseList.Length; i++)
+      {
+        if (baseList[i].SpellLevel == newList.SpellLevel)
+        {
+          baseList[i].m_Spells = newList.m_Spells;
+          return;
+        }
+      }
+      throw new InvalidOperationException(
+        $"Cannot add extra spell with level {newList.SpellLevel} which is not in the base list.");
     }
 
     private static SpellLevelList[] Combine(SpellLevelList[] baseList, List<SpellLevelList> extraSpells)
@@ -127,16 +157,16 @@ namespace CharacterOptionsPlus.UnitParts
   /// </remarks>
   [AllowedOn(typeof(BlueprintParametrizedFeature), true)]
   [TypeId("5b143c58-e784-45de-87a1-b1bbae34db7c")]
-  public class AddSpellsToSpellList : UnitFactComponentDelegate
+  public class AddSpellToSpellList : UnitFactComponentDelegate
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AddSpellsToSpellList));
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AddSpellToSpellList));
 
     private readonly BlueprintCharacterClassReference Clazz;
     private readonly BlueprintSpellListReference SourceSpellList;
 
-    /// <param name="clazz">Class spellbook to which the spell is added</param>
+    /// <param name="clazz">Class spellbook to which the selected spell is added</param>
     /// <param name="sourceSpellList">Spell list used as the source for determining spell level</param>
-    public AddSpellsToSpellList(BlueprintCharacterClassReference clazz, BlueprintSpellListReference sourceSpellList)
+    public AddSpellToSpellList(BlueprintCharacterClassReference clazz, BlueprintSpellListReference sourceSpellList)
     {
       Clazz = clazz;
     }
@@ -158,6 +188,26 @@ namespace CharacterOptionsPlus.UnitParts
       catch (Exception e)
       {
         Logger.LogException("Failed to add extra spell to spell list.", e);
+      }
+    }
+
+    public override void OnDeactivate()
+    {
+      try
+      {
+        if (Param?.Blueprint is not BlueprintAbility spell)
+          return;
+
+        Logger.Log($"Removing {spell.Name} from {Owner.CharacterName} - {Clazz}");
+        var spellRef = spell.ToReference<BlueprintAbilityReference>();
+        int spellLevel =
+          SourceSpellList.Get().SpellsByLevel.Where(list => list.m_Spells.Contains(spellRef)).First().SpellLevel;
+        Owner.Ensure<UnitPartExpandedSpellList>().AddSpells(
+          Clazz, spellLevel, spell.ToReference<BlueprintAbilityReference>());
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("Failed to remove extra spell to spell list.", e);
       }
     }
   }
