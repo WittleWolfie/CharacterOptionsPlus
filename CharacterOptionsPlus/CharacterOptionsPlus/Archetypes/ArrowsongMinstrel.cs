@@ -1,6 +1,10 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Spells;
+﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Components;
+using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
@@ -10,6 +14,7 @@ using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +62,24 @@ namespace CharacterOptionsPlus.Archetypes
       ArchetypeConfigurator.New(ArchetypeName, Guids.ArrowsongMinstrelArchetype)
         .SetLocalizedName(ArchetypeDisplayName)
         .SetLocalizedDescription(ArchetypeDescription)
-        .Configure(); 
+        .Configure();
+
+      FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery).Configure();
+
+      SpellbookConfigurator.New(Spellbook, Guids.ArrowsongMinstrelSpellbook)
+        .SetName(ArchetypeDisplayName)
+        .Configure();
+      SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList).Configure();
+      SpellsTableConfigurator.New(SpellsPerDay, Guids.ArrowsongMinstrelSpellsPerDay).Configure();
+      ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
+        .SetDisplayName(SpellSelectionName)
+        .SetDescription(SpellSelectionDescription)
+        .Configure();
+
+      FeatureConfigurator.New(Proficiencies, Guids.ArrowsongMinstrelProficiencies)
+        .SetDisplayName(ProficienciesDisplayName)
+        .SetDescription(ProficienciesDescription)
+        .Configure();
     }
 
     private static void ConfigureEnabled()
@@ -87,13 +109,19 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToRemoveFeatures(15, FeatureRefs.InspireCompetenceFeature.ToString())
         .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
- 
+
+      var bonusSpellSelection = CreateBonusSpellSelection();
       archetype
-        .AddToAddFeatures(1, CreateArcaneArchery(), CreateProficiencies()) // TODO: Bonus spell selection
-        .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString());
+        .AddToAddFeatures(1, CreateArcaneArchery(bonusSpellSelection), CreateProficiencies())
+        .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString())
+
+        .AddToAddFeatures(4, bonusSpellSelection)
+        .AddToAddFeatures(8, bonusSpellSelection)
+        .AddToAddFeatures(12, bonusSpellSelection)
+        .AddToAddFeatures(16, bonusSpellSelection)
+        .AddToAddFeatures(20, bonusSpellSelection);
       // TODO: Arrowsong Strike at 6
       // TODO: Full-attack Arrowsong Strike at 18
-      // TODO: Bonus spell selection at 4 / 8 / 12 / 16 / 20
 
       archetype.Configure();
     }
@@ -150,29 +178,35 @@ namespace CharacterOptionsPlus.Archetypes
     }
 
     // TODO: ICON
-    private static BlueprintFeature CreateArcaneArchery()
+    private static BlueprintFeature CreateArcaneArchery(BlueprintFeature spellSelectionFeature)
     {
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
+        .AddComponent(
+          new AddFeature(
+            spellSelectionFeature.ToReference<BlueprintFeatureReference>(),
+            ContextValues.Property(UnitProperty.StatBonusCharisma)))
+        .SetIsClassFeature(true)
         .Configure();
     }
     
-    // TODO: Icon!
     private static BlueprintFeature CreateBonusSpellSelection()
     {
-      // TODO Bonus selection feature (at least the one used from level 4+, initial one probably should be in ArcaneArchery
-      return FeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
+      return ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
         .SetDisplayName(SpellSelectionName)
         .SetDescription(SpellSelectionDescription)
         .SetIsClassFeature(true)
-        // TODO: Use my new unit part & component
+        .AddComponent(
+          new AddSpellToSpellList(
+            CharacterClassRefs.BardClass.Cast<BlueprintCharacterClassReference>().Reference,
+            CreateBonusSpellList().ToReference<BlueprintSpellListReference>()))
         .Configure();
     }
 
     private static readonly BlueprintSpellList BardSpells = SpellListRefs.BardSpellList.Reference.Get();
     private static readonly BlueprintSpellList WizardEvocationSpells =
       SpellListRefs.WizardEvocationSpellList.Reference.Get();
-    private static BlueprintSpellList CreateArcaneArcherySpellList()
+    private static BlueprintSpellList CreateBonusSpellList()
     {
       var bardSpells = new List<BlueprintAbility>();
       bardSpells.AddRange(BardSpells.GetSpells(1));
