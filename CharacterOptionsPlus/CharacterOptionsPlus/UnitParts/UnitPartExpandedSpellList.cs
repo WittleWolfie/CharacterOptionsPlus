@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Kingmaker.Armies.TacticalCombat.Grid.TacticalCombatGrid;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
@@ -78,13 +79,30 @@ namespace CharacterOptionsPlus.UnitParts
       newSelection = spellSelection;
       if (!ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
         return false;
+
+      var spellList = GetExpandedSpellList(spellSelection.Spellbook.m_CharacterClass, spellSelection.SpellList);
+      // Check if the spell list changed--if not return false so we don't refresh things that don't need refreshing.
+      if (spellList.SpellsByLevel.Length == spellSelection.SpellList.SpellsByLevel.Length)
+      {
+        var spellListChanged = false;
+        for (int i = 0; i < spellSelection.SpellList.SpellsByLevel.Length && i < spellList.SpellsByLevel.Length; i++)
+        {
+          var originalLevel = spellSelection.SpellList.SpellsByLevel[i];
+          var expandedLevel = spellList.SpellsByLevel[i];
+          if (!originalLevel.m_Spells.SequenceEqual(expandedLevel.m_Spells))
+          {
+            spellListChanged = true;
+            break;
+          }
+        }
+
+        if (!spellListChanged)
+          return false;
+      }
       
       Logger.NativeLog(
         $"Returning spell selection with expanded spells for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
-      newSelection =
-        new SpellSelectionData(
-          spellSelection.Spellbook,
-          GetExpandedSpellList(spellSelection.Spellbook.m_CharacterClass, spellSelection.SpellList));
+      newSelection = new SpellSelectionData(spellSelection.Spellbook, spellList);
       for (int i = 0; i < spellSelection.LevelCount.Length; i++)
       {
         newSelection.LevelCount[i] = spellSelection.LevelCount[i];
@@ -153,19 +171,63 @@ namespace CharacterOptionsPlus.UnitParts
             unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(
               __instance.m_SelectionData, out var selectionData))
           {
-            Logger.NativeLog($"Swapping spell selection data.");
+            Logger.NativeLog($"Swapping selection data.");
+            __instance.SpellList = selectionData.SpellList;
             __instance.m_SelectionData = selectionData;
             __instance.m_SpellListIsCreated = false;
           }
         }
         catch (Exception e)
         {
-          Logger.LogException("Failed to swap spell selection data.", e);
+          Logger.LogException("Failed to swap selection data.", e);
         }
       }
     }
-  }
 
+    /// <summary>
+    /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
+    /// level up UI.
+    /// </summary>
+    //[HarmonyPatch(typeof(LevelUpState))]
+    //static class LevelUpState_Patch
+    //{
+    //  [HarmonyPatch(nameof(LevelUpState.GetSpellSelection)), HarmonyPostfix]
+    //  static void GetSpellSelection(LevelUpState __instance, ref SpellSelectionData __result)
+    //  {
+    //    try
+    //    {
+    //      var unit = __instance.Unit;
+    //      if (unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result, out var selectionData))
+    //      {
+    //        Logger.NativeLog($"Returning modified selection data. (get)");
+    //        __result = selectionData;
+    //      }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //      Logger.LogException("Failed to return modified selection data.", e);
+    //    }
+    //  }
+    //}
+
+    //[HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPostfix]
+    //static void DemandSpellSelection(LevelUpState __instance, ref SpellSelectionData __result)
+    //{
+    //  try
+    //  {
+    //    var unit = __instance.Unit;
+    //    if (unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result, out var selectionData))
+    //    {
+    //      Logger.NativeLog($"Returning modified selection data. (demand)");
+    //      __result = selectionData;
+    //    }
+    //  }
+    //  catch (Exception e)
+    //  {
+    //    Logger.LogException("Failed to return modified selection data.", e);
+    //  }
+    //}
+  }
 
   /// <summary>
   /// Adds selected spells to the character's spell list.
