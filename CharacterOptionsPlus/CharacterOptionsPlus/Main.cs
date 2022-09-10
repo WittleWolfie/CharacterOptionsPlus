@@ -1,4 +1,5 @@
-﻿using CharacterOptionsPlus.Archetypes;
+﻿using BlueprintCore.Utils;
+using CharacterOptionsPlus.Archetypes;
 using CharacterOptionsPlus.Feats;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
@@ -21,6 +22,7 @@ namespace CharacterOptionsPlus
         var harmony = new Harmony(modEntry.Info.Id);
         harmony.PatchAll();
         EventBus.Subscribe(new BlueprintCacheInitHandler());
+        LogWrapper.EnableInternalVerboseLogs();
         Logger.Log("Finished patching.");
       }
       catch (Exception e)
@@ -55,7 +57,7 @@ namespace CharacterOptionsPlus
           // Must init settings first
           Settings.Init();
 
-//          PatchArchetypes();
+          PatchArchetypes();
           PatchFeats();
         }
         catch (Exception e)
