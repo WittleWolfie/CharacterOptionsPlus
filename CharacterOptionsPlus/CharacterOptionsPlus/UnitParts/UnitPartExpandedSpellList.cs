@@ -5,6 +5,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.UI.MVVM._VM.CharGen.Phases.Spells;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Class.LevelUp;
@@ -34,8 +35,14 @@ namespace CharacterOptionsPlus.UnitParts
 
       if (!ExtraSpells.ContainsKey(clazz))
         ExtraSpells.Add(clazz, new());
-      var spellLevelList =
-        ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault() ?? new SpellLevelList(level);
+
+      var spellList = ExtraSpells[clazz];
+      var spellLevelList = ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault();
+      if (spellLevelList is null)
+      {
+        spellLevelList = new SpellLevelList(level);
+        spellList.Add(spellLevelList);
+      }
       spellLevelList.m_Spells.AddRange(spells);
 
       // Update the cached spell list if it exists
@@ -64,7 +71,7 @@ namespace CharacterOptionsPlus.UnitParts
     {
       if (!ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
         return spellSelection;
-
+      
       Logger.NativeLog(
         $"Returning spell selection with expanded spells for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
       return new(
@@ -82,9 +89,10 @@ namespace CharacterOptionsPlus.UnitParts
 
       var guid = Guids.ReserveDynamic();
       Logger.NativeLog($"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
+
       var extraSpells = ExtraSpells[clazz];
       var expandedSpellList =
-        SpellListConfigurator.New(Guids.ReserveDynamic(), $"ExpandedSpellList_{Owner.CharacterName}_{clazz}")
+        SpellListConfigurator.New($"ExpandedSpellList_{Owner.CharacterName}_{clazz}", guid)
           .SetSpellsByLevel(Combine(spellList.SpellsByLevel, extraSpells))
           .Configure();
       ExpandedSpellLists.Add(clazz, expandedSpellList);
@@ -121,28 +129,32 @@ namespace CharacterOptionsPlus.UnitParts
 
         var extraList = extraSpells.Where(l => l.SpellLevel == list.SpellLevel).FirstOrDefault();
         if (extraList is not null)
+        {
           list.m_Spells.AddRange(extraList.m_Spells);
+        }
 
         spellLevelList[i] = list;
       }
       return spellLevelList;
     }
 
-    [HarmonyPatch(typeof(LevelUpState))]
-    static class LevelUpState_Patch
+    [HarmonyPatch(typeof(CharGenSpellsPhaseVM))]
+    static class CharGenSpellsPhaseVM_Patch
     {
-      [HarmonyPatch(nameof(LevelUpState.GetSpellSelection)), HarmonyPostfix]
-      static void GetSpellSelection(LevelUpState __instance, SpellSelectionData __result)
+      [HarmonyPatch(nameof(CharGenSpellsPhaseVM.OnBeginDetailedView)), HarmonyPostfix]
+      static void OnBeginDetailedView(CharGenSpellsPhaseVM __instance)
       {
-        Logger.NativeLog("Getting spell selection.");
-        __result = __instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result);
-      }
-
-      [HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPostfix]
-      static void DemandSpellSelection(LevelUpState __instance, SpellSelectionData __result)
-      {
-        Logger.NativeLog("Demanding spell selection.");
-        __result = __instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result);
+        try
+        {
+          Logger.NativeLog("Swapping spell selection data");
+          __instance.m_SelectionData =
+            __instance.m_UnitDescriptor.Value.Ensure<UnitPartExpandedSpellList>()
+              .GetSpellSelection(__instance.m_SelectionData);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Failed to swap spell selection data.", e);
+        }
       }
     }
   }
