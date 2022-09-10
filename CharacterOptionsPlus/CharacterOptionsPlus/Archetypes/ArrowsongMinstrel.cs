@@ -37,8 +37,9 @@ namespace CharacterOptionsPlus.Archetypes
     private const string Spellbook = "ArrowsongMinstrel.Spellbook";
     private const string SpellList = "ArrowsongMinstrel.SpellList";
     private const string SpellsPerDay = "ArrowsongMinstrel.SpellsPerDay";
-    
+
     private const string SpellSelection = "ArrowsongMinstrel.SpellSelection";
+    private const string SpellSelectionParent = "ArrowsongMinstrel.SpellSelection.Parent";
     private const string SpellSelectionName = "ArrowsongMinstrel.ArcaneArchery.BonusSpells";
     private const string SpellSelectionDescription = "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description";
 
@@ -205,7 +206,13 @@ namespace CharacterOptionsPlus.Archetypes
         selection.AddToBlueprintParameterVariants(
           BlueprintTool.GetRef<AnyBlueprintReference>(spell.deserializedGuid.ToString()));
       }
-      return selection.Configure();
+
+      return FeatureSelectionConfigurator.New(SpellSelectionParent, Guids.ArrowsongMinstrelSpellSelectionParent)
+        .SetDisplayName(SpellSelectionName)
+        .SetDescription(SpellSelectionDescription)
+        .SetIsClassFeature(true)
+        .AddToAllFeatures(selection.Configure())
+        .Configure();
     }
 
     private static readonly BlueprintSpellList BardSpells = SpellListRefs.BardSpellList.Reference.Get();
@@ -284,6 +291,7 @@ namespace CharacterOptionsPlus.Archetypes
       return
         SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList)
           .AddToSpellsByLevel(
+            new(0),
             firstLevelSpells,
             secondLevelSpells,
             thirdLevelSpells,
