@@ -48,9 +48,6 @@ namespace CharacterOptionsPlus.UnitParts
         spellList.Add(spellLevelList);
       }
       spellLevelList.m_Spells.AddRange(spells);
-
-      // Update the cached spell list if it exists
-      UpdateExpandedSpellList(clazz, spellLevelList);
     }
 
     /// <summary>
@@ -67,22 +64,24 @@ namespace CharacterOptionsPlus.UnitParts
       var spellLevelList =
         ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault() ?? new SpellLevelList(level);
       spellLevelList.m_Spells = spellLevelList.m_Spells.Except(spells).ToList();
-
-      // Update the cached spell list if it exists
-      UpdateExpandedSpellList(clazz, spellLevelList);
     }
 
     /// <summary>
-    /// Returns a modified <c>SpellSelectionData</c> which uses the expanded spell list.
+    /// Populates <paramref name="newSelection"/> with  a modified <c>SpellSelectionData</c> which uses the
+    /// expanded spell list.
     /// </summary>
-    public SpellSelectionData GetSpellSelection(SpellSelectionData spellSelection)
+    ///
+    /// <returns>True if the spell list is modified, false otherwise</returns>
+    public bool GetSpellSelection(
+      SpellSelectionData spellSelection, out SpellSelectionData newSelection)
     {
+      newSelection = spellSelection;
       if (!ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
-        return spellSelection;
+        return false;
       
       Logger.NativeLog(
         $"Returning spell selection with expanded spells for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
-      var newSelection =
+      newSelection =
         new SpellSelectionData(
           spellSelection.Spellbook,
           GetExpandedSpellList(spellSelection.Spellbook.m_CharacterClass, spellSelection.SpellList));
@@ -90,11 +89,8 @@ namespace CharacterOptionsPlus.UnitParts
       {
         newSelection.LevelCount[i] = spellSelection.LevelCount[i];
       }
-      return newSelection;
+      return true;
     }
-
-    private readonly Dictionary<BlueprintCharacterClassReference, BlueprintSpellList> ExpandedSpellLists =
-      new();
 
     /// <summary>
     /// Returns the expanded spell list, either by fetching from the cache or creating it.
@@ -102,74 +98,20 @@ namespace CharacterOptionsPlus.UnitParts
     private BlueprintSpellList GetExpandedSpellList(
       BlueprintCharacterClassReference clazz, BlueprintSpellList spellList)
     {
-      var cachedSpellList = GetCachedSpellList(clazz);
-      if (cachedSpellList is not null)
-        return cachedSpellList;
-
-      var guid = Guids.ReserveDynamic();
-      Logger.NativeLog($"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
-
-      var extraSpells = ExtraSpells[clazz];
-      var expandedSpellList =
-        SpellListConfigurator.New(GetSpellListName(clazz), guid)
-          .SetSpellsByLevel(Combine(spellList.SpellsByLevel, extraSpells))
-          .Configure();
-      ExpandedSpellLists.Add(clazz, expandedSpellList);
-      return expandedSpellList;
-    }
-
-    /// <summary>
-    /// Fetches the cached spell list, or null if it doesn't exist.
-    /// </summary>
-    private BlueprintSpellList GetCachedSpellList(BlueprintCharacterClassReference clazz)
-    {
-      if (ExpandedSpellLists.ContainsKey(clazz))
-        return ExpandedSpellLists[clazz];
-
-      if (BlueprintTool.TryGet<BlueprintSpellList>(GetSpellListName(clazz), out var existingSpellList))
-        return existingSpellList;
-
-      return null;
-    }
-
-    /// <summary>
-    /// Updates the cached spell list if it exists.
-    /// </summary>
-    private void UpdateExpandedSpellList(BlueprintCharacterClassReference clazz, SpellLevelList newSpellLevelList)
-    {
-      var spellList = GetCachedSpellList(clazz);
-      if (spellList is null)
-        return;
-
-      Logger.NativeLog($"Updating expanded spell list for {Owner.CharacterName} - {clazz}");
-      Replace(spellList.SpellsByLevel, newSpellLevelList);
-    }
-
-    /// <summary>
-    /// Common name used to look up the spell list cache. Note that this means you cannot play on two characters in the
-    /// same game session with the same name and class that uses this unit part.
-    /// </summary>
-    private string GetSpellListName(BlueprintCharacterClassReference clazz)
-    {
-      return $"ExpandedSpellList_{Owner.CharacterName}_{clazz}";
-    }
-
-    /// <summary>
-    /// Replace (in-place) the spell level from <paramref name="baseList"/> of the corresponding level with
-    /// <paramref name="newList"/>.
-    /// </summary>
-    private static void Replace(SpellLevelList[] baseList, SpellLevelList newList)
-    {
-      for (int i = 0; i < baseList.Length; i++)
+      var spellListName = $"ExpandedSpellList_{Owner.CharacterName}_{clazz}";
+      SpellListConfigurator expandedList;
+      if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var expandedSpellList))
       {
-        if (baseList[i].SpellLevel == newList.SpellLevel)
-        {
-          baseList[i].m_Spells = newList.m_Spells;
-          return;
-        }
+        expandedList = SpellListConfigurator.For(expandedSpellList);
       }
-      throw new InvalidOperationException(
-        $"Cannot add extra spell with level {newList.SpellLevel} which is not in the base list.");
+      else
+      {
+        var guid = Guids.ReserveDynamic();
+        Logger.NativeLog(
+          $"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
+        expandedList = SpellListConfigurator.New(spellListName, guid);
+      }
+      return expandedList.SetSpellsByLevel(Combine(spellList.SpellsByLevel, ExtraSpells[clazz])).Configure();
     }
 
     /// <summary>
@@ -206,10 +148,15 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.NativeLog($"Swapping spell selection data.");
-          __instance.m_SelectionData =
-            __instance.m_UnitDescriptor.Value.Ensure<UnitPartExpandedSpellList>()
-              .GetSpellSelection(__instance.m_SelectionData);
+          var unit = __instance.m_UnitDescriptor.Value;
+          if (
+            unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(
+              __instance.m_SelectionData, out var selectionData))
+          {
+            Logger.NativeLog($"Swapping spell selection data.");
+            __instance.m_SelectionData = selectionData;
+            __instance.m_SpellListIsCreated = false;
+          }
         }
         catch (Exception e)
         {
