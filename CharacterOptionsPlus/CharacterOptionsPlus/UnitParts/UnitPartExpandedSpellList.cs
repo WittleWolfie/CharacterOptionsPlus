@@ -141,7 +141,8 @@ namespace CharacterOptionsPlus.UnitParts
     [HarmonyPatch(typeof(CharGenSpellsPhaseVM))]
     static class CharGenSpellsPhaseVM_Patch
     {
-      [HarmonyPatch(nameof(CharGenSpellsPhaseVM.OnBeginDetailedView)), HarmonyPostfix]
+      // TODO: Figure out why this doesn't work. Probably need to muck w/ Spellbook?
+      [HarmonyPatch(nameof(CharGenSpellsPhaseVM.OnBeginDetailedView)), HarmonyPrefix]
       static void OnBeginDetailedView(CharGenSpellsPhaseVM __instance)
       {
         try
@@ -186,6 +187,7 @@ namespace CharacterOptionsPlus.UnitParts
       SourceSpellList = sourceSpellList;
     }
 
+    // TODO: This is called on every selection and OnDeactivate is NOT. Need to fix.
     public override void OnActivate()
     {
       try
