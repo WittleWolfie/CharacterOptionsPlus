@@ -6,10 +6,13 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.UI.MVVM._VM.CharGen;
 using Kingmaker.UI.MVVM._VM.CharGen.Phases.Spells;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Class.LevelUp;
+using Kingmaker.UnitLogic.Class.LevelUp.Actions;
+using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -172,8 +175,14 @@ namespace CharacterOptionsPlus.UnitParts
               __instance.m_SelectionData, out var selectionData))
           {
             Logger.NativeLog($"Swapping selection data.");
-            __instance.SpellList = selectionData.SpellList;
+            __instance.LevelUpController.State.SpellSelections.RemoveAll(
+              selection =>
+                selection.Spellbook == __instance.m_SelectionData.Spellbook
+                  && selection.SpellList == __instance.m_SelectionData.SpellList);
+            __instance.LevelUpController.State.SpellSelections.Add(selectionData);
             __instance.m_SelectionData = selectionData;
+
+            __instance.SpellList = selectionData.SpellList;
             __instance.m_SpellListIsCreated = false;
           }
         }
@@ -184,49 +193,25 @@ namespace CharacterOptionsPlus.UnitParts
       }
     }
 
-    /// <summary>
-    /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
-    /// level up UI.
-    /// </summary>
-    //[HarmonyPatch(typeof(LevelUpState))]
-    //static class LevelUpState_Patch
-    //{
-    //  [HarmonyPatch(nameof(LevelUpState.GetSpellSelection)), HarmonyPostfix]
-    //  static void GetSpellSelection(LevelUpState __instance, ref SpellSelectionData __result)
-    //  {
-    //    try
-    //    {
-    //      var unit = __instance.Unit;
-    //      if (unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result, out var selectionData))
-    //      {
-    //        Logger.NativeLog($"Returning modified selection data. (get)");
-    //        __result = selectionData;
-    //      }
-    //    }
-    //    catch (Exception e)
-    //    {
-    //      Logger.LogException("Failed to return modified selection data.", e);
-    //    }
-    //  }
-    //}
-
-    //[HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPostfix]
-    //static void DemandSpellSelection(LevelUpState __instance, ref SpellSelectionData __result)
-    //{
-    //  try
-    //  {
-    //    var unit = __instance.Unit;
-    //    if (unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(__result, out var selectionData))
-    //    {
-    //      Logger.NativeLog($"Returning modified selection data. (demand)");
-    //      __result = selectionData;
-    //    }
-    //  }
-    //  catch (Exception e)
-    //  {
-    //    Logger.LogException("Failed to return modified selection data.", e);
-    //  }
-    //}
+    // TODO: So it turns out that when ApplyLevelUp is called, there's an "ApplySpellbook" action that is rewriting
+    // the selections :( I might need to dynamically create the Spellbook and set that on the unit as well. I don't
+    // know. Something around that though.
+    [HarmonyPatch(typeof(LevelUpController))]
+    static class LevelUpController_Patch
+    {
+      [HarmonyPatch(nameof(LevelUpController.ApplyLevelup)), HarmonyPrefix]
+      static void ApplyLevelup()
+      {
+        try
+        {
+          Logger.NativeLog($"Levelin' up yo");
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Failed to patch apply level up", e);
+        }
+      }
+    }
   }
 
   /// <summary>
