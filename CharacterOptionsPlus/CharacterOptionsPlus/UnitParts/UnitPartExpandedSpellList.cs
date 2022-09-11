@@ -134,18 +134,14 @@ namespace CharacterOptionsPlus.UnitParts
     /// </summary>
     ///
     /// <returns>True if the spell list is modified, false otherwise</returns>
-    public bool GetSpellSelection(
-      SpellSelectionData spellSelection,
-      out SpellSelectionData newSelection,
-      BlueprintSpellList expandedSpellList = null)
+    public bool GetSpellSelection(SpellSelectionData spellSelection, out SpellSelectionData newSelection)
     {
       newSelection = spellSelection;
       if (!ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
         return false;
 
-      var spellList =
-        GetExpandedSpellList(spellSelection.Spellbook.m_CharacterClass, spellSelection.SpellList, expandedSpellList);
-      // Check if the spell list changed--if not return false so we don't refresh things that don't need refreshing.
+      var spellList = GetExpandedSpellList(spellSelection.Spellbook.m_CharacterClass, spellSelection.SpellList);
+      // Check if the spell list changed--if not return false so we don't refresh UI that doesn't need refreshing.
       if (spellList.SpellsByLevel.Length == spellSelection.SpellList.SpellsByLevel.Length)
       {
         var spellListChanged = false;
@@ -178,15 +174,11 @@ namespace CharacterOptionsPlus.UnitParts
     /// Returns the expanded spell list, either by fetching from the cache or creating it.
     /// </summary>
     private BlueprintSpellList GetExpandedSpellList(
-      BlueprintCharacterClassReference clazz, BlueprintSpellList spellList, BlueprintSpellList expandedSpellList)
+      BlueprintCharacterClassReference clazz, BlueprintSpellList spellList)
     {
       var spellListName = $"ExpandedSpellList_{Owner.Unit.UniqueId}_{clazz}";
       SpellListConfigurator expandedList;
-      if (expandedSpellList is not null)
-      {
-        expandedList = SpellListConfigurator.For(expandedSpellList);
-      }
-      else if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
+      if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
       {
         expandedList = SpellListConfigurator.For(existingSpellList);
       }
@@ -222,8 +214,6 @@ namespace CharacterOptionsPlus.UnitParts
       return spellLevelList;
     }
 
-
-    // TODO: Revisit whether or not this is correct.
     /// <summary>
     /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
     /// level up UI.
@@ -290,7 +280,6 @@ namespace CharacterOptionsPlus.UnitParts
       }
     }
 
-    // TODO: Revisit whether or not this is correct.
     /// <summary>
     /// The LevelUpState gets cleared periodically through level up, so in order to keep the reference to the dynamic
     /// spell list this patch replaces the spell list at the last posssible moment, just before the spell selection is
@@ -304,19 +293,12 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          // During character generation the character is renamed after the list is created. This allows mapping from
-          // the existing list to the new list, because __intance.SpellList will point to the existing list and cannot
-          // be changed.
-          var expandedSpellList =
-            __instance.SpellList.name.StartsWith("ExpandedSpellList") ? __instance.SpellList : null;
           SpellSelectionData toRemove = null, toAdd = null;
           foreach (var selection in state.SpellSelections)
           {
             if (selection.Spellbook.m_CharacterClass == __instance.Spellbook.m_CharacterClass)
             {
-              if (
-                unit.Ensure<UnitPartExpandedSpellList>()
-                  .GetSpellSelection(selection, out var newSelection, expandedSpellList: expandedSpellList))
+              if (unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(selection, out var newSelection))
               {
                 Logger.NativeLog($"Replacing spell selection.");
                 toRemove = selection;
