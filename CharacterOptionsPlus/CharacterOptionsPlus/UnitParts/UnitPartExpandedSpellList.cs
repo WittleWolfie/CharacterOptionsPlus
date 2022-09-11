@@ -36,7 +36,7 @@ namespace CharacterOptionsPlus.UnitParts
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartExpandedSpellList));
 
     [JsonProperty]
-    public Dictionary<BlueprintCharacterClassReference, List<SpellLevelList>> ExtraSpells = new();
+    public Dictionary<BlueprintCharacterClassReference, List<SpellsByLevel>> ExtraSpells = new();
 
     [JsonIgnore]
     public Dictionary<BlueprintCharacterClassReference, bool> UpToDate = new();
@@ -55,7 +55,7 @@ namespace CharacterOptionsPlus.UnitParts
       var spellLevelList = spellList.Where(list => list.SpellLevel == level).FirstOrDefault();
       if (spellLevelList is null)
       {
-        spellLevelList = new SpellLevelList(level);
+        spellLevelList = new SpellsByLevel(level);
         spellList.Add(spellLevelList);
       }
       spellLevelList.m_Spells.Add(spell);
@@ -76,56 +76,6 @@ namespace CharacterOptionsPlus.UnitParts
         ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault() ?? new SpellLevelList(level);
       spellLevelList.m_Spells = spellLevelList.m_Spells.Where(s => s != spell).ToList();
       UpToDate[clazz] = false;
-    }
-
-    /// <summary>
-    /// Returns a spellbook with the expanded spell list.
-    /// </summary>
-    public bool GetSpellbook(BlueprintSpellbook blueprint, out BlueprintSpellbook spellbook)
-    {
-      spellbook = blueprint;
-      var clazz = blueprint.m_CharacterClass;
-      if (!ExtraSpells.ContainsKey(clazz))
-        return false;
-
-      var spellbookName = $"ExpandedSpellbook_{Owner.Unit.UniqueId}_{clazz}";
-      if (UpToDate.ContainsKey(clazz) && UpToDate[clazz] && BlueprintTool.TryGet(spellbookName, out spellbook))
-        return true;
-
-      var spellList = GetExpandedSpellList(clazz, blueprint.SpellList, null);
-
-      SpellbookConfigurator configurator;
-      if (BlueprintTool.TryGet<BlueprintSpellbook>(spellbookName, out var existingSpellbook))
-      {
-        configurator = SpellbookConfigurator.For(existingSpellbook);
-      }
-      else
-      {
-        var guid = Guids.ReserveDynamic();
-        Logger.NativeLog(
-          $"Creating expanded spellbook for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
-        configurator =
-          SpellbookConfigurator.New(spellbookName, guid)
-            .SetAllSpellsKnown(blueprint.AllSpellsKnown)
-            .SetCanCopyScrolls(blueprint.CanCopyScrolls)
-            .SetCantripsType(blueprint.CantripsType)
-            .SetCasterLevelModifier(blueprint.CasterLevelModifier)
-            .SetCastingAttribute(blueprint.CastingAttribute)
-            .SetHasSpecialSpellList(blueprint.HasSpecialSpellList)
-            .SetIsArcane(blueprint.IsArcane)
-            .SetIsArcanist(blueprint.IsArcanist)
-            .SetCharacterClass(blueprint.CharacterClass)
-            .SetSpellsKnown(blueprint.SpellsKnown)
-            .SetSpellSlots(blueprint.SpellSlots)
-            .SetSpellsPerDay(blueprint.SpellsPerDay)
-            .SetName(spellbook.Name)
-            .SetSpecialSpellListName(blueprint.SpecialSpellListName)
-            .SetSpellsPerLevel(blueprint.SpellsPerLevel)
-            .SetSpontaneous(blueprint.Spontaneous);
-      }
-      spellbook = configurator.SetSpellList(spellList).Configure();
-      UpToDate[blueprint.m_CharacterClass] = true;
-      return true;
     }
 
     /// <summary>
@@ -203,7 +153,7 @@ namespace CharacterOptionsPlus.UnitParts
     /// <summary>
     /// Returns a combined spell level list with the <paramref name="extraSpells"/> added.
     /// </summary>
-    private static SpellLevelList[] Combine(SpellLevelList[] baseList, List<SpellLevelList> extraSpells)
+    private static SpellLevelList[] Combine(SpellLevelList[] baseList, List<SpellsByLevel> extraSpells)
     {
       var spellLevelList = new SpellLevelList[baseList.Length];
       for (int i = 0; i < baseList.Length; i++)
@@ -212,7 +162,7 @@ namespace CharacterOptionsPlus.UnitParts
         list.m_Spells.AddRange(baseList[i].m_Spells);
 
         var extraList = extraSpells.Where(l => l.SpellLevel == list.SpellLevel).FirstOrDefault();
-        if (extraList is not null)
+        if (extraList is not null && extraList.m_Spells is not null)
         {
           list.m_Spells.AddRange(extraList.m_Spells);
         }
@@ -255,36 +205,6 @@ namespace CharacterOptionsPlus.UnitParts
         catch (Exception e)
         {
           Logger.LogException("Failed to swap selection data.", e);
-        }
-      }
-    }
-
-    /// <summary>
-    /// To make sure the spells always display properly in the spell list, create a dynamic spellbook and spell list
-    /// which is inserted into the UnitDescriptor.
-    /// </summary>
-    [HarmonyPatch(typeof(UnitDescriptor))]
-    static class UnitDescriptor_Patch
-    {
-      [HarmonyPatch(nameof(UnitDescriptor.DemandSpellbook), typeof(BlueprintSpellbook)), HarmonyPostfix]
-      static void DemandSpellbook(UnitDescriptor __instance, BlueprintSpellbook blueprint, ref Spellbook __result)
-      {
-        try
-        {
-          if (__instance.Ensure<UnitPartExpandedSpellList>().GetSpellbook(blueprint, out var spellbook))
-          {
-            // Check to see if the replacement was already done
-            if (__instance.m_Spellbooks[blueprint].Blueprint == spellbook)
-              return;
-
-            Logger.NativeLog($"Swapping spellbook for {__instance.CharacterName}");
-            __result = new Spellbook(__instance, spellbook);
-            __instance.m_Spellbooks[blueprint] = __result;
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("Failed to swap spellbook.", e);
         }
       }
     }
@@ -334,6 +254,20 @@ namespace CharacterOptionsPlus.UnitParts
         {
           Logger.LogException("Failed to swap selection data in SelectSpell", e);
         }
+      }
+    }
+
+    /// <summary>
+    /// Simple wrapper to allow serialization of SpellLevelList.
+    /// </summary>
+    public class SpellsByLevel : SpellLevelList
+    {
+      public SpellsByLevel(int spellLevel) : base(spellLevel) { }
+
+      [JsonConstructor]
+      public SpellsByLevel(int spellLevel, List<BlueprintAbilityReference> spells) : base(spellLevel)
+      {
+        m_Spells = spells;
       }
     }
   }
