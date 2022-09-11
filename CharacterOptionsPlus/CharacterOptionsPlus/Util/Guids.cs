@@ -64,10 +64,24 @@ namespace CharacterOptionsPlus.Util
     private const string GUID_7 = "187ad65f-5e2e-4c81-aa29-e42f70a4ffc5";
     private const string GUID_8 = "fd85b244-42fc-4d2c-90c9-d438a3797971";
     private const string GUID_9 = "fa0dc9ed-bd43-4f6f-85c1-02f1aaf2ce31";
+    private const string GUID_10 = "f08e2782-af70-42ae-a3a8-8d3dc0167687";
+    private const string GUID_11 = "50f92e9a-7cef-46b5-88c5-5525bb41df12";
+    private const string GUID_12 = "a81e728e-31f5-4e80-9db0-689142d6b310";
+    private const string GUID_13 = "89ededba-5096-4f40-bbe3-c9bd1695e5f8";
+    private const string GUID_14 = "3553884f-d2f3-4caf-9ed4-68fc147e6315";
+    private const string GUID_15 = "1305e710-3836-4fba-a18d-c1c71eb8ff8d";
+    private const string GUID_16 = "2e3968fb-9292-4b53-a3b3-1e183699f64d";
+    private const string GUID_17 = "76096c62-3f48-4f67-8e0a-51ff57f9f79b";
+    private const string GUID_18 = "8de1e388-8a79-409e-922f-822d13b7fff6";
+    private const string GUID_19 = "aa816f85-1832-4ba2-82b8-88aa147c941a";
     //*******************//
 
     private static readonly List<string> GUIDS =
-      new() { GUID_0, GUID_1, GUID_2, GUID_3, GUID_4, GUID_5, GUID_6, GUID_7, GUID_8, GUID_9 };
+      new()
+      {
+        GUID_0, GUID_1, GUID_2, GUID_3, GUID_4, GUID_5, GUID_6, GUID_7, GUID_8, GUID_9,
+        GUID_10, GUID_11, GUID_12, GUID_13, GUID_14, GUID_15, GUID_16, GUID_17, GUID_18, GUID_19
+      };
 
     /// <summary>
     /// Reserves and returns one of the cached GUIDs used for dynamic blueprint generation.
