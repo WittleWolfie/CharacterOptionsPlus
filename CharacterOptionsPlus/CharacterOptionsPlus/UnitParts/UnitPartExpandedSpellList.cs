@@ -223,7 +223,6 @@ namespace CharacterOptionsPlus.UnitParts
     }
 
 
-    // TODO: Revisit whether or not this is correct.
     /// <summary>
     /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
     /// level up UI.
@@ -290,7 +289,6 @@ namespace CharacterOptionsPlus.UnitParts
       }
     }
 
-    // TODO: Revisit whether or not this is correct.
     /// <summary>
     /// The LevelUpState gets cleared periodically through level up, so in order to keep the reference to the dynamic
     /// spell list this patch replaces the spell list at the last posssible moment, just before the spell selection is
