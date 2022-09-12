@@ -128,7 +128,7 @@ namespace CharacterOptionsPlus.UnitParts
       if (!ExtraSpells.ContainsKey(spellbook.m_CharacterClass))
         return false;
 
-      Logger.NativeLog($"Fetching expanded spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}";
+      Logger.NativeLog($"Fetching expanded spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
       expandedSpellList = GetExpandedSpellList(spellbook.m_CharacterClass, spellList, null);
       return true;
     }
