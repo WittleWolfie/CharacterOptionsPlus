@@ -10,7 +10,6 @@ using Kingmaker.UI.MVVM._VM.CharGen.Phases.Spells;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Class.LevelUp;
-using Kingmaker.UnitLogic.Class.LevelUp.Actions;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
@@ -22,10 +21,6 @@ namespace CharacterOptionsPlus.UnitParts
 {
   // TODO: Show unlocked spells w/ Show all spells in spellbook?
   // TODO: Fix tooltips during selection to show spell tooltip?
-  // TODO: Better implementation might just be to replace UnitDescriptor.DemandSpellbook and use a dynamic spellbook.
-  //       This might actually just replace the existing implementation since I think the spell list is generally
-  //       pulled from there. It's unclear though how this would work w/ the VM for spell selection, but maybe better?
-  // TODO: The spell shows up correctly but cannot be selected if you don't take it the level that you add it.
 
   /// <summary>
   /// Adds additional spells to the character's spell list. These are not spells known and must still otherwise be
@@ -113,7 +108,7 @@ namespace CharacterOptionsPlus.UnitParts
         if (!spellListChanged)
           return false;
       }
-      
+
       Logger.NativeLog(
         $"Returning spell selection with expanded spells for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
       newSelection = new SpellSelectionData(spellSelection.Spellbook, spellList);
@@ -125,12 +120,26 @@ namespace CharacterOptionsPlus.UnitParts
     }
 
     /// <summary>
+    /// Returns an expanded spell list which replaces <paramref name="spellList"/>.
+    /// </summary>
+    public bool GetSpellList(BlueprintSpellbook spellbook, BlueprintSpellList spellList, out BlueprintSpellList expandedSpellList)
+    {
+      expandedSpellList = null;
+      if (!ExtraSpells.ContainsKey(spellbook.m_CharacterClass))
+        return false;
+
+      Logger.NativeLog($"Fetching expanded spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}";
+      expandedSpellList = GetExpandedSpellList(spellbook.m_CharacterClass, spellList, null);
+      return true;
+    }
+
+    /// <summary>
     /// Returns the expanded spell list, either by fetching from the cache or creating it.
     /// </summary>
     private BlueprintSpellList GetExpandedSpellList(
-      BlueprintCharacterClassReference clazz, BlueprintSpellList spellList, BlueprintSpellList expandedSpellList)
+      BlueprintCharacterClassReference clazz, BlueprintSpellList spellList, BlueprintSpellList expandedSpellList) // TODO: Remove expandedSpellList? I don't think we need it.
     {
-      var spellListName = $"ExpandedSpellList_{Owner.Unit.UniqueId}_{clazz}";
+      var spellListName = $"ExpandedSpellList_{Owner.CharacterName}_{clazz}";
       SpellListConfigurator expandedList;
       if (expandedSpellList is not null)
       {
@@ -172,7 +181,8 @@ namespace CharacterOptionsPlus.UnitParts
       return spellLevelList;
     }
 
-
+    // TODO: Maybe I don't need this? It should be re-fetching the selection each time one is selected, in which case
+    // the new patches should cover it. If you don't need this you also don't need _any_ of the weird spell selection logic!
     /// <summary>
     /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
     /// level up UI.
@@ -210,49 +220,48 @@ namespace CharacterOptionsPlus.UnitParts
     }
 
     /// <summary>
-    /// The LevelUpState gets cleared periodically through level up, so in order to keep the reference to the dynamic
-    /// spell list this patch replaces the spell list at the last posssible moment, just before the spell selection is
-    /// applied.
+    /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
     /// </summary>
-    [HarmonyPatch(typeof(SelectSpell))]
-    static class SelectSpell_Patch
+    [HarmonyPatch(typeof(LevelUpState))]
+    static class LevelUpState_Patch
     {
-      [HarmonyPatch(nameof(SelectSpell.Check)), HarmonyPrefix]
-      static void Check(SelectSpell __instance, LevelUpState state, UnitDescriptor unit)
+      [HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPrefix]
+      static void DemandSpellSelection(LevelUpState __instance, BlueprintSpellbook spellbook, ref BlueprintSpellList spellList)
       {
         try
         {
-          // During character generation the character is renamed after the list is created. This allows mapping from
-          // the existing list to the new list, because __intance.SpellList will point to the existing list and cannot
-          // be changed.
-          var expandedSpellList =
-            __instance.SpellList.name.StartsWith("ExpandedSpellList") ? __instance.SpellList : null;
-          SpellSelectionData toRemove = null, toAdd = null;
-          foreach (var selection in state.SpellSelections)
+          Logger.NativeLog($"DEMANDING THINGS");
+          if (
+            __instance.Unit.Ensure<UnitPartExpandedSpellList>()
+                .GetSpellList(spellbook, spellList, out var expandedSpellList)
+              && expandedSpellList != spellList)
           {
-            if (selection.Spellbook.m_CharacterClass == __instance.Spellbook.m_CharacterClass)
-            {
-              if (
-                unit.Ensure<UnitPartExpandedSpellList>()
-                  .GetSpellSelection(selection, out var newSelection, expandedSpellList: expandedSpellList))
-              {
-                Logger.NativeLog($"Replacing spell selection.");
-                toRemove = selection;
-                toAdd = newSelection;
-                break;
-              }
-            }
+            Logger.NativeLog($"DemandSpellSelection: Replacing spell list");
+            spellList = expandedSpellList;
           }
-
-          if (toRemove is not null)
-            state.SpellSelections.Remove(toRemove);
-
-          if (toAdd is not null)
-            state.SpellSelections.Add(toAdd);
         }
         catch (Exception e)
         {
-          Logger.LogException("Failed to swap selection data in SelectSpell", e);
+          Logger.LogException("DemandSpellSelection: Failed to replace spell list", e);
+        }
+      }
+
+      [HarmonyPatch(nameof(LevelUpState.GetSpellSelection)), HarmonyPrefix]
+      static void GetSpellSelection(
+        LevelUpState __instance, BlueprintSpellbook spellbook, ref BlueprintSpellList spellList)
+      {
+        try
+        {
+          Logger.NativeLog($"FETCHING THINGS"); // TODO: Check wheter this is necessary at all
+          if (__instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellList(spellbook, spellList, out var expandedSpellList))
+          {
+            Logger.NativeLog($"GetSpellSelection: Replacing spell list");
+            spellList = expandedSpellList;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("GetSpellSelection: Failed to replace spell list", e);
         }
       }
     }
