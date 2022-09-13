@@ -2,6 +2,7 @@
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
+using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
@@ -156,13 +157,14 @@ namespace CharacterOptionsPlus.UnitParts
           $"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
         expandedList = SpellListConfigurator.New(spellListName, guid);
       }
-      return expandedList.SetSpellsByLevel(Combine(spellList.SpellsByLevel, ExtraSpells[clazz])).Configure();
+
+      return expandedList.SetSpellsByLevel(CombineSpellLists(spellList.SpellsByLevel, ExtraSpells[clazz])).Configure();
     }
 
     /// <summary>
     /// Returns a combined spell level list with the <paramref name="extraSpells"/> added.
     /// </summary>
-    private static SpellLevelList[] Combine(SpellLevelList[] baseList, List<SpellsByLevel> extraSpells)
+    private static SpellLevelList[] CombineSpellLists(SpellLevelList[] baseList, List<SpellsByLevel> extraSpells)
     {
       var spellLevelList = new SpellLevelList[baseList.Length];
       for (int i = 0; i < baseList.Length; i++)
@@ -181,8 +183,6 @@ namespace CharacterOptionsPlus.UnitParts
       return spellLevelList;
     }
 
-    // TODO: Maybe I don't need this? It should be re-fetching the selection each time one is selected, in which case
-    // the new patches should cover it. If you don't need this you also don't need _any_ of the weird spell selection logic!
     /// <summary>
     /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
     /// level up UI.
@@ -200,7 +200,7 @@ namespace CharacterOptionsPlus.UnitParts
             unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(
               __instance.m_SelectionData, out var selectionData))
           {
-            Logger.NativeLog($"Swapping selection data.");
+            Logger.NativeLog($"Refreshing spell selections VM.");
             __instance.LevelUpController.State.SpellSelections.RemoveAll(
               selection =>
                 selection.Spellbook == __instance.m_SelectionData.Spellbook
@@ -230,7 +230,6 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.NativeLog($"DEMANDING THINGS");
           if (
             __instance.Unit.Ensure<UnitPartExpandedSpellList>()
                 .GetSpellList(spellbook, spellList, out var expandedSpellList)
@@ -252,7 +251,6 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.NativeLog($"FETCHING THINGS"); // TODO: Check wheter this is necessary at all
           if (__instance.Unit.Ensure<UnitPartExpandedSpellList>().GetSpellList(spellbook, spellList, out var expandedSpellList))
           {
             Logger.NativeLog($"GetSpellSelection: Replacing spell list");
