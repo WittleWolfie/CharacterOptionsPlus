@@ -1,9 +1,11 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Spells;
+using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
@@ -35,15 +37,13 @@ namespace CharacterOptionsPlus.UnitParts
   public class UnitPartExpandedSpellList : OldStyleUnitPart
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartExpandedSpellList));
-
-    /// <summary>
-    /// This is a hint to handle the case when the preview is updated, but the spell selection is demanded before the
-    /// component is activated.
-    /// 
-    /// Without this hint spell selections are reset after taking some actions such as selecting a diety during
-    /// character creation, because the spell list does not get replaced in demand but does in get.
-    /// </summary>
-    internal static bool AlwaysReplace = false;
+    private static readonly List<UnitRequirements> Requirements =
+      new()
+      {
+        new(
+          CharacterClassRefs.BardClass.Cast<BlueprintCharacterClassReference>().Reference,
+          BlueprintTool.GetRef<BlueprintArchetypeReference>(Guids.ArrowsongMinstrelArchetype))
+      };
 
     [JsonProperty]
     public Dictionary<BlueprintCharacterClassReference, List<SpellsByLevel>> ExtraSpells = new();
@@ -97,7 +97,7 @@ namespace CharacterOptionsPlus.UnitParts
     public bool GetSpellSelection(SpellSelectionData spellSelection, out SpellSelectionData newSelection)
     {
       newSelection = spellSelection;
-      if (!AlwaysReplace && !ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass))
+      if (!Requirements.Exists(reqs => reqs.AreMet(spellSelection?.Spellbook, Owner)))
         return false;
 
       var extraSpells = ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass) ? ExtraSpells[spellSelection.Spellbook.m_CharacterClass] : new();
@@ -127,7 +127,7 @@ namespace CharacterOptionsPlus.UnitParts
       out BlueprintSpellList expandedSpellList)
     {
       expandedSpellList = null;
-      if (!AlwaysReplace && !ExtraSpells.ContainsKey(spellbook.m_CharacterClass))
+      if (!Requirements.Exists(reqs => reqs.AreMet(spellbook, Owner)))
         return false;
 
       var extraSpells =
@@ -225,7 +225,6 @@ namespace CharacterOptionsPlus.UnitParts
     // I need that whole "use the old expanded list" thing again for some FUCKING reason. Maybe something can be done
     // during Get() to redirect? Hard to say.
     // I also still feel like there's a simpler solution I'm not seeing.
-    // TODO: I SEE IT!! I NEED TO PERFORM A SELECTION WITH PRIORITY OF REPLACE SPELLBOOK!
 
     /// <summary>
     /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
@@ -288,6 +287,46 @@ namespace CharacterOptionsPlus.UnitParts
         m_Spells = spells;
       }
     }
+
+    /// <summary>
+    /// Identifies requirements for a unit to need a replaced spelllist.
+    /// </summary>
+    public class UnitRequirements
+    {
+      public BlueprintCharacterClassReference ClazzRef;
+      public BlueprintArchetypeReference ArchetypeRef;
+
+      private BlueprintCharacterClass _clazz;
+      private BlueprintCharacterClass Clazz
+      {
+        get
+        {
+          _clazz ??= ClazzRef.Get();
+          return _clazz;
+        }
+      }
+      private BlueprintArchetype _archetype;
+      private BlueprintArchetype Archetype
+      {
+        get
+        {
+          _archetype ??= ArchetypeRef.Get();
+          return _archetype;
+        }
+      }
+
+      public UnitRequirements(BlueprintCharacterClassReference clazz, BlueprintArchetypeReference archetype)
+      {
+        ClazzRef = clazz;
+        ArchetypeRef = archetype;
+      }
+
+      public bool AreMet(BlueprintSpellbook spellbook, UnitDescriptor unit)
+      {
+        return spellbook?.CharacterClass == Clazz
+          && unit.Progression.GetClassData(Clazz).Archetypes.Contains(Archetype);
+      }
+    }
   }
 
   /// <summary>
@@ -301,7 +340,7 @@ namespace CharacterOptionsPlus.UnitParts
   /// </remarks>
   [AllowedOn(typeof(BlueprintParametrizedFeature), true)]
   [TypeId("5b143c58-e784-45de-87a1-b1bbae34db7c")]
-  public class AddSpellToSpellList : UnitFactComponentDelegate, IFullScreenUIHandler
+  public class AddSpellToSpellList : UnitFactComponentDelegate
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(AddSpellToSpellList));
 
@@ -314,12 +353,6 @@ namespace CharacterOptionsPlus.UnitParts
     {
       Clazz = clazz;
       SourceSpellList = sourceSpellList;
-    }
-
-    public void HandleFullScreenUiChanged(bool state, FullScreenUIType fullScreenUIType)
-    {
-      if (fullScreenUIType == FullScreenUIType.LevelUp)
-        AlwaysReplace = false;
     }
 
     /// <summary>
@@ -344,7 +377,6 @@ namespace CharacterOptionsPlus.UnitParts
           SourceSpellList.Get().SpellsByLevel.Where(list => list.m_Spells.Contains(spellRef)).First().SpellLevel;
         Owner.Ensure<UnitPartExpandedSpellList>().AddSpell(
           Clazz, spellLevel, spell.ToReference<BlueprintAbilityReference>());
-        AlwaysReplace = true;
       }
       catch (Exception e)
       {

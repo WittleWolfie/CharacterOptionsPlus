@@ -211,6 +211,7 @@ namespace CharacterOptionsPlus.Archetypes
         .SetDisplayName(SpellSelectionName)
         .SetDescription(SpellSelectionDescription)
         .SetIsClassFeature(true)
+        .SetGroup(FeatureGroup.ReplaceSpellbook)
         .AddToAllFeatures(selection.Configure())
         .Configure();
     }
