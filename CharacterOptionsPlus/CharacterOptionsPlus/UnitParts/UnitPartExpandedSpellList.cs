@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList;
+using static Kingmaker.Armies.TacticalCombat.Grid.TacticalCombatGrid;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
@@ -48,16 +49,11 @@ namespace CharacterOptionsPlus.UnitParts
     [JsonProperty]
     public Dictionary<BlueprintCharacterClassReference, List<SpellsByLevel>> ExtraSpells = new();
 
-    [JsonIgnore]
-    public Dictionary<BlueprintCharacterClassReference, bool> UpToDate = new();
-
     /// <summary>
     /// Add a spell to the character's spell list.
     /// </summary>
     public void AddSpell(BlueprintCharacterClassReference clazz, int level, BlueprintAbilityReference spell)
     {
-      Logger.NativeLog($"Adding to spell list for {Owner.CharacterName} - {clazz}");
-
       if (!ExtraSpells.ContainsKey(clazz))
         ExtraSpells[clazz] = new();
 
@@ -68,8 +64,12 @@ namespace CharacterOptionsPlus.UnitParts
         spellLevelList = new SpellsByLevel(level);
         spellList.Add(spellLevelList);
       }
+
+      if (spellLevelList.m_Spells.Contains(spell))
+        return;
+
+      Logger.NativeLog($"Adding to spell list for {Owner.CharacterName} - {clazz}");
       spellLevelList.m_Spells.Add(spell);
-      UpToDate[clazz] = false;
     }
 
     /// <summary>
@@ -77,20 +77,24 @@ namespace CharacterOptionsPlus.UnitParts
     /// </summary>
     public void RemoveSpell(BlueprintCharacterClassReference clazz, int level, BlueprintAbilityReference spell)
     {
-      Logger.NativeLog($"Removing from spell list for {Owner.CharacterName} - {clazz}");
-
       if (!ExtraSpells.ContainsKey(clazz))
         return;
 
-      var spellLevelList =
-        ExtraSpells[clazz].Where(list => list.SpellLevel == level).FirstOrDefault() ?? new SpellLevelList(level);
-      spellLevelList.m_Spells = spellLevelList.m_Spells.Where(s => s != spell).ToList();
-      UpToDate[clazz] = false;
+      var spellList = ExtraSpells[clazz];
+      var spellLevelList = spellList.Where(list => list.SpellLevel == level).FirstOrDefault();
+      if (spellLevelList is null)
+        return;
+
+      if (!spellLevelList.m_Spells.Contains(spell))
+        return;
+
+      Logger.NativeLog($"Removing from spell list for {Owner.CharacterName} - {clazz}");
+      spellLevelList.m_Spells.Remove(spell);
     }
 
     /// <summary>
-    /// Populates <paramref name="newSelection"/> with  a modified <c>SpellSelectionData</c> which uses the
-    /// expanded spell list.
+    /// Populates <paramref name="newSelection"/> with  a modified <c>SpellSelectionData</c> which uses the expanded
+    /// spell list.
     /// </summary>
     ///
     /// <returns>True if the spell list is modified, false otherwise</returns>
@@ -100,7 +104,10 @@ namespace CharacterOptionsPlus.UnitParts
       if (!Requirements.Exists(reqs => reqs.AreMet(spellSelection?.Spellbook, Owner)))
         return false;
 
-      var extraSpells = ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass) ? ExtraSpells[spellSelection.Spellbook.m_CharacterClass] : new();
+      var extraSpells =
+        ExtraSpells.ContainsKey(spellSelection?.Spellbook.m_CharacterClass)
+          ? ExtraSpells[spellSelection.Spellbook.m_CharacterClass]
+          : new();
 
       var spellList =
         GetExpandedSpellList(
@@ -109,7 +116,7 @@ namespace CharacterOptionsPlus.UnitParts
           extraSpells);
 
       Logger.NativeLog(
-        $"Returning spell selection with expanded spells for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
+        $"Returning spell selection for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
       newSelection = new SpellSelectionData(spellSelection.Spellbook, spellList);
       for (int i = 0; i < spellSelection.LevelCount.Length; i++)
       {
@@ -133,7 +140,7 @@ namespace CharacterOptionsPlus.UnitParts
       var extraSpells =
         ExtraSpells.ContainsKey(spellbook.m_CharacterClass) ? ExtraSpells[spellbook.m_CharacterClass] : new();
 
-      Logger.NativeLog($"Fetching expanded spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
+      Logger.NativeLog($"Returning spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
       expandedSpellList = GetExpandedSpellList(spellbook.m_CharacterClass, spellList, extraSpells);
       return true;
     }
@@ -148,7 +155,12 @@ namespace CharacterOptionsPlus.UnitParts
     {
       var spellListName = $"ExpandedSpellList_{Owner.CharacterName}_{clazz}";
       SpellListConfigurator expandedList;
-      if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
+      if (spellList.name.StartsWith($"ExpandedSpellList"))
+      {
+        // Handles the case where the name changes (e.g. Character Creation => Set Name)
+        expandedList = SpellListConfigurator.For(spellList);
+      }
+      else if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
       {
         expandedList = SpellListConfigurator.For(existingSpellList);
       }
@@ -189,6 +201,14 @@ namespace CharacterOptionsPlus.UnitParts
     /// Patch responsible for swapping the selection data with the expanded version before it is bound / viewed in the
     /// level up UI.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// This wouldn't be necessary if there was an easy way to refresh the spells UI when making a selection. The only
+    /// other way to do this that I found was to call <c>LevelUpController.UpdatePreview()</c>, but that removes and
+    /// reapplies features which re-creates the UnitPart so the stored data is lost. If you statically keep the data
+    /// then you have an issue because they remove <c>EntityFact</c> without calling <c>OnDeactivate</c> so now there
+    /// are multiple selections.
+    /// </remarks>
     [HarmonyPatch(typeof(CharGenSpellsPhaseVM))]
     static class CharGenSpellsPhaseVM_Patch
     {
@@ -216,15 +236,10 @@ namespace CharacterOptionsPlus.UnitParts
         }
         catch (Exception e)
         {
-          Logger.LogException("Failed to swap selection data.", e);
+          Logger.LogException("OnBeginDetailedView: Failed to refresh spell selection.", e);
         }
       }
     }
-
-    // TODO: Well this isn't working again. Now it fails when the rename happens at the end, which I think means
-    // I need that whole "use the old expanded list" thing again for some FUCKING reason. Maybe something can be done
-    // during Get() to redirect? Hard to say.
-    // I also still feel like there's a simpler solution I'm not seeing.
 
     /// <summary>
     /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
@@ -233,7 +248,8 @@ namespace CharacterOptionsPlus.UnitParts
     internal static class LevelUpState_Patch
     {
       [HarmonyPatch(nameof(LevelUpState.DemandSpellSelection)), HarmonyPrefix]
-      static void DemandSpellSelection(LevelUpState __instance, BlueprintSpellbook spellbook, ref BlueprintSpellList spellList)
+      static void DemandSpellSelection(
+        LevelUpState __instance, BlueprintSpellbook spellbook, ref BlueprintSpellList spellList)
       {
         try
         {
@@ -270,6 +286,39 @@ namespace CharacterOptionsPlus.UnitParts
         catch (Exception e)
         {
           Logger.LogException("GetSpellSelection: Failed to replace spell list", e);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
+    /// </summary>
+    [HarmonyPatch(typeof(SelectSpell))]
+    internal static class SelectSpell_Patch
+    {
+      [HarmonyPatch(nameof(SelectSpell.Check)), HarmonyPostfix]
+      static void Check(SelectSpell __instance, bool __result)
+      {
+        try
+        {
+          Logger.NativeLog($"Checking' {__instance.Spell}: {__result} [{__instance.SpellList.name}]");
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Check spell", e);
+        }
+      }
+
+      [HarmonyPatch(nameof(SelectSpell.Apply)), HarmonyPrefix]
+      static void Apply(SelectSpell __instance, LevelUpState state, UnitDescriptor unit)
+      {
+        try
+        {
+          Logger.NativeLog($"Applyin' {__instance.Spell}: {__instance.Spellbook} - {__instance.SpellList}");
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Apply spell", e);
         }
       }
     }
