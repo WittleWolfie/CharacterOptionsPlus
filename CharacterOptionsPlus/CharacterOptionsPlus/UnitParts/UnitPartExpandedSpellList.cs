@@ -227,7 +227,6 @@ namespace CharacterOptionsPlus.UnitParts
             unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(
               __instance.m_SelectionData, out var selectionData))
           {
-            Logger.NativeLog($"Refreshing spell selections VM.");
             __instance.LevelUpController.State.SpellSelections.RemoveAll(
               selection =>
                 selection.Spellbook == __instance.m_SelectionData.Spellbook
@@ -263,7 +262,6 @@ namespace CharacterOptionsPlus.UnitParts
                 .GetSpellList(spellbook, spellList, out var expandedSpellList)
               && expandedSpellList != spellList)
           {
-            Logger.NativeLog($"DemandSpellSelection: Replacing spell list");
             spellList = expandedSpellList;
           }
         }
@@ -284,7 +282,6 @@ namespace CharacterOptionsPlus.UnitParts
                 .GetSpellList(spellbook, spellList, out var expandedSpellList)
               && expandedSpellList != spellList)
           {
-            Logger.NativeLog($"GetSpellSelection: Replacing spell list");
             spellList = expandedSpellList;
           }
         }
@@ -292,6 +289,35 @@ namespace CharacterOptionsPlus.UnitParts
         {
           Logger.LogException("GetSpellSelection: Failed to replace spell list", e);
         }
+      }
+    }
+
+    /// <summary>
+    /// Checks to make sure the selected spell is on the spell list.
+    /// </summary>
+    [HarmonyPatch(typeof(SelectSpell))]
+    internal static class SelectSpell_Patch
+    {
+      [HarmonyPatch(nameof(SelectSpell.Check)), HarmonyPrefix]
+      static bool Check(SelectSpell __instance, LevelUpState state, ref bool __result)
+      {
+        try
+        {
+          var spellSelection = state.GetSpellSelection(__instance.Spellbook, __instance.SpellList);
+          if (!spellSelection.SpellList.Contains(__instance.Spell))
+          {
+            // Indicate the spell selection is not valid. This makes sure the user cannot break the leveling state by
+            // selecting a bonus spell, then swapping the bonus spell with another. The bonus spell selection is
+            // cleared and they are forced to select a different spell.
+            __result = false;
+            return false;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Check: Failed to check if spell selection is valid.", e);
+        }
+        return true;
       }
     }
 

@@ -145,6 +145,7 @@
       <Entry Include="CharacterOptionsPlus.Main" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/CharGenSpellsPhaseVM_Patch" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/LevelUpState_Patch" />
+      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/SelectSpell_Patch" />
     </ItemGroup>
 
     <Exec WorkingDirectory="$(OutputPath)" Command="@(ILStrip) @(LocalAssembly) @(LocalAssembly) -e @(Entry, ' -e ')" />
