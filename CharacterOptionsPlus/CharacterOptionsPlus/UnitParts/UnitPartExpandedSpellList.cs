@@ -12,6 +12,7 @@ using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
 using Kingmaker.UI.FullScreenUITypes;
+using Kingmaker.UI.MVVM._VM.CharGen.Phases.FeatureSelector;
 using Kingmaker.UI.MVVM._VM.CharGen.Phases.Spells;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -38,6 +39,10 @@ namespace CharacterOptionsPlus.UnitParts
   public class UnitPartExpandedSpellList : OldStyleUnitPart
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartExpandedSpellList));
+
+    // These are needed because you can't tell if a character has an altered spell list when the spell selection is
+    // first instantiated. This is essentially a hint that the spell list should be replaced to support a bonus spell
+    // selection.
     private static readonly List<UnitRequirements> Requirements =
       new()
       {
@@ -145,11 +150,6 @@ namespace CharacterOptionsPlus.UnitParts
       return true;
     }
 
-    public static void NotifyNameChange(string newName)
-    {
-      
-    }
-
     /// <summary>
     /// Returns the expanded spell list, either by fetching from the cache or creating it.
     /// </summary>
@@ -196,6 +196,7 @@ namespace CharacterOptionsPlus.UnitParts
           list.m_Spells.AddRange(extraList.m_Spells);
         }
 
+        list.m_Spells = list.m_Spells.Distinct().ToList();
         spellLevelList[i] = list;
       }
       return spellLevelList;
@@ -292,75 +293,6 @@ namespace CharacterOptionsPlus.UnitParts
           Logger.LogException("GetSpellSelection: Failed to replace spell list", e);
         }
       }
-    }
-
-
-    // TODO: Okay. The static spell list ref is WORKING.
-    // TODO: Maybe use the level up stuff more instead of the other patches?
-    // TODO: Clear spell selections when you change the feature selections.
-
-    /// <summary>
-    /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
-    /// </summary>
-    [HarmonyPatch(typeof(SelectName))]
-    internal static class SelectName_Patch
-    {
-      [HarmonyPatch(nameof(SelectName.Apply)), HarmonyPrefix]
-      static void Apply(SelectName __instance, LevelUpState state, UnitDescriptor unit)
-      {
-        try
-        {
-          Logger.Log($"Selectapplying: {unit.CharacterName} to {__instance.Name}");
-          UnitPartExpandedSpellList.NotifyNameChange(__instance.Name);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SelectName_Patch", e);
-        }
-      }
-
-      //[HarmonyPatch(nameof(SelectSpell.Apply)), HarmonyPrefix]
-      //static void Apply(SelectSpell __instance, LevelUpState state, UnitDescriptor unit)
-      //{
-      //  try
-      //  {
-      //    Logger.NativeLog($"Applyin' {__instance.Spell}: {__instance.Spellbook} - {__instance.SpellList}");
-      //  }
-      //  catch (Exception e)
-      //  {
-      //    Logger.LogException("Apply spell", e);
-      //  }
-      //}
-    }
-
-    [HarmonyPatch(typeof(UnitDescriptor))]
-    internal static class UnitDescriptor_Patch
-    {
-      [HarmonyPatch(nameof(UnitDescriptor.Initialize), new Type[] { }), HarmonyPrefix]
-      static void Init(UnitDescriptor __instance)
-      {
-        try
-        {
-          Logger.Log($"Initializing a unit: {__instance.CharacterName}, {__instance.Blueprint?.CharacterName}, {__instance.ReplaceBlueprintForInspection?.CharacterName}");
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SelectName_Patch", e);
-        }
-      }
-
-      //[HarmonyPatch(nameof(SelectSpell.Apply)), HarmonyPrefix]
-      //static void Apply(SelectSpell __instance, LevelUpState state, UnitDescriptor unit)
-      //{
-      //  try
-      //  {
-      //    Logger.NativeLog($"Applyin' {__instance.Spell}: {__instance.Spellbook} - {__instance.SpellList}");
-      //  }
-      //  catch (Exception e)
-      //  {
-      //    Logger.LogException("Apply spell", e);
-      //  }
-      //}
     }
 
     /// <summary>
