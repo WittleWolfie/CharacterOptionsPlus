@@ -49,13 +49,6 @@ namespace CharacterOptionsPlus.UnitParts
     [JsonProperty]
     public Dictionary<BlueprintCharacterClassReference, List<SpellsByLevel>> ExtraSpells = new();
 
-    public static BlueprintSpellList LevelUpSpellList = null;
-
-    public UnitPartExpandedSpellList()
-    {
-      Logger.Log($"Created unit part!");
-    }
-
     /// <summary>
     /// Add a spell to the character's spell list.
     /// </summary>
@@ -149,7 +142,6 @@ namespace CharacterOptionsPlus.UnitParts
 
       Logger.NativeLog($"Returning spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
       expandedSpellList = GetExpandedSpellList(spellbook.m_CharacterClass, spellList, extraSpells);
-      LevelUpSpellList = expandedSpellList;
       return true;
     }
 
@@ -166,14 +158,13 @@ namespace CharacterOptionsPlus.UnitParts
       BlueprintSpellList spellList,
       List<SpellsByLevel> extraSpells)
     {
-      var spellListName = $"ExpandedSpellList_{Owner.CharacterName}_{clazz}";
+      var charId =
+        Game.Instance?.LevelUpController is null
+          ? Owner.Unit.UniqueId
+          : Game.Instance.LevelUpController.m_BaseUnit.UniqueId; // This is stable during level up
+      var spellListName = $"ExpandedSpellList_{charId}_{clazz}";
       SpellListConfigurator expandedList;
-      if (LevelUpSpellList is not null)
-      {
-        // Handles the case where the name changes (e.g. Character Creation => Set Name)
-        expandedList = SpellListConfigurator.For(LevelUpSpellList);
-      }
-      else if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
+      if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
       {
         expandedList = SpellListConfigurator.For(existingSpellList);
       }
@@ -266,7 +257,6 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.Log($"Demandin!");
           if (
             __instance.Unit.Ensure<UnitPartExpandedSpellList>()
                 .GetSpellList(spellbook, spellList, out var expandedSpellList)
@@ -308,45 +298,6 @@ namespace CharacterOptionsPlus.UnitParts
     // TODO: Okay. The static spell list ref is WORKING.
     // TODO: Maybe use the level up stuff more instead of the other patches?
     // TODO: Clear spell selections when you change the feature selections.
-
-    /// <summary>
-    /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
-    /// </summary>
-    [HarmonyPatch(typeof(LevelUpController))]
-    internal static class LevelUpController_Patch
-    {
-      [HarmonyPatch(MethodType.Constructor, new Type[] { typeof(UnitEntityData), typeof(bool), typeof(LevelUpState.CharBuildMode) }), HarmonyPostfix]
-      static void Constructor(LevelUpController __instance)
-      {
-        try
-        {
-          Logger.NativeLog($"Starting level up.");
-          LevelUpSpellList = null;
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("Check spell", e);
-        }
-      }
-
-
-      // TODO: Clear the static list after leveling stops. How can I do this reliably? Maybe it should be reactiv
-      // i.e. check first if there is a LevelUpcontroller and then if not, clear the static thing. Kinda hacky but
-      // maybe more reliable than stop?
-
-      //[HarmonyPatch(nameof(SelectSpell.Apply)), HarmonyPrefix]
-      //static void Apply(SelectSpell __instance, LevelUpState state, UnitDescriptor unit)
-      //{
-      //  try
-      //  {
-      //    Logger.NativeLog($"Applyin' {__instance.Spell}: {__instance.Spellbook} - {__instance.SpellList}");
-      //  }
-      //  catch (Exception e)
-      //  {
-      //    Logger.LogException("Apply spell", e);
-      //  }
-      //}
-    }
 
     /// <summary>
     /// Redirects attempts to generate a spell selection from the default spell list to the expanded spell lists.
