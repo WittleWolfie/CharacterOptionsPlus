@@ -17,12 +17,17 @@ namespace CharacterOptionsPlus.Util
 
     //** Archetypes **//
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
+    internal const string ArrowsongMinstrelProficiencies = "e24693cb-6e0b-4bbd-af5b-05de85f5ff88";
+
     internal const string ArrowsongMinstrelArcaneArchery = "23d3d217-93cc-4ae6-a034-860c89561253";
+    internal const string ArrowsongMinstrelSpellStrike = "4c26bf5c-971c-4183-b3ec-3005702773d5";
+    internal const string ArrowsongMinstrelSpellStrikeAbility = "5e9d97d0-6d80-4626-9102-4e0b1c907b1a";
+    internal const string ArrowsongMinstrelSpellCombat = "647345f6-6a85-40cc-8776-f46165cd435d";
+
     internal const string ArrowsongMinstrelSpellbook = "b9e9804e-5361-43e7-87c2-ffb7b1195be5";
     internal const string ArrowsongMinstrelSpellList = "74f9286f-6e8e-46ba-8de8-995759759b2f";
     internal const string ArrowsongMinstrelSpellsPerDay = "32e41814-4688-42b6-87a7-4384f602a621";
     internal const string ArrowsongMinstrelSpellSelection = "3c9b1fb1-9466-45db-9fe8-08500b66ea50";
-    internal const string ArrowsongMinstrelProficiencies = "e24693cb-6e0b-4bbd-af5b-05de85f5ff88";
     //****************//
 
     internal static readonly (string guid, string displayName)[] Archetypes =

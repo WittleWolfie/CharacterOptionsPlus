@@ -19,7 +19,7 @@
     "enGB": "An arrowsong minstrel is proficient with all simple weapons, plus the longbow, shortsword, and shortbow. Arrowsong minstrels are also proficient with light armor and shields (except tower shields). An arrowsong minstrel can cast bard spells while wearing light armor and using a shield without incurring the normal arcane spell failure chance. Like any other arcane spellcaster, An arrowsong minstrel wearing medium or heavy armor incurs a chance of arcane spell failure if the spell in question has a somatic component. A multiclass arrowsong minstrel still incurs the normal arcane spell failure chance for arcane spells received from other classes."
   },
   {
-    "Key": "ArrowsongMinstrel.ArcaneArchery",
+    "Key": "ArrowsongMinstrel.ArcaneArchery.Name",
     "ProcessTemplates": false,
     "enGB": "Arcane Archery"
   },
@@ -35,6 +35,15 @@
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description",
     "enGB": "An Arrowsong minstrel’s skill at ranged martial arts allows her to learn to cast a number of powerful, offensive spells that would otherwise be unavailable to her.\n\nAt 1st level, she selects 4 spells from the sorcerer/wizard spell list equal to her Charisma modifier (minimum 1) and adds them to her bard spell list as bard spells of the same level. The spells selected must not already be on the bard spell list, and must be 6th level or lower. At 4th level and every 4 bard levels thereafter, she adds an additional sorcerer/wizard spell to her bard spell list. An Arrowsong minstrel is limited to the following spells when adding spells to her spell list in this manner: acid arrow, arrow eruption, flame arrow, gravity bow, greater magic weapon, longshot, magic weapon, protection from arrows, spectral hand, true strike, and sorcerer/wizard spells of the evocation school. An Arrowsong minstrel must still select these spells as spells known before she can cast them."
+  },
+  {
+    "Key": "ArrowsongMinstrel.SpellStrike.Name",
+    "ProcessTemplates": false,
+    "enGB": "Arrowsong Strike"
+  },
+  {
+    "Key": "ArrowsongMinstrel.SpellStrike.Description",
+    "enGB": "At 6th level, an Arrowsong minstrel can use spellstrike (as per the magus class feature) to cast a single-target ranged touch attack spell and deliver it through a ranged weapon attack. She cannot use spellstrike with normal touch attacks or melee attacks.\n\nAt 18th level, an Arrowsong minstrel can use spell combat (as per the magus class feature)."
   },
   //****************//
 

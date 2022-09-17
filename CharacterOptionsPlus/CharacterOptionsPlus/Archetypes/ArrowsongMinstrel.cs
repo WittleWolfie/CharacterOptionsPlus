@@ -1,19 +1,26 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.Classes.Spells;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
+using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Designers.Mechanics.Facts;
+using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.ActivatableAbilities;
+using Kingmaker.UnitLogic.Commands;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +39,14 @@ namespace CharacterOptionsPlus.Archetypes
     private const string ProficienciesDescription = "ArrowsongMinstrel.Proficiencies.Description";
 
     private const string ArcaneArchery = "ArrowsingMinstrel.ArcaneArchery";
+    private const string ArcaneArcheryName = "ArrowsingMinstrel.ArcaneArchery.Name";
+    private const string ArcaneArcheryDescription = "ArrowsingMinstrel.ArcaneArchery.Description";
+
+    private const string SpellStrike = "ArrowsongMinstrel.SpellStrike";
+    private const string SpellStrikeAbility = "ArrowsongMinstrel.SpellStrike.Ability";
+    private const string SpellCombat = "ArrowsongMinstrel.SpellCombat";
+    private const string SpellStrikeName = "ArrowsongMinstrel.SpellStrike.Name";
+    private const string SpellStrikeDescription = "ArrowsongMinstrel.SpellStrike.Description";
 
     private const string Proficiencies = "ArrowsongMinstrel.Proficiencies";
     private const string Spellbook = "ArrowsongMinstrel.Spellbook";
@@ -119,15 +134,13 @@ namespace CharacterOptionsPlus.Archetypes
           bonusSpellSelection,
           CreateProficiencies())
         .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString())
-
+        .AddToAddFeatures(6, CreateRangedSpellStrike())
+        .AddToAddFeatures(18, CreateRangedSpellCombat())
         .AddToAddFeatures(4, bonusSpellSelection)
         .AddToAddFeatures(8, bonusSpellSelection)
         .AddToAddFeatures(12, bonusSpellSelection)
         .AddToAddFeatures(16, bonusSpellSelection)
         .AddToAddFeatures(20, bonusSpellSelection);
-      // TODO: Arrowsong Strike at 6
-      // TODO: Full-attack Arrowsong Strike at 18
-
       archetype.Configure();
     }
 
@@ -149,6 +162,39 @@ namespace CharacterOptionsPlus.Archetypes
               WeaponCategory.Shortbow,
               WeaponCategory.Shortsword,
             })
+        .Configure();
+    }
+
+    private static BlueprintFeature CreateRangedSpellStrike()
+    {
+      var icon = FeatureRefs.EldritchArcherRangedSpellStrike.Reference.Get().Icon;
+      var spellStrikeAbility =
+        ActivatableAbilityConfigurator.New(SpellStrikeAbility, Guids.ArrowsongMinstrelSpellStrikeAbility)
+          .SetDisplayName(SpellStrikeName)
+          .SetDescription(SpellStrikeDescription)
+          .SetIcon(icon)
+          .SetIsOnByDefault()
+          .SetDeactivateImmediately()
+          .SetBuff(BuffRefs.SpellStrikeBuff.ToString())
+          .Configure();
+
+      return FeatureConfigurator.New(SpellStrike, Guids.ArrowsongMinstrelSpellStrike)
+        .SetDisplayName(SpellStrikeName)
+        .SetDescription(SpellStrikeDescription)
+        .SetIcon(icon)
+        .SetIsClassFeature(true)
+        .AddMagusMechanicPart(feature: AddMagusMechanicPart.Feature.EldritchArcher)
+        .AddMagusMechanicPart(AddMagusMechanicPart.Feature.Spellstrike)
+        .AddFacts(new() { spellStrikeAbility })
+        .Configure();
+    }
+
+    private static BlueprintFeature CreateRangedSpellCombat()
+    {
+      return FeatureConfigurator.New(SpellCombat, Guids.ArrowsongMinstrelSpellCombat)
+        .SetDisplayName(SpellStrikeName)
+        .SetDescription(SpellStrikeDescription)
+        .SetIsClassFeature(true)
         .Configure();
     }
 
@@ -186,6 +232,8 @@ namespace CharacterOptionsPlus.Archetypes
     private static BlueprintFeature CreateArcaneArchery()
     {
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
+        .SetDisplayName(ArcaneArcheryName)
+        .SetDescription(ArcaneArcheryDescription)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
         .SetIsClassFeature(true)
         .Configure();
@@ -305,6 +353,30 @@ namespace CharacterOptionsPlus.Archetypes
           fifthLevelSpells,
           sixthLevelSpells)
         .Configure();
+    }
+
+    /// <summary>
+    /// Flags songs from the Arrowsong Minstrel spellbook as valid "magus" spells so the magus features work normally.
+    /// </summary>
+    [HarmonyPatch(typeof(UnitPartMagus))]
+    static class UnitPartMagus_Patch
+    {
+      static BlueprintSpellbook _spellbook;
+      static BlueprintSpellbook ArrowsongSpellbook
+      {
+        get
+        {
+          _spellbook ??= BlueprintTool.Get<BlueprintSpellbook>(Guids.ArrowsongMinstrelSpellbook);
+          return _spellbook;
+        }
+      }
+
+      [HarmonyPatch(nameof(UnitPartMagus.IsSpellFromMagusSpellList)), HarmonyPostfix]
+      static void IsSpellFromMagusSpellList(UnitPartMagus __instance, AbilityData spell, ref bool __result)
+      {
+        if (spell.SpellbookBlueprint == ArrowsongSpellbook)
+          __result = true;
+      }
     }
   }
 }
