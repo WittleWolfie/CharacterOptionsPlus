@@ -1,4 +1,5 @@
-﻿using BlueprintCore.Utils;
+﻿using BlueprintCore.Blueprints.Configurators.Root;
+using BlueprintCore.Utils;
 using CharacterOptionsPlus.Archetypes;
 using CharacterOptionsPlus.Feats;
 using CharacterOptionsPlus.Util;
@@ -35,8 +36,26 @@ namespace CharacterOptionsPlus
     class BlueprintCacheInitHandler : IBlueprintCacheInitHandler
     {
       private static bool Initialized = false;
+      private static bool InitializeDelayed = false;
 
-      public void AfterBlueprintCachePatches() { }
+      public void AfterBlueprintCachePatches()
+      {
+        try
+        {
+          if (InitializeDelayed)
+          {
+            Logger.Log("Already initialized blueprints cache.");
+            return;
+          }
+          InitializeDelayed = true;
+
+          RootConfigurator.ConfigureDelayedBlueprints();
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Delayed blueprint configuration failed.", e);
+        }
+      }
 
       public void BeforeBlueprintCacheInit() { }
 
@@ -53,12 +72,11 @@ namespace CharacterOptionsPlus
           }
           Initialized = true;
 
-
           // Must init settings first
           Settings.Init();
 
-          PatchArchetypes();
-          PatchFeats();
+          ConfigureArchetypes();
+          ConfigureFeats();
         }
         catch (Exception e)
         {
@@ -66,16 +84,16 @@ namespace CharacterOptionsPlus
         }
       }
 
-      private static void PatchArchetypes()
+      private static void ConfigureArchetypes()
       {
-        Logger.Log("Patching archetypes.");
+        Logger.Log("Configuring archetypes.");
 
         ArrowsongMinstrel.Configure();
       }
 
-      private static void PatchFeats()
+      private static void ConfigureFeats()
       {
-        Logger.Log("Patching feats.");
+        Logger.Log("Configuring feats.");
 
         FuriousFocus.Configure();
         Hurtful.Configure();

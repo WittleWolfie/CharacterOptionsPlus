@@ -65,7 +65,7 @@ namespace CharacterOptionsPlus.Feats
           .AddComponent<FuriousFocusBonus>()
           // FeatureGroup.RangerStyle isn't associated with a selection, this adds it to the appropriate selections.
           .AddToRangerStyles(RangerStyle.TwoHanded6)
-          .Configure();
+          .Configure(delayed: true);
     }
 
     [TypeId("d7aa29aa-b4d0-4739-8856-6ee954d84aa8")]

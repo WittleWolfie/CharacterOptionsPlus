@@ -103,7 +103,7 @@ namespace CharacterOptionsPlus.Feats
           .AddRecommendationHasFeature(ragingSong)
           .AddToIsPrerequisiteFor(Guids.SkaldsVigorGreaterFeat) // Reference by Guid since it doesn't exist yet.
           .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
-          .Configure();
+          .Configure(delayed: true);
       
       // Greater Skald's Vigor
       var greaterSkaldsVigor =
@@ -117,7 +117,7 @@ namespace CharacterOptionsPlus.Feats
             .AddPrerequisiteCharacterLevel(10)
             .AddRecommendationHasFeature(skaldsVigor)
             .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
-            .Configure();
+            .Configure(delayed: true);
 
       var applyBuff = ActionsBuilder.New().ApplyBuffPermanent(BuffName, isNotDispelable: true);
       BuffConfigurator.For(BuffRefs.InspiredRageEffectBuff)
