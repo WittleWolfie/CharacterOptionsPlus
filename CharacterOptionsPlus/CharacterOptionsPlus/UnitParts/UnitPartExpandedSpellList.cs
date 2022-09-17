@@ -9,10 +9,7 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.EntitySystem.Entities;
-using Kingmaker.PubSubSystem;
-using Kingmaker.UI.FullScreenUITypes;
-using Kingmaker.UI.MVVM._VM.CharGen.Phases.FeatureSelector;
+using Kingmaker.UI.Common;
 using Kingmaker.UI.MVVM._VM.CharGen.Phases.Spells;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -23,13 +20,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList;
-using static Kingmaker.Armies.TacticalCombat.Grid.TacticalCombatGrid;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
 {
-  // TODO: Show unlocked spells w/ Show all spells in spellbook?
   // TODO: Fix tooltips during selection to show spell tooltip?
 
   /// <summary>
@@ -63,18 +57,18 @@ namespace CharacterOptionsPlus.UnitParts
         ExtraSpells[clazz] = new();
 
       var spellList = ExtraSpells[clazz];
-      var spellLevelList = spellList.Where(list => list.SpellLevel == level).FirstOrDefault();
+      var spellLevelList = spellList.Where(list => list.Level == level).FirstOrDefault();
       if (spellLevelList is null)
       {
         spellLevelList = new SpellsByLevel(level);
         spellList.Add(spellLevelList);
       }
 
-      if (spellLevelList.m_Spells.Contains(spell))
+      if (spellLevelList.Spells.Contains(spell))
         return;
 
       Logger.NativeLog($"Adding to spell list for {Owner.CharacterName} - {clazz}");
-      spellLevelList.m_Spells.Add(spell);
+      spellLevelList.Spells.Add(spell);
     }
 
     /// <summary>
@@ -86,15 +80,15 @@ namespace CharacterOptionsPlus.UnitParts
         return;
 
       var spellList = ExtraSpells[clazz];
-      var spellLevelList = spellList.Where(list => list.SpellLevel == level).FirstOrDefault();
+      var spellLevelList = spellList.Where(list => list.Level == level).FirstOrDefault();
       if (spellLevelList is null)
         return;
 
-      if (!spellLevelList.m_Spells.Contains(spell))
+      if (!spellLevelList.Spells.Contains(spell))
         return;
 
       Logger.NativeLog($"Removing from spell list for {Owner.CharacterName} - {clazz}");
-      spellLevelList.m_Spells.Remove(spell);
+      spellLevelList.Spells.Remove(spell);
     }
 
     /// <summary>
@@ -190,10 +184,10 @@ namespace CharacterOptionsPlus.UnitParts
         var list = new SpellLevelList(baseList[i].SpellLevel);
         list.m_Spells.AddRange(baseList[i].m_Spells);
 
-        var extraList = extraSpells.Where(l => l.SpellLevel == list.SpellLevel).FirstOrDefault();
-        if (extraList is not null && extraList.m_Spells is not null)
+        var extraList = extraSpells.Where(l => l.Level == list.SpellLevel).FirstOrDefault();
+        if (extraList is not null && extraList.Spells.Any())
         {
-          list.m_Spells.AddRange(extraList.m_Spells);
+          list.m_Spells.AddRange(extraList.Spells);
         }
 
         list.m_Spells = list.m_Spells.Distinct().ToList();
@@ -322,16 +316,51 @@ namespace CharacterOptionsPlus.UnitParts
     }
 
     /// <summary>
+    /// Update the spell list as shown in the spellbook.
+    /// </summary>
+    [HarmonyPatch(typeof(UIUtilityUnit))]
+    internal static class UIUtilityUnit_Patch
+    {
+      [HarmonyPatch(nameof(UIUtilityUnit.GetAllPossibleSpellsForLevel)), HarmonyPostfix]
+      static void GetAllPossibleSpellsForLevel(int level, Spellbook spellbook, ref List<BlueprintAbility> __result)
+      {
+        try
+        {
+          if (spellbook.Owner.Ensure<UnitPartExpandedSpellList>()
+            .GetSpellList(spellbook.Blueprint, spellbook.Blueprint.SpellList, out var expandedSpellList))
+          {
+            __result = expandedSpellList.GetSpells(level);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("GetAllPossibleSpellsForLevel: Failed to return expanded spell list.", e);
+        }
+      }
+    }
+
+    /// <summary>
     /// Simple wrapper to allow serialization of SpellLevelList.
     /// </summary>
-    public class SpellsByLevel : SpellLevelList
+    [Serializable]
+    public class SpellsByLevel
     {
-      public SpellsByLevel(int spellLevel) : base(spellLevel) { }
+      [JsonProperty]
+      public readonly int Level;
+
+      [JsonProperty]
+      public readonly List<BlueprintAbilityReference> Spells = new();
+
+      public SpellsByLevel(int spellLevel)
+      {
+        Level = spellLevel;
+      }
 
       [JsonConstructor]
-      public SpellsByLevel(int spellLevel, List<BlueprintAbilityReference> spells) : base(spellLevel)
+      public SpellsByLevel(int spellLevel, List<BlueprintAbilityReference> spells) 
       {
-        m_Spells = spells;
+        Level = spellLevel;
+        Spells = spells;
       }
     }
 
