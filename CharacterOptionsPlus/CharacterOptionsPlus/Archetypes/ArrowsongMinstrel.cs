@@ -108,7 +108,7 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToRemoveFeatures(15, FeatureRefs.InspireCompetenceFeature.ToString())
         .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
-      var bonusSpellSelection = CreateBonusSpellSelection(CreateBonusSpellList());
+      var bonusSpellSelection = CreateBonusSpellSelection();
       archetype
         .AddToAddFeatures(
           1,
@@ -191,8 +191,9 @@ namespace CharacterOptionsPlus.Archetypes
         .Configure();
     }
 
-    private static BlueprintParametrizedFeature CreateBonusSpellSelection(BlueprintSpellList bonusSpells)
+    private static BlueprintParametrizedFeature CreateBonusSpellSelection()
     {
+      var bonusSpells = SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList).Configure();
       var selection =
         ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
           .SetDisplayName(SpellSelectionName)
@@ -202,22 +203,29 @@ namespace CharacterOptionsPlus.Archetypes
           .AddComponent(
             new AddSpellToSpellList(
               CharacterClassRefs.BardClass.Cast<BlueprintCharacterClassReference>().Reference,
-              bonusSpells.ToReference<BlueprintSpellListReference>()));
+              bonusSpells.ToReference<BlueprintSpellListReference>()))
+          .OnConfigure(
+            feature =>
+            {
+              ConfigureBonusSpells();
 
-      // I could not get a cast of list items to work to save my life so this is what you get
-      foreach (var spell in bonusSpells.SpellsByLevel.SelectMany(list => list.m_Spells))
-      {
-        selection.AddToBlueprintParameterVariants(
-          BlueprintTool.GetRef<AnyBlueprintReference>(spell.deserializedGuid.ToString()));
-      }
+              var parameterVariants = new List<AnyBlueprintReference>();
+              // I could not get a cast of list items to work to save my life so this is what you get
+              foreach (var spell in bonusSpells.SpellsByLevel.SelectMany(list => list.m_Spells))
+              {
+                parameterVariants.Add(BlueprintTool.GetRef<AnyBlueprintReference>(spell.deserializedGuid.ToString()));
+              }
+              feature.BlueprintParameterVariants = parameterVariants.ToArray();
+            });
 
-      return selection.Configure();
+      return selection.Configure(delayed: true);
     }
 
     private static readonly BlueprintSpellList BardSpells = SpellListRefs.BardSpellList.Reference.Get();
     private static readonly BlueprintSpellList WizardEvocationSpells =
       SpellListRefs.WizardEvocationSpellList.Reference.Get();
-    private static BlueprintSpellList CreateBonusSpellList()
+    // Call this in a delayed configure event so that any mods modifying spell lists are taken into account.
+    private static void ConfigureBonusSpells()
     {
       var bardSpells = new List<BlueprintAbility>();
       bardSpells.AddRange(BardSpells.GetSpells(1));
@@ -287,17 +295,16 @@ namespace CharacterOptionsPlus.Archetypes
             .ToList()
       };
 
-      return
-        SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList)
-          .AddToSpellsByLevel(
-            new(0),
-            firstLevelSpells,
-            secondLevelSpells,
-            thirdLevelSpells,
-            fourthLevelSpells,
-            fifthLevelSpells,
-            sixthLevelSpells)
-          .Configure();
+      SpellListConfigurator.For(SpellList)
+        .AddToSpellsByLevel(
+          new(0),
+          firstLevelSpells,
+          secondLevelSpells,
+          thirdLevelSpells,
+          fourthLevelSpells,
+          fifthLevelSpells,
+          sixthLevelSpells)
+        .Configure();
     }
   }
 }
