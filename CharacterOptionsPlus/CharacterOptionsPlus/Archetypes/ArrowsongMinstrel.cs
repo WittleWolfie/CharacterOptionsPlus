@@ -39,7 +39,6 @@ namespace CharacterOptionsPlus.Archetypes
     private const string SpellsPerDay = "ArrowsongMinstrel.SpellsPerDay";
 
     private const string SpellSelection = "ArrowsongMinstrel.SpellSelection";
-    private const string SpellSelectionParent = "ArrowsongMinstrel.SpellSelection.Parent";
     private const string SpellSelectionName = "ArrowsongMinstrel.ArcaneArchery.BonusSpells";
     private const string SpellSelectionDescription = "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description";
 
@@ -109,11 +108,16 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToRemoveFeatures(15, FeatureRefs.InspireCompetenceFeature.ToString())
         .AddToRemoveFeatures(19, FeatureRefs.InspireCompetenceFeature.ToString());
 
-
-      var bonusSpellList = CreateBonusSpellList();
-      var bonusSpellSelection = CreateBonusSpellSelection(bonusSpellList);
+      var bonusSpellSelection = CreateBonusSpellSelection(CreateBonusSpellList());
       archetype
-        .AddToAddFeatures(1, CreateArcaneArchery(bonusSpellSelection), CreateProficiencies(), bonusSpellSelection)
+        .AddToAddFeatures(
+          1,
+          CreateArcaneArchery(),
+          bonusSpellSelection,
+          bonusSpellSelection,
+          bonusSpellSelection,
+          bonusSpellSelection,
+          CreateProficiencies())
         .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString())
 
         .AddToAddFeatures(4, bonusSpellSelection)
@@ -179,15 +183,15 @@ namespace CharacterOptionsPlus.Archetypes
     }
 
     // TODO: ICON
-    private static BlueprintFeature CreateArcaneArchery(BlueprintFeature spellSelectionFeature)
+    private static BlueprintFeature CreateArcaneArchery()
     {
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
         .SetIsClassFeature(true)
         .Configure();
     }
-    
-    private static BlueprintFeature CreateBonusSpellSelection(BlueprintSpellList bonusSpells)
+
+    private static BlueprintParametrizedFeature CreateBonusSpellSelection(BlueprintSpellList bonusSpells)
     {
       var selection =
         ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
@@ -207,13 +211,7 @@ namespace CharacterOptionsPlus.Archetypes
           BlueprintTool.GetRef<AnyBlueprintReference>(spell.deserializedGuid.ToString()));
       }
 
-      return FeatureSelectionConfigurator.New(SpellSelectionParent, Guids.ArrowsongMinstrelSpellSelectionParent)
-        .SetDisplayName(SpellSelectionName)
-        .SetDescription(SpellSelectionDescription)
-        .SetIsClassFeature(true)
-        .SetGroup(FeatureGroup.ReplaceSpellbook)
-        .AddToAllFeatures(selection.Configure())
-        .Configure();
+      return selection.Configure();
     }
 
     private static readonly BlueprintSpellList BardSpells = SpellListRefs.BardSpellList.Reference.Get();

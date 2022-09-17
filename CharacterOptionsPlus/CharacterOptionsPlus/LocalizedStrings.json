@@ -25,16 +25,16 @@
   },
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.Description",
-    "enGB": "An Arrowsong minstrel’s skill at ranged martial arts allows her to learn to cast a number of powerful, offensive spells that would otherwise be unavailable to her.\n\nAt 1st level, she selects a number of spells from the sorcerer/wizard spell list equal to her Charisma modifier (minimum 1) and adds them to her bard spell list as bard spells of the same level. The spells selected must not already be on the bard spell list, and must be 6th level or lower. At 4th level and every 4 bard levels thereafter, she adds an additional sorcerer/wizard spell to her bard spell list. An Arrowsong minstrel is limited to the following spells when adding spells to her spell list in this manner: acid arrow, arrow eruption, flame arrow, gravity bow, greater magic weapon, longshot, magic weapon, protection from arrows, spectral hand, true strike, and sorcerer/wizard spells of the evocation school. An Arrowsong minstrel must still select these spells as spells known before she can cast them.\n\nIn addition, for the purpose of meeting the requirements of combat feats and prestige classes, an Arrowsong minstrel treats her bard level as her base attack bonus (in addition to base attack bonuses gained from other classes and Hit Dice)."
+    "enGB": "An Arrowsong minstrel treats her bard level as her base attack bonus (in addition to base attack bonuses gained from other classes and Hit Dice)."
   },
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.BonusSpells",
     "ProcessTemplates": false,
-    "enGB": "Arcane Archery (Bonus Spells)"
+    "enGB": "Arcane Archery (Spells)"
   },
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description",
-    "enGB": "At 1st level, she selects a number of spells from the sorcerer/wizard spell list equal to her Charisma modifier (minimum 1) and adds them to her bard spell list as bard spells of the same level. The spells selected must not already be on the bard spell list, and must be 6th level or lower. At 4th level and every 4 bard levels thereafter, she adds an additional sorcerer/wizard spell to her bard spell list. An Arrowsong minstrel is limited to the following spells when adding spells to her spell list in this manner: acid arrow, arrow eruption, flame arrow, gravity bow, greater magic weapon, longshot, magic weapon, protection from arrows, spectral hand, true strike, and sorcerer/wizard spells of the evocation school. An Arrowsong minstrel must still select these spells as spells known before she can cast them."
+    "enGB": "An Arrowsong minstrel’s skill at ranged martial arts allows her to learn to cast a number of powerful, offensive spells that would otherwise be unavailable to her.\n\nAt 1st level, she selects 4 spells from the sorcerer/wizard spell list equal to her Charisma modifier (minimum 1) and adds them to her bard spell list as bard spells of the same level. The spells selected must not already be on the bard spell list, and must be 6th level or lower. At 4th level and every 4 bard levels thereafter, she adds an additional sorcerer/wizard spell to her bard spell list. An Arrowsong minstrel is limited to the following spells when adding spells to her spell list in this manner: acid arrow, arrow eruption, flame arrow, gravity bow, greater magic weapon, longshot, magic weapon, protection from arrows, spectral hand, true strike, and sorcerer/wizard spells of the evocation school. An Arrowsong minstrel must still select these spells as spells known before she can cast them."
   },
   //****************//
 
