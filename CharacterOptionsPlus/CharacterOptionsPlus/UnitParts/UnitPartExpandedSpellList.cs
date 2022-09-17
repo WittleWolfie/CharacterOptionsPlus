@@ -24,8 +24,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
 {
-  // TODO: Fix tooltips during selection to show spell tooltip?
-
   /// <summary>
   /// Adds additional spells to the character's spell list. These are not spells known and must still otherwise be
   /// selected as spells known before they can be cast.
