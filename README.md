@@ -52,7 +52,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Feats
     * [Dazing Spell](https://www.d20pfsrd.com/feats/metamagic-feats/dazing-spell-metamagic/)
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/), [Improved Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage), and [Greater Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/)
-    * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/)
+    * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/) (Ready)
     * [Paired Opportunists](https://www.d20pfsrd.com/feats/combat-feats/paired-opportunists-combat-teamwork/)
     * [Signature Skill (Intimidate)](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
@@ -118,10 +118,10 @@ This will not:
 
 * Bubbles (factsubio) for [BubblePrints](https://github.com/factubsio/BubblePrints), saving me from going mad.
 * Vek17 for [TabletopTweaks-Core](https://github.com/Vek17/TabletopTweaks-Core), so I don't have to distribute my transpilers.
-* The modding community on [Discord](https://discord.com/invite/wotr), an invaluable and supportive resource for help modding.
+* The modding community on [Discord](https://discord.com/invite/owlcat), an invaluable and supportive resource for help modding.
 * All the Owlcat modders who came before me, wrote documents, and open sourced their code.
 
 ## Interested in modding?
 
 * Check out the [OwlcatModdingWiki](https://github.com/WittleWolfie/OwlcatModdingWiki/wiki).
-* Join us on [Discord](https://discord.com/invite/wotr).
+* Join us on [Discord](https://discord.com/invite/owlcat).
