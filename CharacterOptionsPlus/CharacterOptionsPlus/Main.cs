@@ -105,6 +105,7 @@ namespace CharacterOptionsPlus
         FuriousFocus.Configure();
         GloriousHeat.Configure();
         Hurtful.Configure();
+        PairedOpportunists.Configure();
         SkaldsVigor.Configure();
       }
     }

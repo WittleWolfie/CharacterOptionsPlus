@@ -47,6 +47,8 @@ namespace CharacterOptionsPlus.Util
     internal const string HurtfulAbility = "9ef73549-6706-4d33-abd0-bdfaa3ada6a8";
     internal const string HurtfulBuff = "4fd8ee4d-cf60-4b99-9316-e57a71be80ea";
 
+    internal const string PairedOpportunistsFeat = "41df43af-78bc-477a-a33a-e57d86ba8928";
+
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
@@ -58,6 +60,7 @@ namespace CharacterOptionsPlus.Util
         (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
+        (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
 
