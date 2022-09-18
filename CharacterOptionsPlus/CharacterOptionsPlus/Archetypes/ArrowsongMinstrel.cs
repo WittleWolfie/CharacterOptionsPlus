@@ -45,6 +45,7 @@ namespace CharacterOptionsPlus.Archetypes
     private const string SpellStrike = "ArrowsongMinstrel.SpellStrike";
     private const string SpellStrikeAbility = "ArrowsongMinstrel.SpellStrike.Ability";
     private const string SpellCombat = "ArrowsongMinstrel.SpellCombat";
+    private const string SpellCombatAbility = "ArrowsongMinstrel.SpellCombat.Ability";
     private const string SpellStrikeName = "ArrowsongMinstrel.SpellStrike.Name";
     private const string SpellStrikeDescription = "ArrowsongMinstrel.SpellStrike.Description";
 
@@ -136,6 +137,7 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToAddFeatures(2, FeatureRefs.PreciseShot.ToString())
         .AddToAddFeatures(6, CreateRangedSpellStrike())
         .AddToAddFeatures(18, CreateRangedSpellCombat())
+
         .AddToAddFeatures(4, bonusSpellSelection)
         .AddToAddFeatures(8, bonusSpellSelection)
         .AddToAddFeatures(12, bonusSpellSelection)
@@ -168,7 +170,7 @@ namespace CharacterOptionsPlus.Archetypes
     private static BlueprintFeature CreateRangedSpellStrike()
     {
       var icon = FeatureRefs.EldritchArcherRangedSpellStrike.Reference.Get().Icon;
-      var spellStrikeAbility =
+      var spellStrike =
         ActivatableAbilityConfigurator.New(SpellStrikeAbility, Guids.ArrowsongMinstrelSpellStrikeAbility)
           .SetDisplayName(SpellStrikeName)
           .SetDescription(SpellStrikeDescription)
@@ -183,18 +185,32 @@ namespace CharacterOptionsPlus.Archetypes
         .SetDescription(SpellStrikeDescription)
         .SetIcon(icon)
         .SetIsClassFeature(true)
-        .AddMagusMechanicPart(feature: AddMagusMechanicPart.Feature.EldritchArcher)
+        .AddMagusMechanicPart(AddMagusMechanicPart.Feature.EldritchArcher)
         .AddMagusMechanicPart(AddMagusMechanicPart.Feature.Spellstrike)
-        .AddFacts(new() { spellStrikeAbility })
+        .AddFacts(new() { spellStrike })
         .Configure();
     }
 
     private static BlueprintFeature CreateRangedSpellCombat()
     {
+      var icon = FeatureRefs.EldritchArcherRangedSpellCombat.Reference.Get().Icon;
+      var spellCombat =
+        ActivatableAbilityConfigurator.New(SpellCombatAbility, Guids.ArrowsongMinstrelSpellCombatAbility)
+          .SetDisplayName(SpellStrikeName)
+          .SetDescription(SpellStrikeDescription)
+          .SetIcon(icon)
+          .SetIsOnByDefault()
+          .SetDeactivateImmediately()
+          .SetBuff(BuffRefs.SpellCombatBuff.ToString())
+          .Configure();
+
       return FeatureConfigurator.New(SpellCombat, Guids.ArrowsongMinstrelSpellCombat)
         .SetDisplayName(SpellStrikeName)
         .SetDescription(SpellStrikeDescription)
+        .SetIcon(icon)
         .SetIsClassFeature(true)
+        .AddMagusMechanicPart(AddMagusMechanicPart.Feature.SpellCombat)
+        .AddFacts(new() { spellCombat })
         .Configure();
     }
 
@@ -372,7 +388,7 @@ namespace CharacterOptionsPlus.Archetypes
       }
 
       [HarmonyPatch(nameof(UnitPartMagus.IsSpellFromMagusSpellList)), HarmonyPostfix]
-      static void IsSpellFromMagusSpellList(UnitPartMagus __instance, AbilityData spell, ref bool __result)
+      static void IsSpellFromMagusSpellList(AbilityData spell, ref bool __result)
       {
         if (spell.SpellbookBlueprint == ArrowsongSpellbook)
           __result = true;
