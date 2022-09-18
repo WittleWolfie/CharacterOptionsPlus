@@ -33,7 +33,7 @@ namespace CharacterOptionsPlus.Feats
     private const string BuffDescription = "GloriousHeat.Buff.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png"; // TODO: Create it!
+    private const string IconName = IconPrefix + "gloriousheat.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
