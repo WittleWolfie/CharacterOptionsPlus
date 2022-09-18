@@ -1,26 +1,13 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
-using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Designers;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
-using Kingmaker.RuleSystem.Rules.Abilities;
-using Kingmaker.RuleSystem.Rules.Damage;
-using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic;
 using Kingmaker.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
-using TabletopTweaks.Core.NewComponents.Prerequisites;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.RuleSystem.Rules;
@@ -28,11 +15,9 @@ using Kingmaker.Blueprints.Facts;
 using BlueprintCore.Utils;
 using Kingmaker.Controllers.Combat;
 using Kingmaker.EntitySystem.Entities;
-using Kingmaker;
 using Kingmaker.Blueprints.Classes.Selection;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
-using Kingmaker.UnitLogic.Buffs;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -203,7 +188,7 @@ namespace CharacterOptionsPlus.Feats
         }
 
         Logger.NativeLog($"{attacker.CharacterName} provoked an attack against {target.CharacterName}");
-        Game.Instance?.CombatEngagementController.ForceAttackOfOpportunity(Owner, target);
+        Owner.CombatState.AttackOfOpportunity(target);
       }
 
       public void OnEventDidTrigger(RuleCalculateAttackBonus evt) { }
