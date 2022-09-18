@@ -3,6 +3,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Designers;
@@ -76,6 +77,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
         .AddRecommendationRequiresSpellbook()
+        .AddFeatureTagsComponent(FeatureTag.Magic | FeatureTag.Defense)
         .AddPrerequisiteCasterType(isArcane: false)
         .AddComponent<PrerequisiteCasterLevel>(c => c.RequiredCasterLevel = 5)
         .AddComponent(new GloriousHeatTrigger(buff))
@@ -85,6 +87,8 @@ namespace CharacterOptionsPlus.Feats
     [TypeId("51ba2dc7-12a2-4915-919b-3381242ea498")]
     private class GloriousHeatTrigger : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCastSpell>
     {
+      private static readonly Feet Range = new(30);
+
       private readonly BlueprintBuff Buff;
 
       public GloriousHeatTrigger(BlueprintBuff buff)
@@ -110,7 +114,7 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          var targets = GameHelper.GetTargetsAround(Owner.Position, new Feet(30)).Where(unit => unit.IsAlly(Owner));
+          var targets = GameHelper.GetTargetsAround(Owner.Position, Range).Where(unit => unit.IsAlly(Owner));
           if (!targets.Any())
           {
             Logger.NativeLog("Skipped: No valid targets.");
