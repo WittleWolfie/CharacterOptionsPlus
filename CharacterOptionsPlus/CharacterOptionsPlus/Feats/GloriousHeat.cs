@@ -128,8 +128,16 @@ namespace CharacterOptionsPlus.Feats
           var effectTarget = targets.First();
           foreach (var target in targets)
           {
-            if (target.CurrentHP() < effectTarget.CurrentHP())
+            if (effectTarget.Damage < evt.Spell.SpellLevel && effectTarget.Damage < target.Damage)
+            {
+              // Change to the target which receives more healing
               effectTarget = target;
+            }
+            else if (target.Damage > 0 && target.CurrentHP() < effectTarget.CurrentHP())
+            {
+              // Change to the target with the lowest health
+              effectTarget = target;
+            }
           }
 
           Logger.NativeLog($"Applying GLORIOUS HEAT to {effectTarget.CharacterName}");
