@@ -33,7 +33,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Strings\Archetypes.json" />
     <EmbeddedResource Include="Strings\Feats.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings\Settings.json" />
   </ItemGroup>
