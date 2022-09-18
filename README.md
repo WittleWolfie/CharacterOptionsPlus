@@ -52,7 +52,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Feats
     * [Dazing Spell](https://www.d20pfsrd.com/feats/metamagic-feats/dazing-spell-metamagic/)
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/), [Improved Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage), and [Greater Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/)
-    * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/)
+    * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/) (Ready)
     * [Paired Opportunists](https://www.d20pfsrd.com/feats/combat-feats/paired-opportunists-combat-teamwork/)
     * [Signature Skill (Intimidate)](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
