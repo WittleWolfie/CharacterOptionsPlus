@@ -2,10 +2,9 @@
   "Id": "CharacterOptionsPlus",
   "DisplayName": "Character Options+",
   "Author": "WittleWolfie",
-  "Version": "0.1.2",
+  "Version": "0.2.0",
   "ManagerVersion": "0.21.3",
   "AssemblyName": "CharacterOptionsPlus.dll",
   "EntryMethod": "CharacterOptionsPlus.Main.Load",
-  "Requirements": [ "TabletopTweaks-Core-0.4.5", "ModMenu-1.1.0" ],
-  "LoadAfter": [ "TabletopTweaks-Core" ]
+  "Requirements": [ "TabletopTweaks-Core-0.4.5", "ModMenu-1.1.0" ]
 }
