@@ -118,10 +118,10 @@ This will not:
 
 * Bubbles (factsubio) for [BubblePrints](https://github.com/factubsio/BubblePrints), saving me from going mad.
 * Vek17 for [TabletopTweaks-Core](https://github.com/Vek17/TabletopTweaks-Core), so I don't have to distribute my transpilers.
-* The modding community on [Discord](https://discord.com/invite/wotr), an invaluable and supportive resource for help modding.
+* The modding community on [Discord](https://discord.com/invite/owlcat), an invaluable and supportive resource for help modding.
 * All the Owlcat modders who came before me, wrote documents, and open sourced their code.
 
 ## Interested in modding?
 
 * Check out the [OwlcatModdingWiki](https://github.com/WittleWolfie/OwlcatModdingWiki/wiki).
-* Join us on [Discord](https://discord.com/invite/wotr).
+* Join us on [Discord](https://discord.com/invite/owlcat).
