@@ -21,6 +21,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ## New Content
 
+* Archetypes
+    * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
+    
 * Feats
     * [Hurtful](https://www.d20pfsrd.com/feats/combat-feats/hurtful-combat/)
     * [Furious Focus](https://www.d20pfsrd.com/feats/combat-feats/furious-focus-combat/)
@@ -30,8 +33,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ### NOT IMPLEMENTED YET (YOU KNOW, PLANNED)
 
-* Archetypes
-    * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
 
 * Class Features
     * Rogue
