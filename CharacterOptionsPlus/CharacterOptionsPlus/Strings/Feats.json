@@ -1,0 +1,41 @@
+[
+  {
+    "Key": "FuriousFocus.Name",
+    "ProcessTemplates": false,
+    "enGB": "Furious Focus"
+  },
+  {
+    "Key": "FuriousFocus.Description",
+    "enGB": "When you are wielding a two-handed weapon or a one-handed weapon with two hands, and using the Power Attack feat, you do not suffer Power Attack�s penalty on melee attack rolls on the first attack you make each turn. You still suffer the penalty on any additional attacks, including attacks of opportunity."
+  },
+
+  {
+    "Key": "Hurtful.Name",
+    "ProcessTemplates": false,
+    "enGB": "Hurtful"
+  },
+  {
+    "Key": "Hurtful.Description",
+    "enGB": "When you successfully demoralize an opponent within your melee reach with an Intimidate check, you can make a single melee attack against that creature as a swift action. If your attack misses the target, its shaken condition from being demoralized immediately ends."
+  },
+
+  {
+    "Key": "SkaldsVigor.Name",
+    "ProcessTemplates": false,
+    "enGB": "Skald's Vigor"
+  },
+  {
+    "Key": "SkaldsVigor.Description",
+    "enGB": "While maintaining a raging song, you gain fast healing equal to the twice the damage bonus your song provides, starting in the round after you begin the song. If you stop maintaining your song, the fast healing ends, even if the effects of your song persist."
+  },
+
+  {
+    "Key": "GreaterSkaldsVigor.Name",
+    "ProcessTemplates": false,
+    "enGB": "Greater Skald's Vigor"
+  },
+  {
+    "Key": "GreaterSkaldsVigor.Description",
+    "enGB": "Your allies share in the fast healing granted by your Skald's Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger."
+  },
+]

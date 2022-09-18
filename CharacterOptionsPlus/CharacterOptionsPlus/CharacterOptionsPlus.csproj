@@ -25,6 +25,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Strings\Archetypes.json" />
+    <None Remove="Strings\Feats.json" />
+    <None Remove="Strings\Settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Strings\Archetypes.json" />
+    <EmbeddedResource Include="Strings\Feats.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings\Settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AssemblyPublicizer" Version="*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -98,9 +112,6 @@
     <None Update="Info.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="LocalizedStrings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <!-- Generates Assembly-CSharp_public.dll -->
@@ -159,7 +170,6 @@
     <ItemGroup>
       <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
       <ModConfig Include="$(OutputPath)\Info.json" />
-      <Strings Include="$(OutputPath)\LocalizedStrings.json" />
       <Assets Include="$(OutputPath)\*_assets" />
     </ItemGroup>
 

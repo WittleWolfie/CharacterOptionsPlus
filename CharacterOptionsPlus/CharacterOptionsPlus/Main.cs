@@ -22,8 +22,9 @@ namespace CharacterOptionsPlus
       {
         var harmony = new Harmony(modEntry.Info.Id);
         harmony.PatchAll();
+
         EventBus.Subscribe(new BlueprintCacheInitHandler());
-        LogWrapper.EnableInternalVerboseLogs();
+
         Logger.Log("Finished patching.");
       }
       catch (Exception e)
@@ -72,7 +73,13 @@ namespace CharacterOptionsPlus
           }
           Initialized = true;
 
-          // Must init settings first
+          // First strings
+          LocalizationTool.LoadEmbeddedLocalizationPacks(
+            "CharacterOptionsPlus.Strings.Archetypes.json",
+            "CharacterOptionsPlus.Strings.Feats.json",
+            "CharacterOptionsPlus.Strings.Settings.json");
+
+          // Then settings
           Settings.Init();
 
           ConfigureArchetypes();

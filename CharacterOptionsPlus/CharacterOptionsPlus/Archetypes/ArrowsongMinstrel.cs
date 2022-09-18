@@ -12,17 +12,15 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Designers.Mechanics.Facts;
-using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
-using Kingmaker.UnitLogic.ActivatableAbilities;
-using Kingmaker.UnitLogic.Commands;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -61,7 +59,7 @@ namespace CharacterOptionsPlus.Archetypes
     private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "hurtful.png"; // TODO: Replace with new icon
+    private const string IconName = IconPrefix + "arcanearchery.png";
 
     internal static void Configure()
     {
@@ -79,21 +77,41 @@ namespace CharacterOptionsPlus.Archetypes
         .SetLocalizedDescription(ArchetypeDescription)
         .Configure();
 
-      FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery).Configure();
+      FeatureConfigurator.New(Proficiencies, Guids.ArrowsongMinstrelProficiencies)
+        .SetDisplayName(ProficienciesDisplayName)
+        .SetDescription(ProficienciesDescription)
+        .Configure();
+
+      ActivatableAbilityConfigurator.New(SpellStrikeAbility, Guids.ArrowsongMinstrelSpellStrikeAbility)
+        .SetDisplayName(SpellStrikeName)
+        .SetDescription(SpellStrikeDescription)
+        .Configure();
+      FeatureConfigurator.New(SpellStrike, Guids.ArrowsongMinstrelSpellStrike)
+        .SetDisplayName(SpellStrikeName)
+        .SetDescription(SpellStrikeDescription)
+        .Configure();
+
+      ActivatableAbilityConfigurator.New(SpellCombatAbility, Guids.ArrowsongMinstrelSpellCombatAbility)
+        .SetDisplayName(SpellStrikeName)
+        .SetDescription(SpellStrikeDescription)
+        .Configure();
+      FeatureConfigurator.New(SpellCombat, Guids.ArrowsongMinstrelSpellCombat)
+        .SetDisplayName(SpellStrikeName)
+        .SetDescription(SpellStrikeDescription)
+        .Configure();
 
       SpellbookConfigurator.New(Spellbook, Guids.ArrowsongMinstrelSpellbook)
         .SetName(ArchetypeDisplayName)
         .Configure();
-      SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList).Configure();
+
       SpellsTableConfigurator.New(SpellsPerDay, Guids.ArrowsongMinstrelSpellsPerDay).Configure();
+
+      FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery).Configure();
+
+      SpellListConfigurator.New(SpellList, Guids.ArrowsongMinstrelSpellList).Configure();
       ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
         .SetDisplayName(SpellSelectionName)
         .SetDescription(SpellSelectionDescription)
-        .Configure();
-
-      FeatureConfigurator.New(Proficiencies, Guids.ArrowsongMinstrelProficiencies)
-        .SetDisplayName(ProficienciesDisplayName)
-        .SetDescription(ProficienciesDescription)
         .Configure();
     }
 
@@ -146,13 +164,14 @@ namespace CharacterOptionsPlus.Archetypes
       archetype.Configure();
     }
 
-    // TODO: Icon!
     private static BlueprintFeature CreateProficiencies()
     {
+      var icon = AbilityRefs.HurricaneBow.Reference.Get().Icon;
       var bardProficiencies = FeatureRefs.BardProficiencies.Reference.Get();
       return FeatureConfigurator.New(Proficiencies, Guids.ArrowsongMinstrelProficiencies)
         .SetDisplayName(ProficienciesDisplayName)
         .SetDescription(ProficienciesDescription)
+        .SetIcon(icon)
         .SetIsClassFeature(true)
         .AddComponent(bardProficiencies.GetComponent<AddFacts>())
         .AddComponent(bardProficiencies.GetComponent<ArcaneArmorProficiency>())
@@ -244,12 +263,12 @@ namespace CharacterOptionsPlus.Archetypes
         .Configure();
     }
 
-    // TODO: ICON
     private static BlueprintFeature CreateArcaneArchery()
     {
       return FeatureConfigurator.New(ArcaneArchery, Guids.ArrowsongMinstrelArcaneArchery)
         .SetDisplayName(ArcaneArcheryName)
         .SetDescription(ArcaneArcheryDescription)
+        .SetIcon(IconName)
         .AddReplaceStatForPrerequisites(CharacterClassRefs.BardClass.ToString(), StatType.BaseAttackBonus)
         .SetIsClassFeature(true)
         .Configure();
@@ -262,6 +281,7 @@ namespace CharacterOptionsPlus.Archetypes
         ParametrizedFeatureConfigurator.New(SpellSelection, Guids.ArrowsongMinstrelSpellSelection)
           .SetDisplayName(SpellSelectionName)
           .SetDescription(SpellSelectionDescription)
+          .SetIcon(IconName)
           .SetParameterType(FeatureParameterType.Custom)
           .SetIsClassFeature(true)
           .AddComponent(
