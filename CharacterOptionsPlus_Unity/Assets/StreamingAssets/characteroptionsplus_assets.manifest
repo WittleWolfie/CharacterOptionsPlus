@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3448736914
+CRC: 1606550157
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d91564d1811bd460c6c27f069a0481cf
+    Hash: 8e22c9bbd51224a66e2303f5f8629297
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -20,4 +20,5 @@ Assets:
 - Assets/Icons/ArcaneArchery.png
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
+- Assets/Icons/GloriousHeat.png
 Dependencies: []

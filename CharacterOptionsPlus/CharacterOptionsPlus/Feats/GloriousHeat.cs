@@ -67,14 +67,14 @@ namespace CharacterOptionsPlus.Feats
       var buff = BuffConfigurator.New(BuffName, Guids.GloriousHeatBuff)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(BuffDescription)
-        // .SetIcon(IconName)
+        .SetIcon(IconName)
         .AddContextStatBonus(StatType.AdditionalAttackBonus, 1, descriptor: ModifierDescriptor.Morale)
         .Configure();
 
       FeatureConfigurator.New(FeatName, Guids.GloriousHeatFeat, FeatureGroup.Feat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
-        //.SetIcon(IconName)
+        .SetIcon(IconName)
         .AddRecommendationRequiresSpellbook()
         .AddPrerequisiteCasterType(isArcane: false)
         .AddComponent<PrerequisiteCasterLevel>(c => c.RequiredCasterLevel = 5)
