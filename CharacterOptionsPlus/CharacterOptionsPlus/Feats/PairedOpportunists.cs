@@ -31,6 +31,8 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker;
 using Kingmaker.Blueprints.Classes.Selection;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+using Kingmaker.UnitLogic.Buffs;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -39,6 +41,9 @@ namespace CharacterOptionsPlus.Feats
     internal const string FeatName = "PairedOpportunists";
     internal const string FeatDisplayName = "PairedOpportunists.Name";
     private const string FeatDescription = "PairedOpportunists.Description";
+
+    internal const string BuffName = "PairedOpportunists.Buff";
+    internal const string AbilityName = "PairedOpportunists.Ability";
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "pairedopportunists.png"; // TODO: Create it!
@@ -57,6 +62,13 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName} (disabled)");
 
+      BuffConfigurator.New(BuffName, Guids.PairedOpportunistsBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .Configure();
+
+      ActivatableAbilityConfigurator.New(AbilityName, Guids.PairedOpportunistsAbility)
+        .Configure();
+
       FeatureConfigurator.New(FeatName, Guids.PairedOpportunistsFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
@@ -66,6 +78,16 @@ namespace CharacterOptionsPlus.Feats
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatName}");
+
+      var buff = BuffConfigurator.New(BuffName, Guids.PairedOpportunistsBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .Configure();
+
+      var ability = ActivatableAbilityConfigurator.New(AbilityName, Guids.PairedOpportunistsAbility)
+        .SetBuff(buff)
+        .SetIsOnByDefault()
+        .SetDeactivateImmediately()
+        .Configure();
 
       FeatureConfigurator.New(
           FeatName, Guids.PairedOpportunistsFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat, FeatureGroup.TeamworkFeat)
@@ -78,6 +100,7 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationHasFeature(FeatureRefs.SoloTactics.ToString())
         .AddRecommendationHasFeature(FeatureRefs.InquisitorSoloTactician.ToString())
         .AddComponent<PairedOpportunistsComponent>()
+        .AddFacts(new() { ability })
         .Configure(delayed: true);
     }
 
@@ -87,13 +110,23 @@ namespace CharacterOptionsPlus.Feats
     {
       private static readonly Feet Adjacency = new(5);
 
-      private BlueprintUnitFact _pairedOpportunists;
-      private BlueprintUnitFact PairedOpportunists
+      private static BlueprintUnitFact _pairedOpportunists;
+      private static BlueprintUnitFact PairedOpportunists
       {
         get
         {
           _pairedOpportunists ??= BlueprintTool.Get<BlueprintUnitFact>(Guids.PairedOpportunistsFeat);
           return _pairedOpportunists;
+        }
+      }
+
+      private static BlueprintBuff _opportunistBuff;
+      private static BlueprintBuff OpportunistBuff
+      {
+        get
+        {
+          _opportunistBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.PairedOpportunistsBuff);
+          return _opportunistBuff;
         }
       }
 
@@ -113,7 +146,10 @@ namespace CharacterOptionsPlus.Feats
 
         foreach (var unit in GameHelper.GetTargetsAround(Owner.Position, Adjacency))
         {
-          if (unit.IsAlly(Owner) && unit.Descriptor.HasFact(PairedOpportunists) && unit.IsEngage(evt.Target))
+          if (unit != Owner
+            && unit.IsAlly(Owner)
+            && unit.Descriptor.HasFact(PairedOpportunists)
+            && unit.IsEngage(evt.Target))
           {
             AddAttackBonus(evt);
             return;
@@ -123,10 +159,10 @@ namespace CharacterOptionsPlus.Feats
         Logger.NativeLog("Skipping: No supporting ally.");
       }
 
-      private static void AddAttackBonus(RuleCalculateAttackBonus evt)
+      private void AddAttackBonus(RuleCalculateAttackBonus evt)
       {
         Logger.NativeLog("Adding Paired Opportunists attack bonus.");
-        evt.AddModifier(new(4, ModifierDescriptor.Circumstance));
+        evt.AddModifier(4, Fact, ModifierDescriptor.Circumstance);
       }
 
       public void HandleAttackOfOpportunity(UnitEntityData attacker, UnitEntityData target)
@@ -139,7 +175,16 @@ namespace CharacterOptionsPlus.Feats
           return;
         }
 
-        if (!attacker.IsAlly(Owner) || attacker.Descriptor.HasFact(PairedOpportunists))
+        if (!Owner.HasFact(OpportunistBuff))
+        {
+#if DEBUG
+          Logger.NativeLog("Not Provoking: Ability turned off.");
+#endif
+          return;
+        }
+
+        if (!Owner.State.Features.SoloTactics
+          && !(attacker.IsAlly(Owner) && attacker.Descriptor.HasFact(PairedOpportunists)))
         {
 #if DEBUG
           Logger.NativeLog("Not Provoking: No supporting ally.");

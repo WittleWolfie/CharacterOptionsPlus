@@ -34,6 +34,16 @@
   },
 
   {
+    "Key": "PairedOpportunists.Name",
+    "ProcessTemplates": false,
+    "enGB": "Paired Opportunists"
+  },
+  {
+    "Key": "PairedOpportunists.Description",
+    "enGB": "Whenever you are adjacent to an ally who also has this feat, you receive a +4 circumstance bonus on attacks of opportunity against creatures that you both threaten. Enemies that provoke attacks of opportunity from your ally also provoke attacks of opportunity from you so long as you threaten them. This does not allow you to take more than one attack of opportunity against a creature for a given action."
+  },
+
+  {
     "Key": "SkaldsVigor.Name",
     "ProcessTemplates": false,
     "enGB": "Skald's Vigor"

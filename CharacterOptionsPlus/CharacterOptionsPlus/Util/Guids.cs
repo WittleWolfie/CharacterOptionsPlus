@@ -48,6 +48,8 @@ namespace CharacterOptionsPlus.Util
     internal const string HurtfulBuff = "4fd8ee4d-cf60-4b99-9316-e57a71be80ea";
 
     internal const string PairedOpportunistsFeat = "41df43af-78bc-477a-a33a-e57d86ba8928";
+    internal const string PairedOpportunistsAbility = "37b08883-ccae-477b-bde8-2ed440b96af5";
+    internal const string PairedOpportunistsBuff = "4fc40ae3-136e-4850-9491-b2db1ae7d399";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
