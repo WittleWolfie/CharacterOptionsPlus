@@ -326,6 +326,7 @@ namespace CharacterOptionsPlus.Archetypes
             .Select(s => s.ToReference<BlueprintAbilityReference>())
             .Append(AbilityRefs.MagicWeapon.Cast<BlueprintAbilityReference>().Reference)
             .Append(AbilityRefs.TrueStrike.Cast<BlueprintAbilityReference>().Reference)
+            .Append(AbilityRefs.HurricaneBow.Cast<BlueprintAbilityReference>().Reference)
             .ToList()
       };
 
