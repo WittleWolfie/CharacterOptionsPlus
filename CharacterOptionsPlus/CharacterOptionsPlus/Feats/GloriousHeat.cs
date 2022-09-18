@@ -14,6 +14,7 @@ using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.Utility;
 using System;
 using System.Linq;
@@ -113,6 +114,14 @@ namespace CharacterOptionsPlus.Feats
           if (!targets.Any())
           {
             Logger.NativeLog("Skipped: No valid targets.");
+            return;
+          }
+
+          // Exclude targets that would be hurt
+          targets = targets.Where(unit => !unit.Facts.HasComponent<SufferFromHealing>(fact => true));
+          if (!targets.Any())
+          {
+            Logger.NativeLog("Skipped: Targets suffer from healing.");
             return;
           }
 
