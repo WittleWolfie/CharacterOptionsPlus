@@ -20,7 +20,6 @@ using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 

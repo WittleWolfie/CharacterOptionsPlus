@@ -103,6 +103,7 @@ namespace CharacterOptionsPlus
         Logger.Log("Configuring feats.");
 
         FuriousFocus.Configure();
+        GloriousHeat.Configure();
         Hurtful.Configure();
         SkaldsVigor.Configure();
       }

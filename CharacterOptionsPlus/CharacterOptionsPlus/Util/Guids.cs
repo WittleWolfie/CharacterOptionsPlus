@@ -40,6 +40,9 @@ namespace CharacterOptionsPlus.Util
     //** Feats **//
     internal const string FuriousFocusFeat = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
+    internal const string GloriousHeatFeat = "860e19d3-a2ae-4b53-abd9-9673d635110f";
+    internal const string GloriousHeatBuff = "ff8875f9-6ff2-4be6-b969-5b731d37b303";
+
     internal const string HurtfulFeat = "9474814d-363c-401d-9385-c2ce59fe2e3c";
     internal const string HurtfulAbility = "9ef73549-6706-4d33-abd0-bdfaa3ada6a8";
     internal const string HurtfulBuff = "4fd8ee4d-cf60-4b99-9316-e57a71be80ea";
@@ -53,10 +56,10 @@ namespace CharacterOptionsPlus.Util
       new (string, string)[]
       {
         (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
+        (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
-
 
     //** Dynamic GUIDs **//
     private const string GUID_0 = "4d802e91-ea0e-41bd-9ebe-1e92263605e8";

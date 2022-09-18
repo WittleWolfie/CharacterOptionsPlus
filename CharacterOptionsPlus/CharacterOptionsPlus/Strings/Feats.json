@@ -10,6 +10,20 @@
   },
 
   {
+    "Key": "GloriousHeat.Name",
+    "ProcessTemplates": false,
+    "enGB": "Glorious Heat"
+  },
+  {
+    "Key": "GloriousHeat.Description",
+    "enGB": "When you cast a divine spell with the [fire] descriptor, an ally you can see within 30 feet heals a number of hit points equal to the level of the spell cast and gains a +1 morale bonus on attack rolls until the end of its next turn."
+  },
+  {
+    "Key": "GloriousHeat.Buff.Description",
+    "enGB": "Divine fire burns within granting you +1 morale bonus on attack rolls until the end of your next turn."
+  },
+
+  {
     "Key": "Hurtful.Name",
     "ProcessTemplates": false,
     "enGB": "Hurtful"
@@ -37,5 +51,5 @@
   {
     "Key": "GreaterSkaldsVigor.Description",
     "enGB": "Your allies share in the fast healing granted by your Skald's Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger."
-  },
+  }
 ]
