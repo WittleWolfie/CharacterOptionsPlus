@@ -184,7 +184,9 @@ namespace CharacterOptionsPlus.Feats
         }
 
         if (!Owner.State.Features.SoloTactics
-          && !(attacker.IsAlly(Owner) && attacker.Descriptor.HasFact(PairedOpportunists)))
+          && !(attacker.IsAlly(Owner)
+            && attacker.Descriptor.HasFact(PairedOpportunists)
+            && attacker.DistanceTo(Owner) < Adjacency.Meters))
         {
 #if DEBUG
           Logger.NativeLog("Not Provoking: No supporting ally.");
@@ -192,10 +194,10 @@ namespace CharacterOptionsPlus.Feats
           return;
         }
 
-        if (!Owner.IsEngage(target))
+        if (!Owner.IsAttackOfOpportunityReach(target, Owner.GetThreatHand()))
         {
 #if DEBUG
-          Logger.NativeLog("Not Provoking: Not engaged with target.");
+          Logger.NativeLog($"Not Provoking: Not in range of {target.CharacterName}.");
 #endif
           return;
         }
