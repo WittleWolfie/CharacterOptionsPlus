@@ -38,9 +38,9 @@ namespace CharacterOptionsPlus.Archetypes
     private const string ProficienciesDisplayName = "ArrowsongMinstrel.Proficiencies";
     private const string ProficienciesDescription = "ArrowsongMinstrel.Proficiencies.Description";
 
-    private const string ArcaneArchery = "ArrowsingMinstrel.ArcaneArchery";
-    private const string ArcaneArcheryName = "ArrowsingMinstrel.ArcaneArchery.Name";
-    private const string ArcaneArcheryDescription = "ArrowsingMinstrel.ArcaneArchery.Description";
+    private const string ArcaneArchery = "ArrowsongMinstrel.ArcaneArchery";
+    private const string ArcaneArcheryName = "ArrowsongMinstrel.ArcaneArchery.Name";
+    private const string ArcaneArcheryDescription = "ArrowsongMinstrel.ArcaneArchery.Description";
 
     private const string SpellStrike = "ArrowsongMinstrel.SpellStrike";
     private const string SpellStrikeAbility = "ArrowsongMinstrel.SpellStrike.Ability";
