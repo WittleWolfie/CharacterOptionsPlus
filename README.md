@@ -4,6 +4,10 @@ Adds character build options from the tabletop ruleset.
 
 ### This mod creates a save dependency. Once you save with this mod enabled it must remain enabled or you will lose access to the save.
 
+## Problems or Suggestions
+
+File a [bug](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) or [feature request](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=feature_request.md&title=%5BFeature%5D). You can also reach me (@WittleWolfie) on [Discord](https://discord.com/invite/owlcat) in the #mod-user-general channel.
+
 ## Installation
 
 1. Download and install [Unity Mod Manager](https://github.com/newman55/unity-mod-manager) (min v0.23)
@@ -82,10 +86,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Stricken Heart](https://www.d20pfsrd.com/magic/all-spells/s/stricken-heart/)
     * [Wall of Ice](https://www.d20pfsrd.com/magic/all-spells/w/wall-of-ice/)
     * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/) (Maybe, already in another mod)
-    
-## Problems or Suggestions
-
-File a [bug](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) or [feature request](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=feature_request.md&title=%5BFeature%5D). You can also reach me (@WittleWolfie) on [Discord](https://discord.com/invite/owlcat) in the #mod-user-general channel.
 
 ### Reporting Problems
 
