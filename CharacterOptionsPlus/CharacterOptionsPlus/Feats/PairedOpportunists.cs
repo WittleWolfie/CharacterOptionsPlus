@@ -69,6 +69,9 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       var ability = ActivatableAbilityConfigurator.New(AbilityName, Guids.PairedOpportunistsAbility)
+        .SetDisplayName(FeatDisplayName)
+        .SetDescription(FeatDescription)
+        .SetIcon(IconName)
         .SetBuff(buff)
         .SetIsOnByDefault()
         .SetDeactivateImmediately()
@@ -78,7 +81,7 @@ namespace CharacterOptionsPlus.Feats
           FeatName, Guids.PairedOpportunistsFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat, FeatureGroup.TeamworkFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
-        //.SetIcon(IconName)
+        .SetIcon(IconName)
         .AddFeatureTagsComponent(FeatureTag.Melee | FeatureTag.Attack | FeatureTag.Teamwork)
         .AddRecommendationWeaponSubcategoryFocus(WeaponSubCategory.Melee)
         .AddRecommendationThreeQuartersBAB()

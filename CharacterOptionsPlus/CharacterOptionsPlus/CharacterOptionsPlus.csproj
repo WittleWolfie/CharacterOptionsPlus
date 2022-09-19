@@ -154,7 +154,7 @@
 
       <!-- Project Entry Points -->
       <Entry Include="CharacterOptionsPlus.Main" />
-      
+
       <Entry Include="CharacterOptionsPlus.Archetypes.ArrowsongMinstrel/UnitPartMagus_Patch" />
 
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/CharGenSpellsPhaseVM_Patch" />
