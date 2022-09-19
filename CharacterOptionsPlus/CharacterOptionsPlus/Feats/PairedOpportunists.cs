@@ -65,7 +65,9 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName}");
 
       var buff = BuffConfigurator.New(BuffName, Guids.PairedOpportunistsBuff)
-        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .SetDisplayName(FeatDisplayName)
+        .SetDescription(FeatDescription)
+        .SetIcon(IconName)
         .Configure();
 
       var ability = ActivatableAbilityConfigurator.New(AbilityName, Guids.PairedOpportunistsAbility)
