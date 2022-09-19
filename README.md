@@ -85,7 +85,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     
 ## Problems or Suggestions
 
-File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new) or reach out to me (@WittleWolfie) on [Discord](https://discord.com/invite/wotr) in the #mod-user-general channel.
+File a [bug](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) or [feature request](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=feature_request.md&title=%5BFeature%5D). You can also reach me (@WittleWolfie) on [Discord](https://discord.com/invite/owlcat) in the #mod-user-general channel.
 
 ### Reporting Problems
 
@@ -93,7 +93,7 @@ File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/i
 2. Reproduce the issue in-game
 3. Open Settings > Mods > Mewsifer Console and select "Mod Bug Report"
     * ![Mewsifer Console Menu screenshot](https://github.com/WittleWolfie/CharacterOptionsPlus/blob/main/screenshots/bug_report.png)
-4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new) and attach the generated bug report
+4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) and attach the generated bug report
 
 ### Mod Options
 
