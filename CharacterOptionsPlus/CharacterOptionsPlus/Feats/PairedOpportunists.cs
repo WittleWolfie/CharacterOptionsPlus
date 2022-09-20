@@ -99,6 +99,8 @@ namespace CharacterOptionsPlus.Feats
       : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateAttackBonus>, IAttackOfOpportunityHandler
     {
       private static readonly Feet Adjacency = new(5);
+      // Used to ensure Paired Opportunist can't trigger off itself
+      private static bool Provoking = false;
 
       private static BlueprintUnitFact _pairedOpportunists;
       private static BlueprintUnitFact PairedOpportunists
@@ -157,6 +159,14 @@ namespace CharacterOptionsPlus.Feats
 
       public void HandleAttackOfOpportunity(UnitEntityData attacker, UnitEntityData target)
       {
+        if (Provoking)
+        {
+#if DEBUG
+          Logger.NativeLog("Not Provoking: Currently resolving provoke attack.");
+#endif
+          return;
+        }
+
         if (attacker == Owner)
         {
 #if DEBUG
@@ -193,7 +203,9 @@ namespace CharacterOptionsPlus.Feats
         }
 
         Logger.NativeLog($"{attacker.CharacterName} provoked an attack against {target.CharacterName}");
+        Provoking = true;
         Owner.CombatState.AttackOfOpportunity(target);
+        Provoking = false;
       }
 
       public void OnEventDidTrigger(RuleCalculateAttackBonus evt) { }
