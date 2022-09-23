@@ -1,6 +1,8 @@
 ﻿using BlueprintCore.Utils;
+using Kingmaker.Blueprints;
 using Kingmaker.Localization;
 using ModMenu.Settings;
+using UnityEngine;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 using Menu = ModMenu.ModMenu;
 
@@ -20,7 +22,11 @@ namespace CharacterOptionsPlus.Util
     internal static void Init()
     {
       Logger.Log("Initializing settings.");
-      var settings = SettingsBuilder.New(RootKey, GetString("Settings.Title")).AddDefaultButton(OnDefaultsApplied);
+      var settings =
+        SettingsBuilder.New(RootKey, GetString("Settings.Title"))
+          .AddImage(
+            ResourcesLibrary.TryGetResource<Sprite>("assets/illustrations/wolfie.png"), height: 200, imageScale: 0.75f)
+          .AddDefaultButton(OnDefaultsApplied);
 
       settings.AddSubHeader(GetString("Settings.Archetypes.Title"), startExpanded: true);
       foreach (var (guid, name) in Guids.Archetypes)
