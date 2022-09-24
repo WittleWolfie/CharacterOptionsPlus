@@ -50,6 +50,14 @@ namespace CharacterOptionsPlus.Util
     internal const string PairedOpportunistsFeat = "41df43af-78bc-477a-a33a-e57d86ba8928";
     internal const string PairedOpportunistsAbility = "37b08883-ccae-477b-bde8-2ed440b96af5";
     internal const string PairedOpportunistsBuff = "4fc40ae3-136e-4850-9491-b2db1ae7d399";
+    internal const string PairedOpportunistsCavalier = "9eee9a72-304f-4b99-a59c-492f06d24953";
+    internal const string PairedOpportunistsVanguardBuff = "b9ef85c6-9ece-40b6-b829-46a56517fe02";
+    internal const string PairedOpportunistsVanguardAbility = "97238ed6-c81f-45c3-91bc-a03bef6507a7";
+    internal const string PairedOpportunistsRagerBuff = "eea566b1-625f-4e0a-9e8e-0cf364bd87dd";
+    internal const string PairedOpportunistsRagerArea = "47db0206-edd2-4a23-8a79-d7695d37c15d";
+    internal const string PairedOpportunistsRagerAreaBuff = "a341739e-4a61-481d-9018-63b654bdfb53";
+    internal const string PairedOpportunistsRagerToggleBuff = "1bb0952d-fec5-412f-9495-5b7043548aaf";
+    internal const string PairedOpportunistsRagerToggle = "68a15456-1076-408f-bd0f-9205c913f0ed";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";

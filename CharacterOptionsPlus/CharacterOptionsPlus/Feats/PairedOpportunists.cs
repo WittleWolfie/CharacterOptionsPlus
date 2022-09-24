@@ -85,10 +85,25 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
         .AddFeatureTagsComponent(FeatureTag.Melee | FeatureTag.Attack | FeatureTag.Teamwork)
-        .AddRecommendationWeaponSubcategoryFocus(WeaponSubCategory.Melee)
-        .AddRecommendationThreeQuartersBAB()
+        .AddRecommendationHasFeature(FeatureRefs.BattleProwessFeature.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.MonsterTacticsFeature.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.CavalierTacticianFeature.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.VanguardTacticianFeature.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.TacticalLeaderFeatShareFeature.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.HunterTactics.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.SacredHuntsmasterTactics.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.PackRagerRagingTacticianBaseFeature.ToString())
         .AddRecommendationHasFeature(FeatureRefs.SoloTactics.ToString())
         .AddRecommendationHasFeature(FeatureRefs.InquisitorSoloTactician.ToString())
+        .AddAsTeamworkFeat(
+          Guids.PairedOpportunistsCavalier,
+          Guids.PairedOpportunistsVanguardBuff,
+          Guids.PairedOpportunistsVanguardAbility,
+          Guids.PairedOpportunistsRagerBuff,
+          Guids.PairedOpportunistsRagerArea,
+          Guids.PairedOpportunistsRagerAreaBuff,
+          Guids.PairedOpportunistsRagerToggleBuff,
+          Guids.PairedOpportunistsRagerToggle)
         .AddComponent<PairedOpportunistsComponent>()
         .AddFacts(new() { ability })
         .Configure(delayed: true);
