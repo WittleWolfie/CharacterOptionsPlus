@@ -82,6 +82,8 @@ namespace CharacterOptionsPlus
           // Then settings
           Settings.Init();
 
+          BugFixes.Configure();
+
           ConfigureArchetypes();
           ConfigureFeats();
         }

@@ -1,0 +1,11 @@
+﻿[
+  {
+    "Key": "PackRagerTeamworkSelection.Name",
+    "ProcessTemplates": false,
+    "enGB": "Pack Rager Teamwork Selection"
+  },
+  {
+    "Key": "PackRagerTeamworkSelection.Description",
+    "enGB": "Flags the Pack Rager's Teamwork Selection so Teamwork Feats added using BlueprintCore or TTT-Core are included."
+  }
+]
