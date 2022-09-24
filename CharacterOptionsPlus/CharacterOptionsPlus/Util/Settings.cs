@@ -2,6 +2,7 @@
 using Kingmaker.Blueprints;
 using Kingmaker.Localization;
 using ModMenu.Settings;
+using System;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 using Menu = ModMenu.ModMenu;
@@ -14,9 +15,9 @@ namespace CharacterOptionsPlus.Util
 
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(Settings));
 
-    internal static bool IsEnabled(string guid)
+    internal static bool IsEnabled(string key)
     {
-      return Menu.GetSettingValue<bool>(GetKey(guid));
+      return Menu.GetSettingValue<bool>(GetKey(key));
     }
 
     internal static void Init()
@@ -42,6 +43,14 @@ namespace CharacterOptionsPlus.Util
         settings.AddToggle(
           Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
             .WithLongDescription(GetString("Settings.EnableFeature")));
+      }
+
+      settings.AddSubHeader(GetString("Settings.Fixes.Title"), startExpanded: false);
+      foreach (var (key, name, description) in BugFixes.Entries)
+      {
+        settings.AddToggle(
+          Toggle.New(GetKey(key), defaultValue: true, GetString(name))
+            .WithLongDescription(GetString(description)));
       }
 
       Menu.AddSettings(settings);
