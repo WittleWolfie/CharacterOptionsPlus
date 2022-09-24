@@ -26,12 +26,14 @@
 
   <ItemGroup>
     <None Remove="Strings\Archetypes.json" />
+    <None Remove="Strings\BugFixes.json" />
     <None Remove="Strings\Feats.json" />
     <None Remove="Strings\Settings.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Strings\Archetypes.json" />
+    <EmbeddedResource Include="Strings\BugFixes.json" />
     <EmbeddedResource Include="Strings\Feats.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

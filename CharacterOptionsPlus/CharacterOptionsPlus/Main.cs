@@ -76,6 +76,7 @@ namespace CharacterOptionsPlus
           // First strings
           LocalizationTool.LoadEmbeddedLocalizationPacks(
             "CharacterOptionsPlus.Strings.Archetypes.json",
+            "CharacterOptionsPlus.Strings.BugFixes.json",
             "CharacterOptionsPlus.Strings.Feats.json",
             "CharacterOptionsPlus.Strings.Settings.json");
 
