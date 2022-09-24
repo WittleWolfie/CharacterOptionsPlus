@@ -11,12 +11,6 @@ namespace CharacterOptionsPlus
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(BugFixes));
 
-    internal static readonly List<(string key, string name, string description)> Entries =
-      new()
-      {
-        (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
-      };
-
     internal static void Configure()
     {
       if (Settings.IsEnabled(PackRagerTeamworkSelection))
@@ -31,5 +25,11 @@ namespace CharacterOptionsPlus
         .SetGroup(FeatureGroup.TeamworkFeat)
         .Configure();
     }
+
+    internal static readonly List<(string key, string name, string description)> Entries =
+      new()
+      {
+        (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
+      };
   }
 }
