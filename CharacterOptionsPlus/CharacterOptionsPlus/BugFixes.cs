@@ -19,7 +19,7 @@ namespace CharacterOptionsPlus
 
     internal static void Configure()
     {
-      if (Util.Settings.IsEnabled(PackRagerTeamworkSelection))
+      if (Settings.IsEnabled(PackRagerTeamworkSelection))
         FixPackRagerTeamworkSelection();
     }
 
