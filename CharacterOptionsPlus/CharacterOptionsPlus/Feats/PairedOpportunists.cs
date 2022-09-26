@@ -18,6 +18,7 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker.Blueprints.Classes.Selection;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+using System;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -139,31 +140,38 @@ namespace CharacterOptionsPlus.Feats
 
       public void OnEventAboutToTrigger(RuleCalculateAttackBonus evt)
       {
-        if (evt.Reason.Rule is not RuleAttackWithWeapon attack || !attack.IsAttackOfOpportunity)
+        try
         {
-          Logger.NativeLog("Skipping: Not AOO.");
-          return;
-        }
+          if (evt.Reason.Rule is not RuleAttackWithWeapon attack || !attack.IsAttackOfOpportunity)
+          {
+            Logger.NativeLog("Skipping: Not AOO.");
+            return;
+          }
 
-        if (Owner.State.Features.SoloTactics)
-        {
-          AddAttackBonus(evt);
-          return;
-        }
-
-        foreach (var unit in GameHelper.GetTargetsAround(Owner.Position, Adjacency))
-        {
-          if (unit != Owner
-            && unit.IsAlly(Owner)
-            && unit.Descriptor.HasFact(PairedOpportunists)
-            && unit.IsEngage(evt.Target))
+          if (Owner.State.Features.SoloTactics)
           {
             AddAttackBonus(evt);
             return;
           }
-        }
 
-        Logger.NativeLog("Skipping: No supporting ally.");
+          foreach (var unit in GameHelper.GetTargetsAround(Owner.Position, Adjacency))
+          {
+            if (unit != Owner
+              && unit.IsAlly(Owner)
+              && unit.Descriptor.HasFact(PairedOpportunists)
+              && unit.IsEngage(evt.Target))
+            {
+              AddAttackBonus(evt);
+              return;
+            }
+          }
+
+          Logger.NativeLog("Skipping: No supporting ally.");
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("PairedOpportunists.OnEventAboutToTrigger", e);
+        }
       }
 
       private void AddAttackBonus(RuleCalculateAttackBonus evt)
@@ -174,53 +182,60 @@ namespace CharacterOptionsPlus.Feats
 
       public void HandleAttackOfOpportunity(UnitEntityData attacker, UnitEntityData target)
       {
-        if (Provoking)
+        try
         {
+          if (Provoking)
+          {
 #if DEBUG
           Logger.NativeLog("Not Provoking: Currently resolving provoke attack.");
 #endif
-          return;
-        }
+            return;
+          }
 
-        if (attacker == Owner)
-        {
+          if (attacker == Owner)
+          {
 #if DEBUG
           Logger.NativeLog("Not Provoking: Attacker is owner.");
 #endif
-          return;
-        }
+            return;
+          }
 
-        if (!Owner.HasFact(OpportunistBuff))
-        {
+          if (!Owner.HasFact(OpportunistBuff))
+          {
 #if DEBUG
           Logger.NativeLog("Not Provoking: Ability turned off.");
 #endif
-          return;
-        }
+            return;
+          }
 
-        if (!Owner.State.Features.SoloTactics
-          && !(attacker.IsAlly(Owner)
-            && attacker.Descriptor.HasFact(PairedOpportunists)
-            && attacker.DistanceTo(Owner) < Adjacency.Meters))
-        {
+          if (!Owner.State.Features.SoloTactics
+            && !(attacker.IsAlly(Owner)
+              && attacker.Descriptor.HasFact(PairedOpportunists)
+              && attacker.DistanceTo(Owner) < Adjacency.Meters))
+          {
 #if DEBUG
           Logger.NativeLog("Not Provoking: No supporting ally.");
 #endif
-          return;
-        }
+            return;
+          }
 
-        if (!Owner.IsAttackOfOpportunityReach(target, Owner.GetThreatHand()))
-        {
+          if (!Owner.IsAttackOfOpportunityReach(target, Owner.GetThreatHand()))
+          {
 #if DEBUG
           Logger.NativeLog($"Not Provoking: Not in range of {target.CharacterName}.");
 #endif
-          return;
-        }
+            return;
+          }
 
-        Logger.NativeLog($"{attacker.CharacterName} provoked an attack against {target.CharacterName}");
-        Provoking = true;
-        Owner.CombatState.AttackOfOpportunity(target);
-        Provoking = false;
+          Logger.NativeLog($"{attacker.CharacterName} provoked an attack against {target.CharacterName}");
+          Provoking = true;
+          Owner.CombatState.AttackOfOpportunity(target);
+          Provoking = false;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("PairedOpportunists.HandleAttackOfOpportunity", e);
+        }
       }
 
       public void OnEventDidTrigger(RuleCalculateAttackBonus evt) { }
