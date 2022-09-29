@@ -41,10 +41,17 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.HurtfulFeat))
-        ConfigureEnabled();
-      else
-        ConfigureDisabled();
+      try
+      {
+        if (Settings.IsEnabled(Guids.HurtfulFeat))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("Hurtful.Configure", e);
+      }
     }
 
     private static void ConfigureDisabled()

@@ -40,10 +40,17 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.GloriousHeatFeat))
-        ConfigureEnabled();
-      else
-        ConfigureDisabled();
+      try
+      {
+        if (Settings.IsEnabled(Guids.GloriousHeatFeat))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("GloriousHeat.Configure", e);
+      }
     }
 
     private static void ConfigureDisabled()

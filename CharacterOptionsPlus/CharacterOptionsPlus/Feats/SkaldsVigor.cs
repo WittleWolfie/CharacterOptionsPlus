@@ -45,10 +45,17 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.SkaldsVigorFeat))
-        ConfigureEnabled();
-      else
-        ConfigureDisabled();
+      try
+      {
+        if (Settings.IsEnabled(Guids.SkaldsVigorFeat))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("SkaldsVigor.Configure", e);
+      }
     }
 
     private static void ConfigureDisabled()

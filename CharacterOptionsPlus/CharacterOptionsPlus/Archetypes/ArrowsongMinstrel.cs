@@ -62,10 +62,17 @@ namespace CharacterOptionsPlus.Archetypes
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.ArrowsongMinstrelArchetype))
-        ConfigureEnabled();
-      else
-        ConfigureDisabled();
+      try
+      {
+        if (Settings.IsEnabled(Guids.ArrowsongMinstrelArchetype))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("ArrowsongMinstrel.Configure", e);
+      }
     }
 
     private static void ConfigureDisabled()

@@ -30,10 +30,17 @@ namespace CharacterOptionsPlus.Feats
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(Guids.FuriousFocusFeat))
-        ConfigureEnabled();
-      else
-        ConfigureDisabled();
+      try
+      {
+        if (Settings.IsEnabled(Guids.FuriousFocusFeat))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("FuriousFocus.Configure", e);
+      }
     }
 
     private static void ConfigureDisabled()
