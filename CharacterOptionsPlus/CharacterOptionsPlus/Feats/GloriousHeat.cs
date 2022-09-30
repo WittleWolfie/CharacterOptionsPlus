@@ -26,6 +26,8 @@ namespace CharacterOptionsPlus.Feats
 {
   public class GloriousHeat
   {
+    internal const string OriginalFeatSetting = "glorious-heat-og";
+
     internal const string FeatName = "GloriousHeat";
     internal const string FeatDisplayName = "GloriousHeat.Name";
     private const string FeatDescription = "GloriousHeat.Description";
@@ -153,7 +155,13 @@ namespace CharacterOptionsPlus.Feats
 
           Logger.NativeLog($"Applying GLORIOUS HEAT to {effectTarget.CharacterName}");
           effectTarget.AddBuff(Buff, Context, duration: ContextDuration.Fixed(1).Calculate(Context).Seconds);
-          Rulebook.Trigger<RuleHealDamage>(new(Owner, effectTarget, evt.Spell.SpellLevel));
+
+          int healValue =
+            Settings.IsEnabled(OriginalFeatSetting) && evt.Spell.SpellLevel > 0
+              ? Owner.Descriptor.Progression.CharacterLevel
+              : evt.Spell.SpellLevel;
+          if (healValue > 0)
+            Rulebook.Trigger<RuleHealDamage>(new(Owner, effectTarget, healValue));
         }
         catch (Exception e)
         {
