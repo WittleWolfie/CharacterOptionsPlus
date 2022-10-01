@@ -40,6 +40,7 @@ namespace CharacterOptionsPlus.Util
 
     #region Feats
     internal const string EldritchHeritageFeat = "f9d9eb8b-01d9-4799-bb27-f5ad1a7f7e31";
+    internal const string ImprovedEldritchHeritageFeat = "553ed7eb-e1f2-4ba2-a3cf-1c66e7c33bcd";
 
     internal const string FuriousFocusFeat = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
@@ -85,10 +86,10 @@ namespace CharacterOptionsPlus.Util
     internal const string AbyssalHeritage = "8f070fcb-bf77-4a22-8a0e-9fdf769dcf6e";
     internal const string AbyssalHeritageClawsAbility = "4cc57a5d-17c1-4988-be61-32652b002439";
     internal const string AbyssalHeritageClawsBuff = "ff8d2050-ff8d-4b57-9f98-6b267bbfb273";
-
+    internal const string AbyssalHeritageResistance = "99bfdfcf-c1d1-47e4-8550-d925e45d1cc3";
+    internal const string AbyssalHeritageStrength = "e01ed944-bb6d-46e4-be8d-32acee0da462";
 
     // TODO: Use for something else?
-    internal const string AbyssalHeritageResource = "e01ed944-bb6d-46e4-be8d-32acee0da462";
     internal const string AbyssalHeritageClaws1 = "252d7e8a-09d5-42d6-ab3e-9aa0368cf2cd";
     internal const string AbyssalHeritageClaws5 = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
     internal const string AbyssalHeritageClaws7 = "8a0b28de-c62e-4d0b-9197-2d11a5e68e8f";
