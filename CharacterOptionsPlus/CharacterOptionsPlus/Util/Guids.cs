@@ -42,6 +42,7 @@ namespace CharacterOptionsPlus.Util
     internal const string EldritchHeritageFeat = "f9d9eb8b-01d9-4799-bb27-f5ad1a7f7e31";
     internal const string ImprovedEldritchHeritageFeat = "553ed7eb-e1f2-4ba2-a3cf-1c66e7c33bcd";
     internal const string GreaterEldritchHeritageFeat = "e29ab08b-0b87-432d-a773-f0d3a39aac5a";
+    internal const string EldritchHeritageEffectiveLevel = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
 
     internal const string FuriousFocusFeat = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
@@ -95,9 +96,9 @@ namespace CharacterOptionsPlus.Util
     internal const string ArcaneHeritageAdept = "8a0b28de-c62e-4d0b-9197-2d11a5e68e8f";
     internal const string ArcaneHeritageFocus = "c2ac8341-2cd8-4968-bcc0-d4f0ed48940b";
 
-    internal const string Unused = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
-
     internal const string CelestialHeritage = "786fbf80-9db7-4107-986a-8ce791bf62b6";
+    internal const string CelestialHeritageRay = "e72fa9d9-c1df-4c85-b7cc-66a876380e5a";
+
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     internal const string DraconicBlackHeritage = "cb5eaa9d-9ccc-4b55-bd05-88caffc38139";
     internal const string DraconicBlueHeritage = "e7f180f6-51c1-4725-8cca-5306a87d7d1e";

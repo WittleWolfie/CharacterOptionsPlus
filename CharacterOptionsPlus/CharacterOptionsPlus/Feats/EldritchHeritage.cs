@@ -1,26 +1,37 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
+using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Designers.Mechanics.Facts;
+using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
+using Kingmaker.Enums;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components;
+using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
+using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -40,6 +51,8 @@ namespace CharacterOptionsPlus.Feats
     private const string GreaterFeatName = "EldritchHeritageGreater";
     private const string GreaterFeatDisplayName = "EldritchHeritageGreater.Name";
     private const string GreaterFeatDescription = "EldritchHeritageGreater.Description";
+
+    private const string EffectiveLevelProperty = "EldritchHeritage.EffectiveLevel";
 
     private const string IconPrefix = "assets/icons/";
     private const string Icon = IconPrefix + "gloriousheat.png";
@@ -71,9 +84,26 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(AbyssalHeritageName, Guids.AbyssalHeritage).Configure();
       #endregion
 
-      ParametrizedFeatureConfigurator.New(FeatName, Guids.EldritchHeritageFeat)
+
+      UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
+        .AddComponent<SorcererLevelGetter>()
+        .Configure();
+
+      FeatureSelectionConfigurator.New(FeatName, Guids.EldritchHeritageFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
+        .SetIcon(Icon)
+        .Configure();
+
+      FeatureSelectionConfigurator.New(ImprovedFeatName, Guids.ImprovedEldritchHeritageFeat)
+        .SetDisplayName(ImprovedFeatDisplayName)
+        .SetDescription(ImprovedFeatDescription)
+        .SetIcon(Icon)
+        .Configure();
+
+      FeatureSelectionConfigurator.New(GreaterFeatName, Guids.GreaterEldritchHeritageFeat)
+        .SetDisplayName(GreaterFeatDisplayName)
+        .SetDescription(GreaterFeatDescription)
         .SetIcon(Icon)
         .Configure();
     }
@@ -81,6 +111,10 @@ namespace CharacterOptionsPlus.Feats
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatName}");
+
+      UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
+        .AddComponent<SorcererLevelGetter>()
+        .Configure();
 
       FeatureSelectionConfigurator.New(FeatName, Guids.EldritchHeritageFeat)
         .SetDisplayName(FeatDisplayName)
@@ -135,6 +169,46 @@ namespace CharacterOptionsPlus.Feats
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
       FeatureConfigurator.For(GreaterFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+    }
+
+    [TypeId("7970fae3-1dba-4f52-9bf7-44fa8b4d4a09")]
+    private class SorcererLevelGetter : PropertyValueGetter
+    {
+      private static BlueprintFeature _greaterEldritchHeritage;
+      private static BlueprintFeature GreaterEldritchHeritage
+      {
+        get
+        {
+          _greaterEldritchHeritage ??= BlueprintTool.Get<BlueprintFeature>(GreaterFeatName);
+          return _greaterEldritchHeritage;
+        }
+      }
+
+      private static BlueprintFeature _eldritchHeritage;
+      private static BlueprintFeature EldritchHeritage
+      {
+        get
+        {
+          _eldritchHeritage ??= BlueprintTool.Get<BlueprintFeature>(FeatName);
+          return _eldritchHeritage;
+        }
+      }
+
+      public override int GetBaseValue(UnitEntityData unit)
+      {
+        try
+        {
+          if (unit.HasFact(GreaterEldritchHeritage))
+            return Math.Max(20, unit.Descriptor.Progression.CharacterLevel);
+          else if (unit.HasFact(EldritchHeritage))
+            return Math.Max(20, unit.Descriptor.Progression.CharacterLevel - 2);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException($"SorcererLevelGetter.GetBaseValue", e);
+        }
+        return 0;
+      }
     }
 
     #region Abyssal
@@ -305,6 +379,92 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(ImprovedFeatName)
         .AddPrerequisiteNoFeature(ArcaneHeritageFocus)
         .AddToAllFeatures(arcaneFocus)
+        .Configure();
+    }
+    #endregion
+
+    #region Celestial
+    private const string CelestialHeritageName = "EldrichHeritage.Celestial";
+
+    private const string CelestialHeritageRay = "EldritchHeritage.Celestial.Ray.Attack";
+    private const string CelestialHeritageFocus = "EldritchHeritage.Celestial.Focus";
+
+    private static BlueprintFeature ConfigureCelestialHeritage1()
+    {
+      var heavenlyFire = AbilityRefs.BloodlineCelestialHeavenlyFireAbility.Reference.Get();
+      var ray = AbilityConfigurator.New(CelestialHeritageRay, Guids.CelestialHeritageRay)
+        .SetDisplayName(heavenlyFire.m_DisplayName)
+        .SetDescription(heavenlyFire.m_Description)
+        .SetIcon(heavenlyFire.Icon)
+        .SetType(AbilityType.SpellLike)
+        .SetCustomRange(30)
+        .SetCanTargetEnemies()
+        .SetCanTargetFriends()
+        .SetCanTargetSelf()
+        .SetEffectOnAlly(heavenlyFire.EffectOnAlly)
+        .SetEffectOnEnemy(heavenlyFire.EffectOnEnemy)
+        .SetAnimation(heavenlyFire.Animation)
+        .SetActionType(heavenlyFire.ActionType)
+        .SetAvailableMetamagic(heavenlyFire.AvailableMetamagic)
+        .AddComponent(heavenlyFire.GetComponent<SpellComponent>())
+        .AddComponent(heavenlyFire.GetComponent<AbilityDeliverProjectile>())
+        .AddComponent(heavenlyFire.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(heavenlyFire.GetComponent<AbilityResourceLogic>())
+        .AddComponent(heavenlyFire.GetComponent<SpellDescriptorComponent>())
+        .AddComponent(heavenlyFire.GetComponent<AbilityTargetAlignment>())
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(
+            EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20))
+        .Configure();
+
+      var celestialBloodline = ProgressionRefs.BloodlineCelestialProgression.Reference.Get();
+      return FeatureConfigurator.New(CelestialHeritageName, Guids.CelestialHeritage)
+        .SetDisplayName(celestialBloodline.m_DisplayName)
+        .SetDescription(celestialBloodline.m_Description)
+        .SetIcon(celestialBloodline.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeaturesFromList(
+          new() {
+            FeatureRefs.SkillFocusKnowledgeArcana.ToString(),
+            FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
+            FeatureRefs.SkillFocusLoreNature.ToString(),
+            FeatureRefs.SkillFocusLoreReligion.ToString(),
+          },
+          amount: 1)
+        .AddPrerequisiteNoFeature(FeatureRefs.CelestialBloodlineRequisiteFeature.ToString())
+        .AddFacts(new() { ray })
+        .AddAbilityResources(
+          resource: AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource.ToString(), restoreAmount: true)
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureCelestialHeritage3()
+    {
+      var CelestialAdept = FeatureRefs.BloodlineCelestialCombatCastingAdeptFeatureLevel2.Reference.Get();
+      return AddFeaturesByLevel(
+        CelestialHeritageAdept,
+        Guids.CelestialHeritageAdept,
+        CelestialAdept,
+        new() { CelestialHeritageName },
+        new()
+        {
+          (CelestialAdept.ToReference<BlueprintFeatureReference>(), level: 11),
+          (FeatureRefs.BloodlineCelestialCombatCastingAdeptFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+        });
+    }
+
+    private static BlueprintFeature ConfigureCelestialHeritage15()
+    {
+      var CelestialFocus = ParametrizedFeatureRefs.BloodlineCelestialSchoolPowerFeature.Reference.Get();
+      return FeatureSelectionConfigurator.New(CelestialHeritageFocus, Guids.CelestialHeritageFocus)
+        .SetDisplayName(CelestialFocus.m_DisplayName)
+        .SetDescription(CelestialFocus.m_Description)
+        .SetIcon(CelestialFocus.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(CelestialHeritageName)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteNoFeature(CelestialHeritageFocus)
+        .AddToAllFeatures(CelestialFocus)
         .Configure();
     }
     #endregion
