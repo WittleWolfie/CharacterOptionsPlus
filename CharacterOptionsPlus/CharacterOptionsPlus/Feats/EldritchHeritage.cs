@@ -3,6 +3,7 @@ using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
@@ -11,12 +12,13 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic;
-using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -32,6 +34,10 @@ namespace CharacterOptionsPlus.Feats
     private const string ImprovedFeatName = "EldritchHeritageImproved";
     private const string ImprovedFeatDisplayName = "EldritchHeritageImproved.Name";
     private const string ImprovedFeatDescription = "EldritchHeritageImproved.Description";
+
+    private const string GreaterFeatName = "EldritchHeritageGreater";
+    private const string GreaterFeatDisplayName = "EldritchHeritageGreater.Name";
+    private const string GreaterFeatDescription = "EldritchHeritageGreater.Description";
 
     private const string IconPrefix = "assets/icons/";
     private const string Icon = IconPrefix + "gloriousheat.png";
@@ -104,6 +110,22 @@ namespace CharacterOptionsPlus.Feats
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
       FeatureConfigurator.For(ImprovedFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+
+      FeatureSelectionConfigurator.New(GreaterFeatName, Guids.GreaterEldritchHeritageFeat)
+        .SetDisplayName(GreaterFeatDisplayName)
+        .SetDescription(GreaterFeatDescription)
+        .SetIcon(Icon)
+        .SetIsClassFeature()
+        .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteStatValue(StatType.Charisma, 17)
+        .AddPrerequisiteCharacterLevel(17)
+        .AddToAllFeatures(ConfigureAbyssalHeritage15())
+        .Configure();
+
+      // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
+      // configurator.
+      FeatureConfigurator.For(ImprovedFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
     }
 
     #region Abyssal
@@ -111,10 +133,9 @@ namespace CharacterOptionsPlus.Feats
 
     private const string AbyssalHeritageClaws = "EldritchHeritage.Abyssal.Claws";
     private const string AbyssalHeritageClawsBuff = "EldritchHeritage.Abyssal.Claws.Buff";
-
     private const string AbyssalHeritageResistance = "EldritchHeritage.Abyssal.Resistance";
-
     private const string AbyssalHeritageStrength = "EldritchHeritage.Abyssal.Strength";
+    private const string AbyssalHeritageSummons = "EldritchHeritage.Abyssal.Summons";
 
     private static BlueprintFeature ConfigureAbyssalHeritage1()
     {
@@ -161,7 +182,7 @@ namespace CharacterOptionsPlus.Feats
         Guids.AbyssalHeritageResistance,
         abyssalResistance,
         AbyssalHeritageName,
-        (abyssalResistance.ToReference<BlueprintFeatureReference>(), level: 11));
+        new() { (abyssalResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
     private static BlueprintFeature ConfigureAbyssalHeritage9()
@@ -172,28 +193,57 @@ namespace CharacterOptionsPlus.Feats
         Guids.AbyssalHeritageStrength,
         abyssalStrength,
         AbyssalHeritageName,
-        (abyssalStrength.ToReference<BlueprintFeatureReference>(), level: 11),
-        (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
-        (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19));
+        new()
+        {
+          (abyssalStrength.ToReference<BlueprintFeatureReference>(), level: 11),
+          (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
+          (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
+        },
+        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AbyssalHeritageStrength),
+        new()
+        {
+          (abyssalStrength.ToReference<BlueprintFeatureReference>(), level: 9),
+          (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
+          (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
+        });
+    }
+
+    private static BlueprintFeature ConfigureAbyssalHeritage15()
+    {
+      var abyssalSummons = FeatureRefs.BloodlineAbyssalAddedSummonings.Reference.Get();
+      return AddFeaturesByLevel(
+        AbyssalHeritageSummons,
+        Guids.AbyssalHeritageStrength,
+        abyssalSummons,
+        new() { AbyssalHeritageName, ImprovedFeatName },
+        new() { (abyssalSummons.ToReference<BlueprintFeatureReference>(), 15) });
     }
     #endregion
 
-    // For heritage which just directly adds a feature
     private static BlueprintFeature AddFeaturesByLevel(
       string name,
       string guid,
       BlueprintFeature sourceFeature,
-      string prerequisite,
-      params (BlueprintFeatureReference feature, int level)[] featuresByLevel)
+      List<string> prerequisites,
+      List<(BlueprintFeatureReference feature, int level)> featuresByLevel,
+      BlueprintFeatureReference greaterFeature = null,
+      List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
     {
-      return FeatureConfigurator.New(name, guid)
+      var feature = FeatureConfigurator.New(name, guid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
         .SetIcon(sourceFeature.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(prerequisite)
-        .AddComponent(new ApplyFeatureOnCharacterLevel(featuresByLevel))
-        .Configure();
+        .AddComponent(
+          new ApplyFeatureOnCharacterLevel(
+            featuresByLevel.ToList(),
+            greaterFeature: greaterFeature,
+            greaterFeatureLevels: greaterFeatureLevels));
+
+      foreach (var prereq in prerequisites)
+        feature.AddPrerequisiteFeature(prereq);
+
+      return feature.Configure();
     }
 
     [TypeId("83224ddf-2f92-48c3-bf2d-9a8d26a5432e")]

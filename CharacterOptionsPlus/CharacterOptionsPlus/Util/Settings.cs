@@ -3,7 +3,6 @@ using CharacterOptionsPlus.Feats;
 using Kingmaker.Blueprints;
 using Kingmaker.Localization;
 using ModMenu.Settings;
-using System;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 using Menu = ModMenu.ModMenu;

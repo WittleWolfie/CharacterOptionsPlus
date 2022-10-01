@@ -20,6 +20,16 @@
   },
 
   {
+    "Key": "EldritchHeritageGreater.Name",
+    "ProcessTemplates": false,
+    "enGB": "Greater Eldritch Heritage"
+  },
+  {
+    "Key": "EldritchHeritageGreater.Description",
+    "enGB": "You gain an additional power from the bloodline you selected with the Eldritch Heritage feat. You gain a 15th-level (or lower) sorcerer bloodline power that you do not already have. For purposes of using that power, treat your character level as your sorcerer level for all your sorcerer bloodline powers granted by this feat, Eldritch Heritage, and Improved Eldritch Heritage."
+  },
+
+  {
     "Key": "FuriousFocus.Name",
     "ProcessTemplates": false,
     "enGB": "Furious Focus"
