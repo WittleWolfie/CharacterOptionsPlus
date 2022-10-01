@@ -274,13 +274,17 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureArcaneHeritage3()
     {
-      var arcaneAdept = FeatureRefs.BloodlineArcaneCombatCastingAdeptFeatureLevel1.Reference.Get();
+      var arcaneAdept = FeatureRefs.BloodlineArcaneCombatCastingAdeptFeatureLevel2.Reference.Get();
       return AddFeaturesByLevel(
         ArcaneHeritageAdept,
         Guids.ArcaneHeritageAdept,
         arcaneAdept,
         new() { ArcaneHeritageName },
-        new() { (ArcaneResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+        new()
+        {
+          (arcaneAdept.ToReference<BlueprintFeatureReference>(), level: 11),
+          (FeatureRefs.BloodlineArcaneCombatCastingAdeptFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+        });
     }
 
     private static BlueprintFeature ConfigureArcaneHeritage9()
