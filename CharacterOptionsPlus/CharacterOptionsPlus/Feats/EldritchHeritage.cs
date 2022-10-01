@@ -1,6 +1,7 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
+using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
@@ -388,6 +389,8 @@ namespace CharacterOptionsPlus.Feats
 
     private const string CelestialHeritageRay = "EldritchHeritage.Celestial.Ray.Attack";
     private const string CelestialHeritageResistances = "EldritchHeritage.Celestial.Resitances";
+    private const string CelestialHeritageAura = "EldritchHeritage.Celestial.Aura";
+    private const string CelestialHeritageAuraResources = "EldritchHeritage.Celestial.Aura.Resources";
 
     private static BlueprintFeature ConfigureCelestialHeritage1()
     {
@@ -446,7 +449,29 @@ namespace CharacterOptionsPlus.Feats
         Guids.CelestialHeritageResistances,
         celestialResistances,
         new() { CelestialHeritageName },
-        new() { (celestialResistances.ToReference<BlueprintFeatureReference>(), level: 11) });
+        new() { (celestialResistances.ToReference<BlueprintFeatureReference>(), level: 3) });
+    }
+
+    private static BlueprintFeature ConfigureCelestialHeritage9()
+    {
+      var celestialAuraResource = AbilityResourceRefs.BloodlineCelestialAuraOfHeavenResource.Reference.Get();
+      var resource =
+        AbilityResourceConfigurator.New(CelestialHeritageAuraResources, Guids.CelestialHeritageAuraResource)
+          .SetIcon(celestialAuraResource.Icon)
+          .SetUseMax()
+          .SetMax(10)
+          .Configure();
+
+      // TODO: Need to add the resource + SetResourceMax component using the custom property
+      // TODO: Copy BloodlineCelestialAuraOfHeavenAbility but replace the resources
+
+      var celestialAura = FeatureRefs.BloodlineCelestialAuraOfHeavenFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        CelestialHeritageResistances,
+        Guids.CelestialHeritageResistances,
+        celestialAura,
+        new() { CelestialHeritageName },
+        new() { (celestialAura.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage15()
