@@ -100,6 +100,10 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteCharacterLevel(11)
         .AddToAllFeatures(ConfigureAbyssalHeritage3(), ConfigureAbyssalHeritage9())
         .Configure();
+
+      // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
+      // configurator.
+      FeatureConfigurator.For(ImprovedFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
     }
 
     #region Abyssal
