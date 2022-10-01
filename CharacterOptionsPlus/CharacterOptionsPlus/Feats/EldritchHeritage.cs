@@ -273,6 +273,7 @@ namespace CharacterOptionsPlus.Feats
           },
           amount: 1)
         .AddPrerequisiteNoFeature(FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString())
+        .AddPrerequisiteNoFeature(ArcaneHeritageName)
         .AddToAllFeatures(FeatureSelectionRefs.BloodlineArcaneArcaneBondFeature.ToString())
         .Configure();
     }
@@ -295,12 +296,16 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureArcaneHeritage15()
     {
       var arcaneFocus = FeatureSelectionRefs.BloodlineArcaneSchoolPowerSelection.Reference.Get();
-      return AddFeaturesByLevel(
-        ArcaneHeritageFocus,
-        Guids.ArcaneHeritageFocus,
-        arcaneFocus,
-        new() { ArcaneHeritageName, ImprovedFeatName },
-        new() { (arcaneFocus.ToReference<BlueprintFeatureReference>(), 15) });
+      return FeatureSelectionConfigurator.New(ArcaneHeritageFocus, Guids.ArcaneHeritageFocus)
+        .SetDisplayName(arcaneFocus.m_DisplayName)
+        .SetDescription(arcaneFocus.m_Description)
+        .SetIcon(arcaneFocus.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(ArcaneHeritageName)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteNoFeature(ArcaneHeritageFocus)
+        .AddToAllFeatures(arcaneFocus)
+        .Configure();
     }
     #endregion
 
