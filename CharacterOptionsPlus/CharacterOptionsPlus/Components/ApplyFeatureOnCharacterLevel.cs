@@ -74,7 +74,7 @@ namespace CharacterOptionsPlus.Components
     {
       var characterLevel = Owner.Descriptor.Progression.CharacterLevel;
       // FeatureLevels is ordered from highest to lowest. Find the highest level and apply that feature.
-      foreach (var (feature, level) in FeatureLevels)
+      foreach (var (feature, level) in featureLevels)
       {
         if (characterLevel >= level)
         {
@@ -111,7 +111,7 @@ namespace CharacterOptionsPlus.Components
     public class ComponentData
     {
       [JsonProperty]
-      public EntityFact AppliedFact = new();
+      public EntityFact AppliedFact;
 
       [JsonProperty]
       public int AppliedLevel = -1;
