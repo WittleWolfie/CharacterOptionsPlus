@@ -125,7 +125,7 @@ namespace CharacterOptionsPlus.Feats
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
-      FeatureConfigurator.For(ImprovedFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+      FeatureConfigurator.For(GreaterFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
     }
 
     #region Abyssal
@@ -181,7 +181,7 @@ namespace CharacterOptionsPlus.Feats
         AbyssalHeritageResistance,
         Guids.AbyssalHeritageResistance,
         abyssalResistance,
-        AbyssalHeritageName,
+        new() { AbyssalHeritageName },
         new() { (abyssalResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
@@ -192,14 +192,14 @@ namespace CharacterOptionsPlus.Feats
         AbyssalHeritageStrength,
         Guids.AbyssalHeritageStrength,
         abyssalStrength,
-        AbyssalHeritageName,
+        new() { AbyssalHeritageName },
         new()
         {
           (abyssalStrength.ToReference<BlueprintFeatureReference>(), level: 11),
           (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
           (FeatureRefs.BloodlineAbyssalStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
         },
-        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AbyssalHeritageStrength),
+        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AbyssalHeritageSummons),
         new()
         {
           (abyssalStrength.ToReference<BlueprintFeatureReference>(), level: 9),
@@ -213,37 +213,10 @@ namespace CharacterOptionsPlus.Feats
       var abyssalSummons = FeatureRefs.BloodlineAbyssalAddedSummonings.Reference.Get();
       return AddFeaturesByLevel(
         AbyssalHeritageSummons,
-        Guids.AbyssalHeritageStrength,
+        Guids.AbyssalHeritageSummons,
         abyssalSummons,
         new() { AbyssalHeritageName, ImprovedFeatName },
         new() { (abyssalSummons.ToReference<BlueprintFeatureReference>(), 15) });
-    }
-    #endregion
-
-    private static BlueprintFeature AddFeaturesByLevel(
-      string name,
-      string guid,
-      BlueprintFeature sourceFeature,
-      List<string> prerequisites,
-      List<(BlueprintFeatureReference feature, int level)> featuresByLevel,
-      BlueprintFeatureReference greaterFeature = null,
-      List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
-    {
-      var feature = FeatureConfigurator.New(name, guid)
-        .SetDisplayName(sourceFeature.m_DisplayName)
-        .SetDescription(sourceFeature.m_Description)
-        .SetIcon(sourceFeature.Icon)
-        .SetIsClassFeature()
-        .AddComponent(
-          new ApplyFeatureOnCharacterLevel(
-            featuresByLevel.ToList(),
-            greaterFeature: greaterFeature,
-            greaterFeatureLevels: greaterFeatureLevels));
-
-      foreach (var prereq in prerequisites)
-        feature.AddPrerequisiteFeature(prereq);
-
-      return feature.Configure();
     }
 
     [TypeId("83224ddf-2f92-48c3-bf2d-9a8d26a5432e")]
@@ -265,6 +238,34 @@ namespace CharacterOptionsPlus.Feats
         // Links the buff to this one so they get removed at the same time
         Buff.StoreFact(buff);
       }
+    }
+    #endregion
+
+    private static BlueprintFeature AddFeaturesByLevel(
+      string name,
+      string guid,
+      BlueprintFeature sourceFeature,
+      List<string> prerequisites,
+      List<(BlueprintFeatureReference feature, int level)> featuresByLevel,
+      BlueprintFeatureReference greaterFeature = null,
+      List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
+    {
+      var feature = FeatureConfigurator.New(name, guid)
+        .SetDisplayName(sourceFeature.m_DisplayName)
+        .SetDescription(sourceFeature.m_Description)
+        .SetIcon(sourceFeature.Icon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp(true)
+        .AddComponent(
+          new ApplyFeatureOnCharacterLevel(
+            featuresByLevel.ToList(),
+            greaterFeature: greaterFeature,
+            greaterFeatureLevels: greaterFeatureLevels));
+
+      foreach (var prereq in prerequisites)
+        feature.AddPrerequisiteFeature(prereq);
+
+      return feature.Configure();
     }
   }
 }
