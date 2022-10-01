@@ -13,9 +13,9 @@ namespace CharacterOptionsPlus.Util
   /// </summary>
   internal static class Guids
   {
-    private static ModLogger Logger = Logging.GetLogger(nameof(Guids));
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(Guids));
 
-    //** Archetypes **//
+    #region Archetypes
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
     internal const string ArrowsongMinstrelProficiencies = "e24693cb-6e0b-4bbd-af5b-05de85f5ff88";
 
@@ -29,15 +29,18 @@ namespace CharacterOptionsPlus.Util
     internal const string ArrowsongMinstrelSpellList = "74f9286f-6e8e-46ba-8de8-995759759b2f";
     internal const string ArrowsongMinstrelSpellsPerDay = "32e41814-4688-42b6-87a7-4384f602a621";
     internal const string ArrowsongMinstrelSpellSelection = "3c9b1fb1-9466-45db-9fe8-08500b66ea50";
-    //****************//
+    
 
     internal static readonly (string guid, string displayName)[] Archetypes =
       new (string, string)[]
       {
         (ArrowsongMinstrelArchetype, ArrowsongMinstrel.ArchetypeDisplayName),
       };
+    #endregion
 
-    //** Feats **//
+    #region Feats
+    internal const string EldritchHeritageFeat = "f9d9eb8b-01d9-4799-bb27-f5ad1a7f7e31";
+
     internal const string FuriousFocusFeat = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
     internal const string GloriousHeatFeat = "860e19d3-a2ae-4b53-abd9-9673d635110f";
@@ -62,19 +65,59 @@ namespace CharacterOptionsPlus.Util
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
-    //***********//
+    
 
     internal static readonly (string guid, string displayName)[] Feats =
       new (string, string)[]
       {
+        (EldritchHeritageFeat, EldritchHeritage.FeatDisplayName),
         (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
+    #endregion
 
-    //** Dynamic GUIDs **//
+    #region Eldritch Heritage
+    internal const string AberrantHeritage = "1b8ca09f-2c71-4086-9494-4a897b671695";
+
+    internal const string AbyssalHeritage = "8f070fcb-bf77-4a22-8a0e-9fdf769dcf6e";
+    internal const string AbyssalHeritageClawsAbility = "4cc57a5d-17c1-4988-be61-32652b002439";
+    internal const string AbyssalHeritageClawsBuff = "ff8d2050-ff8d-4b57-9f98-6b267bbfb273";
+    internal const string AbyssalHeritageResource = "e01ed944-bb6d-46e4-be8d-32acee0da462";
+
+
+    // TODO: Use for something else?
+    internal const string AbyssalHeritageClaws1 = "252d7e8a-09d5-42d6-ab3e-9aa0368cf2cd";
+    internal const string AbyssalHeritageClaws5 = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
+    internal const string AbyssalHeritageClaws7 = "8a0b28de-c62e-4d0b-9197-2d11a5e68e8f";
+    internal const string AbyssalHeritageClaws11 = "c2ac8341-2cd8-4968-bcc0-d4f0ed48940b";
+
+    internal const string ArcaneHeritage = "439add6b-ed93-4759-bba5-d43e8fb6b306";
+    internal const string CelestialHeritage = "786fbf80-9db7-4107-986a-8ce791bf62b6";
+    internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
+    internal const string DraconicBlackHeritage = "cb5eaa9d-9ccc-4b55-bd05-88caffc38139";
+    internal const string DraconicBlueHeritage = "e7f180f6-51c1-4725-8cca-5306a87d7d1e";
+    internal const string DraconicBrassHeritage = "6c3f1ccf-29db-4c8f-960e-131570c745d8";
+    internal const string DraconicBronzeHeritage = "43475fb4-8cf1-4b63-ad69-2695f61d0d63";
+    internal const string DraconicCopperHeritage = "bf7d8d37-7205-4307-88f0-3a823871bd5b";
+    internal const string DraconicGoldHeritage = "b1a0bce7-e5e0-48f6-82ae-ed91ffd58805";
+    internal const string DraconicGreenHeritage = "f39601f8-fd68-472c-a4a1-c33e5890f8d9";
+    internal const string DraconicRedHeritage = "8696a6cd-895e-4b62-9b77-d2b87a03fe2c";
+    internal const string DraconicSilverHeritage = "438949f8-8a35-4404-acc5-dd7b2cac0021";
+    internal const string DraconicWhiteHeritage = "1d842b4e-3ef4-48dc-bd8f-1f61d04284dd";
+    internal const string ElementalAirHeritage = "10f79138-da20-4202-b09f-941261f7d212";
+    internal const string ElementalEarthHeritage = "4652cd5e-64a3-4dfb-9c32-8cd5d8f2bcd5";
+    internal const string ElementalFireHeritage = "8914f1d1-a0c3-4c4a-a054-e383b2d14ecd";
+    internal const string ElementalWaterHeritage = "a61189b1-ed4c-4af1-b07a-071bfa1e5104";
+    internal const string FeyHeritage = "cbcb9798-995a-4cf6-b1aa-44f7b0593896";
+    internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
+    internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";
+    internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
+    #endregion
+
+    #region Dynamic GUIDs
     private const string GUID_0 = "4d802e91-ea0e-41bd-9ebe-1e92263605e8";
     private const string GUID_1 = "6ba9a23f-30af-4e26-9c4a-836cc7431c4f";
     private const string GUID_2 = "3da99391-21de-4c43-b3fa-34fe8dc822bb";
@@ -95,8 +138,7 @@ namespace CharacterOptionsPlus.Util
     private const string GUID_17 = "76096c62-3f48-4f67-8e0a-51ff57f9f79b";
     private const string GUID_18 = "8de1e388-8a79-409e-922f-822d13b7fff6";
     private const string GUID_19 = "aa816f85-1832-4ba2-82b8-88aa147c941a";
-    //*******************//
-
+    
     private static readonly List<string> GUIDS =
       new()
       {
@@ -123,5 +165,6 @@ namespace CharacterOptionsPlus.Util
       Logger.NativeLog($"Generating dynamic guid {guid}");
       return guid;
     }
+    #endregion
   }
 }
