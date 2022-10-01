@@ -253,17 +253,16 @@ namespace CharacterOptionsPlus.Feats
     #region Arcane
     private const string ArcaneHeritageName = "EldrichHeritage.Arcane";
 
-    private const string ArcaneHeritageBond = "EldritchHeritage.Arcane.Bond";
     private const string ArcaneHeritageAdept = "EldritchHeritage.Arcane.Adept";
     private const string ArcaneHeritageFocus = "EldritchHeritage.Arcane.Focus";
 
     private static BlueprintFeature ConfigureArcaneHeritage1()
     {
-      var arcaneBond = FeatureRefs.BloodlineArcaneItemBondFeature.Reference.Get();
-      return FeatureConfigurator.New(ArcaneHeritageBond, Guids.ArcaneHeritageBond)
-        .SetDisplayName(arcaneBond.m_DisplayName)
-        .SetDescription(arcaneBond.m_Description)
-        .SetIcon(arcaneBond.m_Icon)
+      var arcaneBloodline = ProgressionRefs.BloodlineArcaneProgression.Reference.Get();
+      return FeatureSelectionConfigurator.New(ArcaneHeritageName, Guids.ArcaneHeritage)
+        .SetDisplayName(arcaneBloodline.m_DisplayName)
+        .SetDescription(arcaneBloodline.m_Description)
+        .SetIcon(arcaneBloodline.m_Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeaturesFromList(
           new() {
@@ -274,7 +273,7 @@ namespace CharacterOptionsPlus.Feats
           },
           amount: 1)
         .AddPrerequisiteNoFeature(FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { arcaneBond })
+        .AddToAllFeatures(FeatureSelectionRefs.BloodlineArcaneArcaneBondFeature.ToString())
         .Configure();
     }
 

@@ -92,9 +92,10 @@ namespace CharacterOptionsPlus.Util
     internal const string AbyssalHeritageSummons = "252d7e8a-09d5-42d6-ab3e-9aa0368cf2cd";
 
     internal const string ArcaneHeritage = "439add6b-ed93-4759-bba5-d43e8fb6b306";
-    internal const string ArcaneHeritageBond = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
     internal const string ArcaneHeritageAdept = "8a0b28de-c62e-4d0b-9197-2d11a5e68e8f";
     internal const string ArcaneHeritageFocus = "c2ac8341-2cd8-4968-bcc0-d4f0ed48940b";
+
+    internal const string Unused = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
 
     internal const string CelestialHeritage = "786fbf80-9db7-4107-986a-8ce791bf62b6";
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
