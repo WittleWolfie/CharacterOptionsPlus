@@ -20,12 +20,24 @@ namespace CharacterOptionsPlus.Components
     private static readonly ModLogger Logger = Logging.GetLogger("ApplyFeatureOnCharacterLevel");
 
     private readonly List<(BlueprintFeatureReference feature, int level)> FeatureLevels;
+    private readonly BlueprintFeatureReference GreaterFeature;
+    private readonly List<(BlueprintFeatureReference feature, int level)> GreaterFeatureLevels;
 
-    public ApplyFeatureOnCharacterLevel(params (BlueprintFeatureReference feature, int level)[] featureLevels)
+    /// <param name="greaterFeature">If the character has this feature the greaterFeatureLevels list applies</param>
+    /// <param name="greaterFeatureLevels"></param>
+    public ApplyFeatureOnCharacterLevel(
+      List<(BlueprintFeatureReference feature, int level)> featureLevels,
+      BlueprintFeatureReference greaterFeature = null,
+      List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
     {
       FeatureLevels = featureLevels.ToList();
       // Reverse sort so we apply the highest level feature applicable
       FeatureLevels.Sort((a, b) => b.level.CompareTo(a.level));
+
+      GreaterFeature = greaterFeature;
+      GreaterFeatureLevels = greaterFeatureLevels;
+      // Reverse sort so we apply the highest level feature applicable
+      GreaterFeatureLevels?.Sort((a, b) => b.level.CompareTo(a.level));
     }
 
     public void HandleUnitGainLevel()
@@ -47,26 +59,34 @@ namespace CharacterOptionsPlus.Components
     {
       try
       {
-        var characterLevel = Owner.Descriptor.Progression.CharacterLevel;
-        // FeatureLevels is ordered from highest to lowest. Find the highest level and apply that feature.
-        foreach (var (feature, level) in FeatureLevels)
-        {
-          if (characterLevel >= level)
-          {
-            if (Data.AppliedLevel != level)
-            {
-              Remove();
-              Logger.Log($"Applying {feature} for level {level}.");
-              Data.AppliedFact = Owner.AddFact(feature);
-              Data.AppliedLevel = level;
-            }
-            break;
-          }
-        }
+        if (GreaterFeature is not null && Owner.HasFact(GreaterFeature))
+          ApplyFeature(GreaterFeatureLevels);
+        else
+          ApplyFeature(FeatureLevels);
       }
       catch (Exception e)
       {
         Logger.LogException("ApplyFeatureOnCharacterLevel.Apply", e);
+      }
+    }
+
+    private void ApplyFeature(List<(BlueprintFeatureReference feature, int level)> featureLevels)
+    {
+      var characterLevel = Owner.Descriptor.Progression.CharacterLevel;
+      // FeatureLevels is ordered from highest to lowest. Find the highest level and apply that feature.
+      foreach (var (feature, level) in FeatureLevels)
+      {
+        if (characterLevel >= level)
+        {
+          if (Data.AppliedLevel != level)
+          {
+            Remove();
+            Logger.Log($"Applying {feature} for level {level}.");
+            Data.AppliedFact = Owner.AddFact(feature);
+            Data.AppliedLevel = level;
+          }
+          break;
+        }
       }
     }
 
