@@ -309,6 +309,8 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    // For bloodline abilities that add a feature which is replaced by a higher level feature later.
+    // Greater enables the change from Level - 2 to Level when Greater Eldritch Heritage is acquired.
     private static BlueprintFeature AddFeaturesByLevel(
       string name,
       string guid,
