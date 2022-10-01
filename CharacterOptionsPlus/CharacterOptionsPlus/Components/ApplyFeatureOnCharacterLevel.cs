@@ -55,9 +55,8 @@ namespace CharacterOptionsPlus.Components
           {
             if (Data.AppliedLevel != level)
             {
-              if (Data.AppliedFact is not null)
-                Remove();
-              Logger.Log($"Applying {Data.AppliedFact.Name} for level {level}. Character Level: {characterLevel}");
+              Remove();
+              Logger.Log($"Applying {feature} for level {level}.");
               Data.AppliedFact = Owner.AddFact(feature);
               Data.AppliedLevel = level;
             }
@@ -75,10 +74,13 @@ namespace CharacterOptionsPlus.Components
     {
       try
       {
-        Logger.Log($"Removing {Data.AppliedFact.Name}");
-        Owner.RemoveFact(Data.AppliedFact);
-        Data.AppliedFact = null;
-        Data.AppliedLevel = -1;
+        if (Data.AppliedFact is not null)
+        {
+          Logger.Log($"Removing {Data.AppliedFact.Name}");
+          Owner.RemoveFact(Data.AppliedFact);
+          Data.AppliedFact = null;
+          Data.AppliedLevel = -1;
+        }
       }
       catch (Exception e)
       {
