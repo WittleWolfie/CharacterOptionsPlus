@@ -10,6 +10,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
@@ -89,7 +90,9 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
         .AddPrerequisiteStatValue(StatType.Charisma, 13)
         .AddPrerequisiteCharacterLevel(3)
-        .AddToAllFeatures(ConfigureAbyssalHeritage1())
+        .AddToAllFeatures(
+          ConfigureAbyssalHeritage1(),
+          ConfigureArcaneHeritage1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -105,7 +108,10 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(FeatName)
         .AddPrerequisiteStatValue(StatType.Charisma, 15)
         .AddPrerequisiteCharacterLevel(11)
-        .AddToAllFeatures(ConfigureAbyssalHeritage3(), ConfigureAbyssalHeritage9())
+        .AddToAllFeatures(
+          ConfigureAbyssalHeritage3(),
+          ConfigureAbyssalHeritage9(),
+          ConfigureArcaneHeritage3())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -121,7 +127,9 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(ImprovedFeatName)
         .AddPrerequisiteStatValue(StatType.Charisma, 17)
         .AddPrerequisiteCharacterLevel(17)
-        .AddToAllFeatures(ConfigureAbyssalHeritage15())
+        .AddToAllFeatures(
+          ConfigureAbyssalHeritage15(),
+          ConfigureArcaneHeritage15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -246,10 +254,8 @@ namespace CharacterOptionsPlus.Feats
     private const string ArcaneHeritageName = "EldrichHeritage.Arcane";
 
     private const string ArcaneHeritageBond = "EldritchHeritage.Arcane.Bond";
-    private const string ArcaneHeritageClawsBuff = "EldritchHeritage.Arcane.Claws.Buff";
     private const string ArcaneHeritageAdept = "EldritchHeritage.Arcane.Adept";
-    private const string ArcaneHeritageStrength = "EldritchHeritage.Arcane.Strength";
-    private const string ArcaneHeritageSummons = "EldritchHeritage.Arcane.Summons";
+    private const string ArcaneHeritageFocus = "EldritchHeritage.Arcane.Focus";
 
     private static BlueprintFeature ConfigureArcaneHeritage1()
     {
@@ -287,38 +293,15 @@ namespace CharacterOptionsPlus.Feats
         });
     }
 
-    private static BlueprintFeature ConfigureArcaneHeritage9()
-    {
-      var ArcaneStrength = FeatureRefs.BloodlineArcaneStrengthAbilityLevel1.Reference.Get();
-      return AddFeaturesByLevel(
-        ArcaneHeritageStrength,
-        Guids.ArcaneHeritageStrength,
-        ArcaneStrength,
-        new() { ArcaneHeritageName },
-        new()
-        {
-          (ArcaneStrength.ToReference<BlueprintFeatureReference>(), level: 11),
-          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
-          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
-        },
-        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.ArcaneHeritageSummons),
-        new()
-        {
-          (ArcaneStrength.ToReference<BlueprintFeatureReference>(), level: 9),
-          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
-          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
-        });
-    }
-
     private static BlueprintFeature ConfigureArcaneHeritage15()
     {
-      var ArcaneSummons = FeatureRefs.BloodlineArcaneAddedSummonings.Reference.Get();
+      var arcaneFocus = FeatureSelectionRefs.BloodlineArcaneSchoolPowerSelection.Reference.Get();
       return AddFeaturesByLevel(
-        ArcaneHeritageSummons,
-        Guids.ArcaneHeritageSummons,
-        ArcaneSummons,
+        ArcaneHeritageFocus,
+        Guids.ArcaneHeritageFocus,
+        arcaneFocus,
         new() { ArcaneHeritageName, ImprovedFeatName },
-        new() { (ArcaneSummons.ToReference<BlueprintFeatureReference>(), 15) });
+        new() { (arcaneFocus.ToReference<BlueprintFeatureReference>(), 15) });
     }
     #endregion
 
