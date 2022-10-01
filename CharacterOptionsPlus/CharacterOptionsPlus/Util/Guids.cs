@@ -98,6 +98,7 @@ namespace CharacterOptionsPlus.Util
 
     internal const string CelestialHeritage = "786fbf80-9db7-4107-986a-8ce791bf62b6";
     internal const string CelestialHeritageRay = "e72fa9d9-c1df-4c85-b7cc-66a876380e5a";
+    internal const string CelestialHeritageResistances = "000fc6b5-1926-4702-9c05-b4df8940930a";
 
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     internal const string DraconicBlackHeritage = "cb5eaa9d-9ccc-4b55-bd05-88caffc38139";

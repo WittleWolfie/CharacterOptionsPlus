@@ -387,7 +387,7 @@ namespace CharacterOptionsPlus.Feats
     private const string CelestialHeritageName = "EldrichHeritage.Celestial";
 
     private const string CelestialHeritageRay = "EldritchHeritage.Celestial.Ray.Attack";
-    private const string CelestialHeritageFocus = "EldritchHeritage.Celestial.Focus";
+    private const string CelestialHeritageResistances = "EldritchHeritage.Celestial.Resitances";
 
     private static BlueprintFeature ConfigureCelestialHeritage1()
     {
@@ -440,17 +440,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureCelestialHeritage3()
     {
-      var CelestialAdept = FeatureRefs.BloodlineCelestialCombatCastingAdeptFeatureLevel2.Reference.Get();
+      var celestialResistances = FeatureRefs.BloodlineCelestialResistancesAbilityLevel2.Reference.Get();
       return AddFeaturesByLevel(
-        CelestialHeritageAdept,
-        Guids.CelestialHeritageAdept,
-        CelestialAdept,
+        CelestialHeritageResistances,
+        Guids.CelestialHeritageResistances,
+        celestialResistances,
         new() { CelestialHeritageName },
-        new()
-        {
-          (CelestialAdept.ToReference<BlueprintFeatureReference>(), level: 11),
-          (FeatureRefs.BloodlineCelestialCombatCastingAdeptFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        new() { (celestialResistances.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage15()
