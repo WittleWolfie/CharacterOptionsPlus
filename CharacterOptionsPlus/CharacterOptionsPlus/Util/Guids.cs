@@ -85,10 +85,10 @@ namespace CharacterOptionsPlus.Util
     internal const string AbyssalHeritage = "8f070fcb-bf77-4a22-8a0e-9fdf769dcf6e";
     internal const string AbyssalHeritageClawsAbility = "4cc57a5d-17c1-4988-be61-32652b002439";
     internal const string AbyssalHeritageClawsBuff = "ff8d2050-ff8d-4b57-9f98-6b267bbfb273";
-    internal const string AbyssalHeritageResource = "e01ed944-bb6d-46e4-be8d-32acee0da462";
 
 
     // TODO: Use for something else?
+    internal const string AbyssalHeritageResource = "e01ed944-bb6d-46e4-be8d-32acee0da462";
     internal const string AbyssalHeritageClaws1 = "252d7e8a-09d5-42d6-ab3e-9aa0368cf2cd";
     internal const string AbyssalHeritageClaws5 = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
     internal const string AbyssalHeritageClaws7 = "8a0b28de-c62e-4d0b-9197-2d11a5e68e8f";
