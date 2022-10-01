@@ -12,6 +12,7 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
@@ -238,6 +239,82 @@ namespace CharacterOptionsPlus.Feats
         // Links the buff to this one so they get removed at the same time
         Buff.StoreFact(buff);
       }
+    }
+    #endregion
+
+    #region Arcane
+    private const string ArcaneHeritageName = "EldrichHeritage.Arcane";
+
+    private const string ArcaneHeritageBond = "EldritchHeritage.Arcane.Bond";
+    private const string ArcaneHeritageClawsBuff = "EldritchHeritage.Arcane.Claws.Buff";
+    private const string ArcaneHeritageAdept = "EldritchHeritage.Arcane.Adept";
+    private const string ArcaneHeritageStrength = "EldritchHeritage.Arcane.Strength";
+    private const string ArcaneHeritageSummons = "EldritchHeritage.Arcane.Summons";
+
+    private static BlueprintFeature ConfigureArcaneHeritage1()
+    {
+      var arcaneBond = FeatureRefs.BloodlineArcaneItemBondFeature.Reference.Get();
+      return FeatureConfigurator.New(ArcaneHeritageBond, Guids.ArcaneHeritageBond)
+        .SetDisplayName(arcaneBond.m_DisplayName)
+        .SetDescription(arcaneBond.m_Description)
+        .SetIcon(arcaneBond.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeaturesFromList(
+          new() {
+            FeatureRefs.SkillFocusKnowledgeArcana.ToString(),
+            FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
+            FeatureRefs.SkillFocusLoreNature.ToString(),
+            FeatureRefs.SkillFocusLoreReligion.ToString(),
+          },
+          amount: 1)
+        .AddPrerequisiteNoFeature(FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString())
+        .AddFacts(new() { arcaneBond })
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureArcaneHeritage3()
+    {
+      var arcaneAdept = FeatureRefs.BloodlineArcaneCombatCastingAdeptFeatureLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        ArcaneHeritageAdept,
+        Guids.ArcaneHeritageAdept,
+        arcaneAdept,
+        new() { ArcaneHeritageName },
+        new() { (ArcaneResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+    }
+
+    private static BlueprintFeature ConfigureArcaneHeritage9()
+    {
+      var ArcaneStrength = FeatureRefs.BloodlineArcaneStrengthAbilityLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        ArcaneHeritageStrength,
+        Guids.ArcaneHeritageStrength,
+        ArcaneStrength,
+        new() { ArcaneHeritageName },
+        new()
+        {
+          (ArcaneStrength.ToReference<BlueprintFeatureReference>(), level: 11),
+          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
+          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
+        },
+        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.ArcaneHeritageSummons),
+        new()
+        {
+          (ArcaneStrength.ToReference<BlueprintFeatureReference>(), level: 9),
+          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
+          (FeatureRefs.BloodlineArcaneStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
+        });
+    }
+
+    private static BlueprintFeature ConfigureArcaneHeritage15()
+    {
+      var ArcaneSummons = FeatureRefs.BloodlineArcaneAddedSummonings.Reference.Get();
+      return AddFeaturesByLevel(
+        ArcaneHeritageSummons,
+        Guids.ArcaneHeritageSummons,
+        ArcaneSummons,
+        new() { ArcaneHeritageName, ImprovedFeatName },
+        new() { (ArcaneSummons.ToReference<BlueprintFeatureReference>(), 15) });
     }
     #endregion
 
