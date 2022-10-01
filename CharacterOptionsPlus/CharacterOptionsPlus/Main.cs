@@ -105,6 +105,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log("Configuring feats.");
 
+        EldritchHeritage.Configure();
         FuriousFocus.Configure();
         GloriousHeat.Configure();
         Hurtful.Configure();
