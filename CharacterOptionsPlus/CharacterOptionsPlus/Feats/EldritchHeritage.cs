@@ -295,7 +295,7 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureArcaneHeritage15()
     {
-      var arcaneFocus = FeatureSelectionRefs.BloodlineArcaneSchoolPowerSelection.Reference.Get();
+      var arcaneFocus = ParametrizedFeatureRefs.BloodlineArcaneSchoolPowerFeature.Reference.Get();
       return FeatureSelectionConfigurator.New(ArcaneHeritageFocus, Guids.ArcaneHeritageFocus)
         .SetDisplayName(arcaneFocus.m_DisplayName)
         .SetDescription(arcaneFocus.m_Description)
