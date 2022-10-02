@@ -37,7 +37,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ## Bug Fixes
 
-* Heavenly Fire can be used 3 + Charisma Modifier times per day instead of just 3
+* (Next Version) Heavenly Fire can be used 3 + Charisma Modifier times per day instead of just 3
 
 ## Planned Content
 
