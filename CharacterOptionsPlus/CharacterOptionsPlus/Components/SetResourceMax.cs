@@ -32,7 +32,7 @@ namespace CharacterOptionsPlus.Components
       }
       catch (Exception e)
       {
-        Logger.LogException("SetResourceAmountMax.CalculateMaxResourceAmount", e);
+        Logger.LogException("SetResourceMax.CalculateMaxResourceAmount", e);
       }
     }
   }
