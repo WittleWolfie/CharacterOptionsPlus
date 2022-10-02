@@ -86,8 +86,6 @@ namespace CharacterOptionsPlus.Util
     internal const string AberrantHeritage = "1b8ca09f-2c71-4086-9494-4a897b671695";
 
     internal const string AbyssalHeritage = "8f070fcb-bf77-4a22-8a0e-9fdf769dcf6e";
-    internal const string AbyssalHeritageClawsAbility = "4cc57a5d-17c1-4988-be61-32652b002439";
-    internal const string AbyssalHeritageClawsBuff = "ff8d2050-ff8d-4b57-9f98-6b267bbfb273";
     internal const string AbyssalHeritageResistance = "99bfdfcf-c1d1-47e4-8550-d925e45d1cc3";
     internal const string AbyssalHeritageStrength = "e01ed944-bb6d-46e4-be8d-32acee0da462";
     internal const string AbyssalHeritageSummons = "252d7e8a-09d5-42d6-ab3e-9aa0368cf2cd";
@@ -103,6 +101,10 @@ namespace CharacterOptionsPlus.Util
     internal const string CelestialHeritageAuraResource = "9d1256f4-e872-4be2-a588-391814b811eb";
     internal const string CelestialHeritageAuraAbility = "5d1681ec-cdd8-4f04-899c-af0a238254eb";
     internal const string CelestialHeritageConviction = "989e19d2-efdc-436f-a1c7-fb9b5247dbad";
+
+    // TODO: UNUSED
+    internal const string AbyssalHeritageClawsAbility = "4cc57a5d-17c1-4988-be61-32652b002439";
+    internal const string AbyssalHeritageClawsBuff = "ff8d2050-ff8d-4b57-9f98-6b267bbfb273";
 
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     internal const string DraconicBlackHeritage = "cb5eaa9d-9ccc-4b55-bd05-88caffc38139";

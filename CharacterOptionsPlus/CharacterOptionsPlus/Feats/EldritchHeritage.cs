@@ -79,8 +79,6 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName} (disabled)");
 
       #region Abyssal
-      BuffConfigurator.New(AbyssalHeritageClawsBuff, Guids.AbyssalHeritageClawsBuff).Configure();
-      ActivatableAbilityConfigurator.New(AbyssalHeritageClaws, Guids.AbyssalHeritageClawsAbility).Configure();
       FeatureConfigurator.New(AbyssalHeritageName, Guids.AbyssalHeritage).Configure();
       FeatureConfigurator.New(AbyssalHeritageResistance, Guids.AbyssalHeritageResistance).Configure();
       FeatureConfigurator.New(AbyssalHeritageStrength, Guids.AbyssalHeritageStrength).Configure();
@@ -238,44 +236,30 @@ namespace CharacterOptionsPlus.Feats
     #region Abyssal
     private const string AbyssalHeritageName = "EldrichHeritage.Abyssal";
 
-    private const string AbyssalHeritageClaws = "EldritchHeritage.Abyssal.Claws";
-    private const string AbyssalHeritageClawsBuff = "EldritchHeritage.Abyssal.Claws.Buff";
     private const string AbyssalHeritageResistance = "EldritchHeritage.Abyssal.Resistance";
     private const string AbyssalHeritageStrength = "EldritchHeritage.Abyssal.Strength";
     private const string AbyssalHeritageSummons = "EldritchHeritage.Abyssal.Summons";
 
     private static BlueprintFeature ConfigureAbyssalHeritage1()
     {
-      var abyssalClawsBuff = BuffRefs.BloodlineAbyssalClawsBuffLevel1.Reference.Get();
-      var buff = BuffConfigurator.New(AbyssalHeritageClawsBuff, Guids.AbyssalHeritageClawsBuff)
-        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .AddComponent<AbyssalHeritageClawsComponent>()
-        .Configure();
-
-      var abyssalClaws = ActivatableAbilityRefs.BloodlineAbyssalClawsAbililyLevel1.Reference.Get();
-      var ability = ActivatableAbilityConfigurator.New(AbyssalHeritageClaws, Guids.AbyssalHeritageClawsAbility)
-        .SetDisplayName(abyssalClaws.m_DisplayName)
-        .SetDescription(abyssalClaws.m_Description)
-        .SetIcon(abyssalClaws.m_Icon)
-        .SetDeactivateIfCombatEnded()
-        .SetDeactivateIfOwnerDisabled()
-        .SetDeactivateImmediately()
-        .SetActivationType(AbilityActivationType.WithUnitCommand)
-        .AddActivatableAbilityResourceLogic(
-          spendType: ResourceSpendType.NewRound,
-          requiredResource: AbilityResourceRefs.BloodlineAbyssalClawsResource.ToString())
-        .SetBuff(buff)
-        .Configure();
-
       var abyssalBloodline = ProgressionRefs.BloodlineAbyssalProgression.Reference.Get();
       return FeatureConfigurator.New(AbyssalHeritageName, Guids.AbyssalHeritage)
         .SetDisplayName(abyssalBloodline.m_DisplayName)
-        .SetDescription(abyssalClaws.m_Description)
+        .SetDescription(abyssalBloodline.m_Description)
         .SetIcon(abyssalBloodline.m_Icon)
         .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusPhysique.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { ability })
+        .AddComponent(
+          new ApplyFeatureOnCharacterLevel(
+            new()
+            {
+              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference, level: 3),
+              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 7),
+              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 9),
+              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel4.Cast<BlueprintFeatureReference>().Reference, level: 13),
+            }))
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineAbyssalClawsResource.ToString(), restoreAmount: true)
         .Configure();
@@ -324,27 +308,6 @@ namespace CharacterOptionsPlus.Feats
         abyssalSummons,
         new() { AbyssalHeritageName, ImprovedFeatName },
         new() { (abyssalSummons.ToReference<BlueprintFeatureReference>(), 15) });
-    }
-
-    [TypeId("83224ddf-2f92-48c3-bf2d-9a8d26a5432e")]
-    private class AbyssalHeritageClawsComponent : UnitBuffComponentDelegate
-    {
-      public override void OnActivate()
-      {
-        var characterLevel = Owner.Descriptor.Progression.CharacterLevel;
-        Buff buff;
-        if (characterLevel < 7)
-          buff = Owner.AddBuff(BuffRefs.BloodlineAbyssalClawsBuffLevel1.Reference.Get(), Context);
-        else if (characterLevel < 9)
-          buff = Owner.AddBuff(BuffRefs.BloodlineAbyssalClawsBuffLevel2.Reference.Get(), Context);
-        else if (characterLevel < 13)
-          buff = Owner.AddBuff(BuffRefs.BloodlineAbyssalClawsBuffLevel3.Reference.Get(), Context);
-        else
-          buff = Owner.AddBuff(BuffRefs.BloodlineAbyssalClawsBuffLevel4.Reference.Get(), Context);
-
-        // Links the buff to this one so they get removed at the same time
-        Buff.StoreFact(buff);
-      }
     }
     #endregion
 
