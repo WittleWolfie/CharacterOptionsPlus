@@ -7,5 +7,15 @@
   {
     "Key": "PackRagerTeamworkSelection.Description",
     "enGB": "Flags the Pack Rager's Teamwork Selection so Teamwork Feats added using BlueprintCore or TTT-Core are included."
+  },
+
+  {
+    "Key": "HeavenlyFireResourceAmount.Name",
+    "ProcessTemplates": false,
+    "enGB": "Heavenly Fire Resource Amount"
+  },
+  {
+    "Key": "HeavenlyFireResourceAmount.Description",
+    "enGB": "Correctly sets the max uses per day to 3 + Charisma modifier."
   }
 ]
