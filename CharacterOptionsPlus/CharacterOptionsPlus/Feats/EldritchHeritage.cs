@@ -96,11 +96,17 @@ namespace CharacterOptionsPlus.Feats
       #endregion
 
       #region Draconic
-      FeatureConfigurator.New(DraconicBlackName, Guids.DraconicBlackHeritage).Configure();
-      FeatureConfigurator.New(DraconicBlackResistance, Guids.DraconicBlackHeritageResistance).Configure();
-      AbilityConfigurator.New(DraconicBlackBreathAbility, Guids.DraconicBlackHeritageBreathAbility).Configure();
-      FeatureConfigurator.New(DraconicBlackBreath, Guids.DraconicBlackHeritageBreath).Configure();
-      FeatureConfigurator.New(DraconicBlackWings, Guids.DraconicBlackHeritageWings).Configure();
+      FeatureConfigurator.New(DraconicBlackHeritage, Guids.DraconicBlackHeritage).Configure();
+      FeatureConfigurator.New(DraconicBlackHeritageResistance, Guids.DraconicBlackHeritageResistance).Configure();
+      AbilityConfigurator.New(DraconicBlackHeritageBreathAbility, Guids.DraconicBlackHeritageBreathAbility).Configure();
+      FeatureConfigurator.New(DraconicBlackHeritageBreath, Guids.DraconicBlackHeritageBreath).Configure();
+      FeatureConfigurator.New(DraconicBlackHeritageWings, Guids.DraconicBlackHeritageWings).Configure();
+
+      FeatureConfigurator.New(DraconicBlueHeritage, Guids.DraconicBlueHeritage).Configure();
+      FeatureConfigurator.New(DraconicBlueHeritageResistance, Guids.DraconicBlueHeritageResistance).Configure();
+      AbilityConfigurator.New(DraconicBlueHeritageBreathAbility, Guids.DraconicBlueHeritageBreathAbility).Configure();
+      FeatureConfigurator.New(DraconicBlueHeritageBreath, Guids.DraconicBlueHeritageBreath).Configure();
+      FeatureConfigurator.New(DraconicBlueHeritageWings, Guids.DraconicBlueHeritageWings).Configure();
       #endregion
 
       #region Base
@@ -148,7 +154,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureAbyssalHeritage1(),
           ConfigureArcaneHeritage1(),
           ConfigureCelestialHeritage1(),
-          ConfigureDraconicBlack1())
+          ConfigureDraconicBlack1(),
+          ConfigureDraconicBlue1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -171,7 +178,9 @@ namespace CharacterOptionsPlus.Feats
           ConfigureCelestialHeritage3(),
           ConfigureCelestialHeritage9(),
           ConfigureDraconicBlack3(),
-          ConfigureDraconicBlack9())
+          ConfigureDraconicBlack9(),
+          ConfigureDraconicBlue3(),
+          ConfigureDraconicBlue9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -191,7 +200,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureAbyssalHeritage15(),
           ConfigureArcaneHeritage15(),
           ConfigureCelestialHeritage15(),
-          ConfigureDraconicBlack15())
+          ConfigureDraconicBlack15(),
+          ConfigureDraconicBlue15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -482,17 +492,23 @@ namespace CharacterOptionsPlus.Feats
     #endregion
 
     #region Draconic
-    private const string DraconicBlackName = "EldrichHeritage.Draconic.Black";
-    private const string DraconicBlackResistance = "EldrichHeritage.Draconic.Black.Resistance";
-    private const string DraconicBlackBreath = "EldrichHeritage.Draconic.Black.Breath";
-    private const string DraconicBlackBreathAbility = "EldrichHeritage.Draconic.Black.Breath.Ability";
-    private const string DraconicBlackWings = "EldrichHeritage.Draconic.Black.Wings";
+    private const string DraconicBlackHeritage = "EldrichHeritage.Draconic.Black";
+    private const string DraconicBlackHeritageResistance = "EldrichHeritage.Draconic.Black.Resistance";
+    private const string DraconicBlackHeritageBreath = "EldrichHeritage.Draconic.Black.Breath";
+    private const string DraconicBlackHeritageBreathAbility = "EldrichHeritage.Draconic.Black.Breath.Ability";
+    private const string DraconicBlackHeritageWings = "EldrichHeritage.Draconic.Black.Wings";
+
+    private const string DraconicBlueHeritage = "EldrichHeritage.Draconic.Blue";
+    private const string DraconicBlueHeritageResistance = "EldrichHeritage.Draconic.Blue.Resistance";
+    private const string DraconicBlueHeritageBreath = "EldrichHeritage.Draconic.Blue.Breath";
+    private const string DraconicBlueHeritageBreathAbility = "EldrichHeritage.Draconic.Blue.Breath.Ability";
+    private const string DraconicBlueHeritageWings = "EldrichHeritage.Draconic.Blue.Wings";
 
     private static BlueprintFeature ConfigureDraconicBlack1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicBlackProgression.Reference.Get();
       return AddClaws(
-        DraconicBlackName,
+        DraconicBlackHeritage,
         Guids.DraconicBlackHeritage,
         draconicBloodline,
         prereq: FeatureRefs.SkillFocusPerception.ToString(),
@@ -508,10 +524,10 @@ namespace CharacterOptionsPlus.Feats
     {
       var draconicResistances = FeatureRefs.BloodlineDraconicBlackResistancesAbilityAddLevel1.Reference.Get();
       return AddFeaturesByLevel(
-        DraconicBlackResistance,
+        DraconicBlackHeritageResistance,
         Guids.DraconicBlackHeritageResistance,
         draconicResistances,
-        new() { DraconicBlackName },
+        new() { DraconicBlackHeritage },
         new()
         {
           (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
@@ -523,25 +539,86 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicBlack9()
     {
       return ConfigureDraconicBreath(
-        abilityName: DraconicBlackBreathAbility,
+        abilityName: DraconicBlackHeritageBreathAbility,
         abilityGuid: Guids.DraconicBlackHeritageBreathAbility,
         breath: AbilityRefs.BloodlineDraconicBlackBreathWeaponAbility.Reference.Get(),
-        featureName: DraconicBlackBreath,
+        featureName: DraconicBlackHeritageBreath,
         featureGuid: Guids.DraconicBlackHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBlackBreathWeaponFeature.Reference.Get(),
         resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
-        extraUse: FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference);
+        extraUse: FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.DraconicBlackHeritageWings);
     }
 
     private static BlueprintFeature ConfigureDraconicBlack15()
     {
       var wings = FeatureRefs.FeatureWingsDraconicBlack.Reference.Get();
-      return FeatureConfigurator.New(DraconicBlackWings, Guids.DraconicBlackHeritageWings)
+      return FeatureConfigurator.New(DraconicBlackHeritageWings, Guids.DraconicBlackHeritageWings)
         .SetDisplayName(wings.m_DisplayName)
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicBlackName)
+        .AddPrerequisiteFeature(DraconicBlackHeritage)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddFacts(new() { wings })
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlue1()
+    {
+      var draconicBloodline = ProgressionRefs.BloodlineDraconicBlueProgression.Reference.Get();
+      return AddClaws(
+        DraconicBlueHeritage,
+        Guids.DraconicBlueHeritage,
+        draconicBloodline,
+        prereq: FeatureRefs.SkillFocusPerception.ToString(),
+        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
+        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
+        level3Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+        level7Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+        level9Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+        level13Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel4.Cast<BlueprintFeatureReference>().Reference);
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlue3()
+    {
+      var draconicResistances = FeatureRefs.BloodlineDraconicBlueResistancesAbilityAddLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        DraconicBlueHeritageResistance,
+        Guids.DraconicBlueHeritageResistance,
+        draconicResistances,
+        new() { DraconicBlueHeritage },
+        new()
+        {
+          (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+          (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+          (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+        });
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlue9()
+    {
+      return ConfigureDraconicBreath(
+        abilityName: DraconicBlueHeritageBreathAbility,
+        abilityGuid: Guids.DraconicBlueHeritageBreathAbility,
+        breath: AbilityRefs.BloodlineDraconicBlueBreathWeaponAbility.Reference.Get(),
+        featureName: DraconicBlueHeritageBreath,
+        featureGuid: Guids.DraconicBlueHeritageBreath,
+        breathFeature: FeatureRefs.BloodlineDraconicBlueBreathWeaponFeature.Reference.Get(),
+        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
+        extraUse: FeatureRefs.BloodlineDraconicBlueBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.DraconicBlueHeritageWings);
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlue15()
+    {
+      var wings = FeatureRefs.FeatureWingsDraconicBlue.Reference.Get();
+      return FeatureConfigurator.New(DraconicBlueHeritageWings, Guids.DraconicBlueHeritageWings)
+        .SetDisplayName(wings.m_DisplayName)
+        .SetDescription(wings.m_Description)
+        .SetIcon(wings.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(DraconicBlueHeritage)
         .AddPrerequisiteFeature(ImprovedFeatName)
         .AddFacts(new() { wings })
         .Configure();
@@ -555,7 +632,8 @@ namespace CharacterOptionsPlus.Feats
       string featureGuid,
       BlueprintFeature breathFeature,
       string resource,
-      BlueprintFeatureReference extraUse)
+      BlueprintFeatureReference extraUse,
+      string greaterFeatureGuid)
     {
       var ability = AbilityConfigurator.New(abilityName, abilityGuid)
         .SetDisplayName(breath.m_DisplayName)
@@ -591,7 +669,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(
           new ApplyFeatureOnCharacterLevel(
             new() { (extraUse, level: 19) },
-            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DraconicBlackHeritageWings),
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(greaterFeatureGuid),
             greaterFeatureLevels: new() { (extraUse, level: 17) }))
         .Configure();
     }
