@@ -222,9 +222,9 @@ namespace CharacterOptionsPlus.Feats
         try
         {
           if (unit.HasFact(GreaterEldritchHeritage))
-            return Math.Max(20, unit.Descriptor.Progression.CharacterLevel);
+            return Math.Min(20, unit.Descriptor.Progression.CharacterLevel);
           else if (unit.HasFact(EldritchHeritage))
-            return Math.Max(20, unit.Descriptor.Progression.CharacterLevel - 2);
+            return Math.Min(20, unit.Descriptor.Progression.CharacterLevel - 2);
         }
         catch (Exception e)
         {
@@ -441,7 +441,8 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(heavenlyFire.GetComponent<AbilityTargetAlignment>())
         .AddContextRankConfig(
           ContextRankConfigs.CustomProperty(
-            EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20))
+              EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20)
+            .WithDiv2Progression())
         .Configure();
 
       var celestialBloodline = ProgressionRefs.BloodlineCelestialProgression.Reference.Get();
@@ -450,14 +451,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(celestialBloodline.m_Description)
         .SetIcon(celestialBloodline.m_Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeaturesFromList(
-          new() {
-            FeatureRefs.SkillFocusKnowledgeArcana.ToString(),
-            FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
-            FeatureRefs.SkillFocusLoreNature.ToString(),
-            FeatureRefs.SkillFocusLoreReligion.ToString(),
-          },
-          amount: 1)
+        .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreReligion.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.CelestialBloodlineRequisiteFeature.ToString())
         .AddFacts(new() { ray })
         .AddAbilityResources(
