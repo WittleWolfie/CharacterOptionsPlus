@@ -31,6 +31,7 @@ using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Kingmaker.Kingdom.Settlements.SettlementGridTopology;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -507,12 +508,16 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureCelestialHeritage15()
     {
       var celestialConviction = FeatureRefs.BloodlineCelestialConvictionAbility.Reference.Get();
-      return AddFeaturesByLevel(
-        CelestialHeritageConviction,
-        Guids.CelestialHeritageConviction,
-        celestialConviction,
-        new() { CelestialHeritageName, ImprovedFeatName },
-        new() { (celestialConviction.ToReference<BlueprintFeatureReference>(), level: 17) });
+      return FeatureConfigurator.New(CelestialHeritageConviction, CelestialHeritageConviction)
+        .SetDisplayName(celestialConviction.m_DisplayName)
+        .SetDescription(celestialConviction.m_Description)
+        .SetIcon(celestialConviction.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(CelestialHeritageName)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddSpellResistanceAgainstAlignment(alignment: AlignmentComponent.Evil, value: ContextValues.Rank())
+        .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20).WithBonusValueProgression(11))
+        .Configure();
     }
     #endregion
 
