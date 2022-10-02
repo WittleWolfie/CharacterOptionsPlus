@@ -138,8 +138,12 @@ namespace CharacterOptionsPlus.Util
     internal const string DraconicGoldHeritageBreathAbility = "aa7c1ba0-be6b-4530-a7df-939b79f714b3";
     internal const string DraconicGoldHeritageWings = "90dff65b-ff12-4a6c-a796-8643d4d3a315";
 
-    internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     internal const string DraconicGreenHeritage = "f39601f8-fd68-472c-a4a1-c33e5890f8d9";
+    internal const string DraconicGreenHeritageResistance = "e78c3df2-9c05-4e7b-b9bc-8aaed51230bf";
+    internal const string DraconicGreenHeritageBreath = "eaa860d8-26ae-469e-80a9-fd1b07c549de";
+    internal const string DraconicGreenHeritageBreathAbility = "25ef87d3-babb-4818-91b2-038470b66812";
+    internal const string DraconicGreenHeritageWings = "095dc84f-e42c-408b-8c19-9b2923953286";
+
     internal const string DraconicRedHeritage = "8696a6cd-895e-4b62-9b77-d2b87a03fe2c";
     internal const string DraconicSilverHeritage = "438949f8-8a35-4404-acc5-dd7b2cac0021";
     internal const string DraconicWhiteHeritage = "1d842b4e-3ef4-48dc-bd8f-1f61d04284dd";
@@ -151,6 +155,7 @@ namespace CharacterOptionsPlus.Util
     internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
+    internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     #endregion
 
     #region Dynamic GUIDs
