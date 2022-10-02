@@ -35,6 +35,10 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Paired Opportunists](https://www.d20pfsrd.com/feats/combat-feats/paired-opportunists-combat-teamwork/)
     * [Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/skald-s-vigor/) and [Greater Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/greater-skald-s-vigor/)
 
+## Bug Fixes
+
+* Heavenly Fire can be used 3 + Charisma Modifier times per day instead of just 3
+
 ## Planned Content
 
 ### NOT IMPLEMENTED YET (YOU KNOW, PLANNED)
