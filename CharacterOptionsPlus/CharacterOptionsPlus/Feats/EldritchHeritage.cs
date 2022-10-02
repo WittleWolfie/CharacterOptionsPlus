@@ -96,8 +96,11 @@ namespace CharacterOptionsPlus.Feats
       #endregion
 
       #region Draconic
-
-
+      FeatureConfigurator.New(DraconicBlackName, Guids.DraconicBlackHeritage).Configure();
+      FeatureConfigurator.New(DraconicBlackResistance, Guids.DraconicBlackHeritageResistance).Configure();
+      AbilityConfigurator.New(DraconicBlackBreathAbility, Guids.DraconicBlackHeritageBreathAbility).Configure();
+      FeatureConfigurator.New(DraconicBlackBreath, Guids.DraconicBlackHeritageBreath).Configure();
+      FeatureConfigurator.New(DraconicBlackWings, Guids.DraconicBlackHeritageWings).Configure();
       #endregion
 
       #region Base
@@ -564,18 +567,17 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
     }
 
-    private static BlueprintFeature ConfigureCelestialHeritage15()
+    private static BlueprintFeature ConfigureDraconicBlack15()
     {
-      var celestialConviction = FeatureRefs.BloodlineCelestialConvictionAbility.Reference.Get();
-      return FeatureConfigurator.New(CelestialHeritageConviction, CelestialHeritageConviction)
-        .SetDisplayName(celestialConviction.m_DisplayName)
-        .SetDescription(celestialConviction.m_Description)
-        .SetIcon(celestialConviction.Icon)
+      var wings = FeatureRefs.FeatureWingsDraconicBlack.Reference.Get();
+      return FeatureConfigurator.New(DraconicBlackWings, Guids.DraconicBlackHeritageWings)
+        .SetDisplayName(wings.m_DisplayName)
+        .SetDescription(wings.m_Description)
+        .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(CelestialHeritageName)
+        .AddPrerequisiteFeature(DraconicBlackName)
         .AddPrerequisiteFeature(ImprovedFeatName)
-        .AddSpellResistanceAgainstAlignment(alignment: AlignmentComponent.Evil, value: ContextValues.Rank())
-        .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20).WithBonusValueProgression(11))
+        .AddFacts(new() { wings })
         .Configure();
     }
 
