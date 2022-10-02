@@ -81,9 +81,28 @@ namespace CharacterOptionsPlus.Feats
       BuffConfigurator.New(AbyssalHeritageClawsBuff, Guids.AbyssalHeritageClawsBuff).Configure();
       ActivatableAbilityConfigurator.New(AbyssalHeritageClaws, Guids.AbyssalHeritageClawsAbility).Configure();
       FeatureConfigurator.New(AbyssalHeritageName, Guids.AbyssalHeritage).Configure();
+      FeatureConfigurator.New(AbyssalHeritageResistance, Guids.AbyssalHeritageResistance).Configure();
+      FeatureConfigurator.New(AbyssalHeritageStrength, Guids.AbyssalHeritageStrength).Configure();
+      FeatureConfigurator.New(AbyssalHeritageSummons, Guids.AbyssalHeritageSummons).Configure();
       #endregion
 
+      #region Arcane
+      FeatureSelectionConfigurator.New(ArcaneHeritageName, Guids.ArcaneHeritage).Configure();
+      FeatureSelectionConfigurator.New(ArcaneHeritageAdept, Guids.ArcaneHeritageAdept).Configure();
+      FeatureSelectionConfigurator.New(ArcaneHeritageFocus, Guids.ArcaneHeritageFocus).Configure();
+      #endregion
 
+      #region Celestial
+      AbilityConfigurator.New(CelestialHeritageRay, Guids.CelestialHeritageRay).Configure();
+      FeatureConfigurator.New(CelestialHeritageName, Guids.CelestialHeritage).Configure();
+      FeatureConfigurator.New(CelestialHeritageResistances, Guids.CelestialHeritageResistances).Configure();
+      AbilityResourceConfigurator.New(CelestialHeritageAuraResource, Guids.CelestialHeritageAuraResource).Configure();
+      AbilityConfigurator.New(CelestialHeritageAuraAbility, Guids.CelestialHeritageAuraAbility).Configure();
+      FeatureConfigurator.New(CelestialHeritageAura, Guids.CelestialHeritageAura).Configure();
+      FeatureConfigurator.New(CelestialHeritageConviction, Guids.CelestialHeritageConviction).Configure();
+      #endregion
+
+      #region Base
       UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
         .AddComponent<SorcererLevelGetter>()
         .Configure();
@@ -105,6 +124,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(GreaterFeatDescription)
         .SetIcon(Icon)
         .Configure();
+      #endregion
     }
 
     private static void ConfigureEnabled()
@@ -125,7 +145,8 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteCharacterLevel(3)
         .AddToAllFeatures(
           ConfigureAbyssalHeritage1(),
-          ConfigureArcaneHeritage1())
+          ConfigureArcaneHeritage1(),
+          ConfigureCelestialHeritage1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -144,7 +165,9 @@ namespace CharacterOptionsPlus.Feats
         .AddToAllFeatures(
           ConfigureAbyssalHeritage3(),
           ConfigureAbyssalHeritage9(),
-          ConfigureArcaneHeritage3())
+          ConfigureArcaneHeritage3(),
+          ConfigureCelestialHeritage3(),
+          ConfigureCelestialHeritage9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -162,7 +185,8 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteCharacterLevel(17)
         .AddToAllFeatures(
           ConfigureAbyssalHeritage15(),
-          ConfigureArcaneHeritage15())
+          ConfigureArcaneHeritage15(),
+          ConfigureCelestialHeritage15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -390,6 +414,7 @@ namespace CharacterOptionsPlus.Feats
     private const string CelestialHeritageAura = "EldritchHeritage.Celestial.Aura";
     private const string CelestialHeritageAuraResource = "EldritchHeritage.Celestial.Aura.Resources";
     private const string CelestialHeritageAuraAbility = "EldritchHeritage.Celestial.Aura.Ability";
+    private const string CelestialHeritageConviction = "EldritchHeritage.Celestial.Aura.Convection";
 
     private static BlueprintFeature ConfigureCelestialHeritage1()
     {
@@ -487,17 +512,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureCelestialHeritage15()
     {
-      var CelestialFocus = ParametrizedFeatureRefs.BloodlineCelestialSchoolPowerFeature.Reference.Get();
-      return FeatureSelectionConfigurator.New(CelestialHeritageFocus, Guids.CelestialHeritageFocus)
-        .SetDisplayName(CelestialFocus.m_DisplayName)
-        .SetDescription(CelestialFocus.m_Description)
-        .SetIcon(CelestialFocus.m_Icon)
-        .SetIsClassFeature()
-        .AddPrerequisiteFeature(CelestialHeritageName)
-        .AddPrerequisiteFeature(ImprovedFeatName)
-        .AddPrerequisiteNoFeature(CelestialHeritageFocus)
-        .AddToAllFeatures(CelestialFocus)
-        .Configure();
+      var celestialConviction = FeatureRefs.BloodlineCelestialConvictionAbility.Reference.Get();
+      return AddFeaturesByLevel(
+        CelestialHeritageConviction,
+        Guids.CelestialHeritageConviction,
+        celestialConviction,
+        new() { CelestialHeritageName, ImprovedFeatName },
+        new() { (celestialConviction.ToReference<BlueprintFeatureReference>(), level: 17) });
     }
     #endregion
 
