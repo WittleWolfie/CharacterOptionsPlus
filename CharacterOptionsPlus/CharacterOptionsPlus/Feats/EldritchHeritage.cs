@@ -137,6 +137,12 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(DraconicGreenHeritageBreathAbility, Guids.DraconicGreenHeritageBreathAbility).Configure();
       FeatureConfigurator.New(DraconicGreenHeritageBreath, Guids.DraconicGreenHeritageBreath).Configure();
       FeatureConfigurator.New(DraconicGreenHeritageWings, Guids.DraconicGreenHeritageWings).Configure();
+
+      FeatureConfigurator.New(DraconicRedHeritage, Guids.DraconicRedHeritage).Configure();
+      FeatureConfigurator.New(DraconicRedHeritageResistance, Guids.DraconicRedHeritageResistance).Configure();
+      AbilityConfigurator.New(DraconicRedHeritageBreathAbility, Guids.DraconicRedHeritageBreathAbility).Configure();
+      FeatureConfigurator.New(DraconicRedHeritageBreath, Guids.DraconicRedHeritageBreath).Configure();
+      FeatureConfigurator.New(DraconicRedHeritageWings, Guids.DraconicRedHeritageWings).Configure();
       #endregion
 
       #region Base
@@ -199,7 +205,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureDraconicGold1(),
 
-          ConfigureDraconicGreen1())
+          ConfigureDraconicGreen1(),
+          
+          ConfigureDraconicRed1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -243,7 +251,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureDraconicGold9(),
 
           ConfigureDraconicGreen3(),
-          ConfigureDraconicGreen9())
+          ConfigureDraconicGreen9(),
+          
+          ConfigureDraconicRed3(),
+          ConfigureDraconicRed9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -278,7 +289,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureDraconicGold15(),
 
-          ConfigureDraconicGreen15())
+          ConfigureDraconicGreen15(),
+          
+          ConfigureDraconicRed15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1039,6 +1052,74 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(DraconicGreenHeritage)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddFacts(new() { wings })
+        .Configure();
+    }
+    #endregion
+
+    #region Red Dragon
+    private const string DraconicRedHeritage = "EldrichHeritage.Draconic.Red";
+    private const string DraconicRedHeritageResistance = "EldrichHeritage.Draconic.Red.Resistance";
+    private const string DraconicRedHeritageBreath = "EldrichHeritage.Draconic.Red.Breath";
+    private const string DraconicRedHeritageBreathAbility = "EldrichHeritage.Draconic.Red.Breath.Ability";
+    private const string DraconicRedHeritageWings = "EldrichHeritage.Draconic.Red.Wings";
+
+    private static BlueprintFeature ConfigureDraconicRed1()
+    {
+      var draconicBloodline = ProgressionRefs.BloodlineDraconicRedProgression.Reference.Get();
+      return AddClaws(
+        DraconicRedHeritage,
+        Guids.DraconicRedHeritage,
+        draconicBloodline,
+        prereq: FeatureRefs.SkillFocusPerception.ToString(),
+        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
+        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
+        level3Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+        level7Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+        level9Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+        level13Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel4.Cast<BlueprintFeatureReference>().Reference);
+    }
+
+    private static BlueprintFeature ConfigureDraconicRed3()
+    {
+      var draconicResistances = FeatureRefs.BloodlineDraconicRedResistancesAbilityAddLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        DraconicRedHeritageResistance,
+        Guids.DraconicRedHeritageResistance,
+        draconicResistances,
+        new() { DraconicRedHeritage },
+        new()
+        {
+          (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+          (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+          (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+        });
+    }
+
+    private static BlueprintFeature ConfigureDraconicRed9()
+    {
+      return ConfigureDraconicBreath(
+        abilityName: DraconicRedHeritageBreathAbility,
+        abilityGuid: Guids.DraconicRedHeritageBreathAbility,
+        breath: AbilityRefs.BloodlineDraconicRedBreathWeaponAbility.Reference.Get(),
+        featureName: DraconicRedHeritageBreath,
+        featureGuid: Guids.DraconicRedHeritageBreath,
+        breathFeature: FeatureRefs.BloodlineDraconicRedBreathWeaponFeature.Reference.Get(),
+        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
+        extraUse: FeatureRefs.BloodlineDraconicRedBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.DraconicRedHeritageWings);
+    }
+
+    private static BlueprintFeature ConfigureDraconicRed15()
+    {
+      var wings = FeatureRefs.FeatureWingsDraconicRed.Reference.Get();
+      return FeatureConfigurator.New(DraconicRedHeritageWings, Guids.DraconicRedHeritageWings)
+        .SetDisplayName(wings.m_DisplayName)
+        .SetDescription(wings.m_Description)
+        .SetIcon(wings.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(DraconicRedHeritage)
         .AddPrerequisiteFeature(ImprovedFeatName)
         .AddFacts(new() { wings })
         .Configure();
