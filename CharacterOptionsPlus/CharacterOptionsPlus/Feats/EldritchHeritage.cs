@@ -522,8 +522,42 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureDraconicBlack9()
     {
-      var breath = AbilityRefs.BloodlineDraconicBlackBreathWeaponAbility.Reference.Get();
-      var ability = AbilityConfigurator.New(DraconicBlackBreathAbility, Guids.DraconicBlackHeritageBreathAbility)
+      return ConfigureDraconicBreath(
+        abilityName: DraconicBlackBreathAbility,
+        abilityGuid: Guids.DraconicBlackHeritageBreathAbility,
+        breath: AbilityRefs.BloodlineDraconicBlackBreathWeaponAbility.Reference.Get(),
+        featureName: DraconicBlackBreath,
+        featureGuid: Guids.DraconicBlackHeritageBreath,
+        breathFeature: FeatureRefs.BloodlineDraconicBlackBreathWeaponFeature.Reference.Get(),
+        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
+        extraUse: FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference);
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlack15()
+    {
+      var wings = FeatureRefs.FeatureWingsDraconicBlack.Reference.Get();
+      return FeatureConfigurator.New(DraconicBlackWings, Guids.DraconicBlackHeritageWings)
+        .SetDisplayName(wings.m_DisplayName)
+        .SetDescription(wings.m_Description)
+        .SetIcon(wings.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(DraconicBlackName)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddFacts(new() { wings })
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureDraconicBreath(
+      string abilityName,
+      string abilityGuid,
+      BlueprintAbility breath,
+      string featureName,
+      string featureGuid,
+      BlueprintFeature breathFeature,
+      string resource,
+      BlueprintFeatureReference extraUse)
+    {
+      var ability = AbilityConfigurator.New(abilityName, abilityGuid)
         .SetDisplayName(breath.m_DisplayName)
         .SetDescription(breath.m_Description)
         .SetIcon(breath.Icon)
@@ -545,43 +579,20 @@ namespace CharacterOptionsPlus.Feats
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
         .Configure();
 
-      var breathFeature = FeatureRefs.BloodlineDraconicBlackBreathWeaponFeature.Reference.Get();
-      return FeatureConfigurator.New(DraconicBlackBreath, Guids.DraconicBlackHeritageBreath)
+      return FeatureConfigurator.New(featureName, featureGuid)
         .SetDisplayName(breathFeature.m_DisplayName)
         .SetDescription(breathFeature.m_Description)
         .SetIcon(breathFeature.Icon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
         .AddFacts(new() { ability })
-        .AddAbilityResources(
-          resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(), restoreAmount: true)
+        .AddAbilityResources(resource: resource, restoreAmount: true)
         .AddComponent(new BindDragonBreath(ability.ToReference<BlueprintAbilityReference>()))
         .AddComponent(
           new ApplyFeatureOnCharacterLevel(
-            new()
-            {
-              (FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference, level: 19)
-            },
+            new() { (extraUse, level: 19) },
             greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DraconicBlackHeritageWings),
-            greaterFeatureLevels:
-              new()
-              {
-                (FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference, level: 17)
-              }))
-        .Configure();
-    }
-
-    private static BlueprintFeature ConfigureDraconicBlack15()
-    {
-      var wings = FeatureRefs.FeatureWingsDraconicBlack.Reference.Get();
-      return FeatureConfigurator.New(DraconicBlackWings, Guids.DraconicBlackHeritageWings)
-        .SetDisplayName(wings.m_DisplayName)
-        .SetDescription(wings.m_Description)
-        .SetIcon(wings.Icon)
-        .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicBlackName)
-        .AddPrerequisiteFeature(ImprovedFeatName)
-        .AddFacts(new() { wings })
+            greaterFeatureLevels: new() { (extraUse, level: 17) }))
         .Configure();
     }
 
