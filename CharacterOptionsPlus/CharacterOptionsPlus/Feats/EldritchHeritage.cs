@@ -15,14 +15,13 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.UnitLogic;
-using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
+using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
@@ -32,7 +31,6 @@ using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -390,7 +388,8 @@ namespace CharacterOptionsPlus.Feats
     private const string CelestialHeritageRay = "EldritchHeritage.Celestial.Ray.Attack";
     private const string CelestialHeritageResistances = "EldritchHeritage.Celestial.Resitances";
     private const string CelestialHeritageAura = "EldritchHeritage.Celestial.Aura";
-    private const string CelestialHeritageAuraResources = "EldritchHeritage.Celestial.Aura.Resources";
+    private const string CelestialHeritageAuraResource = "EldritchHeritage.Celestial.Aura.Resources";
+    private const string CelestialHeritageAuraAbility = "EldritchHeritage.Celestial.Aura.Ability";
 
     private static BlueprintFeature ConfigureCelestialHeritage1()
     {
@@ -456,22 +455,34 @@ namespace CharacterOptionsPlus.Feats
     {
       var celestialAuraResource = AbilityResourceRefs.BloodlineCelestialAuraOfHeavenResource.Reference.Get();
       var resource =
-        AbilityResourceConfigurator.New(CelestialHeritageAuraResources, Guids.CelestialHeritageAuraResource)
+        AbilityResourceConfigurator.New(CelestialHeritageAuraResource, Guids.CelestialHeritageAuraResource)
           .SetIcon(celestialAuraResource.Icon)
-          .SetUseMax()
-          .SetMax(10)
           .Configure();
 
-      // TODO: Need to add the resource + SetResourceMax component using the custom property
-      // TODO: Copy BloodlineCelestialAuraOfHeavenAbility but replace the resources
+      var celestialAuraAbility = AbilityRefs.BloodlineCelestialAuraOfHeavenAbility.Reference.Get();
+      var aura = AbilityConfigurator.New(CelestialHeritageAuraAbility, Guids.CelestialHeritageAuraAbility)
+        .SetDisplayName(celestialAuraAbility.m_DisplayName)
+        .SetDescription(celestialAuraAbility.m_Description)
+        .SetIcon(celestialAuraAbility.Icon)
+        .AddComponent(celestialAuraAbility.GetComponent<SpellComponent>())
+        .AddComponent(celestialAuraAbility.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(celestialAuraAbility.GetComponent<AbilitySpawnFx>())
+        .AddAbilityResourceLogic(amount: 1, isSpendResource: true, requiredResource: resource)
+        .Configure();
 
       var celestialAura = FeatureRefs.BloodlineCelestialAuraOfHeavenFeature.Reference.Get();
-      return AddFeaturesByLevel(
-        CelestialHeritageResistances,
-        Guids.CelestialHeritageResistances,
-        celestialAura,
-        new() { CelestialHeritageName },
-        new() { (celestialAura.ToReference<BlueprintFeatureReference>(), level: 11) });
+      return FeatureConfigurator.New(CelestialHeritageAura, Guids.CelestialHeritageAura)
+        .SetDisplayName(celestialAura.m_DisplayName)
+        .SetDescription(celestialAura.m_Description)
+        .SetIcon(celestialAura.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(CelestialHeritageName)
+        .AddFacts(new() { aura })
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddComponent(
+          new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 10).WithDiv2Progression())
+        .Configure();
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage15()

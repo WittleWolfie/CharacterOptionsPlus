@@ -101,6 +101,7 @@ namespace CharacterOptionsPlus.Util
     internal const string CelestialHeritageResistances = "000fc6b5-1926-4702-9c05-b4df8940930a";
     internal const string CelestialHeritageAura = "a73b418a-00da-462d-8d79-475ee091ab03";
     internal const string CelestialHeritageAuraResource = "9d1256f4-e872-4be2-a588-391814b811eb";
+    internal const string CelestialHeritageAuraAbility = "5d1681ec-cdd8-4f04-899c-af0a238254eb";
 
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     internal const string DraconicBlackHeritage = "cb5eaa9d-9ccc-4b55-bd05-88caffc38139";
