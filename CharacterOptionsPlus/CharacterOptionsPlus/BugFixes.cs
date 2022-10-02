@@ -17,6 +17,8 @@ namespace CharacterOptionsPlus
     {
       if (Settings.IsEnabled(PackRagerTeamworkSelection))
         FixPackRagerTeamworkSelection();
+      if (Settings.IsEnabled(HeavenlyFireResourceAmount))
+        FixHeavenlyFireResourceAmount();
     }
 
     internal static string PackRagerTeamworkSelection = "pack-rager-teamwork-selection-fix";
