@@ -151,6 +151,11 @@ namespace CharacterOptionsPlus.Util
     internal const string DraconicRedHeritageWings = "c89de55a-437a-43e5-b69d-0d34e5ba32bc";
 
     internal const string DraconicSilverHeritage = "438949f8-8a35-4404-acc5-dd7b2cac0021";
+    internal const string DraconicSilverHeritageResistance = "77791d4b-f473-4351-945f-bffc4e144cea";
+    internal const string DraconicSilverHeritageBreath = "0096aed1-49f2-438e-af2b-6c0bf0207fc4";
+    internal const string DraconicSilverHeritageBreathAbility = "c64845a7-79a9-4447-8424-e8fc9080b340";
+    internal const string DraconicSilverHeritageWings = "2f4f6ee2-df54-43d8-809f-df830f2c54c8";
+
     internal const string DraconicWhiteHeritage = "1d842b4e-3ef4-48dc-bd8f-1f61d04284dd";
     internal const string ElementalAirHeritage = "10f79138-da20-4202-b09f-941261f7d212";
     internal const string ElementalEarthHeritage = "4652cd5e-64a3-4dfb-9c32-8cd5d8f2bcd5";
