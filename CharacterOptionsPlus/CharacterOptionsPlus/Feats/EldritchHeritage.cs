@@ -101,6 +101,11 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(CelestialHeritageConviction, Guids.CelestialHeritageConviction).Configure();
       #endregion
 
+      #region Draconic
+
+
+      #endregion
+
       #region Base
       UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
         .AddComponent<SorcererLevelGetter>()
@@ -243,26 +248,17 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureAbyssalHeritage1()
     {
       var abyssalBloodline = ProgressionRefs.BloodlineAbyssalProgression.Reference.Get();
-      return FeatureConfigurator.New(AbyssalHeritageName, Guids.AbyssalHeritage)
-        .SetDisplayName(abyssalBloodline.m_DisplayName)
-        .SetDescription(abyssalBloodline.m_Description)
-        .SetIcon(abyssalBloodline.m_Icon)
-        .SetIsClassFeature()
-        .SetReapplyOnLevelUp()
-        .AddPrerequisiteFeature(FeatureRefs.SkillFocusPhysique.ToString())
-        .AddPrerequisiteNoFeature(FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString())
-        .AddComponent(
-          new ApplyFeatureOnCharacterLevel(
-            new()
-            {
-              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference, level: 3),
-              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 7),
-              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 9),
-              (FeatureRefs.BloodlineAbyssalClawsFeatureLevel4.Cast<BlueprintFeatureReference>().Reference, level: 13),
-            }))
-        .AddAbilityResources(
-          resource: AbilityResourceRefs.BloodlineAbyssalClawsResource.ToString(), restoreAmount: true)
-        .Configure();
+      return AddClaws(
+        AbyssalHeritageName,
+        Guids.AbyssalHeritage,
+        abyssalBloodline,
+        prereq: FeatureRefs.SkillFocusPhysique.ToString(),
+        excludePrereq: FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString(),
+        resource: AbilityResourceRefs.BloodlineAbyssalClawsResource.ToString(),
+        level3Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+        level7Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+        level9Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+        level13Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference);
     }
 
     private static BlueprintFeature ConfigureAbyssalHeritage3()
@@ -484,6 +480,93 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    #region Draconic
+    private const string DraconicBlackName = "EldrichHeritage.Draconic.Black";
+    private const string DraconicBlackResistance = "EldrichHeritage.Draconic.Black.Resistance";
+    private const string DraconicBlackBreath = "EldrichHeritage.Draconic.Black.Breath";
+
+    private static BlueprintFeature ConfigureDraconicBlack1()
+    {
+      var draconicBloodline = ProgressionRefs.BloodlineDraconicBlackProgression.Reference.Get();
+      return AddClaws(
+        DraconicBlackName,
+        Guids.DraconicBlackHeritage,
+        draconicBloodline,
+        prereq: FeatureRefs.SkillFocusPerception.ToString(),
+        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
+        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
+        level3Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+        level7Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+        level9Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+        level13Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel4.Cast<BlueprintFeatureReference>().Reference);
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlack3()
+    {
+      var draconicResistances = FeatureRefs.BloodlineDraconicBlackResistancesAbilityAddLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        DraconicBlackResistance,
+        Guids.DraconicBlackHeritageResistance,
+        draconicResistances,
+        new() { DraconicBlackName },
+        new()
+        {
+          (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+          (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+          (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+        });
+    }
+
+    private static BlueprintFeature ConfigureDraconicBlack9()
+    {
+      var celestialAuraResource = AbilityResourceRefs.BloodlineCelestialAuraOfHeavenResource.Reference.Get();
+      var resource =
+        AbilityResourceConfigurator.New(CelestialHeritageAuraResource, Guids.CelestialHeritageAuraResource)
+          .SetIcon(celestialAuraResource.Icon)
+          .Configure();
+
+      var celestialAuraAbility = AbilityRefs.BloodlineCelestialAuraOfHeavenAbility.Reference.Get();
+      var aura = AbilityConfigurator.New(CelestialHeritageAuraAbility, Guids.CelestialHeritageAuraAbility)
+        .SetDisplayName(celestialAuraAbility.m_DisplayName)
+        .SetDescription(celestialAuraAbility.m_Description)
+        .SetIcon(celestialAuraAbility.Icon)
+        .AddComponent(celestialAuraAbility.GetComponent<SpellComponent>())
+        .AddComponent(celestialAuraAbility.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(celestialAuraAbility.GetComponent<AbilitySpawnFx>())
+        .AddAbilityResourceLogic(amount: 1, isSpendResource: true, requiredResource: resource)
+        .Configure();
+
+      var celestialAura = FeatureRefs.BloodlineCelestialAuraOfHeavenFeature.Reference.Get();
+      return FeatureConfigurator.New(CelestialHeritageAura, Guids.CelestialHeritageAura)
+        .SetDisplayName(celestialAura.m_DisplayName)
+        .SetDescription(celestialAura.m_Description)
+        .SetIcon(celestialAura.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(CelestialHeritageName)
+        .AddFacts(new() { aura })
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddComponent(
+          new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 10).WithDiv2Progression())
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureCelestialHeritage15()
+    {
+      var celestialConviction = FeatureRefs.BloodlineCelestialConvictionAbility.Reference.Get();
+      return FeatureConfigurator.New(CelestialHeritageConviction, CelestialHeritageConviction)
+        .SetDisplayName(celestialConviction.m_DisplayName)
+        .SetDescription(celestialConviction.m_Description)
+        .SetIcon(celestialConviction.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(CelestialHeritageName)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddSpellResistanceAgainstAlignment(alignment: AlignmentComponent.Evil, value: ContextValues.Rank())
+        .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20).WithBonusValueProgression(11))
+        .Configure();
+    }
+    #endregion
+
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.
     // Greater enables the change from Level - 2 to Level when Greater Eldritch Heritage is acquired.
     private static BlueprintFeature AddFeaturesByLevel(
@@ -511,6 +594,38 @@ namespace CharacterOptionsPlus.Feats
         feature.AddPrerequisiteFeature(prereq);
 
       return feature.Configure();
+    }
+
+    private static BlueprintFeature AddClaws(
+      string name,
+      string guid,
+      BlueprintFeature sourceFeature,
+      string prereq,
+      string excludePrereq,
+      string resource,
+      BlueprintFeatureReference level3Claw,
+      BlueprintFeatureReference level7Claw,
+      BlueprintFeatureReference level9Claw,
+      BlueprintFeatureReference level13Claw)
+    {
+      return FeatureConfigurator.New(name, guid)
+        .SetDisplayName(sourceFeature.m_DisplayName)
+        .SetDescription(sourceFeature.m_Description)
+        .SetIcon(sourceFeature.m_Icon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddPrerequisiteFeature(prereq)
+        .AddPrerequisiteNoFeature(excludePrereq)
+        .AddComponent(
+          new ApplyFeatureOnCharacterLevel(
+            new() {
+              (level3Claw, level: 3),
+              (level7Claw, level: 7),
+              (level9Claw, level: 9),
+              (level13Claw, level: 13),
+            }))
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .Configure();
     }
   }
 }
