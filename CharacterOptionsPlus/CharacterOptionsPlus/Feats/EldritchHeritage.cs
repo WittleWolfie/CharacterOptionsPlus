@@ -1,10 +1,8 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
-using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
 using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
-using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
@@ -18,21 +16,17 @@ using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
-using Kingmaker.UnitLogic.ActivatableAbilities;
-using Kingmaker.UnitLogic.Buffs;
-using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Kingmaker.Kingdom.Settlements.SettlementGridTopology;
-using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
@@ -484,6 +478,8 @@ namespace CharacterOptionsPlus.Feats
     private const string DraconicBlackName = "EldrichHeritage.Draconic.Black";
     private const string DraconicBlackResistance = "EldrichHeritage.Draconic.Black.Resistance";
     private const string DraconicBlackBreath = "EldrichHeritage.Draconic.Black.Breath";
+    private const string DraconicBlackBreathAbility = "EldrichHeritage.Draconic.Black.Breath.Ability";
+    private const string DraconicBlackWings = "EldrichHeritage.Draconic.Black.Wings";
 
     private static BlueprintFeature ConfigureDraconicBlack1()
     {
@@ -519,35 +515,52 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureDraconicBlack9()
     {
-      var celestialAuraResource = AbilityResourceRefs.BloodlineCelestialAuraOfHeavenResource.Reference.Get();
-      var resource =
-        AbilityResourceConfigurator.New(CelestialHeritageAuraResource, Guids.CelestialHeritageAuraResource)
-          .SetIcon(celestialAuraResource.Icon)
-          .Configure();
-
-      var celestialAuraAbility = AbilityRefs.BloodlineCelestialAuraOfHeavenAbility.Reference.Get();
-      var aura = AbilityConfigurator.New(CelestialHeritageAuraAbility, Guids.CelestialHeritageAuraAbility)
-        .SetDisplayName(celestialAuraAbility.m_DisplayName)
-        .SetDescription(celestialAuraAbility.m_Description)
-        .SetIcon(celestialAuraAbility.Icon)
-        .AddComponent(celestialAuraAbility.GetComponent<SpellComponent>())
-        .AddComponent(celestialAuraAbility.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(celestialAuraAbility.GetComponent<AbilitySpawnFx>())
-        .AddAbilityResourceLogic(amount: 1, isSpendResource: true, requiredResource: resource)
+      var breath = AbilityRefs.BloodlineDraconicBlackBreathWeaponAbility.Reference.Get();
+      var ability = AbilityConfigurator.New(DraconicBlackBreathAbility, Guids.DraconicBlackHeritageBreathAbility)
+        .SetDisplayName(breath.m_DisplayName)
+        .SetDescription(breath.m_Description)
+        .SetIcon(breath.Icon)
+        .SetType(breath.Type)
+        .SetRange(breath.Range)
+        .SetCanTargetEnemies()
+        .SetCanTargetFriends()
+        .SetCanTargetSelf()
+        .SetCanTargetPoint()
+        .SetEffectOnEnemy(breath.EffectOnEnemy)
+        .SetAnimation(breath.Animation)
+        .SetActionType(breath.ActionType)
+        .SetAvailableMetamagic(breath.AvailableMetamagic)
+        .SetLocalizedSavingThrow(breath.LocalizedSavingThrow)
+        .AddComponent(breath.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(breath.GetComponent<AbilityDeliverProjectile>())
+        .AddComponent(breath.GetComponent<SpellDescriptorComponent>())
+        .AddComponent(breath.GetComponent<AbilityResourceLogic>())
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
         .Configure();
 
-      var celestialAura = FeatureRefs.BloodlineCelestialAuraOfHeavenFeature.Reference.Get();
-      return FeatureConfigurator.New(CelestialHeritageAura, Guids.CelestialHeritageAura)
-        .SetDisplayName(celestialAura.m_DisplayName)
-        .SetDescription(celestialAura.m_Description)
-        .SetIcon(celestialAura.m_Icon)
+      var breathFeature = FeatureRefs.BloodlineDraconicBlackBreathWeaponFeature.Reference.Get();
+      return FeatureConfigurator.New(DraconicBlackBreath, Guids.DraconicBlackHeritageBreath)
+        .SetDisplayName(breathFeature.m_DisplayName)
+        .SetDescription(breathFeature.m_Description)
+        .SetIcon(breathFeature.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(CelestialHeritageName)
-        .AddFacts(new() { aura })
-        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .SetReapplyOnLevelUp()
+        .AddFacts(new() { ability })
+        .AddAbilityResources(
+          resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(), restoreAmount: true)
+        .AddComponent(new BindDragonBreath(ability.ToReference<BlueprintAbilityReference>()))
         .AddComponent(
-          new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
-        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 10).WithDiv2Progression())
+          new ApplyFeatureOnCharacterLevel(
+            new()
+            {
+              (FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference, level: 19)
+            },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DraconicBlackHeritageWings),
+            greaterFeatureLevels:
+              new()
+              {
+                (FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference, level: 17)
+              }))
         .Configure();
     }
 
@@ -564,6 +577,48 @@ namespace CharacterOptionsPlus.Feats
         .AddSpellResistanceAgainstAlignment(alignment: AlignmentComponent.Evil, value: ContextValues.Rank())
         .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20).WithBonusValueProgression(11))
         .Configure();
+    }
+
+    [TypeId("cf0a51da-5296-4463-ad8d-ccf5c4a7598d")]
+    private class BindDragonBreath :
+      UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateAbilityParams>
+    {
+      private static BlueprintUnitProperty _effectiveLevel;
+      private static BlueprintUnitProperty EffectiveLevel
+      {
+        get
+        {
+          _effectiveLevel ??= BlueprintTool.Get<BlueprintUnitProperty>(EffectiveLevelProperty);
+          return _effectiveLevel;
+        }
+      }
+
+      private readonly BlueprintAbilityReference Ability;
+
+      public BindDragonBreath(BlueprintAbilityReference breathAbility)
+      {
+        Ability = breathAbility;
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateAbilityParams evt)
+      {
+        try
+        {
+          if (Ability.deserializedGuid == evt.Spell.AssetGuid)
+          {
+            Logger.NativeLog($"Binding dragon breath for {evt.Spell.Name}");
+            evt.ReplaceStat = StatType.Charisma;
+            evt.ReplaceCasterLevel = EffectiveLevel.GetInt(Owner);
+            evt.ReplaceSpellLevel = EffectiveLevel.GetInt(Owner) / 2;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("BindAbilityToCharacterLevel.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateAbilityParams evt) { }
     }
     #endregion
 
