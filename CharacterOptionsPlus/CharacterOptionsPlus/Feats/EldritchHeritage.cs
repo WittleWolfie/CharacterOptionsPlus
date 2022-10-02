@@ -147,7 +147,8 @@ namespace CharacterOptionsPlus.Feats
         .AddToAllFeatures(
           ConfigureAbyssalHeritage1(),
           ConfigureArcaneHeritage1(),
-          ConfigureCelestialHeritage1())
+          ConfigureCelestialHeritage1(),
+          ConfigureDraconicBlack1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -168,7 +169,9 @@ namespace CharacterOptionsPlus.Feats
           ConfigureAbyssalHeritage9(),
           ConfigureArcaneHeritage3(),
           ConfigureCelestialHeritage3(),
-          ConfigureCelestialHeritage9())
+          ConfigureCelestialHeritage9(),
+          ConfigureDraconicBlack3(),
+          ConfigureDraconicBlack9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -187,7 +190,8 @@ namespace CharacterOptionsPlus.Feats
         .AddToAllFeatures(
           ConfigureAbyssalHeritage15(),
           ConfigureArcaneHeritage15(),
-          ConfigureCelestialHeritage15())
+          ConfigureCelestialHeritage15(),
+          ConfigureDraconicBlack15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
