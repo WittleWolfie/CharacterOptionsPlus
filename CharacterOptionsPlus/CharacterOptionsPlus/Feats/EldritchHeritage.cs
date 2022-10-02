@@ -468,7 +468,7 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureCelestialHeritage15()
     {
       var celestialConviction = FeatureRefs.BloodlineCelestialConvictionAbility.Reference.Get();
-      return FeatureConfigurator.New(CelestialHeritageConviction, CelestialHeritageConviction)
+      return FeatureConfigurator.New(CelestialHeritageConviction, Guids.CelestialHeritageConviction)
         .SetDisplayName(celestialConviction.m_DisplayName)
         .SetDescription(celestialConviction.m_Description)
         .SetIcon(celestialConviction.Icon)
