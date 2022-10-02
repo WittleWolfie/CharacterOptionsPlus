@@ -125,6 +125,12 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(DraconicCopperHeritageBreathAbility, Guids.DraconicCopperHeritageBreathAbility).Configure();
       FeatureConfigurator.New(DraconicCopperHeritageBreath, Guids.DraconicCopperHeritageBreath).Configure();
       FeatureConfigurator.New(DraconicCopperHeritageWings, Guids.DraconicCopperHeritageWings).Configure();
+
+      FeatureConfigurator.New(DraconicGoldHeritage, Guids.DraconicGoldHeritage).Configure();
+      FeatureConfigurator.New(DraconicGoldHeritageResistance, Guids.DraconicGoldHeritageResistance).Configure();
+      AbilityConfigurator.New(DraconicGoldHeritageBreathAbility, Guids.DraconicGoldHeritageBreathAbility).Configure();
+      FeatureConfigurator.New(DraconicGoldHeritageBreath, Guids.DraconicGoldHeritageBreath).Configure();
+      FeatureConfigurator.New(DraconicGoldHeritageWings, Guids.DraconicGoldHeritageWings).Configure();
       #endregion
 
       #region Base
@@ -176,7 +182,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureDraconicBlue1(),
           ConfigureDraconicBrass1(),
           ConfigureDraconicBronze1(),
-          ConfigureDraconicCopper1())
+          ConfigureDraconicCopper1(),
+          ConfigureDraconicGold1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -207,7 +214,9 @@ namespace CharacterOptionsPlus.Feats
           ConfigureDraconicBronze3(),
           ConfigureDraconicBronze9(),
           ConfigureDraconicCopper3(),
-          ConfigureDraconicCopper9())
+          ConfigureDraconicCopper9(),
+          ConfigureDraconicGold3(),
+          ConfigureDraconicGold9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -231,7 +240,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureDraconicBlue15(),
           ConfigureDraconicBrass15(),
           ConfigureDraconicBronze15(),
-          ConfigureDraconicCopper15())
+          ConfigureDraconicCopper15(),
+          ConfigureDraconicGold15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -856,6 +866,74 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(DraconicCopperHeritage)
+        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddFacts(new() { wings })
+        .Configure();
+    }
+    #endregion
+
+    #region Gold Dragon
+    private const string DraconicGoldHeritage = "EldrichHeritage.Draconic.Gold";
+    private const string DraconicGoldHeritageResistance = "EldrichHeritage.Draconic.Gold.Resistance";
+    private const string DraconicGoldHeritageBreath = "EldrichHeritage.Draconic.Gold.Breath";
+    private const string DraconicGoldHeritageBreathAbility = "EldrichHeritage.Draconic.Gold.Breath.Ability";
+    private const string DraconicGoldHeritageWings = "EldrichHeritage.Draconic.Gold.Wings";
+
+    private static BlueprintFeature ConfigureDraconicGold1()
+    {
+      var draconicBloodline = ProgressionRefs.BloodlineDraconicGoldProgression.Reference.Get();
+      return AddClaws(
+        DraconicGoldHeritage,
+        Guids.DraconicGoldHeritage,
+        draconicBloodline,
+        prereq: FeatureRefs.SkillFocusPerception.ToString(),
+        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
+        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
+        level3Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+        level7Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+        level9Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+        level13Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel4.Cast<BlueprintFeatureReference>().Reference);
+    }
+
+    private static BlueprintFeature ConfigureDraconicGold3()
+    {
+      var draconicResistances = FeatureRefs.BloodlineDraconicGoldResistancesAbilityAddLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        DraconicGoldHeritageResistance,
+        Guids.DraconicGoldHeritageResistance,
+        draconicResistances,
+        new() { DraconicGoldHeritage },
+        new()
+        {
+          (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+          (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+          (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+        });
+    }
+
+    private static BlueprintFeature ConfigureDraconicGold9()
+    {
+      return ConfigureDraconicBreath(
+        abilityName: DraconicGoldHeritageBreathAbility,
+        abilityGuid: Guids.DraconicGoldHeritageBreathAbility,
+        breath: AbilityRefs.BloodlineDraconicGoldBreathWeaponAbility.Reference.Get(),
+        featureName: DraconicGoldHeritageBreath,
+        featureGuid: Guids.DraconicGoldHeritageBreath,
+        breathFeature: FeatureRefs.BloodlineDraconicGoldBreathWeaponFeature.Reference.Get(),
+        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
+        extraUse: FeatureRefs.BloodlineDraconicGoldBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.DraconicGoldHeritageWings);
+    }
+
+    private static BlueprintFeature ConfigureDraconicGold15()
+    {
+      var wings = FeatureRefs.FeatureWingsDraconicGold.Reference.Get();
+      return FeatureConfigurator.New(DraconicGoldHeritageWings, Guids.DraconicGoldHeritageWings)
+        .SetDisplayName(wings.m_DisplayName)
+        .SetDescription(wings.m_Description)
+        .SetIcon(wings.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(DraconicGoldHeritage)
         .AddPrerequisiteFeature(ImprovedFeatName)
         .AddFacts(new() { wings })
         .Configure();
