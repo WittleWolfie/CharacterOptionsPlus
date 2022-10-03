@@ -1764,10 +1764,6 @@ namespace CharacterOptionsPlus.Feats
         .SetActivationType(AbilityActivationType.WithUnitCommand)
         .SetActivateWithUnitCommand(CommandType.Free)
         .AddActivatableAbilityResourceLogic(requiredResource: resource, spendType: ResourceSpendType.NewRound)
-        .AddComponent(
-          new SetResourceMax(
-            ContextValues.CustomProperty(EffectiveLevelProperty, toCaster: true),
-            resource.ToReference<BlueprintAbilityResourceReference>()))
         .Configure();
 
       var feyGlanceFeature = FeatureRefs.BloodlineFeyFleetingGlanceFeature.Reference.Get();
@@ -1778,6 +1774,9 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddFacts(new() { ability })
         .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddComponent(
+          new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
         .Configure();
     }
 
