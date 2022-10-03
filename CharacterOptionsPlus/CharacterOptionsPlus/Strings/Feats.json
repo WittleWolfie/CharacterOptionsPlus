@@ -1,5 +1,15 @@
 [
   {
+    "Key": "DraconicHeritage.Name",
+    "ProcessTemplates": false,
+    "enGB": "Draconic Heritage (Any)"
+  },
+  {
+    "Key": "DraconicHeritage.Description",
+    "enGB": "At some point in your family's history, a dragon interbred with your bloodline, and now its ancient power flows through your veins."
+  },
+
+  {
     "Key": "EldritchHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Eldritch Heritage"
@@ -30,13 +40,13 @@
   },
 
   {
-    "Key": "DraconicHeritage.Name",
+    "Key": "ElementalHeritage.Name",
     "ProcessTemplates": false,
-    "enGB": "Draconic Heritage (Any)"
+    "enGB": "Elemental Heritage (Any)"
   },
   {
-    "Key": "DraconicHeritage.Description",
-    "enGB": "At some point in your family's history, a dragon interbred with your bloodline, and now its ancient power flows through your veins."
+    "Key": "ElementalHeritage.Description",
+    "enGB": "The power of the elements resides in you, and at times you can hardly control its fury. This influence comes from an elemental outsider in your family history or a time when you or your relatives were exposed to a powerful elemental force."
   },
 
   {

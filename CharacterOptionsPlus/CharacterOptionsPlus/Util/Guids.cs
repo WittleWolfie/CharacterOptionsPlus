@@ -102,6 +102,7 @@ namespace CharacterOptionsPlus.Util
     internal const string CelestialHeritageAuraAbility = "5d1681ec-cdd8-4f04-899c-af0a238254eb";
     internal const string CelestialHeritageConviction = "989e19d2-efdc-436f-a1c7-fb9b5247dbad";
 
+    #region Draconic Heritage
     // Used to prevent multiple selections
     internal const string DraconicHeritage = "86bfc14d-08bd-4a5b-9d53-521ca22a5d99";
 
@@ -164,11 +165,18 @@ namespace CharacterOptionsPlus.Util
     internal const string DraconicWhiteHeritageBreath = "c45145fc-7907-4c21-bb90-bdd12ef9ea87";
     internal const string DraconicWhiteHeritageBreathAbility = "bb1d342b-b962-4d27-9543-fc9d2c8b9822";
     internal const string DraconicWhiteHeritageWings = "c7c528fc-cc04-473a-ac01-73af8a600105";
+    #endregion
+
+    #region Elemental Heritage
+    // Used to prevent multiple selections
+    internal const string ElementalHeritage = "b77ff128-3a16-4da7-9f91-afd24c9fd6ae";
 
     internal const string ElementalAirHeritage = "10f79138-da20-4202-b09f-941261f7d212";
     internal const string ElementalEarthHeritage = "4652cd5e-64a3-4dfb-9c32-8cd5d8f2bcd5";
     internal const string ElementalFireHeritage = "8914f1d1-a0c3-4c4a-a054-e383b2d14ecd";
     internal const string ElementalWaterHeritage = "a61189b1-ed4c-4af1-b07a-071bfa1e5104";
+    #endregion
+
     internal const string FeyHeritage = "cbcb9798-995a-4cf6-b1aa-44f7b0593896";
     internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";

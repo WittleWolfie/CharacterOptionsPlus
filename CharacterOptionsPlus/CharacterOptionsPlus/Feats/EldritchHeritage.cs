@@ -513,45 +513,17 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureCelestialHeritage1()
     {
-      var heavenlyFire = AbilityRefs.BloodlineCelestialHeavenlyFireAbility.Reference.Get();
-      var ray = AbilityConfigurator.New(CelestialHeritageRay, Guids.CelestialHeritageRay)
-        .SetDisplayName(heavenlyFire.m_DisplayName)
-        .SetDescription(heavenlyFire.m_Description)
-        .SetIcon(heavenlyFire.Icon)
-        .SetType(AbilityType.SpellLike)
-        .SetCustomRange(30)
-        .SetCanTargetEnemies()
-        .SetCanTargetFriends()
-        .SetCanTargetSelf()
-        .SetEffectOnAlly(heavenlyFire.EffectOnAlly)
-        .SetEffectOnEnemy(heavenlyFire.EffectOnEnemy)
-        .SetAnimation(heavenlyFire.Animation)
-        .SetActionType(heavenlyFire.ActionType)
-        .SetAvailableMetamagic(heavenlyFire.AvailableMetamagic)
-        .AddComponent(heavenlyFire.GetComponent<SpellComponent>())
-        .AddComponent(heavenlyFire.GetComponent<AbilityDeliverProjectile>())
-        .AddComponent(heavenlyFire.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(heavenlyFire.GetComponent<AbilityResourceLogic>())
-        .AddComponent(heavenlyFire.GetComponent<SpellDescriptorComponent>())
-        .AddComponent(heavenlyFire.GetComponent<AbilityTargetAlignment>())
-        .AddContextRankConfig(
-          ContextRankConfigs.CustomProperty(
-              EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20)
-            .WithDiv2Progression())
-        .Configure();
-
-      var celestialBloodline = ProgressionRefs.BloodlineCelestialProgression.Reference.Get();
-      return FeatureConfigurator.New(CelestialHeritageName, Guids.CelestialHeritage)
-        .SetDisplayName(celestialBloodline.m_DisplayName)
-        .SetDescription(celestialBloodline.m_Description)
-        .SetIcon(celestialBloodline.m_Icon)
-        .SetIsClassFeature()
-        .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreReligion.ToString())
-        .AddPrerequisiteNoFeature(FeatureRefs.CelestialBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { ray })
-        .AddAbilityResources(
-          resource: AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource.ToString(), restoreAmount: true)
-        .Configure();
+      return AddRay(
+        abilityName: CelestialHeritageRay,
+        abilityGuid: Guids.CelestialHeritageRay,
+        sourceAbility: AbilityRefs.BloodlineCelestialHeavenlyFireAbility.Reference.Get(),
+        featureName: CelestialHeritageName,
+        featureGuid: Guids.CelestialHeritage,
+        sourceFeature: ProgressionRefs.BloodlineCelestialProgression.Reference.Get(),
+        prereq: FeatureRefs.SkillFocusLoreReligion.ToString(),
+        excludePrereqs: new() { FeatureRefs.CelestialBloodlineRequisiteFeature.ToString() },
+        resource: AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource.ToString(),
+        extraComponents: new Type[] { typeof(AbilityTargetAlignment) });
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage3()
@@ -1376,6 +1348,21 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    #region Elemental
+    private const string ElementalHeritage = "EldritchHeritage.Elemental";
+    private const string ElementalHeritageDisplayName = "ElementalHeritage.Name";
+    private const string ElementalHeritageDescription = "ElementalHeritage.Description";
+
+    #region Air
+    private const string ElementalAirHeritage = "EldritchHeritage.Elemental.Air";
+
+    private static BlueprintFeature ConfigureElementalAir1()
+    {
+      return null;
+    }
+    #endregion
+    #endregion
+
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.
     // Greater enables the change from Level - 2 to Level when Greater Eldritch Heritage is acquired.
     private static BlueprintFeature AddFeaturesByLevel(
@@ -1442,6 +1429,61 @@ namespace CharacterOptionsPlus.Feats
         claws.AddFacts(new() { extraFact });
 
       return claws.Configure();
+    }
+
+    private static BlueprintFeature AddRay(
+      string abilityName,
+      string abilityGuid,
+      BlueprintAbility sourceAbility,
+      string featureName,
+      string featureGuid,
+      BlueprintFeature sourceFeature,
+      string prereq,
+      List<string> excludePrereqs,
+      string resource,
+      params Type[] extraComponents)
+    {
+      var ray = AbilityConfigurator.New(abilityName, abilityGuid)
+        .SetDisplayName(sourceAbility.m_DisplayName)
+        .SetDescription(sourceAbility.m_Description)
+        .SetIcon(sourceAbility.Icon)
+        .SetType(AbilityType.SpellLike)
+        .SetCustomRange(30)
+        .SetCanTargetEnemies(sourceAbility.CanTargetEnemies)
+        .SetCanTargetFriends(sourceAbility.CanTargetFriends)
+        .SetCanTargetSelf(sourceAbility.CanTargetSelf)
+        .SetCanTargetPoint(sourceAbility.CanTargetPoint)
+        .SetEffectOnAlly(sourceAbility.EffectOnAlly)
+        .SetEffectOnEnemy(sourceAbility.EffectOnEnemy)
+        .SetAnimation(sourceAbility.Animation)
+        .SetActionType(sourceAbility.ActionType)
+        .SetAvailableMetamagic(sourceAbility.AvailableMetamagic)
+        .AddComponent(sourceAbility.GetComponent<SpellComponent>())
+        .AddComponent(sourceAbility.GetComponent<AbilityDeliverProjectile>())
+        .AddComponent(sourceAbility.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(sourceAbility.GetComponent<AbilityResourceLogic>())
+        .AddComponent(sourceAbility.GetComponent<SpellDescriptorComponent>())
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(
+              EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20)
+            .WithDiv2Progression());
+
+      foreach (var type in extraComponents)
+        ray.AddComponent(sourceAbility.ComponentsArray.Where(c => c.GetType() == type).FirstOrDefault());
+
+      var feature = FeatureConfigurator.New(featureName, featureGuid)
+        .SetDisplayName(sourceFeature.m_DisplayName)
+        .SetDescription(sourceFeature.m_Description)
+        .SetIcon(sourceFeature.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(prereq)
+        .AddFacts(new() { ray.Configure(delayed: true) })
+        .AddAbilityResources(resource: resource, restoreAmount: true);
+
+      foreach (var exclude in excludePrereqs)
+        feature.AddPrerequisiteNoFeature(exclude);
+
+      return feature.Configure();
     }
   }
 }
