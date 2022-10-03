@@ -1381,7 +1381,7 @@ namespace CharacterOptionsPlus.Feats
         sourceAbility: AbilityRefs.BloodlineElementalAirElementalRayAbility.Reference.Get(),
         featureName: ElementalAirHeritage,
         featureGuid: Guids.ElementalAirHeritage,
-        sourceFeature: FeatureRefs.BloodlineElementalAirElementalRayFeature.Reference.Get());
+        sourceFeature: ProgressionRefs.BloodlineElementalAirProgression.Reference.Get());
     }
 
     private static BlueprintFeature ConfigureElementalAir3()
