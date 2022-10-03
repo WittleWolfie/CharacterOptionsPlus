@@ -1793,6 +1793,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(
           new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
+        .AddPrerequisiteFeature(FeyHeritageName)
         .Configure();
     }
 
