@@ -15,7 +15,6 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -201,6 +200,15 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(FeyHeritageGlance, Guids.FeyHeritageGlance).Configure();
       #endregion
 
+      #region Infernal
+      AbilityConfigurator.New(InfernalHeritageTouch, Guids.InfernalHeritageTouch).Configure();
+      FeatureConfigurator.New(InfernalHeritageName, Guids.InfernalHeritage).Configure();
+      FeatureConfigurator.New(InfernalHeritageResistance, Guids.InfernalHeritageResistance).Configure();
+      AbilityConfigurator.New(InfernalHeritageBlastAbility, Guids.InfernalHeritageBlastAbility).Configure();
+      FeatureConfigurator.New(InfernalHeritageBlast, Guids.InfernalHeritageBlast).Configure();
+      FeatureConfigurator.New(InfernalHeritageWings, Guids.InfernalHeritageWings).Configure();
+      #endregion
+
       #region Base
       FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
       FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage).Configure();
@@ -296,7 +304,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureElementalWater1(),
 
-          ConfigureFeyHeritage1())
+          ConfigureFeyHeritage1(),
+          
+          ConfigureInfernalHeritage1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -364,7 +374,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureElementalWater9(),
 
           ConfigureFeyHeritage3(),
-          ConfigureFeyHeritage9())
+          ConfigureFeyHeritage9(),
+
+          ConfigureInfernalHeritage3(),
+          ConfigureInfernalHeritage9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -415,7 +428,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureElementalWater15(),
           
-          ConfigureFeyHeritage15())
+          ConfigureFeyHeritage15(),
+          
+          ConfigureInfernalHeritage15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
