@@ -179,6 +179,12 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(ElementalFireHeritageBlast, Guids.ElementalFireHeritageBlast).Configure();
       FeatureConfigurator.New(ElementalFireHeritageMovement, Guids.ElementalFireHeritageMovement).Configure();
 
+      AbilityConfigurator.New(ElementalWaterHeritageRay, Guids.ElementalWaterHeritageRay).Configure();
+      FeatureConfigurator.New(ElementalWaterHeritage, Guids.ElementalWaterHeritage).Configure();
+      FeatureConfigurator.New(ElementalWaterHeritageResistance, Guids.ElementalWaterHeritageResistance).Configure();
+      AbilityConfigurator.New(ElementalWaterHeritageBlastAbility, Guids.ElementalWaterHeritageBlastAbility).Configure();
+      FeatureConfigurator.New(ElementalWaterHeritageBlast, Guids.ElementalWaterHeritageBlast).Configure();
+      FeatureConfigurator.New(ElementalWaterHeritageMovement, Guids.ElementalWaterHeritageMovement).Configure();
       #endregion
 
       #region Base
@@ -271,8 +277,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureElementalAir1(),
           
           ConfigureElementalEarth1(),
-          
-          ConfigureElementalFire1())
+
+          ConfigureElementalFire1(),
+
+          ConfigureElementalWater1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -334,7 +342,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureElementalEarth9(),
 
           ConfigureElementalFire3(),
-          ConfigureElementalFire9())
+          ConfigureElementalFire9(),
+
+          ConfigureElementalWater3(),
+          ConfigureElementalWater9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -381,7 +392,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureElementalEarth15(),
 
-          ConfigureElementalFire15())
+          ConfigureElementalFire15(),
+
+          ConfigureElementalWater15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1567,6 +1580,62 @@ namespace CharacterOptionsPlus.Feats
         Guids.ElementalFireHeritageMovement,
         elementalMovement,
         prerequisites: new() { Guids.ElementalFireHeritageBlast, Guids.ElementalFireHeritageResistance },
+        featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+    #endregion
+
+    #region Water
+    private const string ElementalWaterHeritage = "EldritchHeritage.Elemental.Water";
+    private const string ElementalWaterHeritageRay = "EldritchHeritage.Elemental.Water.Ray";
+    private const string ElementalWaterHeritageResistance = "EldritchHeritage.Elemental.Water.Resistance";
+    private const string ElementalWaterHeritageBlast = "EldritchHeritage.Elemental.Water.Blast";
+    private const string ElementalWaterHeritageBlastAbility = "EldritchHeritage.Elemental.Water.Blast.Ability";
+    private const string ElementalWaterHeritageMovement = "EldritchHeritage.Elemental.Water.Movement";
+
+    private static BlueprintFeature ConfigureElementalWater1()
+    {
+      return AddElementalRay(
+        abilityName: ElementalWaterHeritageRay,
+        abilityGuid: Guids.ElementalWaterHeritageRay,
+        sourceAbility: AbilityRefs.BloodlineElementalWaterElementalRayAbility.Reference.Get(),
+        featureName: ElementalWaterHeritage,
+        featureGuid: Guids.ElementalWaterHeritage,
+        sourceFeature: ProgressionRefs.BloodlineElementalWaterProgression.Reference.Get());
+    }
+
+    private static BlueprintFeature ConfigureElementalWater3()
+    {
+      var elementalResistance = FeatureRefs.BloodlineElementalWaterResistanceAbilityLevel2.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalWaterHeritageResistance,
+        Guids.ElementalWaterHeritageResistance,
+        elementalResistance,
+        prerequisites: new() { ElementalWaterHeritage },
+        featuresByLevel: new() { (elementalResistance.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+
+    private static BlueprintFeature ConfigureElementalWater9()
+    {
+      return ConfigureElementalBlast(
+        abilityName: ElementalWaterHeritageBlastAbility,
+        abilityGuid: Guids.ElementalWaterHeritageBlastAbility,
+        blast: AbilityRefs.BloodlineElementalWaterElementalBlastAbility.Reference.Get(),
+        featureName: ElementalWaterHeritageBlast,
+        featureGuid: Guids.ElementalWaterHeritageBlast,
+        blastFeature: FeatureRefs.BloodlineElementalWaterElementalBlastFeature.Reference.Get(),
+        prerequisite: Guids.ElementalWaterHeritage,
+        extraUse: FeatureRefs.BloodlineElementalWaterElementalBlastExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.ElementalWaterHeritageMovement);
+    }
+
+    private static BlueprintFeature ConfigureElementalWater15()
+    {
+      var elementalMovement = FeatureRefs.BloodlineElementalWaterElementalMovementFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalWaterHeritageMovement,
+        Guids.ElementalWaterHeritageMovement,
+        elementalMovement,
+        prerequisites: new() { Guids.ElementalWaterHeritageBlast, Guids.ElementalWaterHeritageResistance },
         featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
     }
     #endregion
