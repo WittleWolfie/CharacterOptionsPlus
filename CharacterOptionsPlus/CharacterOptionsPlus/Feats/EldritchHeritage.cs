@@ -13,6 +13,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
@@ -1538,10 +1539,13 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureElementalEarth15()
     {
       var elementalMovement = FeatureRefs.BloodlineElementalEarthElementalMovementFeature.Reference.Get();
+      // Use this because elementalMovement has null everything
+      var elementalMovementAbility =
+        ActivatableAbilityRefs.BloodlineElementalEarthElementalMovementBurrowAbility.Reference.Get();
       return AddFeaturesByLevel(
         ElementalEarthHeritageMovement,
         Guids.ElementalEarthHeritageMovement,
-        elementalMovement,
+        elementalMovementAbility,
         prerequisites: new() { Guids.ElementalEarthHeritageBlast, Guids.ElementalEarthHeritageResistance },
         featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
     }
@@ -1794,7 +1798,7 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature AddFeaturesByLevel(
       string name,
       string guid,
-      BlueprintFeature sourceFeature,
+      BlueprintUnitFact sourceFeature,
       List<Blueprint<BlueprintFeatureReference>> prerequisites,
       List<(BlueprintFeatureReference feature, int level)> featuresByLevel,
       BlueprintFeatureReference greaterFeature = null,
