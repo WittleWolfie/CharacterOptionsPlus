@@ -202,6 +202,9 @@ namespace CharacterOptionsPlus.Util
 
     internal const string FeyHeritage = "cbcb9798-995a-4cf6-b1aa-44f7b0593896";
     internal const string FeyHeritageStride = "5e330bbc-2e93-4d93-a541-5307a4f7950e";
+    internal const string FeyHeritageGlance = "48440cbc-7f20-4a14-b3aa-00c040b012a5";
+    internal const string FeyHeritageGlanceAbility = "d4f6a90d-e4d1-4161-ad40-c2478f41b57e";
+    internal const string FeyHeritageGlanceResource = "bf5fbe6b-45d0-4658-8e95-7331a22e10d0";
 
     internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";

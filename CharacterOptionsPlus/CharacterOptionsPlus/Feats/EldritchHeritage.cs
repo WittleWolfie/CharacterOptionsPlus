@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
 using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
@@ -23,10 +24,13 @@ using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
+using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
@@ -1690,8 +1694,9 @@ namespace CharacterOptionsPlus.Feats
     private const string FeyHeritageName = "EldrichHeritage.Fey";
 
     private const string FeyHeritageStride = "EldritchHeritage.Fey.Stride";
-    private const string FeyHeritageStrength = "EldritchHeritage.Fey.Strength";
-    private const string FeyHeritageSummons = "EldritchHeritage.Fey.Summons";
+    private const string FeyHeritageGlance = "EldritchHeritage.Fey.Glance";
+    private const string FeyHeritageGlanceAbility = "EldritchHeritage.Fey.Glance.Ability";
+    private const string FeyHeritageGlanceResource = "EldritchHeritage.Fey.Glance.Resource";
 
     private static BlueprintFeature ConfigureFeyHeritage1()
     {
@@ -1700,6 +1705,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(feyBloodline.m_DisplayName)
         .SetDescription(feyBloodline.m_Description)
         .SetIcon(feyBloodline.Icon)
+        .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreNature.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.FeyBloodlineRequisiteFeature.ToString())
         .AddFacts(new() { FeatureRefs.BloodlineFeyLaughingTouchFeature.ToString() })
@@ -1719,25 +1725,40 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureFeyHeritage9()
     {
-      var FeyStrength = FeatureRefs.BloodlineFeyStrengthAbilityLevel1.Reference.Get();
-      return AddFeaturesByLevel(
-        FeyHeritageStrength,
-        Guids.FeyHeritageStrength,
-        FeyStrength,
-        new() { FeyHeritageName },
-        new()
-        {
-          (FeyStrength.ToReference<BlueprintFeatureReference>(), level: 11),
-          (FeatureRefs.BloodlineFeyStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
-          (FeatureRefs.BloodlineFeyStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
-        },
-        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.FeyHeritageSummons),
-        new()
-        {
-          (FeyStrength.ToReference<BlueprintFeatureReference>(), level: 9),
-          (FeatureRefs.BloodlineFeyStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
-          (FeatureRefs.BloodlineFeyStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
-        });
+      var feyGlanceResource = AbilityResourceRefs.BloodlineFeyFleetingGlanceResource.Reference.Get();
+      var resource = AbilityResourceConfigurator.New(FeyHeritageGlanceResource, Guids.FeyHeritageGlanceResource)
+        .SetIcon(feyGlanceResource.Icon)
+        .SetUseMax()
+        .SetMax(20)
+        .Configure();
+
+      var feyGlance = ActivatableAbilityRefs.BloodlineFeyFleetingGlanceAbilily.Reference.Get();
+      var ability = ActivatableAbilityConfigurator.New(FeyHeritageGlanceAbility, Guids.FeyHeritageGlanceAbility)
+        .SetDisplayName(feyGlance.m_DisplayName)
+        .SetDescription(feyGlance.m_Description)
+        .SetIcon(feyGlance.Icon)
+        .SetBuff(BuffRefs.InvisibilityGreaterBuff.ToString())
+        .SetDeactivateIfCombatEnded()
+        .SetDeactivateIfOwnerDisabled()
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.WithUnitCommand)
+        .SetActivateWithUnitCommand(CommandType.Free)
+        .AddActivatableAbilityResourceLogic(requiredResource: resource, spendType: ResourceSpendType.NewRound)
+        .AddComponent(
+          new SetResourceMax(
+            ContextValues.CustomProperty(EffectiveLevelProperty, toCaster: true),
+            resource.ToReference<BlueprintAbilityResourceReference>()))
+        .Configure();
+
+      var feyGlanceFeature = FeatureRefs.BloodlineFeyFleetingGlanceFeature.Reference.Get();
+      return FeatureConfigurator.New(FeyHeritageGlance, Guids.FeyHeritageGlance)
+        .SetDisplayName(feyGlanceFeature.m_DisplayName)
+        .SetDescription(feyGlanceFeature.m_Description)
+        .SetIcon(feyGlanceFeature.Icon)
+        .SetIsClassFeature()
+        .AddFacts(new() { ability })
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .Configure();
     }
 
     private static BlueprintFeature ConfigureFeyHeritage15()
