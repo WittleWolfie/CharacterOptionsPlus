@@ -1789,7 +1789,7 @@ namespace CharacterOptionsPlus.Feats
         Guids.FeyHeritageMagic,
         feyMagic,
         prerequisites: new() { Guids.FeyHeritageGlance, Guids.FeyHeritageStride },
-        featuresByLevel: new() { (feyMagic.ToReference<BlueprintFeatureReference>(), 17) });
+        featuresByLevel: new() { (feyMagic.ToReference<BlueprintFeatureReference>(), 15) });
     }
     #endregion
 
@@ -1870,13 +1870,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureInfernalHeritage15()
     {
-      var InfernalMagic = FeatureRefs.BloodlineInfernalInfernalMagicFeature.Reference.Get();
+      var infernalWings = FeatureRefs.FeatureWingsDevil.Reference.Get();
       return AddFeaturesByLevel(
-        InfernalHeritageMagic,
-        Guids.InfernalHeritageMagic,
-        InfernalMagic,
-        prerequisites: new() { Guids.InfernalHeritageGlance, Guids.InfernalHeritageStride },
-        featuresByLevel: new() { (InfernalMagic.ToReference<BlueprintFeatureReference>(), 17) });
+        InfernalHeritageWings,
+        Guids.InfernalHeritageWings,
+        infernalWings,
+        prerequisites: new() { Guids.InfernalHeritageBlast, Guids.InfernalHeritageResistance },
+        featuresByLevel: new() { (infernalWings.ToReference<BlueprintFeatureReference>(), 15) });
     }
     #endregion
 
