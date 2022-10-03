@@ -1686,6 +1686,72 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    #region Fey
+    private const string FeyHeritageName = "EldrichHeritage.Fey";
+
+    private const string FeyHeritageResistance = "EldritchHeritage.Fey.Resistance";
+    private const string FeyHeritageStrength = "EldritchHeritage.Fey.Strength";
+    private const string FeyHeritageSummons = "EldritchHeritage.Fey.Summons";
+
+    private static BlueprintFeature ConfigureFeyHeritage1()
+    {
+      var feyBloodline = ProgressionRefs.BloodlineFeyProgression.Reference.Get();
+      return FeatureConfigurator.New(FeyHeritageName, Guids.FeyHeritage)
+        .SetDisplayName(feyBloodline.m_DisplayName)
+        .SetDescription(feyBloodline.m_Description)
+        .SetIcon(feyBloodline.Icon)
+        .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreNature.ToString())
+        .AddPrerequisiteNoFeature(FeatureRefs.FeyBloodlineRequisiteFeature.ToString())
+        .AddFacts(new() { FeatureRefs.BloodlineFeyLaughingTouchFeature.ToString() })
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureFeyHeritage3()
+    {
+      var FeyResistance = FeatureRefs.BloodlineFeyResistancesAbilityLevel2.Reference.Get();
+      return AddFeaturesByLevel(
+        FeyHeritageResistance,
+        Guids.FeyHeritageResistance,
+        FeyResistance,
+        new() { FeyHeritageName },
+        new() { (FeyResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+    }
+
+    private static BlueprintFeature ConfigureFeyHeritage9()
+    {
+      var FeyStrength = FeatureRefs.BloodlineFeyStrengthAbilityLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        FeyHeritageStrength,
+        Guids.FeyHeritageStrength,
+        FeyStrength,
+        new() { FeyHeritageName },
+        new()
+        {
+          (FeyStrength.ToReference<BlueprintFeatureReference>(), level: 11),
+          (FeatureRefs.BloodlineFeyStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
+          (FeatureRefs.BloodlineFeyStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
+        },
+        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.FeyHeritageSummons),
+        new()
+        {
+          (FeyStrength.ToReference<BlueprintFeatureReference>(), level: 9),
+          (FeatureRefs.BloodlineFeyStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
+          (FeatureRefs.BloodlineFeyStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
+        });
+    }
+
+    private static BlueprintFeature ConfigureFeyHeritage15()
+    {
+      var FeySummons = FeatureRefs.BloodlineFeyAddedSummonings.Reference.Get();
+      return AddFeaturesByLevel(
+        FeyHeritageSummons,
+        Guids.FeyHeritageSummons,
+        FeySummons,
+        prerequisites: new() { Guids.FeyHeritageStrength, Guids.FeyHeritageResistance },
+        featuresByLevel: new() { (FeySummons.ToReference<BlueprintFeatureReference>(), 15) });
+    }
+    #endregion
+
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.
     // Greater enables the change from Level - 2 to Level when Greater Eldritch Heritage is acquired.
     private static BlueprintFeature AddFeaturesByLevel(
