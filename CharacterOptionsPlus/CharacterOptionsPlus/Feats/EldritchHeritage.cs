@@ -1854,39 +1854,18 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureInfernalHeritage9()
     {
-      var InfernalGlanceResource = AbilityResourceRefs.BloodlineInfernalFleetingGlanceResource.Reference.Get();
-      var resource = AbilityResourceConfigurator.New(InfernalHeritageGlanceResource, Guids.InfernalHeritageGlanceResource)
-        .SetIcon(InfernalGlanceResource.Icon)
-        .SetUseMax()
-        .SetMax(20)
-        .Configure();
-
-      var InfernalGlance = ActivatableAbilityRefs.BloodlineInfernalFleetingGlanceAbilily.Reference.Get();
-      var ability = ActivatableAbilityConfigurator.New(InfernalHeritageGlanceAbility, Guids.InfernalHeritageGlanceAbility)
-        .SetDisplayName(InfernalGlance.m_DisplayName)
-        .SetDescription(InfernalGlance.m_Description)
-        .SetIcon(InfernalGlance.Icon)
-        .SetBuff(BuffRefs.InvisibilityGreaterBuff.ToString())
-        .SetDeactivateIfCombatEnded()
-        .SetDeactivateIfOwnerDisabled()
-        .SetDeactivateImmediately()
-        .SetActivationType(AbilityActivationType.WithUnitCommand)
-        .SetActivateWithUnitCommand(CommandType.Free)
-        .AddActivatableAbilityResourceLogic(requiredResource: resource, spendType: ResourceSpendType.NewRound)
-        .Configure();
-
-      var InfernalGlanceFeature = FeatureRefs.BloodlineInfernalFleetingGlanceFeature.Reference.Get();
-      return FeatureConfigurator.New(InfernalHeritageGlance, Guids.InfernalHeritageGlance)
-        .SetDisplayName(InfernalGlanceFeature.m_DisplayName)
-        .SetDescription(InfernalGlanceFeature.m_Description)
-        .SetIcon(InfernalGlanceFeature.Icon)
-        .SetIsClassFeature()
-        .AddFacts(new() { ability })
-        .AddAbilityResources(resource: resource, restoreAmount: true)
-        .AddComponent(
-          new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
-        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
-        .Configure();
+      return AddBlast(
+        abilityName: InfernalHeritageBlastAbility,
+        abilityGuid: Guids.InfernalHeritageBlastAbility,
+        sourceAbility: AbilityRefs.BloodlineInfernalHellfireAbility.Reference.Get(),
+        featureName: InfernalHeritageBlast,
+        featureGuid: Guids.InfernalHeritageBlast,
+        sourceFeature: FeatureRefs.BloodlineInfernalHellfireFeature.Reference.Get(),
+        prerequisite: Guids.InfernalHeritage,
+        resource: AbilityResourceRefs.BloodlineInfernalHellfireResource.ToString(),
+        extraUse: FeatureRefs.BloodlineInfernalHellfireExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.InfernalHeritageWings,
+        rankType: AbilityRankType.DamageDice);
     }
 
     private static BlueprintFeature ConfigureInfernalHeritage15()
@@ -2053,7 +2032,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(sourceAbility.GetComponent<AbilityResourceLogic>())
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20, type: rankType));
 
-      // Draconic & Elemental have slightly different sets of components
+      // Draconic & Elemental & Infernal have slightly different sets of components
       if (sourceAbility.GetComponent<AbilityDeliverProjectile>() is not null)
         abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverProjectile>());
       if (sourceAbility.GetComponent<SpellComponent>() is not null)
@@ -2062,8 +2041,10 @@ namespace CharacterOptionsPlus.Feats
         abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityTargetsAround>());
       if (sourceAbility.GetComponent<AbilitySpawnFx>() is not null)
         abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilitySpawnFx>());
+      if (sourceAbility.GetComponent<AbilityDeliverDelay>() is not null)
+        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverDelay>());
 
-      // Draconic & elemental have slightly different range logic
+      // Draconic & Elemental & Infernal have slightly different range logic
       if (sourceAbility.Range == AbilityRange.Custom)
         abilityBuilder.SetCustomRange(sourceAbility.CustomRange);
       else
