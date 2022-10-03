@@ -186,6 +186,14 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName}");
 
+      // Used as an exclude feature to prevent selecting multiple draconic bloodlines
+      var draconicBloodline = ProgressionRefs.BloodlineDraconicBlackProgression.Reference.Get();
+      FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage)
+        .SetDisplayName(DraconicHeritageDisplayName)
+        .SetDescription(DraconicHeritageDescription)
+        .SetIcon(draconicBloodline.Icon)
+        .Configure();
+
       UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
         .AddComponent<SorcererLevelGetter>()
         .Configure();
@@ -380,7 +388,7 @@ namespace CharacterOptionsPlus.Feats
         Guids.AbyssalHeritage,
         abyssalBloodline,
         prereq: FeatureRefs.SkillFocusPhysique.ToString(),
-        excludePrereq: FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString(),
+        excludePrereqs: new() { FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString() },
         resource: AbilityResourceRefs.BloodlineAbyssalClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
@@ -608,6 +616,10 @@ namespace CharacterOptionsPlus.Feats
     #endregion
 
     #region Draconic
+    private const string DraconicHeritage = "EldritchHeritage.Draconic";
+    private const string DraconicHeritageDisplayName = "DraconicHeritage.Name";
+    private const string DraconicHeritageDescription = "DraconicHeritage.Description";
+
     #region Black Dragon
     private const string DraconicBlackHeritage = "EldrichHeritage.Draconic.Black";
     private const string DraconicBlackHeritageResistance = "EldrichHeritage.Draconic.Black.Resistance";
@@ -618,13 +630,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicBlack1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicBlackProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicBlackHeritage,
         Guids.DraconicBlackHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicBlackClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -656,7 +665,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBlackHeritageBreath,
         featureGuid: Guids.DraconicBlackHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBlackBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBlackHeritageWings);
     }
@@ -686,13 +694,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicBlue1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicBlueProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicBlueHeritage,
         Guids.DraconicBlueHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicBlueClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -724,7 +729,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBlueHeritageBreath,
         featureGuid: Guids.DraconicBlueHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBlueBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicBlueBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBlueHeritageWings);
     }
@@ -754,13 +758,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicBrass1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicBrassProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicBrassHeritage,
         Guids.DraconicBrassHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicBrassClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicBrassClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicBrassClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -792,7 +793,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBrassHeritageBreath,
         featureGuid: Guids.DraconicBrassHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBrassBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicBrassBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBrassHeritageWings);
     }
@@ -822,13 +822,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicBronze1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicBronzeProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicBronzeHeritage,
         Guids.DraconicBronzeHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicBronzeClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicBronzeClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicBronzeClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -860,7 +857,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBronzeHeritageBreath,
         featureGuid: Guids.DraconicBronzeHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBronzeBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicBronzeBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBronzeHeritageWings);
     }
@@ -890,13 +886,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicCopper1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicCopperProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicCopperHeritage,
         Guids.DraconicCopperHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicCopperClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicCopperClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicCopperClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -928,7 +921,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicCopperHeritageBreath,
         featureGuid: Guids.DraconicCopperHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicCopperBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicCopperBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicCopperHeritageWings);
     }
@@ -958,13 +950,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicGold1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicGoldProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicGoldHeritage,
         Guids.DraconicGoldHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicGoldClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -996,7 +985,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicGoldHeritageBreath,
         featureGuid: Guids.DraconicGoldHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicGoldBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicGoldBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicGoldHeritageWings);
     }
@@ -1026,13 +1014,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicGreen1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicGreenProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicGreenHeritage,
         Guids.DraconicGreenHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicGreenClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicGreenClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicGreenClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -1064,7 +1049,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicGreenHeritageBreath,
         featureGuid: Guids.DraconicGreenHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicGreenBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicGreenBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicGreenHeritageWings);
     }
@@ -1094,13 +1078,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicRed1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicRedProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicRedHeritage,
         Guids.DraconicRedHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicRedClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -1132,7 +1113,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicRedHeritageBreath,
         featureGuid: Guids.DraconicRedHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicRedBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicRedBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicRedHeritageWings);
     }
@@ -1162,13 +1142,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicSilver1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicSilverProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicSilverHeritage,
         Guids.DraconicSilverHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicSilverClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicSilverClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicSilverClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -1200,7 +1177,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicSilverHeritageBreath,
         featureGuid: Guids.DraconicSilverHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicSilverBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicSilverBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicSilverHeritageWings);
     }
@@ -1230,13 +1206,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureDraconicWhite1()
     {
       var draconicBloodline = ProgressionRefs.BloodlineDraconicWhiteProgression.Reference.Get();
-      return AddClaws(
+      return AddDraconicClaws(
         DraconicWhiteHeritage,
         Guids.DraconicWhiteHeritage,
         draconicBloodline,
-        prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereq: FeatureRefs.BloodlineDraconicClassSkill.ToString(),
-        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw: FeatureRefs.BloodlineDraconicWhiteClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineDraconicWhiteClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineDraconicWhiteClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
@@ -1268,7 +1241,6 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicWhiteHeritageBreath,
         featureGuid: Guids.DraconicWhiteHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicWhiteBreathWeaponFeature.Reference.Get(),
-        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse: FeatureRefs.BloodlineDraconicWhiteBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicWhiteHeritageWings);
     }
@@ -1288,6 +1260,29 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    private static BlueprintFeature AddDraconicClaws(
+      string name,
+      string guid,
+      BlueprintFeature sourceFeature,
+      BlueprintFeatureReference level3Claw,
+      BlueprintFeatureReference level7Claw,
+      BlueprintFeatureReference level9Claw,
+      BlueprintFeatureReference level13Claw)
+    {
+      return AddClaws(
+        name,
+        guid,
+        sourceFeature,
+        prereq: FeatureRefs.SkillFocusPerception.ToString(),
+        excludePrereqs: new() { FeatureRefs.BloodlineDraconicClassSkill.ToString(), Guids.DraconicHeritage },
+        resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
+        level3Claw,
+        level7Claw,
+        level9Claw,
+        level13Claw,
+        extraFact: Guids.DraconicHeritage);
+    }
+
     private static BlueprintFeature ConfigureDraconicBreath(
       string abilityName,
       string abilityGuid,
@@ -1295,7 +1290,6 @@ namespace CharacterOptionsPlus.Feats
       string featureName,
       string featureGuid,
       BlueprintFeature breathFeature,
-      string resource,
       BlueprintFeatureReference extraUse,
       string greaterFeatureGuid)
     {
@@ -1328,7 +1322,8 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
         .AddFacts(new() { ability })
-        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddAbilityResources(
+          resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(), restoreAmount: true)
         .AddComponent(new BindDragonBreath(ability.ToReference<BlueprintAbilityReference>()))
         .AddComponent(
           new ApplyFeatureOnCharacterLevel(
@@ -1415,21 +1410,21 @@ namespace CharacterOptionsPlus.Feats
       string guid,
       BlueprintFeature sourceFeature,
       string prereq,
-      string excludePrereq,
+      List<string> excludePrereqs,
       string resource,
       BlueprintFeatureReference level3Claw,
       BlueprintFeatureReference level7Claw,
       BlueprintFeatureReference level9Claw,
-      BlueprintFeatureReference level13Claw)
+      BlueprintFeatureReference level13Claw,
+      string extraFact = "")
     {
-      return FeatureConfigurator.New(name, guid)
+      var claws = FeatureConfigurator.New(name, guid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
         .SetIcon(sourceFeature.m_Icon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
         .AddPrerequisiteFeature(prereq)
-        .AddPrerequisiteNoFeature(excludePrereq)
         .AddComponent(
           new ApplyFeatureOnCharacterLevel(
             new() {
@@ -1438,8 +1433,15 @@ namespace CharacterOptionsPlus.Feats
               (level9Claw, level: 9),
               (level13Claw, level: 13),
             }))
-        .AddAbilityResources(resource: resource, restoreAmount: true)
-        .Configure();
+        .AddAbilityResources(resource: resource, restoreAmount: true);
+
+      foreach (var exclude in excludePrereqs)
+        claws.AddPrerequisiteNoFeature(exclude);
+
+      if (!string.IsNullOrEmpty(extraFact))
+        claws.AddFacts(new() { extraFact });
+
+      return claws.Configure();
     }
   }
 }

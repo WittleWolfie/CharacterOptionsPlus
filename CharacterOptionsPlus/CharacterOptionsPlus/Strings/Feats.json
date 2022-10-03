@@ -30,6 +30,16 @@
   },
 
   {
+    "Key": "DraconicHeritage.Name",
+    "ProcessTemplates": false,
+    "enGB": "Draconic Heritage (Any)"
+  },
+  {
+    "Key": "DraconicHeritage.Description",
+    "enGB": "At some point in your family's history, a dragon interbred with your bloodline, and now its ancient power flows through your veins."
+  },
+
+  {
     "Key": "FuriousFocus.Name",
     "ProcessTemplates": false,
     "enGB": "Furious Focus"
