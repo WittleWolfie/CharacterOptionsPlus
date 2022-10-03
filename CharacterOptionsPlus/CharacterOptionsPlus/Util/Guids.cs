@@ -179,8 +179,25 @@ namespace CharacterOptionsPlus.Util
     internal const string ElementalAirHeritageMovement = "a360a135-b122-4346-b98d-f7f1373de739";
 
     internal const string ElementalEarthHeritage = "4652cd5e-64a3-4dfb-9c32-8cd5d8f2bcd5";
+    internal const string ElementalEarthHeritageRay = "6460bd7b-19f1-4356-82c7-137f05c4ee11";
+    internal const string ElementalEarthHeritageResistance = "ed4bedb5-489e-495d-b1ac-be8222521324";
+    internal const string ElementalEarthHeritageBlast = "2e6bdc74-2340-4687-a482-9b2ad7a1ffd6";
+    internal const string ElementalEarthHeritageBlastAbility = "daf339a0-92de-4619-816a-f3dda3cd42ff";
+    internal const string ElementalEarthHeritageMovement = "a360a135-b122-4346-b98d-f7f1373de739";
+
     internal const string ElementalFireHeritage = "8914f1d1-a0c3-4c4a-a054-e383b2d14ecd";
+    internal const string ElementalFireHeritageRay = "6460bd7b-19f1-4356-82c7-137f05c4ee11";
+    internal const string ElementalFireHeritageResistance = "ed4bedb5-489e-495d-b1ac-be8222521324";
+    internal const string ElementalFireHeritageBlast = "2e6bdc74-2340-4687-a482-9b2ad7a1ffd6";
+    internal const string ElementalFireHeritageBlastAbility = "daf339a0-92de-4619-816a-f3dda3cd42ff";
+    internal const string ElementalFireHeritageMovement = "a360a135-b122-4346-b98d-f7f1373de739";
+
     internal const string ElementalWaterHeritage = "a61189b1-ed4c-4af1-b07a-071bfa1e5104";
+    internal const string ElementalWaterHeritageRay = "6460bd7b-19f1-4356-82c7-137f05c4ee11";
+    internal const string ElementalWaterHeritageResistance = "ed4bedb5-489e-495d-b1ac-be8222521324";
+    internal const string ElementalWaterHeritageBlast = "2e6bdc74-2340-4687-a482-9b2ad7a1ffd6";
+    internal const string ElementalWaterHeritageBlastAbility = "daf339a0-92de-4619-816a-f3dda3cd42ff";
+    internal const string ElementalWaterHeritageMovement = "a360a135-b122-4346-b98d-f7f1373de739";
     #endregion
 
     internal const string FeyHeritage = "cbcb9798-995a-4cf6-b1aa-44f7b0593896";
