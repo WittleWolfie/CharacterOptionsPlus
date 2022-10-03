@@ -494,16 +494,16 @@ namespace CharacterOptionsPlus.Feats
 
       private readonly BlueprintAbilityReference Ability;
 
-      public BindToCharacterLevel(BlueprintAbilityReference breathAbility)
+      public BindToCharacterLevel(BlueprintAbilityReference ability)
       {
-        Ability = breathAbility;
+        Ability = ability;
       }
 
       public void OnEventAboutToTrigger(RuleCalculateAbilityParams evt)
       {
         try
         {
-          if (Ability.deserializedGuid == evt.Spell.AssetGuid)
+          if (Ability.deserializedGuid == evt.Spell?.AssetGuid)
           {
             Logger.NativeLog($"Binding {evt.Spell.Name} to effective level");
             evt.ReplaceStat = StatType.Charisma;
@@ -1894,6 +1894,84 @@ namespace CharacterOptionsPlus.Feats
         prerequisites: new() { Guids.InfernalHeritageBlast, Guids.InfernalHeritageResistance },
         featuresByLevel: new() { (infernalWings.ToReference<BlueprintFeatureReference>(), 15) });
     }
+    #endregion
+
+    #region Serpentine
+    private const string SerpentineHeritageName = "EldrichHeritage.Serpentine";
+
+    private const string SerpentineHeritageTouch = "EldritchHeritage.Serpentine.Touch";
+    private const string SerpentineHeritageResistance = "EldritchHeritage.Serpentine.Resistance";
+    private const string SerpentineHeritageBlast = "EldritchHeritage.Serpentine.Blast";
+    private const string SerpentineHeritageBlastAbility = "EldritchHeritage.Blast.Ability";
+    private const string SerpentineHeritageWings = "EldritchHeritage.Serpentine.Wings";
+
+    //private static BlueprintFeature ConfigureSerpentineHeritage1()
+    //{
+    //  var serpentineBloodline = ProgressionRefs.BloodlineSerpentineProgression.Reference.Get();
+    //  return FeatureConfigurator.For(
+    //      AddClaws(
+    //        name: SerpentineHeritageName,
+    //        guid: Guids.SerpentineHeritage,
+    //        sourceFeature: serpentineBloodline,
+    //        prereq: FeatureRefs.SkillFocusStealth.ToString(),
+    //        excludePrereqs: new() { FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString() },
+    //        resource: AbilityResourceRefs.BloodlineSerpentineSerpentsFangBiteResource.ToString(),
+    //        level3Claw: FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+    //        level7Claw: FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+    //        level9Claw: FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+    //        level13Claw: FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureLevel4.Cast<BlueprintFeatureReference>().Reference))
+    //    .AddComponent(
+    //      new BindToCharacterLevel(
+    //        ActivatableAbilityRefs.BloodlineSerpentineSerpentsFangBiteAbililyLevel1.Cast<BlueprintAbilityReference>().Reference))
+    //    .AddComponent(
+    //      new BindToCharacterLevel(
+    //        ActivatableAbilityRefs.BloodlineSerpentineSerpentsFangBiteAbililyLevel2.Cast<BlueprintAbilityReference>().Reference))
+    //    .AddComponent(
+    //      new BindToCharacterLevel(
+    //        ActivatableAbilityRefs.BloodlineSerpentineSerpentsFangBiteAbililyLevel3.Cast<BlueprintAbilityReference>().Reference))
+    //    .AddComponent(
+    //      new BindToCharacterLevel(
+    //        ActivatableAbilityRefs.BloodlineSerpentineSerpentsFangBiteAbililyLevel4.Cast<BlueprintAbilityReference>().Reference))
+    //    .Configure();
+    //}
+
+    //private static BlueprintFeature ConfigureSerpentineHeritage3()
+    //{
+    //  var SerpentineResistance = FeatureRefs.BloodlineSerpentineResistancesAbilityLevel2.Reference.Get();
+    //  return AddFeaturesByLevel(
+    //    SerpentineHeritageResistance,
+    //    Guids.SerpentineHeritageResistance,
+    //    SerpentineResistance,
+    //    new() { SerpentineHeritageName },
+    //    new() { (SerpentineResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+    //}
+
+    //private static BlueprintFeature ConfigureSerpentineHeritage9()
+    //{
+    //  return AddBlast(
+    //    abilityName: SerpentineHeritageBlastAbility,
+    //    abilityGuid: Guids.SerpentineHeritageBlastAbility,
+    //    sourceAbility: AbilityRefs.BloodlineSerpentineHellfireAbility.Reference.Get(),
+    //    featureName: SerpentineHeritageBlast,
+    //    featureGuid: Guids.SerpentineHeritageBlast,
+    //    sourceFeature: FeatureRefs.BloodlineSerpentineHellfireFeature.Reference.Get(),
+    //    prerequisite: Guids.SerpentineHeritage,
+    //    resource: AbilityResourceRefs.BloodlineSerpentineHellfireResource.ToString(),
+    //    extraUse: FeatureRefs.BloodlineSerpentineHellfireExtraUse.Cast<BlueprintFeatureReference>().Reference,
+    //    greaterFeatureGuid: Guids.SerpentineHeritageWings,
+    //    rankType: AbilityRankType.DamageDice);
+    //}
+
+    //private static BlueprintFeature ConfigureSerpentineHeritage15()
+    //{
+    //  var SerpentineWings = FeatureRefs.FeatureWingsDevil.Reference.Get();
+    //  return AddFeaturesByLevel(
+    //    SerpentineHeritageWings,
+    //    Guids.SerpentineHeritageWings,
+    //    SerpentineWings,
+    //    prerequisites: new() { Guids.SerpentineHeritageBlast, Guids.SerpentineHeritageResistance },
+    //    featuresByLevel: new() { (SerpentineWings.ToReference<BlueprintFeatureReference>(), 15) });
+    //}
     #endregion
 
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.

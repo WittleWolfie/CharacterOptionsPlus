@@ -102,6 +102,8 @@ namespace CharacterOptionsPlus.Util
     internal const string CelestialHeritageAuraAbility = "5d1681ec-cdd8-4f04-899c-af0a238254eb";
     internal const string CelestialHeritageConviction = "989e19d2-efdc-436f-a1c7-fb9b5247dbad";
 
+    internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
+
     #region Draconic Heritage
     // Used to prevent multiple selections
     internal const string DraconicHeritage = "86bfc14d-08bd-4a5b-9d53-521ca22a5d99";
@@ -215,8 +217,8 @@ namespace CharacterOptionsPlus.Util
     internal const string InfernalHeritageWings = "b09f3fea-12a8-405e-98ec-8f708bee03bc";
 
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";
+
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
-    internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     #endregion
 
     #region Dynamic GUIDs
