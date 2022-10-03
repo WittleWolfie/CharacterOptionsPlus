@@ -385,6 +385,48 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
+    [TypeId("cf0a51da-5296-4463-ad8d-ccf5c4a7598d")]
+    private class BindToCharacterLevel :
+      UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateAbilityParams>
+    {
+      private static BlueprintUnitProperty _effectiveLevel;
+      private static BlueprintUnitProperty EffectiveLevel
+      {
+        get
+        {
+          _effectiveLevel ??= BlueprintTool.Get<BlueprintUnitProperty>(EffectiveLevelProperty);
+          return _effectiveLevel;
+        }
+      }
+
+      private readonly BlueprintAbilityReference Ability;
+
+      public BindToCharacterLevel(BlueprintAbilityReference breathAbility)
+      {
+        Ability = breathAbility;
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateAbilityParams evt)
+      {
+        try
+        {
+          if (Ability.deserializedGuid == evt.Spell.AssetGuid)
+          {
+            Logger.NativeLog($"Binding {evt.Spell.Name} to effective level");
+            evt.ReplaceStat = StatType.Charisma;
+            evt.ReplaceCasterLevel = EffectiveLevel.GetInt(Owner);
+            evt.ReplaceSpellLevel = EffectiveLevel.GetInt(Owner) / 2;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("BindToCharacterLevel.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateAbilityParams evt) { }
+    }
+
     #region Abyssal
     private const string AbyssalHeritageName = "EldrichHeritage.Abyssal";
 
@@ -1277,86 +1319,16 @@ namespace CharacterOptionsPlus.Feats
       BlueprintFeatureReference extraUse,
       string greaterFeatureGuid)
     {
-      var ability = AbilityConfigurator.New(abilityName, abilityGuid)
-        .SetDisplayName(breath.m_DisplayName)
-        .SetDescription(breath.m_Description)
-        .SetIcon(breath.Icon)
-        .SetType(breath.Type)
-        .SetRange(breath.Range)
-        .SetCanTargetEnemies()
-        .SetCanTargetFriends()
-        .SetCanTargetSelf()
-        .SetCanTargetPoint()
-        .SetEffectOnEnemy(breath.EffectOnEnemy)
-        .SetAnimation(breath.Animation)
-        .SetActionType(breath.ActionType)
-        .SetAvailableMetamagic(breath.AvailableMetamagic)
-        .SetLocalizedSavingThrow(breath.LocalizedSavingThrow)
-        .AddComponent(breath.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(breath.GetComponent<AbilityDeliverProjectile>())
-        .AddComponent(breath.GetComponent<SpellDescriptorComponent>())
-        .AddComponent(breath.GetComponent<AbilityResourceLogic>())
-        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
-        .Configure();
-
-      return FeatureConfigurator.New(featureName, featureGuid)
-        .SetDisplayName(breathFeature.m_DisplayName)
-        .SetDescription(breathFeature.m_Description)
-        .SetIcon(breathFeature.Icon)
-        .SetIsClassFeature()
-        .SetReapplyOnLevelUp()
-        .AddFacts(new() { ability })
-        .AddAbilityResources(
-          resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(), restoreAmount: true)
-        .AddComponent(new BindDragonBreath(ability.ToReference<BlueprintAbilityReference>()))
-        .AddComponent(
-          new ApplyFeatureOnCharacterLevel(
-            new() { (extraUse, level: 19) },
-            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(greaterFeatureGuid),
-            greaterFeatureLevels: new() { (extraUse, level: 17) }))
-        .Configure();
-    }
-
-    [TypeId("cf0a51da-5296-4463-ad8d-ccf5c4a7598d")]
-    private class BindDragonBreath :
-      UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateAbilityParams>
-    {
-      private static BlueprintUnitProperty _effectiveLevel;
-      private static BlueprintUnitProperty EffectiveLevel
-      {
-        get
-        {
-          _effectiveLevel ??= BlueprintTool.Get<BlueprintUnitProperty>(EffectiveLevelProperty);
-          return _effectiveLevel;
-        }
-      }
-
-      private readonly BlueprintAbilityReference Ability;
-
-      public BindDragonBreath(BlueprintAbilityReference breathAbility)
-      {
-        Ability = breathAbility;
-      }
-
-      public void OnEventAboutToTrigger(RuleCalculateAbilityParams evt)
-      {
-        try
-        {
-          if (Ability.deserializedGuid == evt.Spell.AssetGuid)
-          {
-            Logger.NativeLog($"Binding dragon breath for {evt.Spell.Name}");
-            evt.ReplaceStat = StatType.Charisma;
-            evt.ReplaceCasterLevel = EffectiveLevel.GetInt(Owner);
-            evt.ReplaceSpellLevel = EffectiveLevel.GetInt(Owner) / 2;
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("BindAbilityToCharacterLevel.OnEventAboutToTrigger", e);
-        }
-      }
-
-      public void OnEventDidTrigger(RuleCalculateAbilityParams evt) { }
+      return AddBlast(
+        abilityName,
+        abilityGuid,
+        sourceAbility: breath,
+        featureName,
+        featureGuid,
+        sourceFeature: breathFeature,
+        resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
+        extraUse,
+        greaterFeatureGuid);
     }
     #endregion
 
@@ -1368,6 +1340,7 @@ namespace CharacterOptionsPlus.Feats
     #region Air
     private const string ElementalAirHeritage = "EldritchHeritage.Elemental.Air";
     private const string ElementalAirHeritageRay = "EldritchHeritage.Elemental.Air.Ray";
+    private const string ElementalAirHeritageResistance = "EldritchHeritage.Elemental.Air.Resistance";
 
     private static BlueprintFeature ConfigureElementalAir1()
     {
@@ -1378,6 +1351,17 @@ namespace CharacterOptionsPlus.Feats
         featureName: ElementalAirHeritage,
         featureGuid: Guids.ElementalAirHeritage,
         sourceFeature: FeatureRefs.BloodlineElementalAirElementalRayFeature.Reference.Get());
+    }
+
+    private static BlueprintFeature ConfigureElementalAir3()
+    {
+      var elementalResistance = FeatureRefs.BloodlineElementalAirResistanceAbilityLevel2.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalAirHeritageResistance,
+        Guids.ElementalAirHeritageResistance,
+        elementalResistance,
+        new() { ElementalAirHeritage },
+        new() { (elementalResistance.ToReference<BlueprintFeatureReference>(), 11) });
     }
 
     private static BlueprintFeature AddElementalRay(
@@ -1398,6 +1382,56 @@ namespace CharacterOptionsPlus.Feats
         FeatureRefs.SkillFocusAcrobatics.ToString(),
         new() { FeatureRefs.BloodlineElementalClassSkill.ToString(), ElementalHeritage },
         AbilityResourceRefs.BloodlineElementalElementalRayResource.ToString());
+    }
+
+    private static BlueprintFeature ConfigureElementalBlast(
+      string abilityName,
+      string abilityGuid,
+      BlueprintAbility breath,
+      string featureName,
+      string featureGuid,
+      BlueprintFeature breathFeature,
+      BlueprintFeatureReference extraUse,
+      string greaterFeatureGuid)
+    {
+      //var ability = AbilityConfigurator.New(abilityName, abilityGuid)
+      //  .SetDisplayName(breath.m_DisplayName)
+      //  .SetDescription(breath.m_Description)
+      //  .SetIcon(breath.Icon)
+      //  .SetType(breath.Type)
+      //  .SetRange(breath.Range)
+      //  .SetCanTargetEnemies()
+      //  .SetCanTargetFriends()
+      //  .SetCanTargetSelf()
+      //  .SetCanTargetPoint()
+      //  .SetEffectOnEnemy(breath.EffectOnEnemy)
+      //  .SetAnimation(breath.Animation)
+      //  .SetActionType(breath.ActionType)
+      //  .SetAvailableMetamagic(breath.AvailableMetamagic)
+      //  .SetLocalizedSavingThrow(breath.LocalizedSavingThrow)
+      //  .AddComponent(breath.GetComponent<AbilityEffectRunAction>())
+      //  .AddComponent(breath.GetComponent<AbilityDeliverProjectile>())
+      //  .AddComponent(breath.GetComponent<SpellDescriptorComponent>())
+      //  .AddComponent(breath.GetComponent<AbilityResourceLogic>())
+      //  .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
+      //  .Configure();
+
+      //return FeatureConfigurator.New(featureName, featureGuid)
+      //  .SetDisplayName(breathFeature.m_DisplayName)
+      //  .SetDescription(breathFeature.m_Description)
+      //  .SetIcon(breathFeature.Icon)
+      //  .SetIsClassFeature()
+      //  .SetReapplyOnLevelUp()
+      //  .AddFacts(new() { ability })
+      //  .AddAbilityResources(
+      //    resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(), restoreAmount: true)
+      //  .AddComponent(new BindToCharacterLevel(ability.ToReference<BlueprintAbilityReference>()))
+      //  .AddComponent(
+      //    new ApplyFeatureOnCharacterLevel(
+      //      new() { (extraUse, level: 19) },
+      //      greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(greaterFeatureGuid),
+      //      greaterFeatureLevels: new() { (extraUse, level: 17) }))
+      //  .Configure();
     }
     #endregion
 
@@ -1524,6 +1558,71 @@ namespace CharacterOptionsPlus.Feats
         feature.AddPrerequisiteNoFeature(exclude);
 
       return feature.Configure();
+    }
+
+    private static BlueprintFeature AddBlast(
+      string abilityName,
+      string abilityGuid,
+      BlueprintAbility sourceAbility,
+      string featureName,
+      string featureGuid,
+      BlueprintFeature sourceFeature,
+      string resource,
+      BlueprintFeatureReference extraUse,
+      string greaterFeatureGuid,
+      AbilityRankType rankType = AbilityRankType.Default)
+    {
+      var abilityBuilder = AbilityConfigurator.New(abilityName, abilityGuid)
+        .SetDisplayName(sourceAbility.m_DisplayName)
+        .SetDescription(sourceAbility.m_Description)
+        .SetIcon(sourceAbility.Icon)
+        .SetType(sourceAbility.Type)
+        .SetCanTargetEnemies(sourceAbility.CanTargetEnemies)
+        .SetCanTargetFriends(sourceAbility.CanTargetFriends)
+        .SetCanTargetSelf(sourceAbility.CanTargetSelf)
+        .SetCanTargetPoint(sourceAbility.CanTargetPoint)
+        .SetEffectOnEnemy(sourceAbility.EffectOnEnemy)
+        .SetAnimation(sourceAbility.Animation)
+        .SetActionType(sourceAbility.ActionType)
+        .SetAvailableMetamagic(sourceAbility.AvailableMetamagic)
+        .SetLocalizedSavingThrow(sourceAbility.LocalizedSavingThrow)
+        .AddComponent(sourceAbility.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(sourceAbility.GetComponent<SpellDescriptorComponent>())
+        .AddComponent(sourceAbility.GetComponent<AbilityResourceLogic>())
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20, type: rankType));
+
+      // Draconic & Elemental have slightly different sets of components
+      if (sourceAbility.GetComponent<AbilityDeliverProjectile>() is not null)
+        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverProjectile>());
+      if (sourceAbility.GetComponent<SpellComponent>() is not null)
+        abilityBuilder.AddComponent(sourceAbility.GetComponent<SpellComponent>());
+      if (sourceAbility.GetComponent<AbilityTargetsAround>() is not null)
+        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityTargetsAround>());
+      if (sourceAbility.GetComponent<AbilitySpawnFx>() is not null)
+        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilitySpawnFx>());
+
+      // Draconic & elemental have slightly different range logic
+      if (sourceAbility.Range == AbilityRange.Custom)
+        abilityBuilder.SetCustomRange(sourceAbility.CustomRange);
+      else
+        abilityBuilder.SetRange(sourceAbility.Range);
+
+      var ability = abilityBuilder.Configure();
+      return FeatureConfigurator.New(featureName, featureGuid)
+        .SetDisplayName(sourceFeature.m_DisplayName)
+        .SetDescription(sourceFeature.m_Description)
+        .SetIcon(sourceFeature.Icon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddFacts(new() { ability })
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddComponent(new BindToCharacterLevel(ability.ToReference<BlueprintAbilityReference>()))
+        .AddComponent(
+          new ApplyFeatureOnCharacterLevel(
+            new() { (extraUse, level: 19) },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(greaterFeatureGuid),
+            greaterFeatureLevels: new() { (extraUse, level: 17), (extraUse, level: 20) }))
+        .Configure();
     }
   }
 }
