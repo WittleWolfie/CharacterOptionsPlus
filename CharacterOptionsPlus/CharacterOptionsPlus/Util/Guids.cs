@@ -174,6 +174,9 @@ namespace CharacterOptionsPlus.Util
     internal const string ElementalAirHeritage = "10f79138-da20-4202-b09f-941261f7d212";
     internal const string ElementalAirHeritageRay = "6460bd7b-19f1-4356-82c7-137f05c4ee11";
     internal const string ElementalAirHeritageResistance = "ed4bedb5-489e-495d-b1ac-be8222521324";
+    internal const string ElementalAirHeritageBlast = "2e6bdc74-2340-4687-a482-9b2ad7a1ffd6";
+    internal const string ElementalAirHeritageBlastAbility = "daf339a0-92de-4619-816a-f3dda3cd42ff";
+    internal const string ElementalAirHeritageMovement = "a360a135-b122-4346-b98d-f7f1373de739";
 
     internal const string ElementalEarthHeritage = "4652cd5e-64a3-4dfb-9c32-8cd5d8f2bcd5";
     internal const string ElementalFireHeritage = "8914f1d1-a0c3-4c4a-a054-e383b2d14ecd";

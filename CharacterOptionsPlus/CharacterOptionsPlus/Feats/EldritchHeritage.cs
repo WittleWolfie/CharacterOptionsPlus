@@ -491,8 +491,8 @@ namespace CharacterOptionsPlus.Feats
         AbyssalHeritageSummons,
         Guids.AbyssalHeritageSummons,
         abyssalSummons,
-        new() { AbyssalHeritageName, ImprovedFeatName },
-        new() { (abyssalSummons.ToReference<BlueprintFeatureReference>(), 15) });
+        prerequisites: new() { Guids.AbyssalHeritageStrength, Guids.AbyssalHeritageResistance },
+        featuresByLevel: new() { (abyssalSummons.ToReference<BlueprintFeatureReference>(), 15) });
     }
     #endregion
 
@@ -531,12 +531,13 @@ namespace CharacterOptionsPlus.Feats
         ArcaneHeritageAdept,
         Guids.ArcaneHeritageAdept,
         arcaneAdept,
-        new() { ArcaneHeritageName },
-        new()
-        {
-          (arcaneAdept.ToReference<BlueprintFeatureReference>(), level: 11),
-          (FeatureRefs.BloodlineArcaneCombatCastingAdeptFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { ArcaneHeritageName },
+        featuresByLevel:
+          new()
+          {
+            (arcaneAdept.ToReference<BlueprintFeatureReference>(), level: 11),
+            (FeatureRefs.BloodlineArcaneCombatCastingAdeptFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureArcaneHeritage15()
@@ -547,8 +548,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(arcaneFocus.m_Description)
         .SetIcon(arcaneFocus.m_Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(ArcaneHeritageName)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeature(Guids.ArcaneHeritageAdept)
         .AddPrerequisiteNoFeature(ArcaneHeritageFocus)
         .AddToAllFeatures(arcaneFocus)
         .Configure();
@@ -587,8 +587,8 @@ namespace CharacterOptionsPlus.Feats
         CelestialHeritageResistances,
         Guids.CelestialHeritageResistances,
         celestialResistances,
-        new() { CelestialHeritageName },
-        new() { (celestialResistances.ToReference<BlueprintFeatureReference>(), level: 3) });
+        prerequisites: new() { CelestialHeritageName },
+        featuresByLevel: new() { (celestialResistances.ToReference<BlueprintFeatureReference>(), level: 3) });
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage9()
@@ -633,8 +633,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(celestialConviction.m_Description)
         .SetIcon(celestialConviction.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(CelestialHeritageName)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.CelestialHeritageResistances, Guids.CelestialHeritageAura }, amount: 1 )
         .AddSpellResistanceAgainstAlignment(alignment: AlignmentComponent.Evil, value: ContextValues.Rank())
         .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20).WithBonusValueProgression(11))
         .Configure();
@@ -673,14 +673,15 @@ namespace CharacterOptionsPlus.Feats
         DraconicBlackHeritageResistance,
         Guids.DraconicBlackHeritageResistance,
         draconicResistances,
-        new() { DraconicBlackHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
-    }
+        prerequisites: new() { DraconicBlackHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicBlackResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
+      }
 
     private static BlueprintFeature ConfigureDraconicBlack9()
     {
@@ -703,8 +704,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicBlackHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicBlackHeritageBreath, Guids.DraconicBlackHeritageResistance }, amount: 1 )
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -737,13 +738,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicBlueHeritageResistance,
         Guids.DraconicBlueHeritageResistance,
         draconicResistances,
-        new() { DraconicBlueHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicBlueHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicBlueResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicBlue9()
@@ -767,8 +769,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicBlueHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicBlueHeritageBreath, Guids.DraconicBlueHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -801,13 +803,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicBrassHeritageResistance,
         Guids.DraconicBrassHeritageResistance,
         draconicResistances,
-        new() { DraconicBrassHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicBrassResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicBrassResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicBrassResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicBrassHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicBrassResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicBrassResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicBrassResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicBrass9()
@@ -831,8 +834,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicBrassHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicBrassHeritageBreath, Guids.DraconicBrassHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -865,13 +868,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicBronzeHeritageResistance,
         Guids.DraconicBronzeHeritageResistance,
         draconicResistances,
-        new() { DraconicBronzeHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicBronzeResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicBronzeResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicBronzeResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicBronzeHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicBronzeResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicBronzeResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicBronzeResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicBronze9()
@@ -895,8 +899,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicBronzeHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicBronzeHeritageBreath, Guids.DraconicBronzeHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -929,13 +933,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicCopperHeritageResistance,
         Guids.DraconicCopperHeritageResistance,
         draconicResistances,
-        new() { DraconicCopperHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicCopperResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicCopperResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicCopperResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicCopperHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicCopperResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicCopperResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicCopperResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicCopper9()
@@ -959,8 +964,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicCopperHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicCopperHeritageBreath, Guids.DraconicCopperHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -993,13 +998,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicGoldHeritageResistance,
         Guids.DraconicGoldHeritageResistance,
         draconicResistances,
-        new() { DraconicGoldHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicGoldHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicGoldResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicGold9()
@@ -1023,8 +1029,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicGoldHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicGoldHeritageBreath, Guids.DraconicGoldHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -1057,13 +1063,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicGreenHeritageResistance,
         Guids.DraconicGreenHeritageResistance,
         draconicResistances,
-        new() { DraconicGreenHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicGreenResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicGreenResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicGreenResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicGreenHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicGreenResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicGreenResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicGreenResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicGreen9()
@@ -1087,8 +1094,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicGreenHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicGreenHeritageBreath, Guids.DraconicGreenHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -1121,13 +1128,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicRedHeritageResistance,
         Guids.DraconicRedHeritageResistance,
         draconicResistances,
-        new() { DraconicRedHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicRedHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicRedResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicRed9()
@@ -1151,8 +1159,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicRedHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicRedHeritageBreath, Guids.DraconicRedHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -1185,13 +1193,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicSilverHeritageResistance,
         Guids.DraconicSilverHeritageResistance,
         draconicResistances,
-        new() { DraconicSilverHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicSilverResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicSilverResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicSilverResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicSilverHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicSilverResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicSilverResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicSilverResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicSilver9()
@@ -1215,8 +1224,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicSilverHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicSilverHeritageBreath, Guids.DraconicSilverHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -1249,13 +1258,14 @@ namespace CharacterOptionsPlus.Feats
         DraconicWhiteHeritageResistance,
         Guids.DraconicWhiteHeritageResistance,
         draconicResistances,
-        new() { DraconicWhiteHeritage },
-        new()
-        {
-          (FeatureRefs.BloodlineDraconicWhiteResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
-          (FeatureRefs.BloodlineDraconicWhiteResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
-          (FeatureRefs.BloodlineDraconicWhiteResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
-        });
+        prerequisites: new() { DraconicWhiteHeritage },
+        featuresByLevel:
+          new()
+          {
+            (FeatureRefs.BloodlineDraconicWhiteResistancesAbilityLevel1.Cast<BlueprintFeatureReference>().Reference, level: 5),
+            (FeatureRefs.BloodlineDraconicWhiteResistancesAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 11),
+            (FeatureRefs.BloodlineDraconicWhiteResistancesAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17),
+          });
     }
 
     private static BlueprintFeature ConfigureDraconicWhite9()
@@ -1279,8 +1289,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(wings.m_Description)
         .SetIcon(wings.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(DraconicWhiteHeritage)
-        .AddPrerequisiteFeature(ImprovedFeatName)
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DraconicWhiteHeritageBreath, Guids.DraconicWhiteHeritageResistance }, amount: 1)
         .AddFacts(new() { wings })
         .Configure();
     }
@@ -1341,6 +1351,9 @@ namespace CharacterOptionsPlus.Feats
     private const string ElementalAirHeritage = "EldritchHeritage.Elemental.Air";
     private const string ElementalAirHeritageRay = "EldritchHeritage.Elemental.Air.Ray";
     private const string ElementalAirHeritageResistance = "EldritchHeritage.Elemental.Air.Resistance";
+    private const string ElementalAirHeritageBlast = "EldritchHeritage.Elemental.Air.Blast";
+    private const string ElementalAirHeritageBlastAbility = "EldritchHeritage.Elemental.Air.Blast.Ability";
+    private const string ElementalAirHeritageMovement = "EldritchHeritage.Elemental.Air.Movement";
 
     private static BlueprintFeature ConfigureElementalAir1()
     {
@@ -1360,8 +1373,32 @@ namespace CharacterOptionsPlus.Feats
         ElementalAirHeritageResistance,
         Guids.ElementalAirHeritageResistance,
         elementalResistance,
-        new() { ElementalAirHeritage },
-        new() { (elementalResistance.ToReference<BlueprintFeatureReference>(), 11) });
+        prerequisites: new() { ElementalAirHeritage },
+        featuresByLevel: new() { (elementalResistance.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+
+    private static BlueprintFeature ConfigureElementalAir9()
+    {
+      return ConfigureElementalBlast(
+        abilityName: ElementalAirHeritageBlastAbility,
+        abilityGuid: Guids.ElementalAirHeritageBlastAbility,
+        blast: AbilityRefs.BloodlineElementalAirElementalBlastAbility.Reference.Get(),
+        featureName: ElementalAirHeritageBlast,
+        featureGuid: Guids.ElementalAirHeritageBlast,
+        blastFeature: FeatureRefs.BloodlineElementalAirElementalBlastFeature.Reference.Get(),
+        extraUse: FeatureRefs.BloodlineElementalAirElementalBlastExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.ElementalAirHeritageMovement);
+    }
+
+    private static BlueprintFeature ConfigureElementalAir15()
+    {
+      var elementalMovement = FeatureRefs.BloodlineElementalAirElementalMovementFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalAirHeritageMovement,
+        Guids.ElementalAirHeritageMovement,
+        elementalMovement,
+        prerequisites: new() { Guids.ElementalAirHeritageBlastAbility, Guids.ElementalAirHeritageResistance },
+        featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
     }
 
     private static BlueprintFeature AddElementalRay(
@@ -1387,51 +1424,24 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureElementalBlast(
       string abilityName,
       string abilityGuid,
-      BlueprintAbility breath,
+      BlueprintAbility blast,
       string featureName,
       string featureGuid,
-      BlueprintFeature breathFeature,
+      BlueprintFeature blastFeature,
       BlueprintFeatureReference extraUse,
       string greaterFeatureGuid)
     {
-      //var ability = AbilityConfigurator.New(abilityName, abilityGuid)
-      //  .SetDisplayName(breath.m_DisplayName)
-      //  .SetDescription(breath.m_Description)
-      //  .SetIcon(breath.Icon)
-      //  .SetType(breath.Type)
-      //  .SetRange(breath.Range)
-      //  .SetCanTargetEnemies()
-      //  .SetCanTargetFriends()
-      //  .SetCanTargetSelf()
-      //  .SetCanTargetPoint()
-      //  .SetEffectOnEnemy(breath.EffectOnEnemy)
-      //  .SetAnimation(breath.Animation)
-      //  .SetActionType(breath.ActionType)
-      //  .SetAvailableMetamagic(breath.AvailableMetamagic)
-      //  .SetLocalizedSavingThrow(breath.LocalizedSavingThrow)
-      //  .AddComponent(breath.GetComponent<AbilityEffectRunAction>())
-      //  .AddComponent(breath.GetComponent<AbilityDeliverProjectile>())
-      //  .AddComponent(breath.GetComponent<SpellDescriptorComponent>())
-      //  .AddComponent(breath.GetComponent<AbilityResourceLogic>())
-      //  .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
-      //  .Configure();
-
-      //return FeatureConfigurator.New(featureName, featureGuid)
-      //  .SetDisplayName(breathFeature.m_DisplayName)
-      //  .SetDescription(breathFeature.m_Description)
-      //  .SetIcon(breathFeature.Icon)
-      //  .SetIsClassFeature()
-      //  .SetReapplyOnLevelUp()
-      //  .AddFacts(new() { ability })
-      //  .AddAbilityResources(
-      //    resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(), restoreAmount: true)
-      //  .AddComponent(new BindToCharacterLevel(ability.ToReference<BlueprintAbilityReference>()))
-      //  .AddComponent(
-      //    new ApplyFeatureOnCharacterLevel(
-      //      new() { (extraUse, level: 19) },
-      //      greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(greaterFeatureGuid),
-      //      greaterFeatureLevels: new() { (extraUse, level: 17) }))
-      //  .Configure();
+      return AddBlast(
+        abilityName,
+        abilityGuid,
+        sourceAbility: blast,
+        featureName,
+        featureGuid,
+        sourceFeature: blastFeature,
+        resource: AbilityResourceRefs.BloodlineElementalElementalBlastResource.ToString(),
+        extraUse,
+        greaterFeatureGuid,
+        AbilityRankType.DamageDice);
     }
     #endregion
 
@@ -1443,12 +1453,12 @@ namespace CharacterOptionsPlus.Feats
       string name,
       string guid,
       BlueprintFeature sourceFeature,
-      List<string> prerequisites,
+      List<Blueprint<BlueprintFeatureReference>> prerequisites,
       List<(BlueprintFeatureReference feature, int level)> featuresByLevel,
       BlueprintFeatureReference greaterFeature = null,
       List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
     {
-      var feature = FeatureConfigurator.New(name, guid)
+      return FeatureConfigurator.New(name, guid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
         .SetIcon(sourceFeature.Icon)
@@ -1458,12 +1468,9 @@ namespace CharacterOptionsPlus.Feats
           new ApplyFeatureOnCharacterLevel(
             featuresByLevel.ToList(),
             greaterFeature: greaterFeature,
-            greaterFeatureLevels: greaterFeatureLevels));
-
-      foreach (var prereq in prerequisites)
-        feature.AddPrerequisiteFeature(prereq);
-
-      return feature.Configure();
+            greaterFeatureLevels: greaterFeatureLevels))
+        .AddPrerequisiteFeaturesFromList(prerequisites, amount: 1)
+        .Configure();
     }
 
     private static BlueprintFeature AddClaws(
