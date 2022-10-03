@@ -157,6 +157,23 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(DraconicWhiteHeritageWings, Guids.DraconicWhiteHeritageWings).Configure();
       #endregion
 
+      #region Elemental
+      AbilityConfigurator.New(ElementalAirHeritageRay, Guids.ElementalAirHeritageRay).Configure();
+      FeatureConfigurator.New(ElementalAirHeritage, Guids.ElementalAirHeritage).Configure();
+      FeatureConfigurator.New(ElementalAirHeritageResistance, Guids.ElementalAirHeritageResistance).Configure();
+      AbilityConfigurator.New(ElementalAirHeritageBlastAbility, Guids.ElementalAirHeritageBlastAbility).Configure();
+      FeatureConfigurator.New(ElementalAirHeritageBlast, Guids.ElementalAirHeritageBlast).Configure();
+      FeatureConfigurator.New(ElementalAirHeritageMovement, Guids.ElementalAirHeritageMovement).Configure();
+
+      AbilityConfigurator.New(ElementalEarthHeritageRay, Guids.ElementalEarthHeritageRay).Configure();
+      FeatureConfigurator.New(ElementalEarthHeritage, Guids.ElementalEarthHeritage).Configure();
+      FeatureConfigurator.New(ElementalEarthHeritageResistance, Guids.ElementalEarthHeritageResistance).Configure();
+      AbilityConfigurator.New(ElementalEarthHeritageBlastAbility, Guids.ElementalEarthHeritageBlastAbility).Configure();
+      FeatureConfigurator.New(ElementalEarthHeritageBlast, Guids.ElementalEarthHeritageBlast).Configure();
+      FeatureConfigurator.New(ElementalEarthHeritageMovement, Guids.ElementalEarthHeritageMovement).Configure();
+
+      #endregion
+
       #region Base
       FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
       FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage).Configure();
@@ -244,7 +261,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureDraconicWhite1(),
           
-          ConfigureElementalAir1())
+          ConfigureElementalAir1(),
+          
+          ConfigureElementalEarth1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -298,9 +317,12 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureDraconicWhite3(),
           ConfigureDraconicWhite9(),
-          
+
           ConfigureElementalAir3(),
-          ConfigureElementalAir9())
+          ConfigureElementalAir9(),
+
+          ConfigureElementalEarth3(),
+          ConfigureElementalEarth9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -343,7 +365,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureDraconicWhite15(),
           
-          ConfigureElementalAir15())
+          ConfigureElementalAir15(),
+          
+          ConfigureElementalEarth15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1419,6 +1443,63 @@ namespace CharacterOptionsPlus.Feats
         prerequisites: new() { Guids.ElementalAirHeritageBlast, Guids.ElementalAirHeritageResistance },
         featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
     }
+    #endregion
+
+    #region Earth
+    private const string ElementalEarthHeritage = "EldritchHeritage.Elemental.Earth";
+    private const string ElementalEarthHeritageRay = "EldritchHeritage.Elemental.Earth.Ray";
+    private const string ElementalEarthHeritageResistance = "EldritchHeritage.Elemental.Earth.Resistance";
+    private const string ElementalEarthHeritageBlast = "EldritchHeritage.Elemental.Earth.Blast";
+    private const string ElementalEarthHeritageBlastAbility = "EldritchHeritage.Elemental.Earth.Blast.Ability";
+    private const string ElementalEarthHeritageMovement = "EldritchHeritage.Elemental.Earth.Movement";
+
+    private static BlueprintFeature ConfigureElementalEarth1()
+    {
+      return AddElementalRay(
+        abilityName: ElementalEarthHeritageRay,
+        abilityGuid: Guids.ElementalEarthHeritageRay,
+        sourceAbility: AbilityRefs.BloodlineElementalEarthElementalRayAbility.Reference.Get(),
+        featureName: ElementalEarthHeritage,
+        featureGuid: Guids.ElementalEarthHeritage,
+        sourceFeature: ProgressionRefs.BloodlineElementalEarthProgression.Reference.Get());
+    }
+
+    private static BlueprintFeature ConfigureElementalEarth3()
+    {
+      var elementalResistance = FeatureRefs.BloodlineElementalEarthResistanceAbilityLevel2.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalEarthHeritageResistance,
+        Guids.ElementalEarthHeritageResistance,
+        elementalResistance,
+        prerequisites: new() { ElementalEarthHeritage },
+        featuresByLevel: new() { (elementalResistance.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+
+    private static BlueprintFeature ConfigureElementalEarth9()
+    {
+      return ConfigureElementalBlast(
+        abilityName: ElementalEarthHeritageBlastAbility,
+        abilityGuid: Guids.ElementalEarthHeritageBlastAbility,
+        blast: AbilityRefs.BloodlineElementalEarthElementalBlastAbility.Reference.Get(),
+        featureName: ElementalEarthHeritageBlast,
+        featureGuid: Guids.ElementalEarthHeritageBlast,
+        blastFeature: FeatureRefs.BloodlineElementalEarthElementalBlastFeature.Reference.Get(),
+        prerequisite: Guids.ElementalEarthHeritage,
+        extraUse: FeatureRefs.BloodlineElementalEarthElementalBlastExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.ElementalEarthHeritageMovement);
+    }
+
+    private static BlueprintFeature ConfigureElementalEarth15()
+    {
+      var elementalMovement = FeatureRefs.BloodlineElementalEarthElementalMovementFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalEarthHeritageMovement,
+        Guids.ElementalEarthHeritageMovement,
+        elementalMovement,
+        prerequisites: new() { Guids.ElementalEarthHeritageBlast, Guids.ElementalEarthHeritageResistance },
+        featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+    #endregion
 
     private static BlueprintFeature AddElementalRay(
       string abilityName,
@@ -1464,8 +1545,6 @@ namespace CharacterOptionsPlus.Feats
         greaterFeatureGuid,
         AbilityRankType.DamageDice);
     }
-    #endregion
-
     #endregion
 
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.
