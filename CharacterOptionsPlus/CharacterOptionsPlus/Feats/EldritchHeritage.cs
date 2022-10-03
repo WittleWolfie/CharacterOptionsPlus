@@ -1843,13 +1843,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureInfernalHeritage3()
     {
-      var InfernalStride = FeatureRefs.BloodlineInfernalWoodlandStride.Reference.Get();
+      var infernalResistance = FeatureRefs.BloodlineInfernalResistancesAbilityLevel2.Reference.Get();
       return AddFeaturesByLevel(
-        InfernalHeritageStride,
-        Guids.InfernalHeritageStride,
-        InfernalStride,
+        InfernalHeritageResistance,
+        Guids.InfernalHeritageResistance,
+        infernalResistance,
         new() { InfernalHeritageName },
-        new() { (InfernalStride.ToReference<BlueprintFeatureReference>(), level: 11) });
+        new() { (infernalResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
     private static BlueprintFeature ConfigureInfernalHeritage9()
