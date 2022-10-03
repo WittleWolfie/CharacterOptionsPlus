@@ -159,6 +159,7 @@ namespace CharacterOptionsPlus.Feats
 
       #region Base
       FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
+      FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage).Configure();
 
       UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
         .AddComponent<SorcererLevelGetter>()
@@ -296,7 +297,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureDraconicSilver9(),
           
           ConfigureDraconicWhite3(),
-          ConfigureDraconicWhite9())
+          ConfigureDraconicWhite9(),
+          
+          ConfigureElementalAir3(),
+          ConfigureElementalAir9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -337,7 +341,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureDraconicSilver15(),
 
-          ConfigureDraconicWhite15())
+          ConfigureDraconicWhite15(),
+          
+          ConfigureElementalAir15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -692,6 +698,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBlackHeritageBreath,
         featureGuid: Guids.DraconicBlackHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBlackBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicBlackHeritage,
         extraUse: FeatureRefs.BloodlineDraconicBlackBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBlackHeritageWings);
     }
@@ -757,6 +764,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBlueHeritageBreath,
         featureGuid: Guids.DraconicBlueHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBlueBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicBlueHeritage,
         extraUse: FeatureRefs.BloodlineDraconicBlueBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBlueHeritageWings);
     }
@@ -822,6 +830,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBrassHeritageBreath,
         featureGuid: Guids.DraconicBrassHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBrassBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicBrassHeritage,
         extraUse: FeatureRefs.BloodlineDraconicBrassBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBrassHeritageWings);
     }
@@ -887,6 +896,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicBronzeHeritageBreath,
         featureGuid: Guids.DraconicBronzeHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicBronzeBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicBronzeHeritage,
         extraUse: FeatureRefs.BloodlineDraconicBronzeBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicBronzeHeritageWings);
     }
@@ -952,6 +962,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicCopperHeritageBreath,
         featureGuid: Guids.DraconicCopperHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicCopperBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicCopperHeritage,
         extraUse: FeatureRefs.BloodlineDraconicCopperBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicCopperHeritageWings);
     }
@@ -1017,6 +1028,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicGoldHeritageBreath,
         featureGuid: Guids.DraconicGoldHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicGoldBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicGoldHeritage,
         extraUse: FeatureRefs.BloodlineDraconicGoldBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicGoldHeritageWings);
     }
@@ -1082,6 +1094,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicGreenHeritageBreath,
         featureGuid: Guids.DraconicGreenHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicGreenBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicGreenHeritage,
         extraUse: FeatureRefs.BloodlineDraconicGreenBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicGreenHeritageWings);
     }
@@ -1147,6 +1160,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicRedHeritageBreath,
         featureGuid: Guids.DraconicRedHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicRedBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicRedHeritage,
         extraUse: FeatureRefs.BloodlineDraconicRedBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicRedHeritageWings);
     }
@@ -1212,6 +1226,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicSilverHeritageBreath,
         featureGuid: Guids.DraconicSilverHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicSilverBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicSilverHeritage,
         extraUse: FeatureRefs.BloodlineDraconicSilverBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicSilverHeritageWings);
     }
@@ -1277,6 +1292,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: DraconicWhiteHeritageBreath,
         featureGuid: Guids.DraconicWhiteHeritageBreath,
         breathFeature: FeatureRefs.BloodlineDraconicWhiteBreathWeaponFeature.Reference.Get(),
+        prerequisite: Guids.DraconicWhiteHeritage,
         extraUse: FeatureRefs.BloodlineDraconicWhiteBreathWeaponExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.DraconicWhiteHeritageWings);
     }
@@ -1326,6 +1342,7 @@ namespace CharacterOptionsPlus.Feats
       string featureName,
       string featureGuid,
       BlueprintFeature breathFeature,
+      string prerequisite,
       BlueprintFeatureReference extraUse,
       string greaterFeatureGuid)
     {
@@ -1336,6 +1353,7 @@ namespace CharacterOptionsPlus.Feats
         featureName,
         featureGuid,
         sourceFeature: breathFeature,
+        prerequisite,
         resource: AbilityResourceRefs.BloodlineDraconicBreathWeaponResource.ToString(),
         extraUse,
         greaterFeatureGuid);
@@ -1386,6 +1404,7 @@ namespace CharacterOptionsPlus.Feats
         featureName: ElementalAirHeritageBlast,
         featureGuid: Guids.ElementalAirHeritageBlast,
         blastFeature: FeatureRefs.BloodlineElementalAirElementalBlastFeature.Reference.Get(),
+        prerequisite: Guids.ElementalAirHeritage,
         extraUse: FeatureRefs.BloodlineElementalAirElementalBlastExtraUse.Cast<BlueprintFeatureReference>().Reference,
         greaterFeatureGuid: Guids.ElementalAirHeritageMovement);
     }
@@ -1397,7 +1416,7 @@ namespace CharacterOptionsPlus.Feats
         ElementalAirHeritageMovement,
         Guids.ElementalAirHeritageMovement,
         elementalMovement,
-        prerequisites: new() { Guids.ElementalAirHeritageBlastAbility, Guids.ElementalAirHeritageResistance },
+        prerequisites: new() { Guids.ElementalAirHeritageBlast, Guids.ElementalAirHeritageResistance },
         featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
     }
 
@@ -1428,6 +1447,7 @@ namespace CharacterOptionsPlus.Feats
       string featureName,
       string featureGuid,
       BlueprintFeature blastFeature,
+      string prerequisite,
       BlueprintFeatureReference extraUse,
       string greaterFeatureGuid)
     {
@@ -1438,6 +1458,7 @@ namespace CharacterOptionsPlus.Feats
         featureName,
         featureGuid,
         sourceFeature: blastFeature,
+        prerequisite,
         resource: AbilityResourceRefs.BloodlineElementalElementalBlastResource.ToString(),
         extraUse,
         greaterFeatureGuid,
@@ -1574,6 +1595,7 @@ namespace CharacterOptionsPlus.Feats
       string featureName,
       string featureGuid,
       BlueprintFeature sourceFeature,
+      string prerequisite,
       string resource,
       BlueprintFeatureReference extraUse,
       string greaterFeatureGuid,
@@ -1621,6 +1643,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(sourceFeature.Icon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
+        .AddPrerequisiteFeature(prerequisite)
         .AddFacts(new() { ability })
         .AddAbilityResources(resource: resource, restoreAmount: true)
         .AddComponent(new BindToCharacterLevel(ability.ToReference<BlueprintAbilityReference>()))
