@@ -209,7 +209,6 @@ namespace CharacterOptionsPlus.Util
 
     internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
     internal const string InfernalHeritageTouch = "4ca71c74-0709-4974-a9b9-196723d3768b";
-    internal const string InfernalHeritageTouchAbility = "c4048f8a-6db2-4d2c-a273-e0795725e43c";
     internal const string InfernalHeritageResistance = "8bd41448-c754-4ba0-9b19-496b3ae32e44";
     internal const string InfernalHeritageBlast = "804c18e1-d381-45af-997c-5cd974d57f7b";
     internal const string InfernalHeritageBlastAbility = "fb2393f4-1106-487d-8d51-98a51c31f8dd";

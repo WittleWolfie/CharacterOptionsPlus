@@ -15,6 +15,7 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -1795,23 +1796,48 @@ namespace CharacterOptionsPlus.Feats
     #region Infernal
     private const string InfernalHeritageName = "EldrichHeritage.Infernal";
 
-    private const string InfernalHeritageStride = "EldritchHeritage.Infernal.Stride";
-    private const string InfernalHeritageGlance = "EldritchHeritage.Infernal.Glance";
-    private const string InfernalHeritageGlanceAbility = "EldritchHeritage.Infernal.Glance.Ability";
-    private const string InfernalHeritageGlanceResource = "EldritchHeritage.Infernal.Glance.Resource";
-    private const string InfernalHeritageMagic = "EldritchHeritage.Infernal.Magic";
+    private const string InfernalHeritageTouch = "EldritchHeritage.Infernal.Touch";
+    private const string InfernalHeritageResistance = "EldritchHeritage.Infernal.Resistance";
+    private const string InfernalHeritageBlast = "EldritchHeritage.Infernal.Blast";
+    private const string InfernalHeritageBlastAbility = "EldritchHeritage.Blast.Ability";
+    private const string InfernalHeritageWings = "EldritchHeritage.Infernal.Wings";
 
     private static BlueprintFeature ConfigureInfernalHeritage1()
     {
-      var InfernalBloodline = ProgressionRefs.BloodlineInfernalProgression.Reference.Get();
+      var infernalTouch = AbilityRefs.BloodlineInfernalCorruptingTouchAbility.Reference.Get();
+      var ability = AbilityConfigurator.New(InfernalHeritageTouch, Guids.InfernalHeritageTouch)
+        .SetDisplayName(infernalTouch.m_DisplayName)
+        .SetDescription(infernalTouch.m_Description)
+        .SetIcon(infernalTouch.Icon)
+        .SetType(infernalTouch.Type)
+        .SetRange(infernalTouch.Range)
+        .SetCanTargetEnemies()
+        .SetCanTargetSelf()
+        .SetSpellResistance()
+        .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
+        .SetAnimation(infernalTouch.Animation)
+        .SetActionType(infernalTouch.ActionType)
+        .SetAvailableMetamagic(infernalTouch.AvailableMetamagic)
+        .SetLocalizedDuration(infernalTouch.LocalizedDuration)
+        .AddComponent(infernalTouch.GetComponent<AbilityResourceLogic>())
+        .AddComponent(infernalTouch.GetComponent<AbilityDeliverTouch>())
+        .AddComponent(infernalTouch.GetComponent<AbilityEffectRunAction>())
+        .AddComponent(infernalTouch.GetComponent<SpellComponent>())
+        .AddComponent(infernalTouch.GetComponent<SpellDescriptorComponent>())
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty))
+        .Configure();
+
+      var infernalBloodline = ProgressionRefs.BloodlineInfernalProgression.Reference.Get();
       return FeatureConfigurator.New(InfernalHeritageName, Guids.InfernalHeritage)
-        .SetDisplayName(InfernalBloodline.m_DisplayName)
-        .SetDescription(InfernalBloodline.m_Description)
-        .SetIcon(InfernalBloodline.Icon)
+        .SetDisplayName(infernalBloodline.m_DisplayName)
+        .SetDescription(infernalBloodline.m_Description)
+        .SetIcon(infernalBloodline.Icon)
         .SetIsClassFeature()
-        .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreNature.ToString())
+        .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.InfernalBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { FeatureRefs.BloodlineInfernalLaughingTouchFeature.ToString() })
+        .AddFacts(new() { ability })
+        .AddAbilityResources(
+          resource: AbilityResourceRefs.BloodlineInfernalCorruptingTouchResource.ToString(), restoreAmount: true)
         .Configure();
     }
 
