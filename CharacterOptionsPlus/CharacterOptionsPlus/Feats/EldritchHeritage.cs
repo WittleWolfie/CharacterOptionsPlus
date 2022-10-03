@@ -191,6 +191,14 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(ElementalWaterHeritageMovement, Guids.ElementalWaterHeritageMovement).Configure();
       #endregion
 
+      #region Fey
+      FeatureConfigurator.New(FeyHeritageName, Guids.FeyHeritage).Configure();
+      FeatureConfigurator.New(FeyHeritageStride, Guids.FeyHeritageStride).Configure();
+      AbilityResourceConfigurator.New(FeyHeritageGlanceResource, Guids.FeyHeritageGlanceResource).Configure();
+      ActivatableAbilityConfigurator.New(FeyHeritageGlanceAbility, Guids.FeyHeritageGlanceAbility).Configure();
+      FeatureConfigurator.New(FeyHeritageGlance, Guids.FeyHeritageGlance).Configure();
+      #endregion
+
       #region Base
       FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
       FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage).Configure();
@@ -284,7 +292,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureElementalFire1(),
 
-          ConfigureElementalWater1())
+          ConfigureElementalWater1(),
+
+          ConfigureFeyHeritage1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -349,7 +359,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureElementalFire9(),
 
           ConfigureElementalWater3(),
-          ConfigureElementalWater9())
+          ConfigureElementalWater9(),
+
+          ConfigureFeyHeritage3(),
+          ConfigureFeyHeritage9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -398,7 +411,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureElementalFire15(),
 
-          ConfigureElementalWater15())
+          ConfigureElementalWater15(),
+          
+          ConfigureFeyHeritage15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1697,6 +1712,7 @@ namespace CharacterOptionsPlus.Feats
     private const string FeyHeritageGlance = "EldritchHeritage.Fey.Glance";
     private const string FeyHeritageGlanceAbility = "EldritchHeritage.Fey.Glance.Ability";
     private const string FeyHeritageGlanceResource = "EldritchHeritage.Fey.Glance.Resource";
+    private const string FeyHeritageMagic = "EldritchHeritage.Fey.Magic";
 
     private static BlueprintFeature ConfigureFeyHeritage1()
     {
@@ -1763,13 +1779,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureFeyHeritage15()
     {
-      var FeySummons = FeatureRefs.BloodlineFeyAddedSummonings.Reference.Get();
+      var feyMagic = FeatureRefs.BloodlineFeyFeyMagicFeature.Reference.Get();
       return AddFeaturesByLevel(
-        FeyHeritageSummons,
-        Guids.FeyHeritageSummons,
-        FeySummons,
-        prerequisites: new() { Guids.FeyHeritageStrength, Guids.FeyHeritageResistance },
-        featuresByLevel: new() { (FeySummons.ToReference<BlueprintFeatureReference>(), 15) });
+        FeyHeritageMagic,
+        Guids.FeyHeritageMagic,
+        feyMagic,
+        prerequisites: new() { Guids.FeyHeritageGlance, Guids.FeyHeritageStride },
+        featuresByLevel: new() { (feyMagic.ToReference<BlueprintFeatureReference>(), 17) });
     }
     #endregion
 
