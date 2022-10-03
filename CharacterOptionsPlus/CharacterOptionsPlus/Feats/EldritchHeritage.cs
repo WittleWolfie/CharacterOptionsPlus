@@ -1839,7 +1839,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(infernalTouch.GetComponent<AbilityEffectRunAction>())
         .AddComponent(infernalTouch.GetComponent<SpellComponent>())
         .AddComponent(infernalTouch.GetComponent<SpellDescriptorComponent>())
-        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty).WithDiv2Progression())
         .Configure();
 
       var infernalBloodline = ProgressionRefs.BloodlineInfernalProgression.Reference.Get();
