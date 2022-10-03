@@ -1689,7 +1689,7 @@ namespace CharacterOptionsPlus.Feats
     #region Fey
     private const string FeyHeritageName = "EldrichHeritage.Fey";
 
-    private const string FeyHeritageResistance = "EldritchHeritage.Fey.Resistance";
+    private const string FeyHeritageStride = "EldritchHeritage.Fey.Stride";
     private const string FeyHeritageStrength = "EldritchHeritage.Fey.Strength";
     private const string FeyHeritageSummons = "EldritchHeritage.Fey.Summons";
 
@@ -1708,13 +1708,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureFeyHeritage3()
     {
-      var FeyResistance = FeatureRefs.BloodlineFeyResistancesAbilityLevel2.Reference.Get();
+      var feyStride = FeatureRefs.BloodlineFeyWoodlandStride.Reference.Get();
       return AddFeaturesByLevel(
-        FeyHeritageResistance,
-        Guids.FeyHeritageResistance,
-        FeyResistance,
+        FeyHeritageStride,
+        Guids.FeyHeritageStride,
+        feyStride,
         new() { FeyHeritageName },
-        new() { (FeyResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+        new() { (feyStride.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
     private static BlueprintFeature ConfigureFeyHeritage9()

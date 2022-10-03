@@ -201,6 +201,7 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     internal const string FeyHeritage = "cbcb9798-995a-4cf6-b1aa-44f7b0593896";
+    internal const string FeyHeritageStride = "5e330bbc-2e93-4d93-a541-5307a4f7950e";
 
     internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";
