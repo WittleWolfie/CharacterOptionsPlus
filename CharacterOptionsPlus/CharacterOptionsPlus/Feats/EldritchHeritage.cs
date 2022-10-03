@@ -158,6 +158,8 @@ namespace CharacterOptionsPlus.Feats
       #endregion
 
       #region Base
+      FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
+
       UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
         .AddComponent<SorcererLevelGetter>()
         .Configure();
@@ -192,6 +194,14 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(DraconicHeritageDisplayName)
         .SetDescription(DraconicHeritageDescription)
         .SetIcon(draconicBloodline.Icon)
+        .Configure();
+
+      // Used as an exclude feature to prevent selecting multiple draconic bloodlines
+      var elementalBloodline = ProgressionRefs.BloodlineElementalAirProgression.Reference.Get();
+      FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage)
+        .SetDisplayName(ElementalHeritageDisplayName)
+        .SetDescription(ElementalHeritageDescription)
+        .SetIcon(elementalBloodline.Icon)
         .Configure();
 
       UnitPropertyConfigurator.New(EffectiveLevelProperty, Guids.EldritchHeritageEffectiveLevel)
@@ -231,7 +241,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureDraconicSilver1(),
           
-          ConfigureDraconicWhite1())
+          ConfigureDraconicWhite1(),
+          
+          ConfigureElementalAir1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1355,12 +1367,40 @@ namespace CharacterOptionsPlus.Feats
 
     #region Air
     private const string ElementalAirHeritage = "EldritchHeritage.Elemental.Air";
+    private const string ElementalAirHeritageRay = "EldritchHeritage.Elemental.Air.Ray";
 
     private static BlueprintFeature ConfigureElementalAir1()
     {
-      return null;
+      return AddElementalRay(
+        abilityName: ElementalAirHeritageRay,
+        abilityGuid: Guids.ElementalAirHeritageRay,
+        sourceAbility: AbilityRefs.BloodlineElementalAirElementalRayAbility.Reference.Get(),
+        featureName: ElementalAirHeritage,
+        featureGuid: Guids.ElementalAirHeritage,
+        sourceFeature: FeatureRefs.BloodlineElementalAirElementalRayFeature.Reference.Get());
+    }
+
+    private static BlueprintFeature AddElementalRay(
+      string abilityName,
+      string abilityGuid,
+      BlueprintAbility sourceAbility,
+      string featureName,
+      string featureGuid,
+      BlueprintFeature sourceFeature)
+    {
+      return AddRay(
+        abilityName,
+        abilityGuid,
+        sourceAbility,
+        featureName,
+        featureGuid,
+        sourceFeature,
+        FeatureRefs.SkillFocusAcrobatics.ToString(),
+        new() { FeatureRefs.BloodlineElementalClassSkill.ToString(), ElementalHeritage },
+        AbilityResourceRefs.BloodlineElementalElementalRayResource.ToString());
     }
     #endregion
+
     #endregion
 
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.

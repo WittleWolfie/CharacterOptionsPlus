@@ -172,6 +172,8 @@ namespace CharacterOptionsPlus.Util
     internal const string ElementalHeritage = "b77ff128-3a16-4da7-9f91-afd24c9fd6ae";
 
     internal const string ElementalAirHeritage = "10f79138-da20-4202-b09f-941261f7d212";
+    internal const string ElementalAirHeritageRay = "6460bd7b-19f1-4356-82c7-137f05c4ee11";
+
     internal const string ElementalEarthHeritage = "4652cd5e-64a3-4dfb-9c32-8cd5d8f2bcd5";
     internal const string ElementalFireHeritage = "8914f1d1-a0c3-4c4a-a054-e383b2d14ecd";
     internal const string ElementalWaterHeritage = "a61189b1-ed4c-4af1-b07a-071bfa1e5104";
