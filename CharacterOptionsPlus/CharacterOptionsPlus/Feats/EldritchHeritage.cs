@@ -1792,6 +1792,89 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    #region Infernal
+    private const string InfernalHeritageName = "EldrichHeritage.Infernal";
+
+    private const string InfernalHeritageStride = "EldritchHeritage.Infernal.Stride";
+    private const string InfernalHeritageGlance = "EldritchHeritage.Infernal.Glance";
+    private const string InfernalHeritageGlanceAbility = "EldritchHeritage.Infernal.Glance.Ability";
+    private const string InfernalHeritageGlanceResource = "EldritchHeritage.Infernal.Glance.Resource";
+    private const string InfernalHeritageMagic = "EldritchHeritage.Infernal.Magic";
+
+    private static BlueprintFeature ConfigureInfernalHeritage1()
+    {
+      var InfernalBloodline = ProgressionRefs.BloodlineInfernalProgression.Reference.Get();
+      return FeatureConfigurator.New(InfernalHeritageName, Guids.InfernalHeritage)
+        .SetDisplayName(InfernalBloodline.m_DisplayName)
+        .SetDescription(InfernalBloodline.m_Description)
+        .SetIcon(InfernalBloodline.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreNature.ToString())
+        .AddPrerequisiteNoFeature(FeatureRefs.InfernalBloodlineRequisiteFeature.ToString())
+        .AddFacts(new() { FeatureRefs.BloodlineInfernalLaughingTouchFeature.ToString() })
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureInfernalHeritage3()
+    {
+      var InfernalStride = FeatureRefs.BloodlineInfernalWoodlandStride.Reference.Get();
+      return AddFeaturesByLevel(
+        InfernalHeritageStride,
+        Guids.InfernalHeritageStride,
+        InfernalStride,
+        new() { InfernalHeritageName },
+        new() { (InfernalStride.ToReference<BlueprintFeatureReference>(), level: 11) });
+    }
+
+    private static BlueprintFeature ConfigureInfernalHeritage9()
+    {
+      var InfernalGlanceResource = AbilityResourceRefs.BloodlineInfernalFleetingGlanceResource.Reference.Get();
+      var resource = AbilityResourceConfigurator.New(InfernalHeritageGlanceResource, Guids.InfernalHeritageGlanceResource)
+        .SetIcon(InfernalGlanceResource.Icon)
+        .SetUseMax()
+        .SetMax(20)
+        .Configure();
+
+      var InfernalGlance = ActivatableAbilityRefs.BloodlineInfernalFleetingGlanceAbilily.Reference.Get();
+      var ability = ActivatableAbilityConfigurator.New(InfernalHeritageGlanceAbility, Guids.InfernalHeritageGlanceAbility)
+        .SetDisplayName(InfernalGlance.m_DisplayName)
+        .SetDescription(InfernalGlance.m_Description)
+        .SetIcon(InfernalGlance.Icon)
+        .SetBuff(BuffRefs.InvisibilityGreaterBuff.ToString())
+        .SetDeactivateIfCombatEnded()
+        .SetDeactivateIfOwnerDisabled()
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.WithUnitCommand)
+        .SetActivateWithUnitCommand(CommandType.Free)
+        .AddActivatableAbilityResourceLogic(requiredResource: resource, spendType: ResourceSpendType.NewRound)
+        .Configure();
+
+      var InfernalGlanceFeature = FeatureRefs.BloodlineInfernalFleetingGlanceFeature.Reference.Get();
+      return FeatureConfigurator.New(InfernalHeritageGlance, Guids.InfernalHeritageGlance)
+        .SetDisplayName(InfernalGlanceFeature.m_DisplayName)
+        .SetDescription(InfernalGlanceFeature.m_Description)
+        .SetIcon(InfernalGlanceFeature.Icon)
+        .SetIsClassFeature()
+        .AddFacts(new() { ability })
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddComponent(
+          new SetResourceMax(ContextValues.Rank(), resource.ToReference<BlueprintAbilityResourceReference>()))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureInfernalHeritage15()
+    {
+      var InfernalMagic = FeatureRefs.BloodlineInfernalInfernalMagicFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        InfernalHeritageMagic,
+        Guids.InfernalHeritageMagic,
+        InfernalMagic,
+        prerequisites: new() { Guids.InfernalHeritageGlance, Guids.InfernalHeritageStride },
+        featuresByLevel: new() { (InfernalMagic.ToReference<BlueprintFeatureReference>(), 17) });
+    }
+    #endregion
+
     // For bloodline abilities that add a feature which is replaced by a higher level feature later.
     // Greater enables the change from Level - 2 to Level when Greater Eldritch Heritage is acquired.
     private static BlueprintFeature AddFeaturesByLevel(

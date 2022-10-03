@@ -208,6 +208,13 @@ namespace CharacterOptionsPlus.Util
     internal const string FeyHeritageMagic = "2de28bc0-71cc-41ab-9b6d-7660ad6ec0de";
 
     internal const string InfernalHeritage = "a93ad7b3-fad6-42a8-9661-d30a74f04fbf";
+    internal const string InfernalHeritageTouch = "4ca71c74-0709-4974-a9b9-196723d3768b";
+    internal const string InfernalHeritageTouchAbility = "c4048f8a-6db2-4d2c-a273-e0795725e43c";
+    internal const string InfernalHeritageResistance = "8bd41448-c754-4ba0-9b19-496b3ae32e44";
+    internal const string InfernalHeritageBlast = "804c18e1-d381-45af-997c-5cd974d57f7b";
+    internal const string InfernalHeritageBlastAbility = "fb2393f4-1106-487d-8d51-98a51c31f8dd";
+    internal const string InfernalHeritageWings = "b09f3fea-12a8-405e-98ec-8f708bee03bc";
+
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
