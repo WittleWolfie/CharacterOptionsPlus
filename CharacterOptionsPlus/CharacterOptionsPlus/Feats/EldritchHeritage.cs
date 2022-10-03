@@ -172,6 +172,13 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(ElementalEarthHeritageBlast, Guids.ElementalEarthHeritageBlast).Configure();
       FeatureConfigurator.New(ElementalEarthHeritageMovement, Guids.ElementalEarthHeritageMovement).Configure();
 
+      AbilityConfigurator.New(ElementalFireHeritageRay, Guids.ElementalFireHeritageRay).Configure();
+      FeatureConfigurator.New(ElementalFireHeritage, Guids.ElementalFireHeritage).Configure();
+      FeatureConfigurator.New(ElementalFireHeritageResistance, Guids.ElementalFireHeritageResistance).Configure();
+      AbilityConfigurator.New(ElementalFireHeritageBlastAbility, Guids.ElementalFireHeritageBlastAbility).Configure();
+      FeatureConfigurator.New(ElementalFireHeritageBlast, Guids.ElementalFireHeritageBlast).Configure();
+      FeatureConfigurator.New(ElementalFireHeritageMovement, Guids.ElementalFireHeritageMovement).Configure();
+
       #endregion
 
       #region Base
@@ -263,7 +270,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureElementalAir1(),
           
-          ConfigureElementalEarth1())
+          ConfigureElementalEarth1(),
+          
+          ConfigureElementalFire1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -322,7 +331,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureElementalAir9(),
 
           ConfigureElementalEarth3(),
-          ConfigureElementalEarth9())
+          ConfigureElementalEarth9(),
+
+          ConfigureElementalFire3(),
+          ConfigureElementalFire9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -366,8 +378,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureDraconicWhite15(),
           
           ConfigureElementalAir15(),
-          
-          ConfigureElementalEarth15())
+
+          ConfigureElementalEarth15(),
+
+          ConfigureElementalFire15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1497,6 +1511,62 @@ namespace CharacterOptionsPlus.Feats
         Guids.ElementalEarthHeritageMovement,
         elementalMovement,
         prerequisites: new() { Guids.ElementalEarthHeritageBlast, Guids.ElementalEarthHeritageResistance },
+        featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+    #endregion
+
+    #region Fire
+    private const string ElementalFireHeritage = "EldritchHeritage.Elemental.Fire";
+    private const string ElementalFireHeritageRay = "EldritchHeritage.Elemental.Fire.Ray";
+    private const string ElementalFireHeritageResistance = "EldritchHeritage.Elemental.Fire.Resistance";
+    private const string ElementalFireHeritageBlast = "EldritchHeritage.Elemental.Fire.Blast";
+    private const string ElementalFireHeritageBlastAbility = "EldritchHeritage.Elemental.Fire.Blast.Ability";
+    private const string ElementalFireHeritageMovement = "EldritchHeritage.Elemental.Fire.Movement";
+
+    private static BlueprintFeature ConfigureElementalFire1()
+    {
+      return AddElementalRay(
+        abilityName: ElementalFireHeritageRay,
+        abilityGuid: Guids.ElementalFireHeritageRay,
+        sourceAbility: AbilityRefs.BloodlineElementalFireElementalRayAbility.Reference.Get(),
+        featureName: ElementalFireHeritage,
+        featureGuid: Guids.ElementalFireHeritage,
+        sourceFeature: ProgressionRefs.BloodlineElementalFireProgression.Reference.Get());
+    }
+
+    private static BlueprintFeature ConfigureElementalFire3()
+    {
+      var elementalResistance = FeatureRefs.BloodlineElementalFireResistanceAbilityLevel2.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalFireHeritageResistance,
+        Guids.ElementalFireHeritageResistance,
+        elementalResistance,
+        prerequisites: new() { ElementalFireHeritage },
+        featuresByLevel: new() { (elementalResistance.ToReference<BlueprintFeatureReference>(), 11) });
+    }
+
+    private static BlueprintFeature ConfigureElementalFire9()
+    {
+      return ConfigureElementalBlast(
+        abilityName: ElementalFireHeritageBlastAbility,
+        abilityGuid: Guids.ElementalFireHeritageBlastAbility,
+        blast: AbilityRefs.BloodlineElementalFireElementalBlastAbility.Reference.Get(),
+        featureName: ElementalFireHeritageBlast,
+        featureGuid: Guids.ElementalFireHeritageBlast,
+        blastFeature: FeatureRefs.BloodlineElementalFireElementalBlastFeature.Reference.Get(),
+        prerequisite: Guids.ElementalFireHeritage,
+        extraUse: FeatureRefs.BloodlineElementalFireElementalBlastExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.ElementalFireHeritageMovement);
+    }
+
+    private static BlueprintFeature ConfigureElementalFire15()
+    {
+      var elementalMovement = FeatureRefs.BloodlineElementalFireElementalMovementFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        ElementalFireHeritageMovement,
+        Guids.ElementalFireHeritageMovement,
+        elementalMovement,
+        prerequisites: new() { Guids.ElementalFireHeritageBlast, Guids.ElementalFireHeritageResistance },
         featuresByLevel: new() { (elementalMovement.ToReference<BlueprintFeatureReference>(), 11) });
     }
     #endregion
