@@ -158,6 +158,12 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
+          if (caster.HasSwiftAction())
+          {
+            Logger.NativeLog($"No swift action available.");
+            return;
+          }
+
           caster.SpendAction(UnitCommand.CommandType.Swift, isFullRound: False, timeSinceCommandStart: 0);
           var attack =
             Context.TriggerRule<RuleAttackWithWeapon>(
