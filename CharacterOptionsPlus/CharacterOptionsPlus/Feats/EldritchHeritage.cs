@@ -1914,7 +1914,8 @@ namespace CharacterOptionsPlus.Feats
     private const string SerpentineHeritageBiteLevel3= "EldritchHeritage.Serpentine.Bite.Level3";
     private const string SerpentineHeritageBiteLevel4 = "EldritchHeritage.Serpentine.Bite.Level4";
     private const string SerpentineHeritageFriend = "EldritchHeritage.Serpentine.Friend";
-    private const string SerpentineHeritageWings = "EldritchHeritage.Serpentine.Wings";
+    private const string SerpentineHeritageSkin = "EldritchHeritage.Serpentine.Skin";
+    private const string SerpentineHeritageSpiders = "EldritchHeritage.Serpentine.Spiders";
 
     private static BlueprintFeature ConfigureSerpentineHeritage1()
     {
@@ -1973,25 +1974,34 @@ namespace CharacterOptionsPlus.Feats
         SerpentineHeritageFriend,
         Guids.SerpentineHeritageFriend,
         serpentineFriend,
-        new() { SerpentineHeritageName },
-        new() { (serpentineFriend.ToReference<BlueprintFeatureReference>(), level: 11) });
+        prerequisites: new() { SerpentineHeritageName },
+        featuresByLevel: new() { (serpentineFriend.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
-    //private static BlueprintFeature ConfigureSerpentineHeritage9()
-    //{
-    //  return AddBlast(
-    //    abilityName: SerpentineHeritageBlastAbility,
-    //    abilityGuid: Guids.SerpentineHeritageBlastAbility,
-    //    sourceAbility: AbilityRefs.BloodlineSerpentineHellfireAbility.Reference.Get(),
-    //    featureName: SerpentineHeritageBlast,
-    //    featureGuid: Guids.SerpentineHeritageBlast,
-    //    sourceFeature: FeatureRefs.BloodlineSerpentineHellfireFeature.Reference.Get(),
-    //    prerequisite: Guids.SerpentineHeritage,
-    //    resource: AbilityResourceRefs.BloodlineSerpentineHellfireResource.ToString(),
-    //    extraUse: FeatureRefs.BloodlineSerpentineHellfireExtraUse.Cast<BlueprintFeatureReference>().Reference,
-    //    greaterFeatureGuid: Guids.SerpentineHeritageWings,
-    //    rankType: AbilityRankType.DamageDice);
-    //}
+    private static BlueprintFeature ConfigureSerpentineHeritage9()
+    {
+      var serpentineSkin = FeatureRefs.BloodlineSerpentineSnakeskinFeatureLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        SerpentineHeritageFriend,
+        Guids.SerpentineHeritageFriend,
+        serpentineSkin,
+        prerequisites: new() { SerpentineHeritageName },
+        featuresByLevel:
+          new()
+          {
+            (serpentineSkin.ToReference<BlueprintFeatureReference>(), level: 11),
+            (FeatureRefs.BloodlineSerpentineSnakeskinFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
+            (FeatureRefs.BloodlineSerpentineSnakeskinFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19),
+          },
+        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.SerpentineHeritageSpiders),
+        greaterFeatureLevels:
+          new()
+          {
+            (serpentineSkin.ToReference<BlueprintFeatureReference>(), level: 9),
+            (FeatureRefs.BloodlineSerpentineSnakeskinFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
+            (FeatureRefs.BloodlineSerpentineSnakeskinFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 15),
+          });
+    }
 
     //private static BlueprintFeature ConfigureSerpentineHeritage15()
     //{

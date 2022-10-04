@@ -224,6 +224,8 @@ namespace CharacterOptionsPlus.Util
     internal const string SerpentineHeritageBiteLevel3 = "fac3a233-d710-4934-8bc0-01dbb315c0bc";
     internal const string SerpentineHeritageBiteLevel4 = "d771e3ca-330c-4e84-a0f1-866e5401d1de";
     internal const string SerpentineHeritageFriend = "16a89124-e8a5-4f9e-b0d7-0e9bd7e8ce3a";
+    internal const string SerpentineHeritageSkin = "bf6a7039-9489-47c1-864c-42ab853f7b1a";
+    internal const string SerpentineHeritageSpiders = "f12226e6-cd1f-4bdb-90e9-3bd598bd4d39";
 
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
     #endregion
