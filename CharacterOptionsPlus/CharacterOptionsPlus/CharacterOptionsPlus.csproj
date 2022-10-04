@@ -188,12 +188,13 @@
       <Assets Include="$(OutputPath)\*_assets" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(OutputPath)\CharacterOptionsPlus" />
-    <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(OutputPath)\CharacterOptionsPlus" />
-    <Copy SourceFiles="@(Assets)" DestinationFolder="$(OutputPath)\CharacterOptionsPlus" />
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
+    <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
+    <Copy SourceFiles="@(Assets)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
     <ZipDirectory
-      SourceDirectory="$(OutputPath)\CharacterOptionsPlus"
-      DestinationFile="$(OutputPath)\CharacterOptionsPlus.zip" />
+      SourceDirectory="$(OutputPath)\$(AssemblyName)"
+      DestinationFile="$(OutputPath)\$(AssemblyName).zip"
+      Overwrite="true"/>
   </Target>
 
 </Project>
