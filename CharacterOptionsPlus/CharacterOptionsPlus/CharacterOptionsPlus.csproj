@@ -177,8 +177,23 @@
 
     <Copy SourceFiles="@(Assembly)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
     <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
-    <Copy SourceFiles="@(Strings)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
     <Copy SourceFiles="@(Assets)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
+  </Target>
+  
+  <!-- Automatically creates a release zip -->
+  <Target Name="ZipRelease" AfterTargets="ILStrip" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
+      <ModConfig Include="$(OutputPath)\Info.json" />
+      <Assets Include="$(OutputPath)\*_assets" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(OutputPath)\CharacterOptionsPlus" />
+    <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(OutputPath)\CharacterOptionsPlus" />
+    <Copy SourceFiles="@(Assets)" DestinationFolder="$(OutputPath)\CharacterOptionsPlus" />
+    <ZipDirectory
+      SourceDirectory="$(OutputPath)\CharacterOptionsPlus"
+      DestinationFile="$(OutputPath)\CharacterOptionsPlus.zip" />
   </Target>
 
 </Project>
