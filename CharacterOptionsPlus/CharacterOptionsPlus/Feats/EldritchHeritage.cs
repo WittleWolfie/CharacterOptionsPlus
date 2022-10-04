@@ -1913,7 +1913,7 @@ namespace CharacterOptionsPlus.Feats
     private const string SerpentineHeritageBiteLevel2 = "EldritchHeritage.Serpentine.Bite.Level2";
     private const string SerpentineHeritageBiteLevel3= "EldritchHeritage.Serpentine.Bite.Level3";
     private const string SerpentineHeritageBiteLevel4 = "EldritchHeritage.Serpentine.Bite.Level4";
-    private const string SerpentineHeritageBlastAbility = "EldritchHeritage.Blast.Ability";
+    private const string SerpentineHeritageFriend = "EldritchHeritage.Serpentine.Friend";
     private const string SerpentineHeritageWings = "EldritchHeritage.Serpentine.Wings";
 
     private static BlueprintFeature ConfigureSerpentineHeritage1()
@@ -1966,16 +1966,16 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
     }
 
-    //private static BlueprintFeature ConfigureSerpentineHeritage3()
-    //{
-    //  var SerpentineResistance = FeatureRefs.BloodlineSerpentineResistancesAbilityLevel2.Reference.Get();
-    //  return AddFeaturesByLevel(
-    //    SerpentineHeritageResistance,
-    //    Guids.SerpentineHeritageResistance,
-    //    SerpentineResistance,
-    //    new() { SerpentineHeritageName },
-    //    new() { (SerpentineResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
-    //}
+    private static BlueprintFeature ConfigureSerpentineHeritage3()
+    {
+      var serpentineFriend = FeatureRefs.BloodlineSerpentineSerpentfriendFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        SerpentineHeritageFriend,
+        Guids.SerpentineHeritageFriend,
+        serpentineFriend,
+        new() { SerpentineHeritageName },
+        new() { (serpentineFriend.ToReference<BlueprintFeatureReference>(), level: 11) });
+    }
 
     //private static BlueprintFeature ConfigureSerpentineHeritage9()
     //{
