@@ -1,3 +1,11 @@
+## v0.4.0
+
+* New Feats:
+    * Eldritch Heritage (Improved, Greater)
+        * Supports base game bloodlines + TTT-Base bloodlines
+* Hurtful no longer triggers if you don't have a swift
+
+
 ## v0.3.3
 
 * Fixed compatibility with EE
