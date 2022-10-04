@@ -16,7 +16,7 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.EntitySystem;
+using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -217,6 +217,19 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(InfernalHeritageWings, Guids.InfernalHeritageWings).Configure();
       #endregion
 
+      #region Serpentine
+      BuffConfigurator.New(SerpentineHeritageBiteLevel1, Guids.SerpentineHeritageBiteLevel1).Configure();
+      BuffConfigurator.New(SerpentineHeritageBiteLevel2, Guids.SerpentineHeritageBiteLevel2).Configure();
+      BuffConfigurator.New(SerpentineHeritageBiteLevel3, Guids.SerpentineHeritageBiteLevel3).Configure();
+      BuffConfigurator.New(SerpentineHeritageBiteLevel4, Guids.SerpentineHeritageBiteLevel4).Configure();
+      BuffConfigurator.New(SerpentineHeritageBiteBuff, Guids.SerpentineHeritageBiteBuff).Configure();
+      ActivatableAbilityConfigurator.New(SerpentineHeritageBiteAbility, Guids.SerpentineHeritageBiteAbility).Configure();
+      FeatureConfigurator.New(SerpentineHeritageName, Guids.SerpentineHeritage).Configure();
+      FeatureConfigurator.New(SerpentineHeritageFriend, Guids.SerpentineHeritageFriend).Configure();
+      FeatureConfigurator.New(SerpentineHeritageSkin, Guids.SerpentineHeritageSkin).Configure();
+      FeatureConfigurator.New(SerpentineHeritageSpiders, Guids.SerpentineHeritageSpiders).Configure();
+      #endregion
+
       #region Base
       FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
       FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage).Configure();
@@ -314,7 +327,9 @@ namespace CharacterOptionsPlus.Feats
 
           ConfigureFeyHeritage1(),
           
-          ConfigureInfernalHeritage1())
+          ConfigureInfernalHeritage1(),
+          
+          ConfigureSerpentineHeritage1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -385,7 +400,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureFeyHeritage9(),
 
           ConfigureInfernalHeritage3(),
-          ConfigureInfernalHeritage9())
+          ConfigureInfernalHeritage9(),
+
+          ConfigureSerpentineHeritage3(),
+          ConfigureSerpentineHeritage9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -438,7 +456,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureFeyHeritage15(),
           
-          ConfigureInfernalHeritage15())
+          ConfigureInfernalHeritage15(),
+          
+          ConfigureSerpentineHeritage15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -1964,6 +1984,9 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusStealth.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString())
+        .AddAbilityResources(
+          resource: AbilityResourceRefs.BloodlineSerpentineSerpentsFangBiteResource.ToString(), restoreAmount: true)
+        .AddFacts(new() { ability })
         .Configure();
     }
 
@@ -1982,8 +2005,8 @@ namespace CharacterOptionsPlus.Feats
     {
       var serpentineSkin = FeatureRefs.BloodlineSerpentineSnakeskinFeatureLevel1.Reference.Get();
       return AddFeaturesByLevel(
-        SerpentineHeritageFriend,
-        Guids.SerpentineHeritageFriend,
+        SerpentineHeritageSkin,
+        Guids.SerpentineHeritageSkin,
         serpentineSkin,
         prerequisites: new() { SerpentineHeritageName },
         featuresByLevel:
@@ -2003,16 +2026,23 @@ namespace CharacterOptionsPlus.Feats
           });
     }
 
-    //private static BlueprintFeature ConfigureSerpentineHeritage15()
-    //{
-    //  var SerpentineWings = FeatureRefs.FeatureWingsDevil.Reference.Get();
-    //  return AddFeaturesByLevel(
-    //    SerpentineHeritageWings,
-    //    Guids.SerpentineHeritageWings,
-    //    SerpentineWings,
-    //    prerequisites: new() { Guids.SerpentineHeritageBlast, Guids.SerpentineHeritageResistance },
-    //    featuresByLevel: new() { (SerpentineWings.ToReference<BlueprintFeatureReference>(), 15) });
-    //}
+    private static BlueprintFeature ConfigureSerpentineHeritage15()
+    {
+      var serpentineSpiders = FeatureRefs.BloodlineSerpentineDenOfSpidersFeature.Reference.Get();
+      return FeatureConfigurator.New(SerpentineHeritageSpiders, Guids.SerpentineHeritageSpiders)
+        .SetDisplayName(serpentineSpiders.m_DisplayName)
+        .SetDescription(serpentineSpiders.m_Description)
+        .SetIcon(serpentineSpiders.Icon)
+        .SetIsClassFeature()
+        .AddComponent(serpentineSpiders.GetComponent<AddFacts>())
+        .AddComponent(serpentineSpiders.GetComponent<AddAbilityResources>())
+        .AddComponent(
+          new BindToCharacterLevel(
+            AbilityRefs.BloodlineSerpentineDenOfSpidersAbility.Cast<BlueprintAbilityReference>().Reference))
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.SerpentineHeritageFriend, Guids.SerpentineHeritageSkin }, amount: 1)
+        .Configure();
+    }
 
     private static BlueprintBuff CreateBite(string name, string guid, BlueprintBuff sourceBuff)
     {
