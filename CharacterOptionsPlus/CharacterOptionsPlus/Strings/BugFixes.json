@@ -20,6 +20,16 @@
   },
 
   {
+    "Key": "SerpentineFriendBonus.Name",
+    "ProcessTemplates": false,
+    "enGB": "Serpentine Friend Bonus"
+  },
+  {
+    "Key": "SerpentineFriendBonus.Description",
+    "enGB": "Applies +3 to Perception and Persuasion as stated, instead of +2 to Perception and +3 to Persuasion."
+  },
+
+  {
     "Key": "SerpentineBiteDC.Name",
     "ProcessTemplates": false,
     "enGB": "Serpentine Bite DC"

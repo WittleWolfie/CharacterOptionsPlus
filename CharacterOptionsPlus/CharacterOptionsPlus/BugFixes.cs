@@ -1,16 +1,16 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
 using BlueprintCore.Blueprints.CustomConfigurators;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Conditions.Builder.ContextEx;
-using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using System.Collections.Generic;
@@ -118,12 +118,22 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
+    internal static string SerpentineFriendBonus = "serpentine-friend-bonus";
+    internal static void FixSerpentineFriendBonus()
+    {
+      Logger.Log("Patching Serpentine Friend DC");
+      FeatureConfigurator.For(FeatureRefs.BloodlineSerpentineSerpentfriendFeature)
+        .EditComponents<AddStatBonus>(c => c.Value = 3, c => true)
+        .Configure();
+    }
+
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
         (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
         (HeavenlyFireResourceAmount, "HeavenlyFireResourceAmount.Name", "HeavenlyFireResourceAmount.Description"),
         (SerpentineBiteDC, "SerpentineBiteDC.Name", "SerpentineBiteDC.Description"),
+        (SerpentineFriendBonus, "SerpentineFriendBonus.Name", "SerpentineFriendBonus.Description"),
       };
   }
 }
