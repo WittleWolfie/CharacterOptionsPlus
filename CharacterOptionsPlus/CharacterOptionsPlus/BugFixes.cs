@@ -89,11 +89,14 @@ namespace CharacterOptionsPlus
               savingThrow.m_ConditionalDCIncrease[0] = serpentineBloodline;
               savingThrow.m_ConditionalDCIncrease[1] = serpentineHeritage;
             }
+            else
+            {
+              Logger.Warning($"Failed to patch Serpentine Bite DC for {poison}");
+            }
           })
         // Base DC is 10 + Con mod
         .AddContextRankConfig(ContextRankConfigs.StatBonus(StatType.Constitution).WithBonusValueProgression(10))
         // Sorc / Magus add 1/2 level
-        // TODO: This context rank config is not working.
         .AddContextRankConfig(
           ContextRankConfigs.SumClassLevelWithArchetype(
               classes:
