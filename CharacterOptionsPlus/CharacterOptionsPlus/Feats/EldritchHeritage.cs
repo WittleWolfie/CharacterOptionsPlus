@@ -2002,7 +2002,7 @@ namespace CharacterOptionsPlus.Feats
     #region Undead
     private const string UndeadHeritageName = "EldrichHeritage.Undead";
 
-    private const string UndeadHeritageFriend = "EldritchHeritage.Undead.Friend";
+    private const string UndeadHeritageResistance = "EldritchHeritage.Undead.Resistance";
     private const string UndeadHeritageSkin = "EldritchHeritage.Undead.Skin";
     private const string UndeadHeritageSpiders = "EldritchHeritage.Undead.Spiders";
 
@@ -2019,19 +2019,21 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineUndeadGraveTouchResource.ToString(), restoreAmount: true)
         .AddFacts(new() { AbilityRefs.BloodlineUndeadGraveTouchAbility.ToString() })
-        .AddComponent(new BindToCharacterLevel())
+        .AddComponent(
+          new BindToEffectiveLevel(
+            AbilityRefs.BloodlineUndeadGraveTouchAbility.Cast<BlueprintAbilityReference>().Reference))
         .Configure();
     }
 
     private static BlueprintFeature ConfigureUndeadHeritage3()
     {
-      var UndeadFriend = FeatureRefs.BloodlineUndeadSerpentfriendFeature.Reference.Get();
+      var undeadResistance = FeatureRefs.BloodlineUndeadDeathsGift.Reference.Get();
       return AddFeaturesByLevel(
-        UndeadHeritageFriend,
-        Guids.UndeadHeritageFriend,
-        UndeadFriend,
+        UndeadHeritageResistance,
+        Guids.UndeadHeritageResistance,
+        undeadResistance,
         prerequisites: new() { UndeadHeritageName },
-        featuresByLevel: new() { (UndeadFriend.ToReference<BlueprintFeatureReference>(), level: 11) });
+        featuresByLevel: new() { (undeadResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
     }
 
     private static BlueprintFeature ConfigureUndeadHeritage9()
