@@ -217,15 +217,17 @@ namespace CharacterOptionsPlus.Util
     internal const string InfernalHeritageWings = "b09f3fea-12a8-405e-98ec-8f708bee03bc";
 
     internal const string SerpentineHeritage = "0c9720f7-786f-4ac9-8acd-4cd26e3f9f0e";
+    internal const string SerpentineHeritageFriend = "16a89124-e8a5-4f9e-b0d7-0e9bd7e8ce3a";
+    internal const string SerpentineHeritageSkin = "bf6a7039-9489-47c1-864c-42ab853f7b1a";
+    internal const string SerpentineHeritageSpiders = "f12226e6-cd1f-4bdb-90e9-3bd598bd4d39";
+
+    // TODO: Unused
     internal const string SerpentineHeritageBiteAbility = "4082741d-e3be-4cb7-a31b-f5c5f8e95c9d";
     internal const string SerpentineHeritageBiteBuff = "527ceb3c-2d70-42fd-99d2-c2a1ba01e123";
     internal const string SerpentineHeritageBiteLevel1 = "348a4515-bef2-4aea-8155-e92f9dd5e745";
     internal const string SerpentineHeritageBiteLevel2 = "d0f79e44-5583-4c4d-bdf8-fa5b62b22fe0";
     internal const string SerpentineHeritageBiteLevel3 = "fac3a233-d710-4934-8bc0-01dbb315c0bc";
     internal const string SerpentineHeritageBiteLevel4 = "d771e3ca-330c-4e84-a0f1-866e5401d1de";
-    internal const string SerpentineHeritageFriend = "16a89124-e8a5-4f9e-b0d7-0e9bd7e8ce3a";
-    internal const string SerpentineHeritageSkin = "bf6a7039-9489-47c1-864c-42ab853f7b1a";
-    internal const string SerpentineHeritageSpiders = "f12226e6-cd1f-4bdb-90e9-3bd598bd4d39";
 
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
     #endregion
