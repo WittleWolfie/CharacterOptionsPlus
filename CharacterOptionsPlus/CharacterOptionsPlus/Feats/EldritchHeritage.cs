@@ -507,7 +507,6 @@ namespace CharacterOptionsPlus.Feats
         {
           Logger.LogException($"SorcererLevelGetter.GetBaseValue", e);
         }
-        Logger.Log($"{unit?.CharacterName} doesn't have eldritch heritage!");
         return 0;
       }
     }
