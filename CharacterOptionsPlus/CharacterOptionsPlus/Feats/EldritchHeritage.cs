@@ -2003,8 +2003,8 @@ namespace CharacterOptionsPlus.Feats
     private const string UndeadHeritageName = "EldrichHeritage.Undead";
 
     private const string UndeadHeritageResistance = "EldritchHeritage.Undead.Resistance";
-    private const string UndeadHeritageSkin = "EldritchHeritage.Undead.Skin";
-    private const string UndeadHeritageSpiders = "EldritchHeritage.Undead.Spiders";
+    private const string UndeadHeritageBlast = "EldritchHeritage.Undead.Blast";
+    private const string UndeadHeritageBlastAbility = "EldritchHeritage.Undead.Blast.Ability";
 
     private static BlueprintFeature ConfigureUndeadHeritage1()
     {
@@ -2038,27 +2038,17 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureUndeadHeritage9()
     {
-      var UndeadSkin = FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel1.Reference.Get();
-      return AddFeaturesByLevel(
-        UndeadHeritageSkin,
-        Guids.UndeadHeritageSkin,
-        UndeadSkin,
-        prerequisites: new() { UndeadHeritageName },
-        featuresByLevel:
-          new()
-          {
-            (UndeadSkin.ToReference<BlueprintFeatureReference>(), level: 11),
-            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
-            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19),
-          },
-        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.UndeadHeritageSpiders),
-        greaterFeatureLevels:
-          new()
-          {
-            (UndeadSkin.ToReference<BlueprintFeatureReference>(), level: 9),
-            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
-            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 15),
-          });
+      return AddBlast(
+        abilityName: UndeadHeritageBlastAbility,
+        abilityGuid: Guids.UndeadHeritageBlastAbility,
+        sourceAbility: AbilityRefs.BloodlineUndeadGraspOfTheDeadAbility.Reference.Get(),
+        featureName: UndeadHeritageBlast,
+        featureGuid: Guids.UndeadHeritageBlast,
+        sourceFeature: FeatureRefs.BloodlineUndeadGraspOfTheDeadFeature.Reference.Get(),
+        prerequisite: Guids.UndeadHeritage,
+        resource: AbilityResourceRefs.BloodlineUndeadGraspOfTheDeadResource.ToString(),
+        extraUse: FeatureRefs.BloodlineUndeadGraspOfTheDeadExtraUse.Cast<BlueprintFeatureReference>().Reference,
+        greaterFeatureGuid: Guids.UndeadHeritageIncorporeal);
     }
 
     private static BlueprintFeature ConfigureUndeadHeritage15()
@@ -2228,11 +2218,10 @@ namespace CharacterOptionsPlus.Feats
         .SetAvailableMetamagic(sourceAbility.AvailableMetamagic)
         .SetLocalizedSavingThrow(sourceAbility.LocalizedSavingThrow)
         .AddComponent(sourceAbility.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(sourceAbility.GetComponent<SpellDescriptorComponent>())
         .AddComponent(sourceAbility.GetComponent<AbilityResourceLogic>())
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20, type: rankType));
 
-      // Draconic & Elemental & Infernal have slightly different sets of components
+      // Components differ slightly between blasts
       if (sourceAbility.GetComponent<AbilityDeliverProjectile>() is not null)
         abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverProjectile>());
       if (sourceAbility.GetComponent<SpellComponent>() is not null)
@@ -2243,8 +2232,10 @@ namespace CharacterOptionsPlus.Feats
         abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilitySpawnFx>());
       if (sourceAbility.GetComponent<AbilityDeliverDelay>() is not null)
         abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverDelay>());
+      if (sourceAbility.GetComponent<SpellDescriptorComponent>() is not null)
+        abilityBuilder.AddComponent(sourceAbility.GetComponent<SpellDescriptorComponent>());
 
-      // Draconic & Elemental & Infernal have slightly different range logic
+      // Range logic differs slightly between blasts
       if (sourceAbility.Range == AbilityRange.Custom)
         abilityBuilder.SetCustomRange(sourceAbility.CustomRange);
       else
