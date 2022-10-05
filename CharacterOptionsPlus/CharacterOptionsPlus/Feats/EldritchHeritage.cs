@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
 using BlueprintCore.Blueprints.CustomConfigurators;
@@ -10,6 +11,7 @@ using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
+using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -23,6 +25,7 @@ using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
@@ -32,6 +35,8 @@ using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Mechanics;
+using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using Newtonsoft.Json;
@@ -502,6 +507,7 @@ namespace CharacterOptionsPlus.Feats
         {
           Logger.LogException($"SorcererLevelGetter.GetBaseValue", e);
         }
+        Logger.Log($"{unit?.CharacterName} doesn't have eldritch heritage!");
         return 0;
       }
     }
@@ -1939,42 +1945,42 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureSerpentineHeritage1()
     {
-      CreateBite(
-        SerpentineHeritageBiteLevel1,
-        Guids.SerpentineHeritageBiteLevel1,
-        BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel1.Reference.Get());
-      CreateBite(
-        SerpentineHeritageBiteLevel2,
-        Guids.SerpentineHeritageBiteLevel2,
-        BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel2.Reference.Get());
-      CreateBite(
-        SerpentineHeritageBiteLevel3,
-        Guids.SerpentineHeritageBiteLevel3,
-        BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel3.Reference.Get());
-      CreateBite(
-        SerpentineHeritageBiteLevel4,
-        Guids.SerpentineHeritageBiteLevel4,
-        BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel4Con.Reference.Get());
+      //CreateBite(
+      //  SerpentineHeritageBiteLevel1,
+      //  Guids.SerpentineHeritageBiteLevel1,
+      //  BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel1.Reference.Get());
+      //CreateBite(
+      //  SerpentineHeritageBiteLevel2,
+      //  Guids.SerpentineHeritageBiteLevel2,
+      //  BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel2.Reference.Get());
+      //CreateBite(
+      //  SerpentineHeritageBiteLevel3,
+      //  Guids.SerpentineHeritageBiteLevel3,
+      //  BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel3.Reference.Get());
+      //CreateBite(
+      //  SerpentineHeritageBiteLevel4,
+      //  Guids.SerpentineHeritageBiteLevel4,
+      //  BuffRefs.BloodlineSerpentineSerpentsFangBuffLevel4Con.Reference.Get());
 
-      var buff = BuffConfigurator.New(SerpentineHeritageBiteBuff, Guids.SerpentineHeritageBiteBuff)
-        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .AddComponent(new SerpentineHeritageBite())
-        .Configure();
+      //var buff = BuffConfigurator.New(SerpentineHeritageBiteBuff, Guids.SerpentineHeritageBiteBuff)
+      //  .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+      //  .AddComponent(new SerpentineHeritageBite())
+      //  .Configure();
 
-      var serpentineBite = ActivatableAbilityRefs.BloodlineSerpentineSerpentsFangBiteAbililyLevel1.Reference.Get();
-      var ability =
-        ActivatableAbilityConfigurator.New(SerpentineHeritageBiteAbility, Guids.SerpentineHeritageBiteAbility)
-        .SetDisplayName(serpentineBite.m_DisplayName)
-        .SetDescription(serpentineBite.m_Description)
-        .SetIcon(serpentineBite.Icon)
-        .SetDeactivateIfCombatEnded()
-        .SetDeactivateIfOwnerDisabled()
-        .SetActivationType(serpentineBite.ActivationType)
-        .SetActivateOnUnitAction(serpentineBite.m_ActivateOnUnitAction)
-        .SetGroup(ActivatableAbilityGroup.SerpentsFang)
-        .SetBuff(buff)
-        .AddComponent(serpentineBite.GetComponent<ActivatableAbilityResourceLogic>())
-        .Configure();
+      //var serpentineBite = ActivatableAbilityRefs.BloodlineSerpentineSerpentsFangBiteAbililyLevel1.Reference.Get();
+      //var ability =
+      //  ActivatableAbilityConfigurator.New(SerpentineHeritageBiteAbility, Guids.SerpentineHeritageBiteAbility)
+      //  .SetDisplayName(serpentineBite.m_DisplayName)
+      //  .SetDescription(serpentineBite.m_Description)
+      //  .SetIcon(serpentineBite.Icon)
+      //  .SetDeactivateIfCombatEnded()
+      //  .SetDeactivateIfOwnerDisabled()
+      //  .SetActivationType(serpentineBite.ActivationType)
+      //  .SetActivateOnUnitAction(serpentineBite.m_ActivateOnUnitAction)
+      //  .SetGroup(ActivatableAbilityGroup.SerpentsFang)
+      //  .SetBuff(buff)
+      //  .AddComponent(serpentineBite.GetComponent<ActivatableAbilityResourceLogic>())
+      //  .Configure();
 
       var serpentineBloodline = ProgressionRefs.BloodlineSerpentineProgression.Reference.Get();
       return FeatureConfigurator.New(SerpentineHeritageName, Guids.SerpentineHeritage)
@@ -1986,7 +1992,16 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteNoFeature(FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString())
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineSerpentineSerpentsFangBiteResource.ToString(), restoreAmount: true)
-        .AddFacts(new() { ability })
+        .AddComponent(
+          new ApplyFeatureOnCharacterLevel(
+            featureLevels:
+              new()
+              {
+                (FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureAddLevel1.Cast<BlueprintFeatureReference>().Reference, level: 3),
+                (FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureAddLevel2.Cast<BlueprintFeatureReference>().Reference, level: 7),
+                (FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureAddLevel3.Cast<BlueprintFeatureReference>().Reference, level: 9),
+                (FeatureRefs.BloodlineSerpentineSerpentsFangBiteFeatureAddLevel4.Cast<BlueprintFeatureReference>().Reference, level: 13),
+              }))
         .Configure();
     }
 
@@ -2052,11 +2067,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(sourceBuff.Icon)
         .SetIsClassFeature()
         .SetFlags(sourceBuff.m_Flags)
-        .AddComponent(sourceBuff.GetComponent<ContextCalculateAbilityParams>())
         .AddComponent(sourceBuff.GetComponent<AddAdditionalLimb>())
-        .AddContextRankConfig(
-          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.DamageDice)
-            .WithDiv2Progression())
         .Configure();
     }
 
@@ -2126,7 +2137,7 @@ namespace CharacterOptionsPlus.Feats
             Data.AppliedBuff = Owner.AddBuff(BiteLevel2, Owner);
           else
             Data.AppliedBuff = Owner.AddBuff(BiteLevel1, Owner);
-          Logger.NativeLog($"Applied {Data.AppliedBuff.Name}");
+          Logger.NativeLog($"Applied {Data.AppliedBuff.Blueprint.name}");
         }
         catch (Exception e)
         {

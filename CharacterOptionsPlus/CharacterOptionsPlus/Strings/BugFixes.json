@@ -17,5 +17,15 @@
   {
     "Key": "HeavenlyFireResourceAmount.Description",
     "enGB": "Correctly sets the max uses per day to 3 + Charisma modifier."
+  },
+
+  {
+    "Key": "SerpentineBiteDC.Name",
+    "ProcessTemplates": false,
+    "enGB": "Serpentine Bite DC"
+  },
+  {
+    "Key": "SerpentineBiteDC.Description",
+    "enGB": "Correctly sets the DC of the Serpentine Bloodline Bite poison for Socereror's and Magi."
   }
 ]
