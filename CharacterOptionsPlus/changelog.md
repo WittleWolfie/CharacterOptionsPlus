@@ -4,10 +4,12 @@
     * Eldritch Heritage (Improved, Greater)
         * Supports base game bloodlines + TTT-Base bloodlines
         * Notably Arcane Level 9 power is not supported. It only works for some classes / archetypes and it's a lot of work to build. Maybe on day.
+* Bug Fixes:
+    * Serpentine Bloodine's bite power correctly computes the DC
+    * Serpentine Bloodline's Serpent Friend grants the correct skill bonuses
 * Updates
     * Hurtful no longer triggers if you don't have a swift
     * Clarified Arrowsong Minstrel's Arcane Archery feature
-
 
 ## v0.3.3
 
