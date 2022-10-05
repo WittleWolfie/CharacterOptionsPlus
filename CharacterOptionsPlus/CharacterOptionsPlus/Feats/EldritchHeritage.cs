@@ -218,6 +218,13 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(SerpentineHeritageSpiders, Guids.SerpentineHeritageSpiders).Configure();
       #endregion
 
+      #region Undead
+      FeatureConfigurator.New(UndeadHeritageName, Guids.UndeadHeritage).Configure();
+      FeatureConfigurator.New(UndeadHeritageResistance, Guids.UndeadHeritageResistance).Configure();
+      AbilityConfigurator.New(UndeadHeritageBlastAbility, Guids.UndeadHeritageBlastAbility).Configure();
+      FeatureConfigurator.New(UndeadHeritageBlast, Guids.UndeadHeritageBlast).Configure();
+      #endregion
+
       #region Base
       FeatureConfigurator.New(DraconicHeritage, Guids.DraconicHeritage).Configure();
       FeatureConfigurator.New(ElementalHeritage, Guids.ElementalHeritage).Configure();
@@ -317,7 +324,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureInfernalHeritage1(),
           
-          ConfigureSerpentineHeritage1())
+          ConfigureSerpentineHeritage1(),
+          
+          ConfigureUndeadHeritage1())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -391,7 +400,10 @@ namespace CharacterOptionsPlus.Feats
           ConfigureInfernalHeritage9(),
 
           ConfigureSerpentineHeritage3(),
-          ConfigureSerpentineHeritage9())
+          ConfigureSerpentineHeritage9(),
+          
+          ConfigureUndeadHeritage3(),
+          ConfigureUndeadHeritage9())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -446,7 +458,9 @@ namespace CharacterOptionsPlus.Feats
           
           ConfigureInfernalHeritage15(),
           
-          ConfigureSerpentineHeritage15())
+          ConfigureSerpentineHeritage15(),
+          
+          ConfigureUndeadHeritage15())
         .Configure();
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
@@ -2005,6 +2019,8 @@ namespace CharacterOptionsPlus.Feats
     private const string UndeadHeritageResistance = "EldritchHeritage.Undead.Resistance";
     private const string UndeadHeritageBlast = "EldritchHeritage.Undead.Blast";
     private const string UndeadHeritageBlastAbility = "EldritchHeritage.Undead.Blast.Ability";
+    private const string UndeadHeritageIncorporeal = "EldritchHeritage.Undead.Incorporeal";
+    private const string UndeadHeritageIncorporealAbility = "EldritchHeritage.Undead.Incorporeal.Ability";
 
     private static BlueprintFeature ConfigureUndeadHeritage1()
     {
@@ -2053,19 +2069,21 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureUndeadHeritage15()
     {
-      var UndeadSpiders = FeatureRefs.BloodlineUndeadDenOfSpidersFeature.Reference.Get();
-      return FeatureConfigurator.New(UndeadHeritageSpiders, Guids.UndeadHeritageSpiders)
-        .SetDisplayName(UndeadSpiders.m_DisplayName)
-        .SetDescription(UndeadSpiders.m_Description)
-        .SetIcon(UndeadSpiders.Icon)
-        .SetIsClassFeature()
-        .AddComponent(UndeadSpiders.GetComponent<AddFacts>())
-        .AddComponent(UndeadSpiders.GetComponent<AddAbilityResources>())
-        .AddComponent(
-          new BindToCharacterLevel(
-            AbilityRefs.BloodlineUndeadDenOfSpidersAbility.Cast<BlueprintAbilityReference>().Reference))
+      var ability = AbilityConfigurator.New(UndeadHeritageIncorporealAbility, Guids.UndeadHeritageIncorporealAbility)
+        .CopyFrom(
+          AbilityRefs.BloodlineUndeadIncorporealFormAbility,
+          typeof(AbilityEffectRunAction),
+          typeof(AbilityResourceLogic),
+          typeof(SpellComponent))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
+        .Configure();
+
+      return FeatureConfigurator.New(UndeadHeritageIncorporeal, Guids.UndeadHeritageIncorporeal)
+        .CopyFrom(FeatureRefs.BloodlineUndeadIncorporealFormFeature, typeof(AddAbilityResources))
+        .AddFacts(new() { ability })
+        .AddComponent(new BindToEffectiveLevel(ability.ToReference<BlueprintAbilityReference>()))
         .AddPrerequisiteFeaturesFromList(
-          new() { Guids.UndeadHeritageFriend, Guids.UndeadHeritageSkin }, amount: 1)
+          new() { Guids.UndeadHeritageBlast, Guids.UndeadHeritageResistance }, amount: 1)
         .Configure();
     }
     #endregion

@@ -222,7 +222,6 @@ namespace CharacterOptionsPlus.Util
     internal const string SerpentineHeritageSpiders = "f12226e6-cd1f-4bdb-90e9-3bd598bd4d39";
 
     // TODO: Unused
-    internal const string SerpentineHeritageBiteLevel3 = "fac3a233-d710-4934-8bc0-01dbb315c0bc";
     internal const string SerpentineHeritageBiteLevel4 = "d771e3ca-330c-4e84-a0f1-866e5401d1de";
 
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
@@ -230,6 +229,7 @@ namespace CharacterOptionsPlus.Util
     internal const string UndeadHeritageBlast = "527ceb3c-2d70-42fd-99d2-c2a1ba01e123";
     internal const string UndeadHeritageBlastAbility = "348a4515-bef2-4aea-8155-e92f9dd5e745";
     internal const string UndeadHeritageIncorporeal = "d0f79e44-5583-4c4d-bdf8-fa5b62b22fe0";
+    internal const string UndeadHeritageIncorporealAbility = "fac3a233-d710-4934-8bc0-01dbb315c0bc";
     #endregion
 
     #region Dynamic GUIDs
