@@ -495,7 +495,7 @@ namespace CharacterOptionsPlus.Feats
     }
 
     [TypeId("cf0a51da-5296-4463-ad8d-ccf5c4a7598d")]
-    private class BindToCharacterLevel :
+    private class BindToEffectiveLevel :
       UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateAbilityParams>
     {
       private static BlueprintUnitProperty _effectiveLevel;
@@ -510,7 +510,7 @@ namespace CharacterOptionsPlus.Feats
 
       private readonly BlueprintAbilityReference Ability;
 
-      public BindToCharacterLevel(BlueprintAbilityReference ability)
+      public BindToEffectiveLevel(BlueprintAbilityReference ability)
       {
         Ability = ability;
       }
@@ -1991,10 +1991,89 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(serpentineSpiders.GetComponent<AddFacts>())
         .AddComponent(serpentineSpiders.GetComponent<AddAbilityResources>())
         .AddComponent(
-          new BindToCharacterLevel(
+          new BindToEffectiveLevel(
             AbilityRefs.BloodlineSerpentineDenOfSpidersAbility.Cast<BlueprintAbilityReference>().Reference))
         .AddPrerequisiteFeaturesFromList(
           new() { Guids.SerpentineHeritageFriend, Guids.SerpentineHeritageSkin }, amount: 1)
+        .Configure();
+    }
+    #endregion
+
+    #region Undead
+    private const string UndeadHeritageName = "EldrichHeritage.Undead";
+
+    private const string UndeadHeritageFriend = "EldritchHeritage.Undead.Friend";
+    private const string UndeadHeritageSkin = "EldritchHeritage.Undead.Skin";
+    private const string UndeadHeritageSpiders = "EldritchHeritage.Undead.Spiders";
+
+    private static BlueprintFeature ConfigureUndeadHeritage1()
+    {
+      var undeadBloodline = ProgressionRefs.BloodlineUndeadProgression.Reference.Get();
+      return FeatureConfigurator.New(UndeadHeritageName, Guids.UndeadHeritage)
+        .SetDisplayName(undeadBloodline.m_DisplayName)
+        .SetDescription(undeadBloodline.m_Description)
+        .SetIcon(undeadBloodline.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreReligion.ToString())
+        .AddPrerequisiteNoFeature(FeatureRefs.UndeadBloodlineRequisiteFeature.ToString())
+        .AddAbilityResources(
+          resource: AbilityResourceRefs.BloodlineUndeadGraveTouchResource.ToString(), restoreAmount: true)
+        .AddFacts(new() { AbilityRefs.BloodlineUndeadGraveTouchAbility.ToString() })
+        .AddComponent(new BindToCharacterLevel())
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureUndeadHeritage3()
+    {
+      var UndeadFriend = FeatureRefs.BloodlineUndeadSerpentfriendFeature.Reference.Get();
+      return AddFeaturesByLevel(
+        UndeadHeritageFriend,
+        Guids.UndeadHeritageFriend,
+        UndeadFriend,
+        prerequisites: new() { UndeadHeritageName },
+        featuresByLevel: new() { (UndeadFriend.ToReference<BlueprintFeatureReference>(), level: 11) });
+    }
+
+    private static BlueprintFeature ConfigureUndeadHeritage9()
+    {
+      var UndeadSkin = FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel1.Reference.Get();
+      return AddFeaturesByLevel(
+        UndeadHeritageSkin,
+        Guids.UndeadHeritageSkin,
+        UndeadSkin,
+        prerequisites: new() { UndeadHeritageName },
+        featuresByLevel:
+          new()
+          {
+            (UndeadSkin.ToReference<BlueprintFeatureReference>(), level: 11),
+            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
+            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19),
+          },
+        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.UndeadHeritageSpiders),
+        greaterFeatureLevels:
+          new()
+          {
+            (UndeadSkin.ToReference<BlueprintFeatureReference>(), level: 9),
+            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
+            (FeatureRefs.BloodlineUndeadSnakeskinFeatureLevel3.Cast<BlueprintFeatureReference>().Reference, level: 15),
+          });
+    }
+
+    private static BlueprintFeature ConfigureUndeadHeritage15()
+    {
+      var UndeadSpiders = FeatureRefs.BloodlineUndeadDenOfSpidersFeature.Reference.Get();
+      return FeatureConfigurator.New(UndeadHeritageSpiders, Guids.UndeadHeritageSpiders)
+        .SetDisplayName(UndeadSpiders.m_DisplayName)
+        .SetDescription(UndeadSpiders.m_Description)
+        .SetIcon(UndeadSpiders.Icon)
+        .SetIsClassFeature()
+        .AddComponent(UndeadSpiders.GetComponent<AddFacts>())
+        .AddComponent(UndeadSpiders.GetComponent<AddAbilityResources>())
+        .AddComponent(
+          new BindToCharacterLevel(
+            AbilityRefs.BloodlineUndeadDenOfSpidersAbility.Cast<BlueprintAbilityReference>().Reference))
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.UndeadHeritageFriend, Guids.UndeadHeritageSkin }, amount: 1)
         .Configure();
     }
     #endregion
@@ -2179,7 +2258,7 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(prerequisite)
         .AddFacts(new() { ability })
         .AddAbilityResources(resource: resource, restoreAmount: true)
-        .AddComponent(new BindToCharacterLevel(ability.ToReference<BlueprintAbilityReference>()))
+        .AddComponent(new BindToEffectiveLevel(ability.ToReference<BlueprintAbilityReference>()))
         .AddComponent(
           new ApplyFeatureOnCharacterLevel(
             new() { (extraUse, level: 19) },
