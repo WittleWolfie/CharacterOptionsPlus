@@ -46,7 +46,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="ILRepack.MSBuild.Task" Version="*" />
-    <PackageReference Include="WW-Blueprint-Core" Version="2.3.1" />
+    <PackageReference Include="WW-Blueprint-Core" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -191,10 +191,7 @@
     <Copy SourceFiles="@(Assembly)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
     <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
     <Copy SourceFiles="@(Assets)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
-    <ZipDirectory
-      SourceDirectory="$(OutputPath)\$(AssemblyName)"
-      DestinationFile="$(OutputPath)\$(AssemblyName).zip"
-      Overwrite="true"/>
+    <ZipDirectory SourceDirectory="$(OutputPath)\$(AssemblyName)" DestinationFile="$(OutputPath)\$(AssemblyName).zip" Overwrite="true" />
   </Target>
 
 </Project>
