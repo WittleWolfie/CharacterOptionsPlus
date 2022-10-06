@@ -282,6 +282,7 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(AberrantHeritageRay, Guids.AberrantHeritageRay).Configure();
       FeatureConfigurator.New(AberrantHeritageName, Guids.AberrantHeritage).Configure();
       FeatureConfigurator.New(AberrantHeritageLimbs, Guids.AberrantHeritageLimbs).Configure();
+      FeatureConfigurator.New(AberrantHeritageAnatomy, Guids.AberrantHeritageAnatomy).Configure();
       #endregion
     }
 
@@ -507,7 +508,7 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.For(FeatName).AddToAllFeatures(ConfigureAberrantHeritage1()).Configure();
 
       FeatureSelectionConfigurator.For(ImprovedFeatName)
-        .AddToAllFeatures(ConfigureAberrantHeritage3())
+        .AddToAllFeatures(ConfigureAberrantHeritage3(), ConfigureAberrantHeritage9())
         .Configure();
 
       FeatureSelectionConfigurator.For(GreaterFeatName)
@@ -635,28 +636,19 @@ namespace CharacterOptionsPlus.Feats
           new() { (aberrantLimbsRef, level: 3), (aberrantLimbsRef, level: 11), (aberrantLimbsRef, level: 17) });
     }
 
-    //private static BlueprintFeature ConfigureAberrantHeritage9()
-    //{
-    //  var AberrantStrength = FeatureRefs.BloodlineAberrantStrengthAbilityLevel1.Reference.Get();
-    //  return AddFeaturesByLevel(
-    //    AberrantHeritageStrength,
-    //    Guids.AberrantHeritageStrength,
-    //    AberrantStrength,
-    //    new() { AberrantHeritageName },
-    //    new()
-    //    {
-    //      (AberrantStrength.ToReference<BlueprintFeatureReference>(), level: 11),
-    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
-    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
-    //    },
-    //    BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageSummons),
-    //    new()
-    //    {
-    //      (AberrantStrength.ToReference<BlueprintFeatureReference>(), level: 9),
-    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
-    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
-    //    });
-    //}
+    private static BlueprintFeature ConfigureAberrantHeritage9()
+    {
+      var aberrantAnatomy = BlueprintTool.Get<BlueprintFeature>(Guids.AberrantUnusualAnatomy);
+      var aberrantAnatomyRef = aberrantAnatomy.ToReference<BlueprintFeatureReference>();
+      return AddFeaturesByLevel(
+        AberrantHeritageAnatomy,
+        Guids.AberrantHeritageAnatomy,
+        aberrantAnatomy,
+        prerequisites: new() { AberrantHeritageName },
+        featuresByLevel: new() { (aberrantAnatomyRef, level: 11), (aberrantAnatomyRef, level: 15), },
+        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageResistance),
+        greaterFeatureLevels: new() { (aberrantAnatomyRef, level: 9), (aberrantAnatomyRef, level: 13), });
+    }
 
     //private static BlueprintFeature ConfigureAberrantHeritage15()
     //{
