@@ -2221,45 +2221,20 @@ namespace CharacterOptionsPlus.Feats
       string greaterFeatureGuid,
       AbilityRankType rankType = AbilityRankType.Default)
     {
-      var abilityBuilder = AbilityConfigurator.New(abilityName, abilityGuid)
-        .SetDisplayName(sourceAbility.m_DisplayName)
-        .SetDescription(sourceAbility.m_Description)
-        .SetIcon(sourceAbility.Icon)
-        .SetType(sourceAbility.Type)
-        .SetCanTargetEnemies(sourceAbility.CanTargetEnemies)
-        .SetCanTargetFriends(sourceAbility.CanTargetFriends)
-        .SetCanTargetSelf(sourceAbility.CanTargetSelf)
-        .SetCanTargetPoint(sourceAbility.CanTargetPoint)
-        .SetEffectOnEnemy(sourceAbility.EffectOnEnemy)
-        .SetAnimation(sourceAbility.Animation)
-        .SetActionType(sourceAbility.ActionType)
-        .SetAvailableMetamagic(sourceAbility.AvailableMetamagic)
-        .SetLocalizedSavingThrow(sourceAbility.LocalizedSavingThrow)
-        .AddComponent(sourceAbility.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(sourceAbility.GetComponent<AbilityResourceLogic>())
+      var ability = AbilityConfigurator.New(abilityName, abilityGuid)
+        .CopyFrom(
+          sourceAbility,
+          typeof(AbilityEffectRunAction),
+          typeof(AbilityResourceLogic),
+          typeof(AbilityDeliverProjectile),
+          typeof(SpellComponent),
+          typeof(AbilityTargetsAround),
+          typeof(AbilitySpawnFx),
+          typeof(AbilityDeliverDelay),
+          typeof(SpellDescriptorComponent))
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20, type: rankType));
 
-      // Components differ slightly between blasts
-      if (sourceAbility.GetComponent<AbilityDeliverProjectile>() is not null)
-        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverProjectile>());
-      if (sourceAbility.GetComponent<SpellComponent>() is not null)
-        abilityBuilder.AddComponent(sourceAbility.GetComponent<SpellComponent>());
-      if (sourceAbility.GetComponent<AbilityTargetsAround>() is not null)
-        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityTargetsAround>());
-      if (sourceAbility.GetComponent<AbilitySpawnFx>() is not null)
-        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilitySpawnFx>());
-      if (sourceAbility.GetComponent<AbilityDeliverDelay>() is not null)
-        abilityBuilder.AddComponent(sourceAbility.GetComponent<AbilityDeliverDelay>());
-      if (sourceAbility.GetComponent<SpellDescriptorComponent>() is not null)
-        abilityBuilder.AddComponent(sourceAbility.GetComponent<SpellDescriptorComponent>());
-
-      // Range logic differs slightly between blasts
-      if (sourceAbility.Range == AbilityRange.Custom)
-        abilityBuilder.SetCustomRange(sourceAbility.CustomRange);
-      else
-        abilityBuilder.SetRange(sourceAbility.Range);
-
-      var ability = abilityBuilder.Configure();
+      var ability = ability.Configure();
       return FeatureConfigurator.New(featureName, featureGuid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
