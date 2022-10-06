@@ -85,6 +85,9 @@ namespace CharacterOptionsPlus.Util
     #region Eldritch Heritage
     internal const string AberrantHeritage = "1b8ca09f-2c71-4086-9494-4a897b671695";
     internal const string AberrantHeritageRay = "eca24f6b-02ea-483f-b665-6a5083c4e4b4";
+    internal const string AberrantHeritageLimbs = "93298d67-0448-4cdf-b32a-412c8ba95a09";
+    internal const string AberrantHeritageAnatomy = "ec076951-432e-42da-beac-15c940ff7ccd";
+    internal const string AberrantHeritageResistance = "739cc880-42cd-4724-a995-4f6bf9ad2267";
 
     internal const string AbyssalHeritage = "8f070fcb-bf77-4a22-8a0e-9fdf769dcf6e";
     internal const string AbyssalHeritageResistance = "99bfdfcf-c1d1-47e4-8550-d925e45d1cc3";
@@ -239,7 +242,7 @@ namespace CharacterOptionsPlus.Util
     internal const string AberrantAcidicRay = "d3726f4b-599d-4c4d-b5a8-2abd961097d5";
     internal const string AberrantAcidicRayAbility = "89ae4738-2cdd-4b95-ad03-76ca74e6bf71";
     internal const string AberrantAcidicRayResource = "30fad156-6224-4062-8c38-2fb178e1f611";
-    internal const string AberrantLongLimbs = "";
+    internal const string AberrantLongLimbs = ""; // Granted twice more for upgrades at 11th / 17th
     internal const string AberrantUnusualAnatomy = ""; // Granted again for upgrade (13th level)
     internal const string AberrantAlienResistance = "";
 

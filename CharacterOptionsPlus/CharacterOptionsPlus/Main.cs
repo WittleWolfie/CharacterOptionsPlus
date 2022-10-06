@@ -50,6 +50,8 @@ namespace CharacterOptionsPlus
           }
           InitializeDelayed = true;
 
+          ConfigureFeatsDelayed();
+
           RootConfigurator.ConfigureDelayedBlueprints();
         }
         catch (Exception e)
@@ -111,6 +113,14 @@ namespace CharacterOptionsPlus
         Hurtful.Configure();
         PairedOpportunists.Configure();
         SkaldsVigor.Configure();
+      }
+
+
+      private static void ConfigureFeatsDelayed()
+      {
+        Logger.Log($"Configuring feats delayed.");
+
+        EldritchHeritage.ConfigureDelayed();
       }
     }
   }

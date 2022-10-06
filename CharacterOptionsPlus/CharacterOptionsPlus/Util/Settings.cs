@@ -3,7 +3,9 @@ using CharacterOptionsPlus.Feats;
 using Kingmaker.Blueprints;
 using Kingmaker.Localization;
 using ModMenu.Settings;
+using System.Linq;
 using UnityEngine;
+using UnityModManagerNet;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 using Menu = ModMenu.ModMenu;
 
@@ -18,6 +20,13 @@ namespace CharacterOptionsPlus.Util
     internal static bool IsEnabled(string key)
     {
       return Menu.GetSettingValue<bool>(GetKey(key));
+    }
+
+    internal static bool IsTTTBaseEnabled()
+    {
+      return UnityModManager.modEntries.Where(
+          mod => mod.Info.Id.Equals("TabletopTweaks-Base") && mod.Enabled && !mod.ErrorOnLoading)
+        .Any();
     }
 
     internal static void Init()

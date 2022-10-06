@@ -33,6 +33,8 @@ using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TabletopTweaks.Core.UMMTools;
+using UnityModManagerNet;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static UnityModManagerNet.UnityModManager.ModEntry;
@@ -73,6 +75,21 @@ namespace CharacterOptionsPlus.Feats
       catch (Exception e)
       {
         Logger.LogException("EldritchHeritage.Configure", e);
+      }
+    }
+
+    internal static void ConfigureDelayed()
+    {
+      try
+      {
+        if (Settings.IsEnabled(Guids.EldritchHeritageFeat) && Settings.IsTTTBaseEnabled())
+          ConfigureEnabledDelayed();
+        else
+          ConfigureDisabledDelayed();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("EldritchHeritage.ConfigureDelayed", e);
       }
     }
 
@@ -254,6 +271,17 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(GreaterFeatDescription)
         .SetIcon(Icon)
         .Configure();
+      #endregion
+    }
+
+    private static void ConfigureDisabledDelayed()
+    {
+      Logger.Log($"Configuring {FeatName} for TTT bloodlines (disabled)");
+
+      #region Aberrant
+      AbilityConfigurator.New(AberrantHeritageRay, Guids.AberrantHeritageRay).Configure();
+      FeatureConfigurator.New(AberrantHeritageName, Guids.AberrantHeritage).Configure();
+      FeatureConfigurator.New(AberrantHeritageLimbs, Guids.AberrantHeritageLimbs).Configure();
       #endregion
     }
 
@@ -472,6 +500,21 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.For(GreaterFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
     }
 
+    private static void ConfigureEnabledDelayed()
+    {
+      Logger.Log($"Configuring {FeatName} for TTT bloodlines");
+
+      FeatureSelectionConfigurator.For(FeatName).AddToAllFeatures(ConfigureAberrantHeritage1()).Configure();
+
+      FeatureSelectionConfigurator.For(ImprovedFeatName)
+        .AddToAllFeatures(ConfigureAberrantHeritage3())
+        .Configure();
+
+      FeatureSelectionConfigurator.For(GreaterFeatName)
+        .AddToAllFeatures()
+        .Configure();
+    }
+
     [TypeId("7970fae3-1dba-4f52-9bf7-44fa8b4d4a09")]
     private class SorcererLevelGetter : PropertyValueGetter
     {
@@ -558,33 +601,39 @@ namespace CharacterOptionsPlus.Feats
     private const string AberrantHeritageName = "EldrichHeritage.Aberrant";
 
     private const string AberrantHeritageRay = "EldritchHeritage.Aberrant.Ray";
-    private const string AberrantHeritageStrength = "EldritchHeritage.Aberrant.Strength";
-    private const string AberrantHeritageSummons = "EldritchHeritage.Aberrant.Summons";
+    private const string AberrantHeritageLimbs = "EldritchHeritage.Aberrant.Limbs";
+    private const string AberrantHeritageAnatomy = "EldritchHeritage.Aberrant.Anatomy";
+    private const string AberrantHeritageResistance = "EldritchHeritage.Aberrant.Resistance";
 
     private static BlueprintFeature ConfigureAberrantHeritage1()
     {
       return AddRay(
         abilityName: AberrantHeritageRay,
         abilityGuid: Guids.AberrantHeritageRay,
-        sourceAbility: BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.AberrantAcidicRayAbility),
+        sourceAbility: BlueprintTool.Get<BlueprintAbility>(Guids.AberrantAcidicRayAbility),
         featureName: AberrantHeritageName,
         featureGuid: Guids.AberrantHeritage,
-        sourceFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantBloodline),
+        sourceFeature: BlueprintTool.Get<BlueprintFeature>(Guids.AberrantBloodline),
         prereq: FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
         excludePrereqs: new() { Guids.AberrantBloodlineRequisiteFeature },
         resource: Guids.AberrantAcidicRayResource);
     }
 
-    //private static BlueprintFeature ConfigureAberrantHeritage3()
-    //{
-    //  var AberrantResistance = FeatureRefs.BloodlineAberrantResistancesAbilityLevel2.Reference.Get();
-    //  return AddFeaturesByLevel(
-    //    AberrantHeritageResistance,
-    //    Guids.AberrantHeritageResistance,
-    //    AberrantResistance,
-    //    new() { AberrantHeritageName },
-    //    new() { (AberrantResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
-    //}
+    private static BlueprintFeature ConfigureAberrantHeritage3()
+    {
+      var aberrantLimbs = BlueprintTool.Get<BlueprintFeature>(Guids.AberrantLongLimbs);
+      var aberrantLimbsRef = aberrantLimbs.ToReference<BlueprintFeatureReference>();
+      return AddFeaturesByLevel(
+        AberrantHeritageLimbs,
+        Guids.AberrantHeritageLimbs,
+        aberrantLimbs,
+        prerequisites: new() { AberrantHeritageName },
+        featuresByLevel:
+          new() { (aberrantLimbsRef, level: 5), (aberrantLimbsRef, level: 13), (aberrantLimbsRef, level: 19) },
+        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageResistance),
+        greaterFeatureLevels:
+          new() { (aberrantLimbsRef, level: 3), (aberrantLimbsRef, level: 11), (aberrantLimbsRef, level: 17) });
+    }
 
     //private static BlueprintFeature ConfigureAberrantHeritage9()
     //{
@@ -2222,10 +2271,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature AddRay(
       string abilityName,
       string abilityGuid,
-      BlueprintAbilityReference sourceAbility,
+      BlueprintAbility sourceAbility,
       string featureName,
       string featureGuid,
-      BlueprintFeatureReference sourceFeature,
+      BlueprintFeature sourceFeature,
       string prereq,
       List<string> excludePrereqs,
       string resource,
@@ -2247,14 +2296,9 @@ namespace CharacterOptionsPlus.Feats
             .WithDiv2Progression());
 
       var feature = FeatureConfigurator.New(featureName, featureGuid)
-        .OnConfigure(
-          bp =>
-          {
-            var source = sourceFeature.Get();
-            bp.m_DisplayName = source.m_DisplayName;
-            bp.m_Description = source.m_Description;
-            bp.m_Icon = source.m_Icon;
-          })
+        .SetDisplayName(sourceFeature.m_DisplayName)
+        .SetDescription(sourceFeature.m_Description)
+        .SetIcon(sourceFeature.Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(prereq)
         .AddFacts(new() { ray.Configure(delayed: true) })
