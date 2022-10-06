@@ -2050,9 +2050,7 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineUndeadGraveTouchResource.ToString(), restoreAmount: true)
         .AddFacts(new() { ability })
-        .AddComponent(
-          new BindToEffectiveLevel(
-            AbilityRefs.BloodlineUndeadGraveTouchAbility.Cast<BlueprintAbilityReference>().Reference))
+        .AddComponent(new BindToEffectiveLevel(ability.ToReference<BlueprintAbilityReference>()))
         .Configure();
     }
 
