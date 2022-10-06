@@ -76,8 +76,8 @@ namespace CharacterOptionsPlus.Components
         {
           if (Data.AppliedFacts[level] is null)
           {
-            Logger.Log($"Applying {feature} for level {level}.");
             Data.AppliedFacts[level] = Owner.AddFact(feature);
+            Logger.Log($"Applied {Data.AppliedFacts[level].Name} for level {level}.");
           }
         }
       }
@@ -87,14 +87,15 @@ namespace CharacterOptionsPlus.Components
     {
       try
       {
-        foreach (var fact in Data.AppliedFacts)
+        for (int i = 0; i < Data.AppliedFacts.Length; i++)
         {
+          var fact = Data.AppliedFacts[i];
           if (fact is null)
             continue;
           Logger.Log($"Removing {fact.Name}");
           Owner.RemoveFact(fact);
+          Data.AppliedFacts[i] = null;
         }
-        Data.AppliedFacts = new EntityFact[20];
       }
       catch (Exception e)
       {
