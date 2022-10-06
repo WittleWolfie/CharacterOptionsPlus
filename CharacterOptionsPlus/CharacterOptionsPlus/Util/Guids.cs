@@ -263,6 +263,7 @@ namespace CharacterOptionsPlus.Util
     internal const string DestinedFatedBuff = "33e1f401-09a4-4044-b47d-c3fe557f3985";
     internal const string DestinedItWasMeantToBe = "2ca5b40b-9d06-45de-a55c-baa29c301d0f";
     internal const string DestinedItWasMeantToBeResourceIncrease = "95e4d84e-67da-4f4c-b6da-265c720518a7";
+    internal const string DestinedWithinReach = "9ccea48d-deba-4b14-b30d-f3bbd382f843";
 
     #endregion
 

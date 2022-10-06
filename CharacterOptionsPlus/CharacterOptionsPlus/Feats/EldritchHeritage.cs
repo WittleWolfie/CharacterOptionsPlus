@@ -18,7 +18,6 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.Designers.Mechanics.Buffs;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
@@ -32,7 +31,6 @@ using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.FactLogic;
-using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
@@ -298,7 +296,13 @@ namespace CharacterOptionsPlus.Feats
       #endregion
 
       #region Destined
-
+      BuffConfigurator.New(DestinedHeritageTouchBuff, Guids.DestinedHeritageTouchBuff).Configure();
+      AbilityConfigurator.New(DestinedHeritageTouch, Guids.DestinedHeritageTouch).Configure();
+      FeatureConfigurator.New(DestinedHeritageName, Guids.DestinedHeritage).Configure();
+      BuffConfigurator.New(DestinedHeritageFatedBuff, Guids.DestinedHeritageFatedBuff).Configure();
+      FeatureConfigurator.New(DestinedHeritageFated, Guids.DestinedHeritageFated).Configure();
+      FeatureConfigurator.New(DestinedHeritageReroll, Guids.DestinedHeritageReroll).Configure();
+      FeatureConfigurator.New(DestinedHeritageReach, Guids.DestinedHeritageReach).Configure();
       #endregion
     }
 
@@ -521,14 +525,21 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName} for TTT bloodlines");
 
-      FeatureSelectionConfigurator.For(FeatName).AddToAllFeatures(ConfigureAberrantHeritage1()).Configure();
+      FeatureSelectionConfigurator.For(FeatName)
+        .AddToAllFeatures(ConfigureAberrantHeritage1(), ConfigureDestinedHeritage1())
+        .Configure();
 
       FeatureSelectionConfigurator.For(ImprovedFeatName)
-        .AddToAllFeatures(ConfigureAberrantHeritage3(), ConfigureAberrantHeritage9())
+        .AddToAllFeatures(
+          ConfigureAberrantHeritage3(),
+          ConfigureAberrantHeritage9(), 
+
+          ConfigureDestinedHeritage3(),
+          ConfigureDestinedHeritage9())
         .Configure();
 
       FeatureSelectionConfigurator.For(GreaterFeatName)
-        .AddToAllFeatures(ConfigureAberrantHeritage15())
+        .AddToAllFeatures(ConfigureAberrantHeritage15(), ConfigureDestinedHeritage15())
         .Configure();
     }
 
@@ -966,8 +977,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(itWasMeantToBe.m_DisplayName)
         .SetDescription(itWasMeantToBe.m_Description)
         .SetIcon(itWasMeantToBe.Icon)
-        .AddPrerequisiteFeature(DestinedHeritageName)
         .SetIsClassFeature()
+        .AddPrerequisiteFeature(DestinedHeritageName)
         .SetReapplyOnLevelUp()
         .AddComponent(
           new AddFeatureOnCharacterLevel(
@@ -980,12 +991,14 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureDestinedHeritage15()
     {
-      return FeatureConfigurator.New(DestinedHeritageResistance, Guids.DestinedHeritageResistance)
-        .CopyFrom(Guids.DestinedAlienResistance, typeof(AddSpellResistance))
-        .AddContextRankConfig(
-          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 30)
-            .WithBonusValueProgression(10))
-        .AddPrerequisiteFeaturesFromList(new() { Guids.DestinedHeritageLimbs, Guids.DestinedHeritageAnatomy })
+      var withinReach = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedWithinReach);
+      return FeatureConfigurator.New(DestinedHeritageReach, Guids.DestinedHeritageReach)
+        .SetDisplayName(withinReach.m_DisplayName)
+        .SetDescription(withinReach.m_Description)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeaturesFromList(
+          new() { Guids.DestinedHeritageFated, Guids.DestinedHeritageReroll }, amount: 1)
+        .AddFacts(new() { withinReach })
         .Configure();
     }
     #endregion
