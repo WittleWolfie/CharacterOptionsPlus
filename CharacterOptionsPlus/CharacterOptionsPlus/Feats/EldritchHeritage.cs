@@ -33,14 +33,20 @@ using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TabletopTweaks.Core.UMMTools;
-using UnityModManagerNet;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
+  // TODO:
+  //  - Destined Bloodline
+  //  - Create Feat Icons
+  //  - (Optional) Create icons for TTT things missing icons
+  //  - Add appropriate tags
+  //  - Add recommendation to continue down Improved / Greater if they pick up Eldritch Heritage
+  //  - Grant the requisite feature so you can't take Eldritch Heritage THEN Bloodline
+
   public class EldritchHeritage
   {
     internal const string FeatName = "EldritchHeritage";
