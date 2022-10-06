@@ -2181,25 +2181,12 @@ namespace CharacterOptionsPlus.Feats
       params Type[] extraComponents)
     {
       var ray = AbilityConfigurator.New(abilityName, abilityGuid)
-        .SetDisplayName(sourceAbility.m_DisplayName)
-        .SetDescription(sourceAbility.m_Description)
-        .SetIcon(sourceAbility.Icon)
-        .SetType(AbilityType.SpellLike)
-        .SetCustomRange(30)
-        .SetCanTargetEnemies(sourceAbility.CanTargetEnemies)
-        .SetCanTargetFriends(sourceAbility.CanTargetFriends)
-        .SetCanTargetSelf(sourceAbility.CanTargetSelf)
-        .SetCanTargetPoint(sourceAbility.CanTargetPoint)
-        .SetEffectOnAlly(sourceAbility.EffectOnAlly)
-        .SetEffectOnEnemy(sourceAbility.EffectOnEnemy)
-        .SetAnimation(sourceAbility.Animation)
-        .SetActionType(sourceAbility.ActionType)
-        .SetAvailableMetamagic(sourceAbility.AvailableMetamagic)
-        .AddComponent(sourceAbility.GetComponent<SpellComponent>())
-        .AddComponent(sourceAbility.GetComponent<AbilityDeliverProjectile>())
-        .AddComponent(sourceAbility.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(sourceAbility.GetComponent<AbilityResourceLogic>())
-        .AddComponent(sourceAbility.GetComponent<SpellDescriptorComponent>())
+        .CopyFrom(sourceAbility,
+          typeof(SpellComponent),
+          typeof(AbilityDeliverProjectile),
+          typeof(AbilityEffectRunAction),
+          typeof(AbilityResourceLogic),
+          typeof(SpellDescriptorComponent))
         .AddContextRankConfig(
           ContextRankConfigs.CustomProperty(
               EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20)
