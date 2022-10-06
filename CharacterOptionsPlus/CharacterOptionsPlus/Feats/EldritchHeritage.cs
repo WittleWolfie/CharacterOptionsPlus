@@ -28,6 +28,7 @@ using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
 using System.Collections.Generic;
@@ -2016,6 +2017,7 @@ namespace CharacterOptionsPlus.Feats
     #region Undead
     private const string UndeadHeritageName = "EldrichHeritage.Undead";
 
+    private const string UndeadHeritageTouch = "EldritchHeritage.Undead.Touch";
     private const string UndeadHeritageResistance = "EldritchHeritage.Undead.Resistance";
     private const string UndeadHeritageBlast = "EldritchHeritage.Undead.Blast";
     private const string UndeadHeritageBlastAbility = "EldritchHeritage.Undead.Blast.Ability";
@@ -2024,6 +2026,19 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureUndeadHeritage1()
     {
+      var ability = AbilityConfigurator.New(UndeadHeritageTouch, Guids.UndeadHeritageTouch)
+        .CopyFrom(
+          AbilityRefs.BloodlineUndeadGraveTouchAbility,
+          typeof(AbilityResourceLogic),
+          typeof(AbilityDeliverTouch),
+          typeof(AbilityEffectRunAction),
+          typeof(SpellComponent),
+          typeof(ContextCalculateSharedValue))
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 10, min: 1).WithDiv2Progression())
+        .AddContextRankConfig(ContextRankConfigs.CharacterLevel(type: AbilityRankType.DamageDice))
+        .Configure();
+
       var undeadBloodline = ProgressionRefs.BloodlineUndeadProgression.Reference.Get();
       return FeatureConfigurator.New(UndeadHeritageName, Guids.UndeadHeritage)
         .SetDisplayName(undeadBloodline.m_DisplayName)
@@ -2034,7 +2049,7 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteNoFeature(FeatureRefs.UndeadBloodlineRequisiteFeature.ToString())
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineUndeadGraveTouchResource.ToString(), restoreAmount: true)
-        .AddFacts(new() { AbilityRefs.BloodlineUndeadGraveTouchAbility.ToString() })
+        .AddFacts(new() { ability })
         .AddComponent(
           new BindToEffectiveLevel(
             AbilityRefs.BloodlineUndeadGraveTouchAbility.Cast<BlueprintAbilityReference>().Reference))

@@ -221,10 +221,8 @@ namespace CharacterOptionsPlus.Util
     internal const string SerpentineHeritageSkin = "bf6a7039-9489-47c1-864c-42ab853f7b1a";
     internal const string SerpentineHeritageSpiders = "f12226e6-cd1f-4bdb-90e9-3bd598bd4d39";
 
-    // TODO: Unused
-    internal const string SerpentineHeritageBiteLevel4 = "d771e3ca-330c-4e84-a0f1-866e5401d1de";
-
     internal const string UndeadHeritage = "e62b8778-4afd-4d8a-99f8-348f5e4076ba";
+    internal const string UndeadHeritageTouch = "d771e3ca-330c-4e84-a0f1-866e5401d1de";
     internal const string UndeadHeritageResistance = "4082741d-e3be-4cb7-a31b-f5c5f8e95c9d";
     internal const string UndeadHeritageBlast = "527ceb3c-2d70-42fd-99d2-c2a1ba01e123";
     internal const string UndeadHeritageBlastAbility = "348a4515-bef2-4aea-8155-e92f9dd5e745";
