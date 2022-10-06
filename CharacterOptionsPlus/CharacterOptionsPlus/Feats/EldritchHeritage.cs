@@ -283,6 +283,7 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(AberrantHeritageName, Guids.AberrantHeritage).Configure();
       FeatureConfigurator.New(AberrantHeritageLimbs, Guids.AberrantHeritageLimbs).Configure();
       FeatureConfigurator.New(AberrantHeritageAnatomy, Guids.AberrantHeritageAnatomy).Configure();
+      FeatureConfigurator.New(AberrantHeritageResistance, Guids.AberrantHeritageResistance).Configure();
       #endregion
     }
 
@@ -512,7 +513,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       FeatureSelectionConfigurator.For(GreaterFeatName)
-        .AddToAllFeatures()
+        .AddToAllFeatures(ConfigureAberrantHeritage15())
         .Configure();
     }
 
@@ -650,16 +651,14 @@ namespace CharacterOptionsPlus.Feats
         greaterFeatureLevels: new() { (aberrantAnatomyRef, level: 9), (aberrantAnatomyRef, level: 13), });
     }
 
-    //private static BlueprintFeature ConfigureAberrantHeritage15()
-    //{
-    //  var AberrantSummons = FeatureRefs.BloodlineAberrantAddedSummonings.Reference.Get();
-    //  return AddFeaturesByLevel(
-    //    AberrantHeritageSummons,
-    //    Guids.AberrantHeritageSummons,
-    //    AberrantSummons,
-    //    prerequisites: new() { Guids.AberrantHeritageStrength, Guids.AberrantHeritageResistance },
-    //    featuresByLevel: new() { (AberrantSummons.ToReference<BlueprintFeatureReference>(), 15) });
-    //}
+    private static BlueprintFeature ConfigureAberrantHeritage15()
+    {
+      return FeatureConfigurator.New(AberrantHeritageResistance, Guids.AberrantHeritageResistance)
+        .CopyFrom(Guids.AberrantAlienResistance, typeof(AddSpellResistance))
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
+        .AddPrerequisiteFeaturesFromList(new() { Guids.AberrantHeritageLimbs, Guids.AberrantHeritageAnatomy })
+        .Configure();
+    }
     #endregion
 
     #region Abyssal
