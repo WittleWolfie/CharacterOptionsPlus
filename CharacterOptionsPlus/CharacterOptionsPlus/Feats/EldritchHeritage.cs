@@ -655,7 +655,9 @@ namespace CharacterOptionsPlus.Feats
     {
       return FeatureConfigurator.New(AberrantHeritageResistance, Guids.AberrantHeritageResistance)
         .CopyFrom(Guids.AberrantAlienResistance, typeof(AddSpellResistance))
-        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20))
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 20)
+            .WithBonusValueProgression(10))
         .AddPrerequisiteFeaturesFromList(new() { Guids.AberrantHeritageLimbs, Guids.AberrantHeritageAnatomy })
         .Configure();
     }
@@ -2205,10 +2207,9 @@ namespace CharacterOptionsPlus.Feats
       BlueprintFeatureReference greaterFeature = null,
       List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
     {
-      return FeatureConfigurator.New(name, guid)
+      var feature = FeatureConfigurator.New(name, guid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
-        .SetIcon(sourceFeature.Icon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp(true)
         .AddComponent(
@@ -2216,8 +2217,10 @@ namespace CharacterOptionsPlus.Feats
             featuresByLevel.ToList(),
             greaterFeature: greaterFeature,
             greaterFeatureLevels: greaterFeatureLevels))
-        .AddPrerequisiteFeaturesFromList(prerequisites, amount: 1)
-        .Configure();
+        .AddPrerequisiteFeaturesFromList(prerequisites, amount: 1);
+      if (sourceFeature.Icon is not null)
+        feature.SetIcon(sourceFeature.Icon);
+      return feature.Configure();
     }
 
     private static BlueprintFeature AddClaws(
@@ -2289,11 +2292,13 @@ namespace CharacterOptionsPlus.Feats
       var feature = FeatureConfigurator.New(featureName, featureGuid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
-        .SetIcon(sourceFeature.Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(prereq)
         .AddFacts(new() { ray.Configure(delayed: true) })
         .AddAbilityResources(resource: resource, restoreAmount: true);
+
+      if (sourceAbility.Icon is not null)
+        feature.SetIcon(sourceAbility.Icon);
 
       foreach (var exclude in excludePrereqs)
         feature.AddPrerequisiteNoFeature(exclude);

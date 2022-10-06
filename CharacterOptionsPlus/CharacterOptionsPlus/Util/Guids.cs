@@ -242,9 +242,9 @@ namespace CharacterOptionsPlus.Util
     internal const string AberrantAcidicRay = "d3726f4b-599d-4c4d-b5a8-2abd961097d5";
     internal const string AberrantAcidicRayAbility = "89ae4738-2cdd-4b95-ad03-76ca74e6bf71";
     internal const string AberrantAcidicRayResource = "30fad156-6224-4062-8c38-2fb178e1f611";
-    internal const string AberrantLongLimbs = ""; // Granted twice more for upgrades at 11th / 17th
-    internal const string AberrantUnusualAnatomy = ""; // Granted again for upgrade (13th level)
-    internal const string AberrantAlienResistance = "";
+    internal const string AberrantLongLimbs = "e9bc0888-007e-48be-9281-cf75f4390fea";
+    internal const string AberrantUnusualAnatomy = "5df18db4-9b61-4148-af96-4fb9e9d5a1c6";
+    internal const string AberrantAlienResistance = "ba8c2c55-f005-4e35-b0de-1ff47d180b43";
 
     #endregion
 
