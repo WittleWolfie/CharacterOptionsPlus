@@ -666,7 +666,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(AberrantHeritageResistance, Guids.AberrantHeritageResistance)
         .CopyFrom(Guids.AberrantAlienResistance, typeof(AddSpellResistance))
         .AddContextRankConfig(
-          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 20)
+          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 30)
             .WithBonusValueProgression(10))
         .AddPrerequisiteFeaturesFromList(new() { Guids.AberrantHeritageLimbs, Guids.AberrantHeritageAnatomy })
         .Configure();
