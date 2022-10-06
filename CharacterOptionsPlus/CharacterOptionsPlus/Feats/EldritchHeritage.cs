@@ -2232,9 +2232,9 @@ namespace CharacterOptionsPlus.Feats
           typeof(AbilitySpawnFx),
           typeof(AbilityDeliverDelay),
           typeof(SpellDescriptorComponent))
-        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20, type: rankType));
+        .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 20, type: rankType))
+        .Configure();
 
-      var ability = ability.Configure();
       return FeatureConfigurator.New(featureName, featureGuid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
