@@ -1,6 +1,6 @@
 ﻿using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Blueprints;
 using Kingmaker.EntitySystem;
 using Kingmaker.PubSubSystem;
 using Kingmaker.UnitLogic;
@@ -13,32 +13,27 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 namespace CharacterOptionsPlus.Components
 {
   [AllowMultipleComponents]
-  [TypeId("611365a4-832a-4a2c-a4b0-ae8bc2ce8b41")]
-  internal class ApplyFeatureOnCharacterLevel :
-    UnitFactComponentDelegate<ApplyFeatureOnCharacterLevel.ComponentData>, IOwnerGainLevelHandler
+  [TypeId("15c28aa4-c943-4cab-ae6a-3892c92a6c06")]
+  internal class AddFeatureOnCharacterLevel :
+    UnitFactComponentDelegate<AddFeatureOnCharacterLevel.ComponentData>, IOwnerGainLevelHandler
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("ApplyFeatureOnCharacterLevel");
+    private static readonly ModLogger Logger = Logging.GetLogger("AddFeatureOnCharacterLevel");
 
     private readonly List<(BlueprintFeatureReference feature, int level)> FeatureLevels;
     private readonly BlueprintFeatureReference GreaterFeature;
     private readonly List<(BlueprintFeatureReference feature, int level)> GreaterFeatureLevels;
 
-    /// <summary>Applies the specified feature at the specified level, replacing the last applied feature.</summary>
+    /// <summary>Adds the specified feature at the specified level. Limit one feature per level, max 20.</summary>
     /// <param name="greaterFeature">If the character has this feature the greaterFeatureLevels list applies</param>
     /// <param name="greaterFeatureLevels"></param>
-    public ApplyFeatureOnCharacterLevel(
+    public AddFeatureOnCharacterLevel(
       List<(BlueprintFeatureReference feature, int level)> featureLevels,
       BlueprintFeatureReference greaterFeature = null,
       List<(BlueprintFeatureReference feature, int level)> greaterFeatureLevels = null)
     {
       FeatureLevels = featureLevels.ToList();
-      // Reverse sort so we apply the highest level feature applicable
-      FeatureLevels.Sort((a, b) => b.level.CompareTo(a.level));
-
       GreaterFeature = greaterFeature;
       GreaterFeatureLevels = greaterFeatureLevels;
-      // Reverse sort so we apply the highest level feature applicable
-      GreaterFeatureLevels?.Sort((a, b) => b.level.CompareTo(a.level));
     }
 
     public void HandleUnitGainLevel()
@@ -61,17 +56,17 @@ namespace CharacterOptionsPlus.Components
       try
       {
         if (GreaterFeature is not null && Owner.HasFact(GreaterFeature))
-          ApplyFeature(GreaterFeatureLevels);
+          AddFeature(GreaterFeatureLevels);
         else
-          ApplyFeature(FeatureLevels);
+          AddFeature(FeatureLevels);
       }
       catch (Exception e)
       {
-        Logger.LogException("ApplyFeatureOnCharacterLevel.Apply", e);
+        Logger.LogException("AddFeatureOnCharacterLevel.Apply", e);
       }
     }
 
-    private void ApplyFeature(List<(BlueprintFeatureReference feature, int level)> featureLevels)
+    private void AddFeature(List<(BlueprintFeatureReference feature, int level)> featureLevels)
     {
       var characterLevel = Owner.Descriptor.Progression.CharacterLevel;
       // FeatureLevels is ordered from highest to lowest. Find the highest level and apply that feature.
@@ -79,14 +74,11 @@ namespace CharacterOptionsPlus.Components
       {
         if (characterLevel >= level)
         {
-          if (Data.AppliedLevel != level)
+          if (Data.AppliedFacts[level] is null)
           {
-            Remove();
             Logger.Log($"Applying {feature} for level {level}.");
-            Data.AppliedFact = Owner.AddFact(feature);
-            Data.AppliedLevel = level;
+            Data.AppliedFacts[level] = Owner.AddFact(feature);
           }
-          break;
         }
       }
     }
@@ -95,27 +87,25 @@ namespace CharacterOptionsPlus.Components
     {
       try
       {
-        if (Data.AppliedFact is not null)
+        foreach (var fact in Data.AppliedFacts)
         {
-          Logger.Log($"Removing {Data.AppliedFact.Name}");
-          Owner.RemoveFact(Data.AppliedFact);
-          Data.AppliedFact = null;
-          Data.AppliedLevel = -1;
+          if (fact is null)
+            continue;
+          Logger.Log($"Removing {fact.Name}");
+          Owner.RemoveFact(fact);
         }
+        Data.AppliedFacts = new EntityFact[20];
       }
       catch (Exception e)
       {
-        Logger.LogException("ApplyFeatureOnCharacterLevel.Remove", e);
+        Logger.LogException("AddFeatureOnCharacterLevel.Remove", e);
       }
     }
 
     public class ComponentData
     {
       [JsonProperty]
-      public EntityFact AppliedFact;
-
-      [JsonProperty]
-      public int AppliedLevel = -1;
+      public EntityFact[] AppliedFacts = new EntityFact[20];
     }
   }
 }

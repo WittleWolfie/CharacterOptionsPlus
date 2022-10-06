@@ -625,30 +625,40 @@ namespace CharacterOptionsPlus.Feats
     {
       var aberrantLimbs = BlueprintTool.Get<BlueprintFeature>(Guids.AberrantLongLimbs);
       var aberrantLimbsRef = aberrantLimbs.ToReference<BlueprintFeatureReference>();
-      return AddFeaturesByLevel(
-        AberrantHeritageLimbs,
-        Guids.AberrantHeritageLimbs,
-        aberrantLimbs,
-        prerequisites: new() { AberrantHeritageName },
-        featuresByLevel:
-          new() { (aberrantLimbsRef, level: 5), (aberrantLimbsRef, level: 13), (aberrantLimbsRef, level: 19) },
-        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageResistance),
-        greaterFeatureLevels:
-          new() { (aberrantLimbsRef, level: 3), (aberrantLimbsRef, level: 11), (aberrantLimbsRef, level: 17) });
+
+      return FeatureConfigurator.New(AberrantHeritageLimbs, Guids.AberrantHeritageLimbs)
+        .SetDisplayName(aberrantLimbs.m_DisplayName)
+        .SetDescription(aberrantLimbs.m_Description)
+        .AddPrerequisiteFeature(AberrantHeritageName)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(
+          new AddFeatureOnCharacterLevel(
+            featureLevels:
+              new() { (aberrantLimbsRef, level: 5), (aberrantLimbsRef, level: 13), (aberrantLimbsRef, level: 19) },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageResistance),
+            greaterFeatureLevels:
+              new() { (aberrantLimbsRef, level: 3), (aberrantLimbsRef, level: 11), (aberrantLimbsRef, level: 17) }))
+        .Configure();
     }
 
     private static BlueprintFeature ConfigureAberrantHeritage9()
     {
       var aberrantAnatomy = BlueprintTool.Get<BlueprintFeature>(Guids.AberrantUnusualAnatomy);
       var aberrantAnatomyRef = aberrantAnatomy.ToReference<BlueprintFeatureReference>();
-      return AddFeaturesByLevel(
-        AberrantHeritageAnatomy,
-        Guids.AberrantHeritageAnatomy,
-        aberrantAnatomy,
-        prerequisites: new() { AberrantHeritageName },
-        featuresByLevel: new() { (aberrantAnatomyRef, level: 11), (aberrantAnatomyRef, level: 15), },
-        greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageResistance),
-        greaterFeatureLevels: new() { (aberrantAnatomyRef, level: 9), (aberrantAnatomyRef, level: 13), });
+
+      return FeatureConfigurator.New(AberrantHeritageAnatomy, Guids.AberrantHeritageAnatomy)
+        .SetDisplayName(aberrantAnatomy.m_DisplayName)
+        .SetDescription(aberrantAnatomy.m_Description)
+        .AddPrerequisiteFeature(AberrantHeritageName)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(
+          new AddFeatureOnCharacterLevel(
+            featureLevels: new() { (aberrantAnatomyRef, level: 11), (aberrantAnatomyRef, level: 15) },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageResistance),
+            greaterFeatureLevels: new() { (aberrantAnatomyRef, level: 9), (aberrantAnatomyRef, level: 13) }))
+        .Configure();
     }
 
     private static BlueprintFeature ConfigureAberrantHeritage15()
