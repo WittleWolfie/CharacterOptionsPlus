@@ -82,9 +82,9 @@ namespace CharacterOptionsPlus.Components
           if (Data.AppliedLevel != level)
           {
             Remove();
-            Logger.Log($"Applying {feature} for level {level}.");
             Data.AppliedFact = Owner.AddFact(feature);
             Data.AppliedLevel = level;
+            Logger.Log($"Applied {Data.AppliedFact.Name} for level {level}.");
           }
           break;
         }
