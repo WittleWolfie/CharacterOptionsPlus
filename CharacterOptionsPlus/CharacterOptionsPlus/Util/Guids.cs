@@ -109,6 +109,8 @@ namespace CharacterOptionsPlus.Util
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
     internal const string DestinedHeritageTouch = "8593c16d-d6a4-4ed5-b7cd-aa6270696197";
     internal const string DestinedHeritageTouchBuff = "bded7cba-fddc-4a28-8a7a-ef75f228fa01";
+    internal const string DestinedHeritageFated = "e59c79b0-bc04-4a6d-8d34-5cb93c264ae4";
+    internal const string DestinedHeritageFatedBuff = "98b34436-8ced-48c2-8040-16924192dd4b";
 
     #region Draconic Heritage
     // Used to prevent multiple selections
@@ -255,6 +257,8 @@ namespace CharacterOptionsPlus.Util
     internal const string DestinedTouchOfDestinyAbility = "f9772da9-d0fc-43b4-9215-c5dc81a8f4bd";
     internal const string DestinedTouchOfDestinyBuff = "b9772da9-d0fc-43b4-6545-c5dc81c8f4bd";
     internal const string DestinedTouchOfDestinyResource = "d871c8ea-dddb-472d-a2de-977c35cecede";
+    internal const string DestinedFated = "830f610e-df82-49a8-a68b-b224536e3efe";
+    internal const string DestinedFatedBuff = "33e1f401-09a4-4044-b47d-c3fe557f3985";
 
     #endregion
 

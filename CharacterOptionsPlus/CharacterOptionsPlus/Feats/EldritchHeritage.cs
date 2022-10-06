@@ -1,4 +1,6 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
 using BlueprintCore.Blueprints.CustomConfigurators;
@@ -903,29 +905,21 @@ namespace CharacterOptionsPlus.Feats
 
     private const string DestinedHeritageTouch = "EldritchHeritage.Destined.Touch";
     private const string DestinedHeritageTouchBuff = "EldritchHeritage.Destined.Touch.Buff";
-    private const string DestinedHeritageAnatomy = "EldritchHeritage.Destined.Anatomy";
-    private const string DestinedHeritageResistance = "EldritchHeritage.Destined.Resistance";
+    private const string DestinedHeritageFated = "EldritchHeritage.Destined.Fated";
+    private const string DestinedHeritageFatedBuff = "EldritchHeritage.Destined.Fated.Buff";
 
     private static BlueprintFeature ConfigureDestinedHeritage1()
     {
       var buff = BuffConfigurator.New(DestinedHeritageTouchBuff, Guids.DestinedHeritageTouchBuff)
-        .CopyFrom(Guids.DestinedTouchOfDestinyBuff, typeof(AddContextStatBonus), typeof(BuffAllSkillsBonus))
+        .CopyFrom(Guids.DestinedTouchOfDestinyBuff, c => c is not ContextRankConfig)
         .AddContextRankConfig(
           ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 10, min: 1)
             .WithDiv2Progression())
         .Configure();
 
       var ability = AbilityConfigurator.New(DestinedHeritageTouch, Guids.DestinedHeritageTouch)
-        .CopyFrom(Guids.DestinedTouchOfDestinyAbility, typeof(AbilityResourceLogic), typeof(AbilityEffectRunAction))
-        .EditComponent<AbilityEffectRunAction>(
-          c =>
-          {
-            var applyBuff =
-              c.Actions.Actions.Where(a => a is ContextActionApplyBuff)
-                .Cast<ContextActionApplyBuff>()
-                .First();
-            applyBuff.m_Buff = buff.ToReference<BlueprintBuffReference>();
-          })
+        .CopyFrom(Guids.DestinedTouchOfDestinyAbility, c => c is not AbilityEffectRunAction)
+        .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))
         .Configure();
 
       var touchOfDestiny = BlueprintTool.Get<BlueprintAbility>(Guids.DestinedTouchOfDestinyAbility);
@@ -943,22 +937,19 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureDestinedHeritage3()
     {
-      var DestinedLimbs = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedLongLimbs);
-      var DestinedLimbsRef = DestinedLimbs.ToReference<BlueprintFeatureReference>();
+      var buff = BuffConfigurator.New(DestinedHeritageFatedBuff, Guids.DestinedHeritageFatedBuff)
+        .CopyFrom(Guids.DestinedFatedBuff, c => c is not ContextRankConfig)
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 5)
+            .WithStartPlusDivStepProgression(4, start: 3, delayStart: true))
+        .Configure();
 
-      return FeatureConfigurator.New(DestinedHeritageLimbs, Guids.DestinedHeritageLimbs)
-        .SetDisplayName(DestinedLimbs.m_DisplayName)
-        .SetDescription(DestinedLimbs.m_Description)
+      return FeatureConfigurator.New(DestinedHeritageFated, Guids.DestinedHeritageFated)
+        .CopyFrom(Guids.DestinedFated, c => c is not CombatStateTrigger)
+        .AddComponent<CombatStateTrigger>(
+          c => c.CombatStartActions =
+            ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1), isNotDispelable: true).Build())
         .AddPrerequisiteFeature(DestinedHeritageName)
-        .SetIsClassFeature()
-        .SetReapplyOnLevelUp()
-        .AddComponent(
-          new AddFeatureOnCharacterLevel(
-            featureLevels:
-              new() { (DestinedLimbsRef, level: 5), (DestinedLimbsRef, level: 13), (DestinedLimbsRef, level: 19) },
-            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DestinedHeritageResistance),
-            greaterFeatureLevels:
-              new() { (DestinedLimbsRef, level: 3), (DestinedLimbsRef, level: 11), (DestinedLimbsRef, level: 17) }))
         .Configure();
     }
 
@@ -967,7 +958,7 @@ namespace CharacterOptionsPlus.Feats
       var DestinedAnatomy = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedUnusualAnatomy);
       var DestinedAnatomyRef = DestinedAnatomy.ToReference<BlueprintFeatureReference>();
 
-      return FeatureConfigurator.New(DestinedHeritageAnatomy, Guids.DestinedHeritageAnatomy)
+      return FeatureConfigurator.New(DestinedHeritageFated, Guids.DestinedHeritageAnatomy)
         .SetDisplayName(DestinedAnatomy.m_DisplayName)
         .SetDescription(DestinedAnatomy.m_Description)
         .AddPrerequisiteFeature(DestinedHeritageName)
