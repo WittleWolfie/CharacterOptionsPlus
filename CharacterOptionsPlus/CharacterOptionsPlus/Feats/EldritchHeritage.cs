@@ -43,7 +43,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 namespace CharacterOptionsPlus.Feats
 {
   // TODO:
-  //  - Destined Bloodline
   //  - Create Feat Icons
   //  - (Optional) Create icons for TTT things missing icons
   //  - Add appropriate tags
