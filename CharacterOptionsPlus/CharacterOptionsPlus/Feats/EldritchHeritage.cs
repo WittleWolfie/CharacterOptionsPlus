@@ -4,6 +4,7 @@ using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
 using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
@@ -15,6 +16,7 @@ using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Designers.Mechanics.Buffs;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
@@ -28,6 +30,7 @@ using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.Properties;
 using System;
@@ -290,6 +293,10 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(AberrantHeritageLimbs, Guids.AberrantHeritageLimbs).Configure();
       FeatureConfigurator.New(AberrantHeritageAnatomy, Guids.AberrantHeritageAnatomy).Configure();
       FeatureConfigurator.New(AberrantHeritageResistance, Guids.AberrantHeritageResistance).Configure();
+      #endregion
+
+      #region Destined
+
       #endregion
     }
 
@@ -887,6 +894,101 @@ namespace CharacterOptionsPlus.Feats
           new() { Guids.CelestialHeritageResistances, Guids.CelestialHeritageAura }, amount: 1 )
         .AddSpellResistanceAgainstAlignment(alignment: AlignmentComponent.Evil, value: ContextValues.Rank())
         .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20).WithBonusValueProgression(11))
+        .Configure();
+    }
+    #endregion
+    
+    #region Destined (TTT-Base)
+    private const string DestinedHeritageName = "EldrichHeritage.Destined";
+
+    private const string DestinedHeritageTouch = "EldritchHeritage.Destined.Touch";
+    private const string DestinedHeritageTouchBuff = "EldritchHeritage.Destined.Touch.Buff";
+    private const string DestinedHeritageAnatomy = "EldritchHeritage.Destined.Anatomy";
+    private const string DestinedHeritageResistance = "EldritchHeritage.Destined.Resistance";
+
+    private static BlueprintFeature ConfigureDestinedHeritage1()
+    {
+      var buff = BuffConfigurator.New(DestinedHeritageTouchBuff, Guids.DestinedHeritageTouchBuff)
+        .CopyFrom(Guids.DestinedTouchOfDestinyBuff, typeof(AddContextStatBonus), typeof(BuffAllSkillsBonus))
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 10, min: 1)
+            .WithDiv2Progression())
+        .Configure();
+
+      var ability = AbilityConfigurator.New(DestinedHeritageTouch, Guids.DestinedHeritageTouch)
+        .CopyFrom(Guids.DestinedTouchOfDestinyAbility, typeof(AbilityResourceLogic), typeof(AbilityEffectRunAction))
+        .EditComponent<AbilityEffectRunAction>(
+          c =>
+          {
+            var applyBuff =
+              c.Actions.Actions.Where(a => a is ContextActionApplyBuff)
+                .Cast<ContextActionApplyBuff>()
+                .First();
+            applyBuff.m_Buff = buff.ToReference<BlueprintBuffReference>();
+          })
+        .Configure();
+
+      var touchOfDestiny = BlueprintTool.Get<BlueprintAbility>(Guids.DestinedTouchOfDestinyAbility);
+      return FeatureConfigurator.New(DestinedHeritageName, Guids.DestinedHeritage)
+        .SetDisplayName(touchOfDestiny.m_DisplayName)
+        .SetDescription(touchOfDestiny.m_Description)
+        .SetIcon(touchOfDestiny.m_Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
+        .AddPrerequisiteNoFeature(Guids.DestinedBloodlineRequisiteFeature)
+        .AddAbilityResources(resource: Guids.DestinedTouchOfDestinyResource, restoreAmount: true)
+        .AddFacts(new() { ability })
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureDestinedHeritage3()
+    {
+      var DestinedLimbs = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedLongLimbs);
+      var DestinedLimbsRef = DestinedLimbs.ToReference<BlueprintFeatureReference>();
+
+      return FeatureConfigurator.New(DestinedHeritageLimbs, Guids.DestinedHeritageLimbs)
+        .SetDisplayName(DestinedLimbs.m_DisplayName)
+        .SetDescription(DestinedLimbs.m_Description)
+        .AddPrerequisiteFeature(DestinedHeritageName)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(
+          new AddFeatureOnCharacterLevel(
+            featureLevels:
+              new() { (DestinedLimbsRef, level: 5), (DestinedLimbsRef, level: 13), (DestinedLimbsRef, level: 19) },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DestinedHeritageResistance),
+            greaterFeatureLevels:
+              new() { (DestinedLimbsRef, level: 3), (DestinedLimbsRef, level: 11), (DestinedLimbsRef, level: 17) }))
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureDestinedHeritage9()
+    {
+      var DestinedAnatomy = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedUnusualAnatomy);
+      var DestinedAnatomyRef = DestinedAnatomy.ToReference<BlueprintFeatureReference>();
+
+      return FeatureConfigurator.New(DestinedHeritageAnatomy, Guids.DestinedHeritageAnatomy)
+        .SetDisplayName(DestinedAnatomy.m_DisplayName)
+        .SetDescription(DestinedAnatomy.m_Description)
+        .AddPrerequisiteFeature(DestinedHeritageName)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(
+          new AddFeatureOnCharacterLevel(
+            featureLevels: new() { (DestinedAnatomyRef, level: 11), (DestinedAnatomyRef, level: 15) },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DestinedHeritageResistance),
+            greaterFeatureLevels: new() { (DestinedAnatomyRef, level: 9), (DestinedAnatomyRef, level: 13) }))
+        .Configure();
+    }
+
+    private static BlueprintFeature ConfigureDestinedHeritage15()
+    {
+      return FeatureConfigurator.New(DestinedHeritageResistance, Guids.DestinedHeritageResistance)
+        .CopyFrom(Guids.DestinedAlienResistance, typeof(AddSpellResistance))
+        .AddContextRankConfig(
+          ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 30)
+            .WithBonusValueProgression(10))
+        .AddPrerequisiteFeaturesFromList(new() { Guids.DestinedHeritageLimbs, Guids.DestinedHeritageAnatomy })
         .Configure();
     }
     #endregion

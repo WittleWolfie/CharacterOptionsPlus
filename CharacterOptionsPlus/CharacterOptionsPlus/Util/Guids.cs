@@ -107,6 +107,8 @@ namespace CharacterOptionsPlus.Util
     internal const string CelestialHeritageConviction = "989e19d2-efdc-436f-a1c7-fb9b5247dbad";
 
     internal const string DestinedHeritage = "b4f5d946-d21f-448e-b44b-c1747d98c071";
+    internal const string DestinedHeritageTouch = "8593c16d-d6a4-4ed5-b7cd-aa6270696197";
+    internal const string DestinedHeritageTouchBuff = "bded7cba-fddc-4a28-8a7a-ef75f228fa01";
 
     #region Draconic Heritage
     // Used to prevent multiple selections
@@ -245,6 +247,14 @@ namespace CharacterOptionsPlus.Util
     internal const string AberrantLongLimbs = "e9bc0888-007e-48be-9281-cf75f4390fea";
     internal const string AberrantUnusualAnatomy = "5df18db4-9b61-4148-af96-4fb9e9d5a1c6";
     internal const string AberrantAlienResistance = "ba8c2c55-f005-4e35-b0de-1ff47d180b43";
+
+    internal const string DestinedBloodline = "62f017f0-7222-4574-89ee-d83165e25682";
+    internal const string DestinedBloodlineRequisiteFeature = "facf9101-fd98-4ad0-8384-6b159be802cd";
+
+    internal const string DestinedTouchOfDestiny = "2363df02-d1c2-4cbd-96cb-13b6200a6c37";
+    internal const string DestinedTouchOfDestinyAbility = "f9772da9-d0fc-43b4-9215-c5dc81a8f4bd";
+    internal const string DestinedTouchOfDestinyBuff = "b9772da9-d0fc-43b4-6545-c5dc81c8f4bd";
+    internal const string DestinedTouchOfDestinyResource = "d871c8ea-dddb-472d-a2de-977c35cecede";
 
     #endregion
 
