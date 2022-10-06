@@ -230,6 +230,20 @@ namespace CharacterOptionsPlus.Util
     internal const string UndeadHeritageIncorporealAbility = "fac3a233-d710-4934-8bc0-01dbb315c0bc";
     #endregion
 
+    #region TTT
+
+    internal const string AberrantBloodline = "1ff2d53c-2bee-429a-801e-eebb1197bcd1";
+    internal const string AberrantBloodlineRequisiteFeature = "2ded002a-790f-4727-8b20-ad73b9c0adf0";
+
+    internal const string AberrantAcidicRay = "d3726f4b-599d-4c4d-b5a8-2abd961097d5";
+    internal const string AberrantAcidicRayAbility = "89ae4738-2cdd-4b95-ad03-76ca74e6bf71";
+    internal const string AberrantAcidicRayResource = "30fad156-6224-4062-8c38-2fb178e1f611";
+    internal const string AberrantLongLimbs = "";
+    internal const string AberrantUnusualAnatomy = ""; // Granted again for upgrade (13th level)
+    internal const string AberrantAlienResistance = "";
+
+    #endregion
+
     #region Dynamic GUIDs
     private const string GUID_0 = "4d802e91-ea0e-41bd-9ebe-1e92263605e8";
     private const string GUID_1 = "6ba9a23f-30af-4e26-9c4a-836cc7431c4f";

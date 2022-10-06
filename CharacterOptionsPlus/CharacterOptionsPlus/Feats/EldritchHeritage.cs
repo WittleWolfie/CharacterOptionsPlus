@@ -554,6 +554,75 @@ namespace CharacterOptionsPlus.Feats
       public void OnEventDidTrigger(RuleCalculateAbilityParams evt) { }
     }
 
+    #region Aberrant
+    private const string AberrantHeritageName = "EldrichHeritage.Aberrant";
+
+    private const string AberrantHeritageResistance = "EldritchHeritage.Aberrant.Resistance";
+    private const string AberrantHeritageStrength = "EldritchHeritage.Aberrant.Strength";
+    private const string AberrantHeritageSummons = "EldritchHeritage.Aberrant.Summons";
+
+    //private static BlueprintFeature ConfigureAberrantHeritage1()
+    //{
+    //  var aberrantBloodline = ProgressionRefs.BloodlineAberrantProgression.Reference.Get();
+    //  return AddRay(
+    //    AberrantHeritageName,
+    //    Guids.AberrantHeritage,
+    //    aberrantBloodline,
+    //    prereq: FeatureRefs.SkillFocusPhysique.ToString(),
+    //    excludePrereqs: new() { FeatureRefs.AberrantBloodlineRequisiteFeature.ToString() },
+    //    resource: AbilityResourceRefs.BloodlineAberrantClawsResource.ToString(),
+    //    level3Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
+    //    level7Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+    //    level9Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
+    //    level13Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference);
+    //}
+
+    //private static BlueprintFeature ConfigureAberrantHeritage3()
+    //{
+    //  var AberrantResistance = FeatureRefs.BloodlineAberrantResistancesAbilityLevel2.Reference.Get();
+    //  return AddFeaturesByLevel(
+    //    AberrantHeritageResistance,
+    //    Guids.AberrantHeritageResistance,
+    //    AberrantResistance,
+    //    new() { AberrantHeritageName },
+    //    new() { (AberrantResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+    //}
+
+    //private static BlueprintFeature ConfigureAberrantHeritage9()
+    //{
+    //  var AberrantStrength = FeatureRefs.BloodlineAberrantStrengthAbilityLevel1.Reference.Get();
+    //  return AddFeaturesByLevel(
+    //    AberrantHeritageStrength,
+    //    Guids.AberrantHeritageStrength,
+    //    AberrantStrength,
+    //    new() { AberrantHeritageName },
+    //    new()
+    //    {
+    //      (AberrantStrength.ToReference<BlueprintFeatureReference>(), level: 11),
+    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 15),
+    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 19)
+    //    },
+    //    BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantHeritageSummons),
+    //    new()
+    //    {
+    //      (AberrantStrength.ToReference<BlueprintFeatureReference>(), level: 9),
+    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel2.Cast<BlueprintFeatureReference>().Reference, level: 13),
+    //      (FeatureRefs.BloodlineAberrantStrengthAbilityLevel3.Cast<BlueprintFeatureReference>().Reference, level: 17)
+    //    });
+    //}
+
+    //private static BlueprintFeature ConfigureAberrantHeritage15()
+    //{
+    //  var AberrantSummons = FeatureRefs.BloodlineAberrantAddedSummonings.Reference.Get();
+    //  return AddFeaturesByLevel(
+    //    AberrantHeritageSummons,
+    //    Guids.AberrantHeritageSummons,
+    //    AberrantSummons,
+    //    prerequisites: new() { Guids.AberrantHeritageStrength, Guids.AberrantHeritageResistance },
+    //    featuresByLevel: new() { (AberrantSummons.ToReference<BlueprintFeatureReference>(), 15) });
+    //}
+    #endregion
+
     #region Abyssal
     private const string AbyssalHeritageName = "EldrichHeritage.Abyssal";
 
@@ -697,10 +766,10 @@ namespace CharacterOptionsPlus.Feats
       return AddRay(
         abilityName: CelestialHeritageRay,
         abilityGuid: Guids.CelestialHeritageRay,
-        sourceAbility: AbilityRefs.BloodlineCelestialHeavenlyFireAbility.Reference.Get(),
+        sourceAbility: AbilityRefs.BloodlineCelestialHeavenlyFireAbility.Cast<BlueprintAbilityReference>().Reference,
         featureName: CelestialHeritageName,
         featureGuid: Guids.CelestialHeritage,
-        sourceFeature: ProgressionRefs.BloodlineCelestialProgression.Reference.Get(),
+        sourceFeature: ProgressionRefs.BloodlineCelestialProgression.Cast<BlueprintFeatureReference>().Reference,
         prereq: FeatureRefs.SkillFocusLoreReligion.ToString(),
         excludePrereqs: new() { FeatureRefs.CelestialBloodlineRequisiteFeature.ToString() },
         resource: AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource.ToString(),
@@ -1497,10 +1566,10 @@ namespace CharacterOptionsPlus.Feats
       return AddElementalRay(
         abilityName: ElementalAirHeritageRay,
         abilityGuid: Guids.ElementalAirHeritageRay,
-        sourceAbility: AbilityRefs.BloodlineElementalAirElementalRayAbility.Reference.Get(),
+        sourceAbility: AbilityRefs.BloodlineElementalAirElementalRayAbility.Cast<BlueprintAbilityReference>().Reference,
         featureName: ElementalAirHeritage,
         featureGuid: Guids.ElementalAirHeritage,
-        sourceFeature: ProgressionRefs.BloodlineElementalAirProgression.Reference.Get());
+        sourceFeature: ProgressionRefs.BloodlineElementalAirProgression.Cast<BlueprintFeatureReference>().Reference);
     }
 
     private static BlueprintFeature ConfigureElementalAir3()
@@ -1553,10 +1622,10 @@ namespace CharacterOptionsPlus.Feats
       return AddElementalRay(
         abilityName: ElementalEarthHeritageRay,
         abilityGuid: Guids.ElementalEarthHeritageRay,
-        sourceAbility: AbilityRefs.BloodlineElementalEarthElementalRayAbility.Reference.Get(),
+        sourceAbility: AbilityRefs.BloodlineElementalEarthElementalRayAbility.Cast<BlueprintAbilityReference>().Reference,
         featureName: ElementalEarthHeritage,
         featureGuid: Guids.ElementalEarthHeritage,
-        sourceFeature: ProgressionRefs.BloodlineElementalEarthProgression.Reference.Get());
+        sourceFeature: ProgressionRefs.BloodlineElementalEarthProgression.Cast<BlueprintFeatureReference>().Reference);
     }
 
     private static BlueprintFeature ConfigureElementalEarth3()
@@ -1612,10 +1681,10 @@ namespace CharacterOptionsPlus.Feats
       return AddElementalRay(
         abilityName: ElementalFireHeritageRay,
         abilityGuid: Guids.ElementalFireHeritageRay,
-        sourceAbility: AbilityRefs.BloodlineElementalFireElementalRayAbility.Reference.Get(),
+        sourceAbility: AbilityRefs.BloodlineElementalFireElementalRayAbility.Cast<BlueprintAbilityReference>().Reference,
         featureName: ElementalFireHeritage,
         featureGuid: Guids.ElementalFireHeritage,
-        sourceFeature: ProgressionRefs.BloodlineElementalFireProgression.Reference.Get());
+        sourceFeature: ProgressionRefs.BloodlineElementalFireProgression.Cast<BlueprintFeatureReference>().Reference);
     }
 
     private static BlueprintFeature ConfigureElementalFire3()
@@ -1668,10 +1737,10 @@ namespace CharacterOptionsPlus.Feats
       return AddElementalRay(
         abilityName: ElementalWaterHeritageRay,
         abilityGuid: Guids.ElementalWaterHeritageRay,
-        sourceAbility: AbilityRefs.BloodlineElementalWaterElementalRayAbility.Reference.Get(),
+        sourceAbility: AbilityRefs.BloodlineElementalWaterElementalRayAbility.Cast<BlueprintAbilityReference>().Reference,
         featureName: ElementalWaterHeritage,
         featureGuid: Guids.ElementalWaterHeritage,
-        sourceFeature: ProgressionRefs.BloodlineElementalWaterProgression.Reference.Get());
+        sourceFeature: ProgressionRefs.BloodlineElementalWaterProgression.Cast<BlueprintFeatureReference>().Reference);
     }
 
     private static BlueprintFeature ConfigureElementalWater3()
@@ -1714,10 +1783,10 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature AddElementalRay(
       string abilityName,
       string abilityGuid,
-      BlueprintAbility sourceAbility,
+      BlueprintAbilityReference sourceAbility,
       string featureName,
       string featureGuid,
-      BlueprintFeature sourceFeature)
+      BlueprintFeatureReference sourceFeature)
     {
       return AddRay(
         abilityName,
@@ -2155,34 +2224,39 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature AddRay(
       string abilityName,
       string abilityGuid,
-      BlueprintAbility sourceAbility,
+      BlueprintAbilityReference sourceAbility,
       string featureName,
       string featureGuid,
-      BlueprintFeature sourceFeature,
+      BlueprintFeatureReference sourceFeature,
       string prereq,
       List<string> excludePrereqs,
       string resource,
       params Type[] extraComponents)
     {
-      var ray = AbilityConfigurator.New(abilityName, abilityGuid)
-        .CopyFrom(sourceAbility,
+      var componentTypes =
+        CommonTool.Append(
+          extraComponents,
           typeof(SpellComponent),
           typeof(AbilityDeliverProjectile),
           typeof(AbilityEffectRunAction),
           typeof(AbilityResourceLogic),
-          typeof(SpellDescriptorComponent))
+          typeof(SpellDescriptorComponent));
+      var ray = AbilityConfigurator.New(abilityName, abilityGuid)
+        .CopyFrom(sourceAbility, componentTypes)
         .AddContextRankConfig(
           ContextRankConfigs.CustomProperty(
               EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20)
             .WithDiv2Progression());
 
-      foreach (var type in extraComponents)
-        ray.AddComponent(sourceAbility.ComponentsArray.Where(c => c.GetType() == type).FirstOrDefault());
-
       var feature = FeatureConfigurator.New(featureName, featureGuid)
-        .SetDisplayName(sourceFeature.m_DisplayName)
-        .SetDescription(sourceFeature.m_Description)
-        .SetIcon(sourceFeature.m_Icon)
+        .OnConfigure(
+          bp =>
+          {
+            var source = sourceFeature.Get();
+            bp.m_DisplayName = source.m_DisplayName;
+            bp.m_Description = source.m_Description;
+            bp.m_Icon = source.m_Icon;
+          })
         .SetIsClassFeature()
         .AddPrerequisiteFeature(prereq)
         .AddFacts(new() { ray.Configure(delayed: true) })
@@ -2191,7 +2265,7 @@ namespace CharacterOptionsPlus.Feats
       foreach (var exclude in excludePrereqs)
         feature.AddPrerequisiteNoFeature(exclude);
 
-      return feature.Configure();
+      return feature.Configure(delayed: true);
     }
 
     private static BlueprintFeature AddBlast(
