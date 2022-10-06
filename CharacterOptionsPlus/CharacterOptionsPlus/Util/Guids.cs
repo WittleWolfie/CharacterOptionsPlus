@@ -84,6 +84,7 @@ namespace CharacterOptionsPlus.Util
 
     #region Eldritch Heritage
     internal const string AberrantHeritage = "1b8ca09f-2c71-4086-9494-4a897b671695";
+    internal const string AberrantHeritageRay = "eca24f6b-02ea-483f-b665-6a5083c4e4b4";
 
     internal const string AbyssalHeritage = "8f070fcb-bf77-4a22-8a0e-9fdf769dcf6e";
     internal const string AbyssalHeritageResistance = "99bfdfcf-c1d1-47e4-8550-d925e45d1cc3";

@@ -554,28 +554,26 @@ namespace CharacterOptionsPlus.Feats
       public void OnEventDidTrigger(RuleCalculateAbilityParams evt) { }
     }
 
-    #region Aberrant
+    #region Aberrant (TTT-Base)
     private const string AberrantHeritageName = "EldrichHeritage.Aberrant";
 
-    private const string AberrantHeritageResistance = "EldritchHeritage.Aberrant.Resistance";
+    private const string AberrantHeritageRay = "EldritchHeritage.Aberrant.Ray";
     private const string AberrantHeritageStrength = "EldritchHeritage.Aberrant.Strength";
     private const string AberrantHeritageSummons = "EldritchHeritage.Aberrant.Summons";
 
-    //private static BlueprintFeature ConfigureAberrantHeritage1()
-    //{
-    //  var aberrantBloodline = ProgressionRefs.BloodlineAberrantProgression.Reference.Get();
-    //  return AddRay(
-    //    AberrantHeritageName,
-    //    Guids.AberrantHeritage,
-    //    aberrantBloodline,
-    //    prereq: FeatureRefs.SkillFocusPhysique.ToString(),
-    //    excludePrereqs: new() { FeatureRefs.AberrantBloodlineRequisiteFeature.ToString() },
-    //    resource: AbilityResourceRefs.BloodlineAberrantClawsResource.ToString(),
-    //    level3Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
-    //    level7Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
-    //    level9Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
-    //    level13Claw: FeatureRefs.BloodlineAberrantClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference);
-    //}
+    private static BlueprintFeature ConfigureAberrantHeritage1()
+    {
+      return AddRay(
+        abilityName: AberrantHeritageRay,
+        abilityGuid: Guids.AberrantHeritageRay,
+        sourceAbility: BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.AberrantAcidicRayAbility),
+        featureName: AberrantHeritageName,
+        featureGuid: Guids.AberrantHeritage,
+        sourceFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.AberrantBloodline),
+        prereq: FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
+        excludePrereqs: new() { Guids.AberrantBloodlineRequisiteFeature },
+        resource: Guids.AberrantAcidicRayResource);
+    }
 
     //private static BlueprintFeature ConfigureAberrantHeritage3()
     //{
