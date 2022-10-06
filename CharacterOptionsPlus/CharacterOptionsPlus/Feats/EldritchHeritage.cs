@@ -907,6 +907,8 @@ namespace CharacterOptionsPlus.Feats
     private const string DestinedHeritageTouchBuff = "EldritchHeritage.Destined.Touch.Buff";
     private const string DestinedHeritageFated = "EldritchHeritage.Destined.Fated";
     private const string DestinedHeritageFatedBuff = "EldritchHeritage.Destined.Fated.Buff";
+    private const string DestinedHeritageReroll = "EldritchHeritage.Destined.Reroll";
+    private const string DestinedHeritageReach = "EldritchHeritage.Destined.Reach";
 
     private static BlueprintFeature ConfigureDestinedHeritage1()
     {
@@ -955,20 +957,24 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureDestinedHeritage9()
     {
-      var DestinedAnatomy = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedUnusualAnatomy);
-      var DestinedAnatomyRef = DestinedAnatomy.ToReference<BlueprintFeatureReference>();
+      var itWasMeantToBe = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedItWasMeantToBe);
+      var itWasMeantToBeRef = itWasMeantToBe.ToReference<BlueprintFeatureReference>();
+      var itWasMeantToBeIncreaseResource =
+        BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DestinedItWasMeantToBeResourceIncrease);
 
-      return FeatureConfigurator.New(DestinedHeritageFated, Guids.DestinedHeritageAnatomy)
-        .SetDisplayName(DestinedAnatomy.m_DisplayName)
-        .SetDescription(DestinedAnatomy.m_Description)
+      return FeatureConfigurator.New(DestinedHeritageReroll, Guids.DestinedHeritageReroll)
+        .SetDisplayName(itWasMeantToBe.m_DisplayName)
+        .SetDescription(itWasMeantToBe.m_Description)
+        .SetIcon(itWasMeantToBe.Icon)
         .AddPrerequisiteFeature(DestinedHeritageName)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
         .AddComponent(
           new AddFeatureOnCharacterLevel(
-            featureLevels: new() { (DestinedAnatomyRef, level: 11), (DestinedAnatomyRef, level: 15) },
-            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DestinedHeritageResistance),
-            greaterFeatureLevels: new() { (DestinedAnatomyRef, level: 9), (DestinedAnatomyRef, level: 13) }))
+            featureLevels: new() { (itWasMeantToBeRef, level: 11), (itWasMeantToBeIncreaseResource, level: 19) },
+            greaterFeature: BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.DestinedHeritageReach),
+            greaterFeatureLevels:
+              new() { (itWasMeantToBeRef, level: 9), (itWasMeantToBeIncreaseResource, level: 17) }))
         .Configure();
     }
 
