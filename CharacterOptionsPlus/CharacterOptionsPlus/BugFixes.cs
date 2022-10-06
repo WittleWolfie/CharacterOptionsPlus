@@ -31,6 +31,8 @@ namespace CharacterOptionsPlus
         FixHeavenlyFireResourceAmount();
       if (Settings.IsEnabled(SerpentineBiteDC))
         FixSerpentineBiteDC();
+      if (Settings.IsEnabled(SerpentineFriendBonus))
+        FixSerpentineFriendBonus();
     }
 
     internal static string PackRagerTeamworkSelection = "pack-rager-teamwork-selection-fix";
