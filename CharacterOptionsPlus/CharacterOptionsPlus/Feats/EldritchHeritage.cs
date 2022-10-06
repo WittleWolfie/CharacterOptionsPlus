@@ -220,10 +220,13 @@ namespace CharacterOptionsPlus.Feats
       #endregion
 
       #region Undead
+      AbilityConfigurator.New(UndeadHeritageTouch, Guids.UndeadHeritageTouch).Configure();
       FeatureConfigurator.New(UndeadHeritageName, Guids.UndeadHeritage).Configure();
       FeatureConfigurator.New(UndeadHeritageResistance, Guids.UndeadHeritageResistance).Configure();
       AbilityConfigurator.New(UndeadHeritageBlastAbility, Guids.UndeadHeritageBlastAbility).Configure();
       FeatureConfigurator.New(UndeadHeritageBlast, Guids.UndeadHeritageBlast).Configure();
+      AbilityConfigurator.New(UndeadHeritageIncorporealAbility, Guids.UndeadHeritageIncorporealAbility).Configure();
+      FeatureConfigurator.New(UndeadHeritageIncorporeal, Guids.UndeadHeritageIncorporeal).Configure();
       #endregion
 
       #region Base
@@ -723,14 +726,12 @@ namespace CharacterOptionsPlus.Feats
           .SetIcon(celestialAuraResource.Icon)
           .Configure();
 
-      var celestialAuraAbility = AbilityRefs.BloodlineCelestialAuraOfHeavenAbility.Reference.Get();
       var aura = AbilityConfigurator.New(CelestialHeritageAuraAbility, Guids.CelestialHeritageAuraAbility)
-        .SetDisplayName(celestialAuraAbility.m_DisplayName)
-        .SetDescription(celestialAuraAbility.m_Description)
-        .SetIcon(celestialAuraAbility.Icon)
-        .AddComponent(celestialAuraAbility.GetComponent<SpellComponent>())
-        .AddComponent(celestialAuraAbility.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(celestialAuraAbility.GetComponent<AbilitySpawnFx>())
+        .CopyFrom(
+          AbilityRefs.BloodlineCelestialAuraOfHeavenAbility,
+          typeof(SpellComponent),
+          typeof(AbilityEffectRunAction),
+          typeof(AbilitySpawnFx))
         .AddAbilityResourceLogic(amount: 1, isSpendResource: true, requiredResource: resource)
         .Configure();
 
@@ -1851,26 +1852,14 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureInfernalHeritage1()
     {
-      var infernalTouch = AbilityRefs.BloodlineInfernalCorruptingTouchAbility.Reference.Get();
       var ability = AbilityConfigurator.New(InfernalHeritageTouch, Guids.InfernalHeritageTouch)
-        .SetDisplayName(infernalTouch.m_DisplayName)
-        .SetDescription(infernalTouch.m_Description)
-        .SetIcon(infernalTouch.Icon)
-        .SetType(infernalTouch.Type)
-        .SetRange(infernalTouch.Range)
-        .SetCanTargetEnemies()
-        .SetCanTargetSelf()
-        .SetSpellResistance()
-        .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
-        .SetAnimation(infernalTouch.Animation)
-        .SetActionType(infernalTouch.ActionType)
-        .SetAvailableMetamagic(infernalTouch.AvailableMetamagic)
-        .SetLocalizedDuration(infernalTouch.LocalizedDuration)
-        .AddComponent(infernalTouch.GetComponent<AbilityResourceLogic>())
-        .AddComponent(infernalTouch.GetComponent<AbilityDeliverTouch>())
-        .AddComponent(infernalTouch.GetComponent<AbilityEffectRunAction>())
-        .AddComponent(infernalTouch.GetComponent<SpellComponent>())
-        .AddComponent(infernalTouch.GetComponent<SpellDescriptorComponent>())
+        .CopyFrom(
+          AbilityRefs.BloodlineInfernalCorruptingTouchAbility,
+          typeof(AbilityResourceLogic),
+          typeof(AbilityDeliverTouch),
+          typeof(AbilityEffectRunAction),
+          typeof(SpellComponent),
+          typeof(SpellDescriptorComponent))
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty).WithDiv2Progression())
         .Configure();
 
@@ -1997,14 +1986,9 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureSerpentineHeritage15()
     {
-      var serpentineSpiders = FeatureRefs.BloodlineSerpentineDenOfSpidersFeature.Reference.Get();
       return FeatureConfigurator.New(SerpentineHeritageSpiders, Guids.SerpentineHeritageSpiders)
-        .SetDisplayName(serpentineSpiders.m_DisplayName)
-        .SetDescription(serpentineSpiders.m_Description)
-        .SetIcon(serpentineSpiders.Icon)
-        .SetIsClassFeature()
-        .AddComponent(serpentineSpiders.GetComponent<AddFacts>())
-        .AddComponent(serpentineSpiders.GetComponent<AddAbilityResources>())
+        .CopyFrom(
+          FeatureRefs.BloodlineSerpentineDenOfSpidersFeature, typeof(AddFacts), typeof(AddAbilityResources))
         .AddComponent(
           new BindToEffectiveLevel(
             AbilityRefs.BloodlineSerpentineDenOfSpidersAbility.Cast<BlueprintAbilityReference>().Reference))
