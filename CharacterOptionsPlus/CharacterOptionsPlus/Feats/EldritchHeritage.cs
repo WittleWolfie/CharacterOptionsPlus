@@ -2057,12 +2057,14 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureUndeadHeritage3()
     {
       var undeadResistance = FeatureRefs.BloodlineUndeadDeathsGift.Reference.Get();
-      return AddFeaturesByLevel(
-        UndeadHeritageResistance,
-        Guids.UndeadHeritageResistance,
-        undeadResistance,
-        prerequisites: new() { UndeadHeritageName },
-        featuresByLevel: new() { (undeadResistance.ToReference<BlueprintFeatureReference>(), level: 11) });
+      return FeatureConfigurator.New(UndeadHeritageResistance, Guids.UndeadHeritageResistance)
+        .SetDisplayName(undeadResistance.m_DisplayName)
+        .SetDescription(undeadResistance.m_Description)
+        .SetIcon(undeadResistance.Icon)
+        .SetIsClassFeature()
+        .AddPrerequisiteFeature(UndeadHeritageName)
+        .AddFacts(new() { undeadResistance, undeadResistance })
+        .Configure();
     }
 
     private static BlueprintFeature ConfigureUndeadHeritage9()
