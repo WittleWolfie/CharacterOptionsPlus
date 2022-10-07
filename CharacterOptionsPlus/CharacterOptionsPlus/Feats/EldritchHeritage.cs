@@ -42,10 +42,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO:
-  //  - (Optional) Create icons for TTT things missing icons
-  //    - Alien Resistance, Within Reach, Fated, Long Limbs, Unusual Anatomy
-
   public class EldritchHeritage
   {
     internal const string FeatName = "EldritchHeritage";
@@ -791,6 +787,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(AberrantHeritageLimbs, Guids.AberrantHeritageLimbs)
         .SetDisplayName(aberrantLimbs.m_DisplayName)
         .SetDescription(aberrantLimbs.m_Description)
+        .SetIcon(AbilityRefs.CommandApproach.Reference.Get().Icon)
         .AddPrerequisiteFeature(AberrantHeritageName)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
@@ -812,6 +809,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(AberrantHeritageAnatomy, Guids.AberrantHeritageAnatomy)
         .SetDisplayName(aberrantAnatomy.m_DisplayName)
         .SetDescription(aberrantAnatomy.m_Description)
+        .SetIcon(BuffRefs.IronBodyBuff.Reference.Get().Icon)
         .AddPrerequisiteFeature(AberrantHeritageName)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
@@ -827,6 +825,7 @@ namespace CharacterOptionsPlus.Feats
     {
       return FeatureConfigurator.New(AberrantHeritageResistance, Guids.AberrantHeritageResistance)
         .CopyFrom(Guids.AberrantAlienResistance, typeof(AddSpellResistance))
+        .SetIcon(AbilityRefs.ResistSonic.Reference.Get().Icon)
         .AddContextRankConfig(
           ContextRankConfigs.CustomProperty(EffectiveLevelProperty, type: AbilityRankType.StatBonus, max: 30)
             .WithBonusValueProgression(10))
@@ -1098,6 +1097,7 @@ namespace CharacterOptionsPlus.Feats
 
       return FeatureConfigurator.New(DestinedHeritageFated, Guids.DestinedHeritageFated)
         .CopyFrom(Guids.DestinedFated, c => c is not CombatStateTrigger)
+        .SetIcon(BuffRefs.ShieldOfFaithBuff.Reference.Get().Icon)
         .AddComponent<CombatStateTrigger>(
           c => c.CombatStartActions =
             ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1), isNotDispelable: true).Build())
@@ -1135,6 +1135,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(DestinedHeritageReach, Guids.DestinedHeritageReach)
         .SetDisplayName(withinReach.m_DisplayName)
         .SetDescription(withinReach.m_Description)
+        .SetIcon(BuffRefs.InspiringRecoveryBuff.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeaturesFromList(
           new() { Guids.DestinedHeritageFated, Guids.DestinedHeritageReroll }, amount: 1)
