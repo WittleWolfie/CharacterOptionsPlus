@@ -65,6 +65,8 @@ namespace CharacterOptionsPlus.Util
     internal const string PairedOpportunistsRagerToggleBuff = "1bb0952d-fec5-412f-9495-5b7043548aaf";
     internal const string PairedOpportunistsRagerToggle = "68a15456-1076-408f-bd0f-9205c913f0ed";
 
+    internal const string SignatureSkillFeat = "7bb79f1f-8a90-4cf0-9322-c81961fae21a";
+
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
@@ -78,6 +80,7 @@ namespace CharacterOptionsPlus.Util
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
+        (SignatureSkillFeat, SignatureSkill.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
     #endregion

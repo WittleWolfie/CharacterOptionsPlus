@@ -94,6 +94,26 @@
   },
 
   {
+    "Key": "SignatureSkill.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill"
+  },
+  {
+    "Key": "SignatureSkill.Description",
+    "enGB": "Your ability with a particular skill is the stuff of legends, and you can do things with that skill that others cannot.\n\nChoose one signature skill. Each grants you benefits for every 5 Ranks  "
+  },
+
+  {
+    "Key": "SignatureSkill.Demoralize.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Demoralize"
+  },
+  {
+    "Key": "SignatureSkill.Demoralize.Description",
+    "enGB": "5 Ranks: If you exceed the DC to dermoalize a target by at least 10, is is frightened for the first round of the effect.\n\n10 Ranks: If you exceed the DC to dermoalize a target by at least 10, it is panicked for the first round of the effect.\n\n15 Ranks: If you exceed the DC to demoralize a target by at least 20, it is cowering for the first round of the effect and frightened for the remaining duration.\n\n20 Ranks: If you exceed the DC to demoralize a target by at least 20, it is cowering for 1d4 rounds and panicked for the remaining duration of the effect.\n\nA Will save (DC = 10 + Persuasion) negates these additional effects, but the target is still shaken."
+  },
+
+  {
     "Key": "SkaldsVigor.Name",
     "ProcessTemplates": false,
     "enGB": "Skald's Vigor"

@@ -112,6 +112,7 @@ namespace CharacterOptionsPlus
         GloriousHeat.Configure();
         Hurtful.Configure();
         PairedOpportunists.Configure();
+        SignatureSkill.Configure();
         SkaldsVigor.Configure();
       }
 
