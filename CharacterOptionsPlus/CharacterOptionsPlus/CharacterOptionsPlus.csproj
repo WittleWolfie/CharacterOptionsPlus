@@ -15,7 +15,7 @@
     <AssemblyName>CharacterOptionsPlus</AssemblyName>
     <RootNamespace>CharacterOptionsPlus</RootNamespace>
 
-    <AssemblyVersion>0.3.3</AssemblyVersion>
+    <AssemblyVersion>0.4.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
