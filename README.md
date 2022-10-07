@@ -48,12 +48,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ### NOT IMPLEMENTED YET (YOU KNOW, PLANNED)
 
-
 * Class Features
     * Rogue
         * [Shadow Duplicate](https://www.d20pfsrd.com/classes/core-classes/rogue/rogue-talents/paizo-rogue-talents/shadow-duplicate-sp/)
-    * Sorceror
-        * [Astral Bloodline](https://www.d20pfsrd.com/classes/core-classes/sorcerer/bloodlines/bloodlines-from-paizo/astral-sorcerer-bloodline/)
     * Slayer
         * [Blood Reader](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/blood-reader/)
         * [Deadly Range](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/deadly-range/)
