@@ -29,6 +29,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
     
 * Feats
+    * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
+        * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
+        * Supports Aberrant and Destined bloodlines from TTT-Base
     * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/)
     * [Furious Focus](https://www.d20pfsrd.com/feats/combat-feats/furious-focus-combat/)
     * [Hurtful](https://www.d20pfsrd.com/feats/combat-feats/hurtful-combat/)
@@ -37,7 +40,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ## Bug Fixes
 
-* (Next Version) Heavenly Fire can be used 3 + Charisma Modifier times per day instead of just 3
+* Heavenly Fire can be used 3 + Charisma Modifier times per day instead of just 3
+* Serpent's Fang poison DC is calculated correctly
+* Serpent Friend grants +3 to Perception instead of +2, matching the feature description
 
 ## Planned Content
 
@@ -61,7 +66,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 * Feats
     * [Dazing Spell](https://www.d20pfsrd.com/feats/metamagic-feats/dazing-spell-metamagic/)
-    * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/), [Improved Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage), and [Greater Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/)
     * [Signature Skill (Intimidate)](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
 
