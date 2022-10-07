@@ -45,8 +45,6 @@ namespace CharacterOptionsPlus.Feats
   // TODO:
   //  - Create Feat Icons
   //  - (Optional) Create icons for TTT things missing icons
-  //  - Add appropriate tags
-  //  - Add recommendation to continue down Improved / Greater if they pick up Eldritch Heritage
   //  - Grant the requisite feature so you can't take Eldritch Heritage THEN Bloodline
 
   public class EldritchHeritage
@@ -334,6 +332,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(FeatDescription)
         .SetIcon(Icon)
         .SetIsClassFeature()
+        .AddToIsPrerequisiteFor(Guids.ImprovedEldritchHeritageFeat)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
         .AddPrerequisiteStatValue(StatType.Charisma, 13)
         .AddPrerequisiteCharacterLevel(3)
@@ -390,6 +389,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(ImprovedFeatDescription)
         .SetIcon(Icon)
         .SetIsClassFeature()
+        .AddToIsPrerequisiteFor(Guids.GreaterEldritchHeritageFeat)
+        .AddRecommendationHasFeature(Guids.EldritchHeritageFeat)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
         .AddPrerequisiteFeature(FeatName)
         .AddPrerequisiteStatValue(StatType.Charisma, 15)
@@ -467,6 +468,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(GreaterFeatDescription)
         .SetIcon(Icon)
         .SetIsClassFeature()
+        .AddRecommendationHasFeature(Guids.ImprovedEldritchHeritageFeat)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
         .AddPrerequisiteFeature(ImprovedFeatName)
         .AddPrerequisiteStatValue(StatType.Charisma, 17)
