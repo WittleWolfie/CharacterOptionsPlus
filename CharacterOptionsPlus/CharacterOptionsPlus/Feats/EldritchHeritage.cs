@@ -520,6 +520,8 @@ namespace CharacterOptionsPlus.Feats
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
       FeatureConfigurator.For(GreaterFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+
+      FixPrerequisites();
     }
 
     private static void ConfigureEnabledDelayed()
@@ -542,6 +544,135 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.For(GreaterFeatName)
         .AddToAllFeatures(ConfigureAberrantHeritage15(), ConfigureDestinedHeritage15())
         .Configure();
+    }
+
+    private static void FixPrerequisites()
+    {
+      if (!Settings.IsTTTBaseEnabled())
+      {
+        var abyssalPrereq = FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineAbyssalProgression.ToString(), abyssalPrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineAbyssalProgression1.ToString(), abyssalPrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineAbyssalProgression.ToString(), abyssalPrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineAbyssalProgression.ToString(), abyssalPrereq);
+
+        var arcanePrereq = FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineArcaneProgression.ToString(), arcanePrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineArcaneProgression1.ToString(), arcanePrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineArcaneProgression.ToString(), arcanePrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineArcaneProgression.ToString(), arcanePrereq);
+
+        var celestialPrereq = FeatureRefs.CelestialBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineCelestialProgression.ToString(), celestialPrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineCelestialProgression1.ToString(), celestialPrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineCelestialProgression.ToString(), celestialPrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineCelestialProgression.ToString(), celestialPrereq);
+
+        var feyPrereq = FeatureRefs.FeyBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineFeyProgression.ToString(), feyPrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineFeyProgression1.ToString(), feyPrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineFeyProgression.ToString(), feyPrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineFeyProgression.ToString(), feyPrereq);
+
+        var infernalPrereq = FeatureRefs.InfernalBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineInfernalProgression.ToString(), infernalPrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineInfernalProgression1.ToString(), infernalPrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineInfernalProgression.ToString(), infernalPrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineInfernalProgression.ToString(), infernalPrereq);
+
+        var serpentinePrereq = FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineSerpentineProgression.ToString(), serpentinePrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineSerpentineProgression1.ToString(), serpentinePrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineSerpentineProgression.ToString(), serpentinePrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineSerpentineProgression.ToString(), serpentinePrereq);
+
+        var undeadPrereq = FeatureRefs.UndeadBloodlineRequisiteFeature.ToString();
+        AddNoPrerequisite(ProgressionRefs.BloodlineUndeadProgression.ToString(), undeadPrereq);
+        AddNoPrerequisite(ProgressionRefs.BloodlineUndeadProgression1.ToString(), undeadPrereq);
+        AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineUndeadProgression.ToString(), undeadPrereq);
+        AddNoPrerequisite(ProgressionRefs.SeekerBloodlineUndeadProgression.ToString(), undeadPrereq);
+      }
+
+      #region Draconic
+      var draconicPrereq = Guids.DraconicHeritage;
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBlackProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBlackProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicBlackProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicBlackProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBlueProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBlueProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicBlueProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicBlueProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBrassProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBrassProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicBrassProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicBrassProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBronzeProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicBronzeProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicBronzeProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicBronzeProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicCopperProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicCopperProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicCopperProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicCopperProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicGoldProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicGoldProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicGoldProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicGoldProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicGreenProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicGreenProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicGreenProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicGreenProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicRedProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicRedProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicRedProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicRedProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicSilverProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicSilverProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicSilverProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicSilverProgression.ToString(), draconicPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicWhiteProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineDraconicWhiteProgression1.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineDraconicWhiteProgression.ToString(), draconicPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineDraconicWhiteProgression.ToString(), draconicPrereq);
+      #endregion
+
+      #region Elemental
+      var elementalPrereq = Guids.ElementalHeritage;
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalAirProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalAirProgression1.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineElementalAirProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineElementalAirProgression.ToString(), elementalPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalEarthProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalEarthProgression1.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineElementalEarthProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineElementalEarthProgression.ToString(), elementalPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalFireProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalFireProgression1.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineElementalFireProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineElementalFireProgression.ToString(), elementalPrereq);
+
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalWaterProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.BloodlineElementalWaterProgression1.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.CrossbloodedSecondaryBloodlineElementalWaterProgression.ToString(), elementalPrereq);
+      AddNoPrerequisite(ProgressionRefs.SeekerBloodlineElementalWaterProgression.ToString(), elementalPrereq);
+      #endregion
+    }
+
+    private static void AddNoPrerequisite(string feature, string prerequisite)
+    {
+      FeatureConfigurator.For(feature).AddPrerequisiteNoFeature(prerequisite).Configure();
     }
 
     [TypeId("7970fae3-1dba-4f52-9bf7-44fa8b4d4a09")]
