@@ -541,54 +541,53 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.For(GreaterFeatName)
         .AddToAllFeatures(ConfigureAberrantHeritage15(), ConfigureDestinedHeritage15())
         .Configure();
+
+      FixTTTPrerequisites();
     }
 
     private static void FixPrerequisites()
     {
-      if (!Settings.IsTTTBaseEnabled())
-      {
-        var abyssalPrereq = FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineAbyssalProgression.ToString(), abyssalPrereq);
-        FixProgression(ProgressionRefs.BloodlineAbyssalProgression1.ToString(), abyssalPrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineAbyssalProgression.ToString(), abyssalPrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineAbyssalProgression.ToString(), abyssalPrereq);
+      var abyssalPrereq = Guids.AbyssalHeritage;
+      FixProgression(ProgressionRefs.BloodlineAbyssalProgression.ToString(), abyssalPrereq);
+      FixProgression(ProgressionRefs.BloodlineAbyssalProgression1.ToString(), abyssalPrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineAbyssalProgression.ToString(), abyssalPrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineAbyssalProgression.ToString(), abyssalPrereq);
 
-        var arcanePrereq = FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineArcaneProgression.ToString(), arcanePrereq);
-        FixProgression(ProgressionRefs.BloodlineArcaneProgression1.ToString(), arcanePrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineArcaneProgression.ToString(), arcanePrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineArcaneProgression.ToString(), arcanePrereq);
+      var arcanePrereq = Guids.ArcaneHeritage;
+      FixProgression(ProgressionRefs.BloodlineArcaneProgression.ToString(), arcanePrereq);
+      FixProgression(ProgressionRefs.BloodlineArcaneProgression1.ToString(), arcanePrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineArcaneProgression.ToString(), arcanePrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineArcaneProgression.ToString(), arcanePrereq);
 
-        var celestialPrereq = FeatureRefs.CelestialBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineCelestialProgression.ToString(), celestialPrereq);
-        FixProgression(ProgressionRefs.BloodlineCelestialProgression1.ToString(), celestialPrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineCelestialProgression.ToString(), celestialPrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineCelestialProgression.ToString(), celestialPrereq);
+      var celestialPrereq = Guids.CelestialHeritage;
+      FixProgression(ProgressionRefs.BloodlineCelestialProgression.ToString(), celestialPrereq);
+      FixProgression(ProgressionRefs.BloodlineCelestialProgression1.ToString(), celestialPrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineCelestialProgression.ToString(), celestialPrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineCelestialProgression.ToString(), celestialPrereq);
 
-        var feyPrereq = FeatureRefs.FeyBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineFeyProgression.ToString(), feyPrereq);
-        FixProgression(ProgressionRefs.BloodlineFeyProgression1.ToString(), feyPrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineFeyProgression.ToString(), feyPrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineFeyProgression.ToString(), feyPrereq);
+      var feyPrereq = Guids.FeyHeritage;
+      FixProgression(ProgressionRefs.BloodlineFeyProgression.ToString(), feyPrereq);
+      FixProgression(ProgressionRefs.BloodlineFeyProgression1.ToString(), feyPrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineFeyProgression.ToString(), feyPrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineFeyProgression.ToString(), feyPrereq);
 
-        var infernalPrereq = FeatureRefs.InfernalBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineInfernalProgression.ToString(), infernalPrereq);
-        FixProgression(ProgressionRefs.BloodlineInfernalProgression1.ToString(), infernalPrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineInfernalProgression.ToString(), infernalPrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineInfernalProgression.ToString(), infernalPrereq);
+      var infernalPrereq = Guids.InfernalHeritage;
+      FixProgression(ProgressionRefs.BloodlineInfernalProgression.ToString(), infernalPrereq);
+      FixProgression(ProgressionRefs.BloodlineInfernalProgression1.ToString(), infernalPrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineInfernalProgression.ToString(), infernalPrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineInfernalProgression.ToString(), infernalPrereq);
 
-        var serpentinePrereq = FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineSerpentineProgression.ToString(), serpentinePrereq);
-        FixProgression(ProgressionRefs.BloodlineSerpentineProgression1.ToString(), serpentinePrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineSerpentineProgression.ToString(), serpentinePrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineSerpentineProgression.ToString(), serpentinePrereq);
+      var serpentinePrereq = Guids.SerpentineHeritage;
+      FixProgression(ProgressionRefs.BloodlineSerpentineProgression.ToString(), serpentinePrereq);
+      FixProgression(ProgressionRefs.BloodlineSerpentineProgression1.ToString(), serpentinePrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineSerpentineProgression.ToString(), serpentinePrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineSerpentineProgression.ToString(), serpentinePrereq);
 
-        var undeadPrereq = FeatureRefs.UndeadBloodlineRequisiteFeature.ToString();
-        FixProgression(ProgressionRefs.BloodlineUndeadProgression.ToString(), undeadPrereq);
-        FixProgression(ProgressionRefs.BloodlineUndeadProgression1.ToString(), undeadPrereq);
-        FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineUndeadProgression.ToString(), undeadPrereq);
-        FixProgression(ProgressionRefs.SeekerBloodlineUndeadProgression.ToString(), undeadPrereq);
-      }
+      var undeadPrereq = Guids.UndeadHeritage;
+      FixProgression(ProgressionRefs.BloodlineUndeadProgression.ToString(), undeadPrereq);
+      FixProgression(ProgressionRefs.BloodlineUndeadProgression1.ToString(), undeadPrereq);
+      FixProgression(ProgressionRefs.CrossbloodedSecondaryBloodlineUndeadProgression.ToString(), undeadPrereq);
+      FixProgression(ProgressionRefs.SeekerBloodlineUndeadProgression.ToString(), undeadPrereq);
 
       #region Draconic
       var draconicPrereq = Guids.DraconicHeritage;
@@ -667,11 +666,27 @@ namespace CharacterOptionsPlus.Feats
       #endregion
     }
 
+    private static void FixTTTPrerequisites()
+    {
+      var aberrantPrereq = Guids.AberrantHeritage;
+      FixProgression(Guids.AberrantBloodline, aberrantPrereq);
+      FixProgression(Guids.AberrantBloodragerBloodline, aberrantPrereq);
+      FixProgression(Guids.AberrantCrossbloodedBloodline, aberrantPrereq);
+      FixProgression(Guids.AberrantSeekerBloodline, aberrantPrereq);
+
+      var destinedPrereq = Guids.DestinedHeritage;
+      FixProgression(Guids.DestinedBloodline, destinedPrereq);
+      FixProgression(Guids.DestinedBloodragerBloodline, destinedPrereq);
+      FixProgression(Guids.DestinedCrossbloodedBloodline, destinedPrereq);
+      FixProgression(Guids.DestinedSeekerBloodline, destinedPrereq);
+    }
+
     private static void FixProgression(string progression, string prerequisite, bool addToLevelEntries = false)
     {
-      var config = ProgressionConfigurator.For(progression).AddPrerequisiteNoFeature(prerequisite);
+      var bp = ProgressionConfigurator.For(progression).AddPrerequisiteNoFeature(prerequisite);
       if (addToLevelEntries)
-        config.AddToLevelEntries(1, prerequisite);
+        bp.AddToLevelEntries(1, prerequisite);
+      bp.Configure();
     }
 
     [TypeId("7970fae3-1dba-4f52-9bf7-44fa8b4d4a09")]
@@ -775,8 +790,7 @@ namespace CharacterOptionsPlus.Feats
         sourceFeature: BlueprintTool.Get<BlueprintFeature>(Guids.AberrantBloodline),
         prereq: FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
         excludePrereqs: new() { Guids.AberrantBloodlineRequisiteFeature },
-        resource: Guids.AberrantAcidicRayResource,
-        extraFact: Guids.AberrantBloodlineRequisiteFeature);
+        resource: Guids.AberrantAcidicRayResource);
     }
 
     private static BlueprintFeature ConfigureAberrantHeritage3()
@@ -854,8 +868,7 @@ namespace CharacterOptionsPlus.Feats
         level3Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
-        level13Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
-        extraFact: FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString());
+        level13Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference);
     }
 
     private static BlueprintFeature ConfigureAbyssalHeritage3()
@@ -986,8 +999,7 @@ namespace CharacterOptionsPlus.Feats
         prereq: FeatureRefs.SkillFocusLoreReligion.ToString(),
         excludePrereqs: new() { FeatureRefs.CelestialBloodlineRequisiteFeature.ToString() },
         resource: AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource.ToString(),
-        extraComponents: new Type[] { typeof(AbilityTargetAlignment) },
-        extraFact: FeatureRefs.CelestialBloodlineRequisiteFeature.ToString());
+        extraComponents: new Type[] { typeof(AbilityTargetAlignment) });
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage3()
@@ -1082,7 +1094,6 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(Guids.DestinedBloodlineRequisiteFeature)
         .AddAbilityResources(resource: Guids.DestinedTouchOfDestinyResource, restoreAmount: true)
-        .AddFacts(new() { ability, Guids.DestinedBloodlineRequisiteFeature })
         .Configure();
     }
 
@@ -2155,11 +2166,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreNature.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.FeyBloodlineRequisiteFeature.ToString())
-        .AddFacts(
-          new() { 
-            FeatureRefs.BloodlineFeyLaughingTouchFeature.ToString(),
-            FeatureRefs.FeyBloodlineRequisiteFeature.ToString()
-          })
+        .AddFacts(new() {  FeatureRefs.BloodlineFeyLaughingTouchFeature.ToString() })
         .Configure();
     }
 
@@ -2254,7 +2261,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.InfernalBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { ability, FeatureRefs.InfernalBloodlineRequisiteFeature.ToString() })
+        .AddFacts(new() { ability })
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineInfernalCorruptingTouchResource.ToString(), restoreAmount: true)
         .Configure();
@@ -2316,7 +2323,6 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusStealth.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString() })
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineSerpentineSerpentsFangBiteResource.ToString(), restoreAmount: true)
         .AddComponent(
@@ -2415,7 +2421,6 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreReligion.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.UndeadBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { FeatureRefs.UndeadBloodlineRequisiteFeature.ToString() })
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineUndeadGraveTouchResource.ToString(), restoreAmount: true)
         .AddFacts(new() { ability })

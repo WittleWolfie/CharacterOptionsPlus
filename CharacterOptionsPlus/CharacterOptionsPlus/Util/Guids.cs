@@ -243,6 +243,9 @@ namespace CharacterOptionsPlus.Util
     #region TTT
 
     internal const string AberrantBloodline = "1ff2d53c-2bee-429a-801e-eebb1197bcd1";
+    internal const string AberrantBloodragerBloodline = "540390e4-7356-4601-9137-625a37910df0";
+    internal const string AberrantCrossbloodedBloodline = "d27567f7-5d04-43b4-bad9-b1db9278fea0";
+    internal const string AberrantSeekerBloodline = "65128d5d-9d27-4c7a-9a1d-7bbefb021c96";
     internal const string AberrantBloodlineRequisiteFeature = "2ded002a-790f-4727-8b20-ad73b9c0adf0";
 
     internal const string AberrantAcidicRay = "d3726f4b-599d-4c4d-b5a8-2abd961097d5";
@@ -253,6 +256,9 @@ namespace CharacterOptionsPlus.Util
     internal const string AberrantAlienResistance = "ba8c2c55-f005-4e35-b0de-1ff47d180b43";
 
     internal const string DestinedBloodline = "62f017f0-7222-4574-89ee-d83165e25682";
+    internal const string DestinedBloodragerBloodline = "7076fd5a-ffd1-4207-9ac6-c9ff4882c16e";
+    internal const string DestinedCrossbloodedBloodline = "388c5979-4add-45ac-9314-2656fb2e429b";
+    internal const string DestinedSeekerBloodline = "1a62c90a-bfa8-426f-8f6c-7962cb162447";
     internal const string DestinedBloodlineRequisiteFeature = "facf9101-fd98-4ad0-8384-6b159be802cd";
 
     internal const string DestinedTouchOfDestiny = "2363df02-d1c2-4cbd-96cb-13b6200a6c37";
