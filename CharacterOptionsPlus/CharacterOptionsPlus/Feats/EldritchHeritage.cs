@@ -1106,7 +1106,7 @@ namespace CharacterOptionsPlus.Feats
           c => c.CombatStartActions =
             ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1), isNotDispelable: true).Build())
         .AddPrerequisiteFeature(DestinedHeritageName)
-        .SetRanks(0) // Prevent it from being re-selectable
+        .SetRanks(1) // Prevent it from being re-selectable
         .Configure();
     }
 
