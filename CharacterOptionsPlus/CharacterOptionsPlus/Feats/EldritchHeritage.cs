@@ -33,7 +33,6 @@ using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.Properties;
-using Kingmaker.Visual.LightSelector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -675,11 +674,6 @@ namespace CharacterOptionsPlus.Feats
       var config = ProgressionConfigurator.For(progression).AddPrerequisiteNoFeature(prerequisite);
       if (addToLevelEntries)
         config.AddToLevelEntries(1, prerequisite);
-    }
-
-    private static void AddFact(string progression, string fact)
-    {
-      ProgressionConfigurator.For(progression).AddToLevelEntries(1, fact);
     }
 
     [TypeId("7970fae3-1dba-4f52-9bf7-44fa8b4d4a09")]
