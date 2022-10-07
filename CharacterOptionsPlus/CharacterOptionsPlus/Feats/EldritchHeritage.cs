@@ -43,8 +43,8 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 namespace CharacterOptionsPlus.Feats
 {
   // TODO:
-  //  - Create Feat Icons
   //  - (Optional) Create icons for TTT things missing icons
+  //    - Alien Resistance, Within Reach, Fated, Long Limbs, Unusual Anatomy
 
   public class EldritchHeritage
   {
@@ -64,7 +64,9 @@ namespace CharacterOptionsPlus.Feats
     private const string EffectiveLevelProperty = "EldritchHeritage.EffectiveLevel";
 
     private const string IconPrefix = "assets/icons/";
-    private const string Icon = IconPrefix + "gloriousheat.png";
+    private const string Icon = IconPrefix + "eldritchheritage.png";
+    private const string IconImproved = IconPrefix + "eldritchheritageimproved.png";
+    private const string IconGreater = IconPrefix + "eldritchheritagegreater.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
@@ -386,7 +388,7 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.New(ImprovedFeatName, Guids.ImprovedEldritchHeritageFeat)
         .SetDisplayName(ImprovedFeatDisplayName)
         .SetDescription(ImprovedFeatDescription)
-        .SetIcon(Icon)
+        .SetIcon(IconImproved)
         .SetIsClassFeature()
         .AddToIsPrerequisiteFor(Guids.GreaterEldritchHeritageFeat)
         .AddRecommendationHasFeature(Guids.EldritchHeritageFeat)
@@ -465,7 +467,7 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.New(GreaterFeatName, Guids.GreaterEldritchHeritageFeat)
         .SetDisplayName(GreaterFeatDisplayName)
         .SetDescription(GreaterFeatDescription)
-        .SetIcon(Icon)
+        .SetIcon(IconGreater)
         .SetIsClassFeature()
         .AddRecommendationHasFeature(Guids.ImprovedEldritchHeritageFeat)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
