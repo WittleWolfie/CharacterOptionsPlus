@@ -85,7 +85,7 @@ namespace CharacterOptionsPlus.Feats
     {
       try
       {
-        if (Settings.IsEnabled(Guids.EldritchHeritageFeat) && Settings.IsTTTBaseEnabled())
+        if (Settings.IsEnabled(Guids.EldritchHeritageFeat))
           ConfigureEnabledDelayed();
         else
           ConfigureDisabledDelayed();
@@ -517,36 +517,54 @@ namespace CharacterOptionsPlus.Feats
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
       FeatureConfigurator.For(GreaterFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
-
-      FixPrerequisites();
     }
 
     private static void ConfigureEnabledDelayed()
     {
-      Logger.Log($"Configuring {FeatName} for TTT bloodlines");
+      if (Settings.IsTTTBaseEnabled())
+      {
+        Logger.Log($"Configuring {FeatName} for TTT bloodlines");
 
-      FeatureSelectionConfigurator.For(FeatName)
-        .AddToAllFeatures(ConfigureAberrantHeritage1(), ConfigureDestinedHeritage1())
-        .Configure();
+        FeatureSelectionConfigurator.For(FeatName)
+          .AddToAllFeatures(ConfigureAberrantHeritage1(), ConfigureDestinedHeritage1())
+          .Configure();
 
-      FeatureSelectionConfigurator.For(ImprovedFeatName)
-        .AddToAllFeatures(
-          ConfigureAberrantHeritage3(),
-          ConfigureAberrantHeritage9(), 
+        FeatureSelectionConfigurator.For(ImprovedFeatName)
+          .AddToAllFeatures(
+            ConfigureAberrantHeritage3(),
+            ConfigureAberrantHeritage9(),
 
-          ConfigureDestinedHeritage3(),
-          ConfigureDestinedHeritage9())
-        .Configure();
+            ConfigureDestinedHeritage3(),
+            ConfigureDestinedHeritage9())
+          .Configure();
 
-      FeatureSelectionConfigurator.For(GreaterFeatName)
-        .AddToAllFeatures(ConfigureAberrantHeritage15(), ConfigureDestinedHeritage15())
-        .Configure();
+        FeatureSelectionConfigurator.For(GreaterFeatName)
+          .AddToAllFeatures(ConfigureAberrantHeritage15(), ConfigureDestinedHeritage15())
+          .Configure();
 
-      FixTTTPrerequisites();
+        FixPrerequisites(includeTTT: true);
+      }
+      else
+        FixPrerequisites();
     }
 
-    private static void FixPrerequisites()
+    private static void FixPrerequisites(bool includeTTT = false)
     {
+      if (includeTTT)
+      {
+        var aberrantPrereq = Guids.AberrantHeritage;
+        FixProgression(Guids.AberrantBloodline, aberrantPrereq);
+        FixProgression(Guids.AberrantBloodragerBloodline, aberrantPrereq);
+        FixProgression(Guids.AberrantCrossbloodedBloodline, aberrantPrereq);
+        FixProgression(Guids.AberrantSeekerBloodline, aberrantPrereq);
+
+        var destinedPrereq = Guids.DestinedHeritage;
+        FixProgression(Guids.DestinedBloodline, destinedPrereq);
+        FixProgression(Guids.DestinedBloodragerBloodline, destinedPrereq);
+        FixProgression(Guids.DestinedCrossbloodedBloodline, destinedPrereq);
+        FixProgression(Guids.DestinedSeekerBloodline, destinedPrereq);
+      }
+
       var abyssalPrereq = Guids.AbyssalHeritage;
       FixProgression(ProgressionRefs.BloodlineAbyssalProgression.ToString(), abyssalPrereq);
       FixProgression(ProgressionRefs.BloodlineAbyssalProgression1.ToString(), abyssalPrereq);
@@ -666,26 +684,16 @@ namespace CharacterOptionsPlus.Feats
       #endregion
     }
 
-    private static void FixTTTPrerequisites()
-    {
-      var aberrantPrereq = Guids.AberrantHeritage;
-      FixProgression(Guids.AberrantBloodline, aberrantPrereq);
-      FixProgression(Guids.AberrantBloodragerBloodline, aberrantPrereq);
-      FixProgression(Guids.AberrantCrossbloodedBloodline, aberrantPrereq);
-      FixProgression(Guids.AberrantSeekerBloodline, aberrantPrereq);
-
-      var destinedPrereq = Guids.DestinedHeritage;
-      FixProgression(Guids.DestinedBloodline, destinedPrereq);
-      FixProgression(Guids.DestinedBloodragerBloodline, destinedPrereq);
-      FixProgression(Guids.DestinedCrossbloodedBloodline, destinedPrereq);
-      FixProgression(Guids.DestinedSeekerBloodline, destinedPrereq);
-    }
-
     private static void FixProgression(string progression, string prerequisite, bool addToLevelEntries = false)
     {
       var bp = ProgressionConfigurator.For(progression).AddPrerequisiteNoFeature(prerequisite);
       if (addToLevelEntries)
-        bp.AddToLevelEntries(1, prerequisite);
+        bp.ModifyLevelEntries(
+          entry =>
+          {
+            if (entry.Level == 1)
+              entry.m_Features.Add(BlueprintTool.GetRef<BlueprintFeatureBaseReference>(prerequisite));
+          });
       bp.Configure();
     }
 
