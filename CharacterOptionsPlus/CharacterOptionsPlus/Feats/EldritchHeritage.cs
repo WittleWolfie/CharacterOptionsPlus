@@ -1082,6 +1082,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(DestinedHeritageName, Guids.DestinedHeritage)
         .SetDisplayName(touchOfDestiny.m_DisplayName)
         .SetDescription(touchOfDestiny.m_Description)
+        .SetIcon(ability.Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(Guids.DestinedBloodlineRequisiteFeature)
@@ -1105,7 +1106,7 @@ namespace CharacterOptionsPlus.Feats
           c => c.CombatStartActions =
             ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1), isNotDispelable: true).Build())
         .AddPrerequisiteFeature(DestinedHeritageName)
-        .SetRanks(1) // Prevent it from being re-selectable
+        .SetRanks(0) // Prevent it from being re-selectable
         .Configure();
     }
 
