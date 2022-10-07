@@ -645,7 +645,8 @@ namespace CharacterOptionsPlus.Feats
         sourceFeature: BlueprintTool.Get<BlueprintFeature>(Guids.AberrantBloodline),
         prereq: FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
         excludePrereqs: new() { Guids.AberrantBloodlineRequisiteFeature },
-        resource: Guids.AberrantAcidicRayResource);
+        resource: Guids.AberrantAcidicRayResource,
+        extraFact: Guids.AberrantBloodlineRequisiteFeature);
     }
 
     private static BlueprintFeature ConfigureAberrantHeritage3()
@@ -720,7 +721,8 @@ namespace CharacterOptionsPlus.Feats
         level3Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel1.Cast<BlueprintFeatureReference>().Reference,
         level7Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
         level9Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel3.Cast<BlueprintFeatureReference>().Reference,
-        level13Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference);
+        level13Claw: FeatureRefs.BloodlineAbyssalClawsFeatureLevel2.Cast<BlueprintFeatureReference>().Reference,
+        extraFact: FeatureRefs.AbyssalBloodlineRequisiteFeature.ToString());
     }
 
     private static BlueprintFeature ConfigureAbyssalHeritage3()
@@ -793,6 +795,7 @@ namespace CharacterOptionsPlus.Feats
           amount: 1)
         .AddPrerequisiteNoFeature(FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString())
         .AddPrerequisiteNoFeature(ArcaneHeritageName)
+        .AddFacts(new() { FeatureRefs.ArcaneBloodlineRequisiteFeature.ToString() })
         .AddToAllFeatures(FeatureSelectionRefs.BloodlineArcaneArcaneBondFeature.ToString())
         .Configure();
     }
@@ -850,7 +853,8 @@ namespace CharacterOptionsPlus.Feats
         prereq: FeatureRefs.SkillFocusLoreReligion.ToString(),
         excludePrereqs: new() { FeatureRefs.CelestialBloodlineRequisiteFeature.ToString() },
         resource: AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource.ToString(),
-        extraComponents: new Type[] { typeof(AbilityTargetAlignment) });
+        extraComponents: new Type[] { typeof(AbilityTargetAlignment) },
+        extraFact: FeatureRefs.CelestialBloodlineRequisiteFeature.ToString());
     }
 
     private static BlueprintFeature ConfigureCelestialHeritage3()
@@ -945,7 +949,7 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(Guids.DestinedBloodlineRequisiteFeature)
         .AddAbilityResources(resource: Guids.DestinedTouchOfDestinyResource, restoreAmount: true)
-        .AddFacts(new() { ability })
+        .AddFacts(new() { ability, Guids.DestinedBloodlineRequisiteFeature })
         .Configure();
     }
 
@@ -1964,9 +1968,10 @@ namespace CharacterOptionsPlus.Feats
         featureName,
         featureGuid,
         sourceFeature,
-        FeatureRefs.SkillFocusAcrobatics.ToString(),
-        new() { FeatureRefs.BloodlineElementalClassSkill.ToString(), ElementalHeritage },
-        AbilityResourceRefs.BloodlineElementalElementalRayResource.ToString());
+        prereq: FeatureRefs.SkillFocusAcrobatics.ToString(),
+        excludePrereqs: new() { FeatureRefs.BloodlineElementalClassSkill.ToString(), ElementalHeritage },
+        resource: AbilityResourceRefs.BloodlineElementalElementalRayResource.ToString(),
+        extraFact: Guids.ElementalHeritage);
     }
 
     private static BlueprintFeature ConfigureElementalBlast(
@@ -2014,7 +2019,11 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreNature.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.FeyBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { FeatureRefs.BloodlineFeyLaughingTouchFeature.ToString() })
+        .AddFacts(
+          new() { 
+            FeatureRefs.BloodlineFeyLaughingTouchFeature.ToString(),
+            FeatureRefs.FeyBloodlineRequisiteFeature.ToString()
+          })
         .Configure();
     }
 
@@ -2109,7 +2118,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.InfernalBloodlineRequisiteFeature.ToString())
-        .AddFacts(new() { ability })
+        .AddFacts(new() { ability, FeatureRefs.InfernalBloodlineRequisiteFeature.ToString() })
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineInfernalCorruptingTouchResource.ToString(), restoreAmount: true)
         .Configure();
@@ -2171,6 +2180,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusStealth.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString())
+        .AddFacts(new() { FeatureRefs.SerpentineBloodlineRequisiteFeature.ToString() })
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineSerpentineSerpentsFangBiteResource.ToString(), restoreAmount: true)
         .AddComponent(
@@ -2269,6 +2279,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusLoreReligion.ToString())
         .AddPrerequisiteNoFeature(FeatureRefs.UndeadBloodlineRequisiteFeature.ToString())
+        .AddFacts(new() { FeatureRefs.UndeadBloodlineRequisiteFeature.ToString() })
         .AddAbilityResources(
           resource: AbilityResourceRefs.BloodlineUndeadGraveTouchResource.ToString(), restoreAmount: true)
         .AddFacts(new() { ability })
@@ -2401,6 +2412,7 @@ namespace CharacterOptionsPlus.Feats
       string prereq,
       List<string> excludePrereqs,
       string resource,
+      string extraFact = "",
       params Type[] extraComponents)
     {
       var componentTypes =
@@ -2411,19 +2423,23 @@ namespace CharacterOptionsPlus.Feats
           typeof(AbilityEffectRunAction),
           typeof(AbilityResourceLogic),
           typeof(SpellDescriptorComponent));
-      var ray = AbilityConfigurator.New(abilityName, abilityGuid)
+      AbilityConfigurator.New(abilityName, abilityGuid)
         .CopyFrom(sourceAbility, componentTypes)
         .AddContextRankConfig(
           ContextRankConfigs.CustomProperty(
               EffectiveLevelProperty, type: AbilityRankType.DamageBonus, min: 0, max: 20)
-            .WithDiv2Progression());
+            .WithDiv2Progression())
+        .Configure(delayed: true);
 
+      var facts = new List<Blueprint<BlueprintUnitFactReference>>() { abilityGuid };
+      if (!string.IsNullOrEmpty(extraFact))
+        facts.Add(extraFact);
       var feature = FeatureConfigurator.New(featureName, featureGuid)
         .SetDisplayName(sourceFeature.m_DisplayName)
         .SetDescription(sourceFeature.m_Description)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(prereq)
-        .AddFacts(new() { ray.Configure(delayed: true) })
+        .AddFacts(facts)
         .AddAbilityResources(resource: resource, restoreAmount: true);
 
       if (sourceAbility.Icon is not null)
