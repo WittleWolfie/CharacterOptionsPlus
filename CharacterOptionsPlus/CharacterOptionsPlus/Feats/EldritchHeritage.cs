@@ -1078,7 +1078,7 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))
         .Configure();
 
-      var touchOfDestiny = BlueprintTool.Get<BlueprintAbility>(Guids.DestinedTouchOfDestinyAbility);
+      var touchOfDestiny = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedBloodline);
       return FeatureConfigurator.New(DestinedHeritageName, Guids.DestinedHeritage)
         .SetDisplayName(touchOfDestiny.m_DisplayName)
         .SetDescription(touchOfDestiny.m_Description)
