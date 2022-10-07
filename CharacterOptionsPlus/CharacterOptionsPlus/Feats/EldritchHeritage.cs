@@ -1817,7 +1817,7 @@ namespace CharacterOptionsPlus.Feats
         guid,
         sourceFeature,
         prereq: FeatureRefs.SkillFocusPerception.ToString(),
-        excludePrereqs: new() { FeatureRefs.BloodlineDraconicClassSkill.ToString(), Guids.DraconicHeritage },
+        excludePrereqs: new() { Guids.DraconicHeritage },
         resource: AbilityResourceRefs.BloodlineDraconicClawsResource.ToString(),
         level3Claw,
         level7Claw,
