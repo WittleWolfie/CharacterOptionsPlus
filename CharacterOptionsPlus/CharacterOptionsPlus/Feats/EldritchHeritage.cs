@@ -45,7 +45,6 @@ namespace CharacterOptionsPlus.Feats
   // TODO:
   //  - Create Feat Icons
   //  - (Optional) Create icons for TTT things missing icons
-  //  - Grant the requisite feature so you can't take Eldritch Heritage THEN Bloodline
 
   public class EldritchHeritage
   {
