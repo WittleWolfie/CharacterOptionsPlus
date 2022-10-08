@@ -68,6 +68,10 @@ namespace CharacterOptionsPlus.Util
     internal const string SignatureSkillFeat = "7bb79f1f-8a90-4cf0-9322-c81961fae21a";
     internal const string SignatureSkillDemoralize = "70d0cbae-811f-47aa-87c8-593d2a6d1a9e";
     internal const string SignatureSkillPerception = "bfad5d33-ea63-4451-8342-1bc56425a6d4";
+    internal const string SignatureSkillKnowledgeArcana = "d36369ae-3f05-4c00-aee1-5e46f09771d5";
+    internal const string SignatureSkillKnowledgeWorld = "c2f152a0-c7e4-4f8b-8634-1af3061cde29";
+    internal const string SignatureSkillLoreNature = "e3258da0-d4d4-4150-8049-09b3c726a232";
+    internal const string SignatureSkillLoreReligion = "74442dfb-6deb-4700-bac0-2b99b6fe91d6";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";

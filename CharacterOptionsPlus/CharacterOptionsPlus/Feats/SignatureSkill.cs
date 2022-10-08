@@ -27,6 +27,10 @@ using Kingmaker.Blueprints.Facts;
 using BlueprintCore.Utils;
 using Kingmaker.PubSubSystem;
 using Kingmaker.EntitySystem;
+using Kingmaker.Inspect;
+using Kingmaker.EntitySystem.Entities;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -75,7 +79,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(IconName)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
-        .AddToAllFeatures(ConfigureDemoralize(), ConfigurePerception())
+        .AddToAllFeatures(ConfigureKnowledgeArcana(), ConfigureDemoralize(), ConfigurePerception())
         .Configure();
 
       // Add to feat selection
@@ -89,36 +93,6 @@ namespace CharacterOptionsPlus.Feats
             if (entry.Level == 5 || entry.Level == 10 || entry.Level == 15 || entry.Level == 20)
               entry.m_Features.Add(feat.ToReference<BlueprintFeatureBaseReference>());
           })
-        .Configure();
-    }
-
-    private const string DemoralizeName = "SignatureSkill.Demoralize";
-    private const string DemoralizeDisplayName = "SignatureSkill.Demoralize.Name";
-    private const string DemoralizeDescription = "SignatureSkill.Demoralize.Description";
-
-    private static BlueprintFeature ConfigureDemoralize()
-    {
-      return FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize)
-        .SetDisplayName(DemoralizeDisplayName)
-        .SetDescription(DemoralizeDescription)
-        .AddRecommendationStatMiminum(16, StatType.Charisma)
-        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
-        .AddComponent<SignatureDemoralizeTrigger>()
-        .Configure();
-    }
-
-    private const string PerceptionName = "SignatureSkill.Perception";
-    private const string PerceptionDisplayName = "SignatureSkill.Perception.Name";
-    private const string PerceptionDescription = "SignatureSkill.Perception.Description";
-
-    private static BlueprintFeature ConfigurePerception()
-    {
-      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
-        .SetDisplayName(PerceptionDisplayName)
-        .SetDescription(PerceptionDescription)
-        .AddRecommendationStatMiminum(16, StatType.Wisdom)
-        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPerception))
-        .AddComponent<SignaturePerceptionTrigger>()
         .Configure();
     }
 
@@ -141,7 +115,7 @@ namespace CharacterOptionsPlus.Feats
         var unit = levelUpState.Unit;
         if (Skill is not null)
         {
-          if (unit.Stats.GetStat(Skill.Value).BaseValue == unit.Progression.CharacterLevel)
+          if (unit.Stats.GetStat(Skill.Value).BaseValue >= unit.Progression.CharacterLevel)
             return RecommendationPriority.Good;
           return RecommendationPriority.Same;
         }
@@ -160,15 +134,31 @@ namespace CharacterOptionsPlus.Feats
           };
         foreach (var stat in skillTypes)
         {
-          if (levelUpState.Unit.Stats.GetStat(stat).BaseValue == unit.Progression.CharacterLevel)
+          if (levelUpState.Unit.Stats.GetStat(stat).BaseValue >= unit.Progression.CharacterLevel)
             return RecommendationPriority.Good;
         }
-        return RecommendationPriority.Bad;
+        return RecommendationPriority.Same;
       }
     }
 
+    #region Demoralize
+    private const string DemoralizeName = "SignatureSkill.Demoralize";
+    private const string DemoralizeDisplayName = "SignatureSkill.Demoralize.Name";
+    private const string DemoralizeDescription = "SignatureSkill.Demoralize.Description";
+
+    private static BlueprintFeature ConfigureDemoralize()
+    {
+      return FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize)
+        .SetDisplayName(DemoralizeDisplayName)
+        .SetDescription(DemoralizeDescription)
+        .AddRecommendationStatMiminum(16, StatType.Charisma)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
+        .AddComponent<SignatureDemoralizeComponent>()
+        .Configure();
+    }
+
     [TypeId("c01de10e-c307-450d-8c78-81bc2fdaacb3")]
-    private class SignatureDemoralizeTrigger : UnitFactComponentDelegate, IInitiatorDemoralizeHandler
+    private class SignatureDemoralizeComponent : UnitFactComponentDelegate, IInitiatorDemoralizeHandler
     {
       private static BlueprintBuff _frightened;
       private static BlueprintBuff Frightened
@@ -257,14 +247,30 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("Failed to process Signature Skill: Demoralize.", e);
+          Logger.LogException("SignatureDemoralizeComponent.AfterIntimidateSuccess", e);
         }
       }
     }
+    #endregion
 
     #region Perception
+    private const string PerceptionName = "SignatureSkill.Perception";
+    private const string PerceptionDisplayName = "SignatureSkill.Perception.Name";
+    private const string PerceptionDescription = "SignatureSkill.Perception.Description";
+
+    private static BlueprintFeature ConfigurePerception()
+    {
+      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
+        .SetDisplayName(PerceptionDisplayName)
+        .SetDescription(PerceptionDescription)
+        .AddRecommendationStatMiminum(16, StatType.Wisdom)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPerception))
+        .AddComponent<SignaturePerceptionComponent>()
+        .Configure();
+    }
+
     [TypeId("e48b6792-f51c-465a-87d8-5903ac170bfb")]
-    private class SignaturePerceptionTrigger :
+    private class SignaturePerceptionComponent :
       UnitFactComponentDelegate,
       IInitiatorRulebookHandler<RuleSkillCheck>,
       IInitiatorRulebookHandler<RuleCachedPerceptionCheck>
@@ -292,7 +298,7 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("SignaturePerceptionTrigger.OnEventAboutToTrigger(RuleSkillCheck)", e);
+          Logger.LogException("SignaturePerceptionComponent.OnEventAboutToTrigger(RuleSkillCheck)", e);
         }
       }
 
@@ -314,7 +320,7 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("SignaturePerceptionTrigger.OnEventAboutToTrigger(RuleCachedPerceptionCheck)", e);
+          Logger.LogException("SignaturePerceptionComponent.OnEventAboutToTrigger(RuleCachedPerceptionCheck)", e);
         }
       }
 
@@ -355,6 +361,142 @@ namespace CharacterOptionsPlus.Feats
         catch (Exception e)
         {
           Logger.LogException("CampingRole_Patch.CreateRuleCheck", e);
+        }
+      }
+    }
+    #endregion
+
+    #region Knowledge / Lore
+    private const string KnowledgeDescription = "SignatureSkill.Knowledge.Description";
+
+    private const string KnowledgeArcanaName = "SignatureSkill.KnowledgeArcana";
+    private const string KnowledgeArcanaDisplayName = "SignatureSkill.KnowledgeArcana.Name";
+
+    private static BlueprintFeature ConfigureKnowledgeArcana()
+    {
+      return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana)
+        .SetDisplayName(KnowledgeArcanaDisplayName)
+        .SetDescription(KnowledgeDescription)
+        .AddPrerequisiteStatValue(StatType.SkillKnowledgeArcana, 5)
+        .AddRecommendationStatMiminum(16, StatType.Intelligence)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeArcana))
+        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana))
+        .Configure();
+    }
+
+    private class SignatureKnowledgeComponent :
+      UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleSkillCheck>, IUnitIdentifiedHandler
+    {
+      private readonly StatType Skill;
+
+      public SignatureKnowledgeComponent(StatType skill)
+      {
+        Skill = skill;
+      }
+
+      public void OnEventDidTrigger(RuleSkillCheck evt)
+      {
+      }
+
+      public void OnUnitIdentified(RuleSkillCheck skillCheck, ref int checkBonus)
+      {
+        try
+        {
+          if (skillCheck.StatType != Skill)
+            return;
+
+          checkBonus += Owner.Stats.GetStat(Skill).BaseValue;
+          Logger.NativeLog($"Adding +{checkBonus} to identify success for {Owner.CharacterName}");
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureInspectionComponent.OnUnitIdentified", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleSkillCheck evt) { }
+    }
+
+    public interface IUnitIdentifiedHandler : IUnitSubscriber
+    {
+      void OnUnitIdentified(RuleSkillCheck skillCheck, ref int checkBonus);
+    }
+
+    [HarmonyPatch(typeof(InspectUnitsManager))]
+    static class InspectUnitsManager_Patch
+    {
+      private static int OnUnitIdentified(RuleSkillCheck skillCheck, UnitEntityData identifier)
+      {
+        int bonus = 0;
+        EventBus.RaiseEvent<IUnitIdentifiedHandler>(identifier, h => h.OnUnitIdentified(skillCheck, ref bonus));
+        return skillCheck.RollResult + bonus;
+      }
+
+      static readonly MethodInfo UnitInfo_SetCheck =
+        AccessTools.Method(typeof(InspectUnitsManager.UnitInfo), nameof(InspectUnitsManager.UnitInfo.SetCheck));
+      static readonly MethodInfo UnitEntityData_Descriptor =
+        AccessTools.PropertyGetter(typeof(UnitEntityData), nameof(UnitEntityData.Descriptor));
+
+      [HarmonyPatch(nameof(InspectUnitsManager.TryMakeKnowledgeCheck), new Type[] { typeof(UnitEntityData) }), HarmonyTranspiler]
+      static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+      {
+        // Patch should be doing:
+        //   ldloc.s ruleSkillCheck   [Existing]
+        //   ldloc.s unitEntityData   [New]
+        //   call OnUnitIdentified    [New]
+        //   callvirt SetCheck(int32) [Existing]
+        // Note that this removes the call to GetSuccess which normally follows load for ruleSkillCheck
+        try
+        {
+          var code = new List<CodeInstruction>(instructions);
+
+          // Search backwards for the SetCheck() instruction which is the insertion point.
+          var index = code.Count - 1;
+          var insertionIndex = 0;
+          for (; index >= 0; index--)
+          {
+            if (code[index].Calls(UnitInfo_SetCheck))
+            {
+              insertionIndex = index;
+              break;
+            }
+          }
+          if (insertionIndex == 0)
+          {
+            throw new InvalidOperationException("Missing inspect units manager transpiler insertion index.");
+          }
+
+          // Keep searching backwards to find the load statement for unitEntityData
+          CodeInstruction loadInitiator = null;
+          index--;
+          for (; index >= 0; index--)
+          {
+            if (code[index].Calls(UnitEntityData_Descriptor))
+            {
+              // Statement before Descriptor must load the skill check
+              loadInitiator = code[index - 1].Clone();
+              break;
+            }
+          }
+          if (loadInitiator is null)
+          {
+            throw new InvalidOperationException("Missing unit entity data load instruction.");
+          }
+
+          var newCode =
+            new List<CodeInstruction>()
+            {
+              loadInitiator,
+              CodeInstruction.Call(typeof(InspectUnitsManager_Patch), nameof(InspectUnitsManager_Patch.OnUnitIdentified)),
+            };
+          code.InsertRange(insertionIndex, newCode);
+          code.RemoveAt(insertionIndex - 1); // Remove the call to ruleSkillCheck.Success
+          return code;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("InspectUnitsManager_Patch.Transpiler", e);
+          return instructions;
         }
       }
     }

@@ -124,6 +124,31 @@
   },
 
   {
+    "Key": "SignatureSkill.KnowledgeArcana.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Knowledge (Arcana)"
+  },
+  {
+    "Key": "SignatureSkill.KnowledgeWorld.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Knowledge (World)"
+  },
+  {
+    "Key": "SignatureSkill.LoreNature.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Lore (Nature)"
+  },
+  {
+    "Key": "SignatureSkill.LoreReligion.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Lore (Religion)"
+  },
+  {
+    "Key": "SignatureSkill.Knowledge.Description",
+    "enGB": "5 Ranks: When you successfully identify a creature you gain additional information.\n\n10 Ranks: As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and caster level checks against creatures of that kind for 1 minute.\n\n15 Ranks: When you fail a skill check, you can reroll the check at a -10 penalty. The competence bonus increases to +2 and applies to saving throws.\n\n20 Ranks: When you make a skill check, you can roll twice and take the better result. The competence bonus increases to +3."
+  },
+
+  {
     "Key": "SkaldsVigor.Name",
     "ProcessTemplates": false,
     "enGB": "Skald's Vigor"
