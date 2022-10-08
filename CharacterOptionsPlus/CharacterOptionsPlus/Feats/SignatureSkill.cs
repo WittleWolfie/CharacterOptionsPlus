@@ -67,6 +67,8 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName} (disabled)");
 
       FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat).Configure();
+      FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize).Configure();
+      FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -385,7 +387,7 @@ namespace CharacterOptionsPlus.Feats
     }
 
     private class SignatureKnowledgeComponent :
-      UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleSkillCheck>, IUnitIdentifiedHandler
+      UnitFactComponentDelegate, IUnitIdentifiedHandler, IInitiatorRulebookHandler<RuleRollD20>
     {
       private readonly StatType Skill;
 
@@ -394,8 +396,55 @@ namespace CharacterOptionsPlus.Feats
         Skill = skill;
       }
 
-      public void OnEventDidTrigger(RuleSkillCheck evt)
+      public void OnEventAboutToTrigger(RuleRollD20 evt)
       {
+        try
+        {
+          if (Rulebook.CurrentContext.PreviousEvent is not RuleSkillCheck skillCheck)
+            return;
+
+          if (skillCheck.StatType != Skill)
+            return;
+
+          var skillRanks = Owner.Stats.GetStat(Skill).BaseValue;
+          if (skillRanks < 20)
+            return;
+
+          Logger.Log($"Adding reroll for {Owner.CharacterName}.");
+          evt.AddReroll(amount: 1, takeBest: true, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureInspectionComponent.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleRollD20 evt)
+      {
+        try
+        {
+          if (Rulebook.CurrentContext.PreviousEvent is not RuleSkillCheck skillCheck)
+            return;
+
+          if (skillCheck.Success)
+            return;
+
+          if (skillCheck.StatType != Skill)
+            return;
+
+          var skillRanks = Owner.Stats.GetStat(Skill).BaseValue;
+          if (skillRanks < 15)
+            return;
+
+          Logger.Log($"Rerolling {Skill} for {Owner.CharacterName} with -10 penalty.");
+          evt.AddModifier(-10, Fact);
+          evt.Reroll(Fact, takeBest: true);
+
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureInspectionComponent.OnEventDidTrigger", e);
+        }
       }
 
       public void OnUnitIdentified(RuleSkillCheck skillCheck, ref int checkBonus)
@@ -413,8 +462,6 @@ namespace CharacterOptionsPlus.Feats
           Logger.LogException("SignatureInspectionComponent.OnUnitIdentified", e);
         }
       }
-
-      public void OnEventAboutToTrigger(RuleSkillCheck evt) { }
     }
 
     public interface IUnitIdentifiedHandler : IUnitSubscriber
