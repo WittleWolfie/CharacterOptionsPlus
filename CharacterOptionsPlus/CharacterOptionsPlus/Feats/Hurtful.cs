@@ -143,7 +143,6 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          Logger.NativeLog($"{target.CharacterName} demoralized");
           var caster = Context.MaybeCaster;
           if (caster is null)
           {
