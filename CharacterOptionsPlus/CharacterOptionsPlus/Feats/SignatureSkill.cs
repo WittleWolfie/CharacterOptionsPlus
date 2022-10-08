@@ -18,9 +18,14 @@ using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.Utility;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.RuleSystem;
+using Kingmaker.Blueprints;
+using Kingmaker.Designers.Mechanics.Recommendations;
+using Kingmaker.UnitLogic.Class.LevelUp;
 
 namespace CharacterOptionsPlus.Feats
 {
+  // TODO: Perception, Knowledge, Acrobatics, Escape Artist, Stealth
+  // TODO: Add to progression for Rogues (5 / 10 / 15 / 20). Apparently they just don't get these in WotR
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -64,6 +69,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
+        .AddComponent<RecommendationSignatureSkill>()
         .AddToAllFeatures(ConfigureDemoralize())
         .Configure();
 
@@ -82,9 +88,55 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize)
         .SetDisplayName(DemoralizeDisplayName)
         .SetDescription(DemoralizeDescription)
-        .AddRecommendationStatMiminum(5, StatType.SkillPersuasion, goodIfHigher: true)
+        .AddRecommendationStatMiminum(16, StatType.Charisma)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
         .AddComponent<SignatureDemoralizeTrigger>()
         .Configure();
+    }
+
+    [AllowMultipleComponents]
+    [AllowedOn(typeof(BlueprintFeature))]
+    [TypeId("d97a84e9-bde0-4bad-ab33-89a41841e26a")]
+    private class RecommendationSignatureSkill : LevelUpRecommendationComponent
+    {
+      private readonly StatType? Skill;
+
+      public RecommendationSignatureSkill() { Skill = null; }
+      public RecommendationSignatureSkill(StatType skill) { Skill = skill; }
+
+      // Recommend when the character has max ranks in a relevant skill
+      public override RecommendationPriority GetPriority(LevelUpState levelUpState)
+      {
+        if (levelUpState is null)
+          return RecommendationPriority.Same;
+
+        var unit = levelUpState.Unit;
+        if (Skill is not null)
+        {
+          if (unit.Stats.GetStat(Skill.Value).BaseValue == unit.Progression.CharacterLevel)
+            return RecommendationPriority.Good;
+          return RecommendationPriority.Same;
+        }
+
+        var skillTypes =
+          new[]
+          {
+            StatType.SkillKnowledgeArcana,
+            StatType.SkillKnowledgeWorld,
+            StatType.SkillLoreNature,
+            StatType.SkillLoreReligion,
+            StatType.SkillMobility,
+            StatType.SkillPerception,
+            StatType.SkillPersuasion,
+            StatType.SkillStealth,
+          };
+        foreach (var stat in skillTypes)
+        {
+          if (levelUpState.Unit.Stats.GetStat(stat).BaseValue == unit.Progression.CharacterLevel)
+            return RecommendationPriority.Good;
+        }
+        return RecommendationPriority.Bad;
+      }
     }
 
     [TypeId("c01de10e-c307-450d-8c78-81bc2fdaacb3")]
