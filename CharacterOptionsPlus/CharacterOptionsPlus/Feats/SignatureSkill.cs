@@ -21,10 +21,16 @@ using Kingmaker.RuleSystem;
 using Kingmaker.Blueprints;
 using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.UnitLogic.Class.LevelUp;
+using HarmonyLib;
+using Kingmaker.Controllers.Rest.State;
+using Kingmaker.Blueprints.Facts;
+using BlueprintCore.Utils;
+using Kingmaker.PubSubSystem;
+using Kingmaker.EntitySystem;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO: Perception, Knowledge, Acrobatics, Escape Artist, Stealth
+  // TODO: Knowledge, Acrobatics, Escape Artist, Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -69,7 +75,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(IconName)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
-        .AddToAllFeatures(ConfigureDemoralize())
+        .AddToAllFeatures(ConfigureDemoralize(), ConfigurePerception())
         .Configure();
 
       // Add to feat selection
@@ -98,6 +104,21 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationStatMiminum(16, StatType.Charisma)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
         .AddComponent<SignatureDemoralizeTrigger>()
+        .Configure();
+    }
+
+    private const string PerceptionName = "SignatureSkill.Perception";
+    private const string PerceptionDisplayName = "SignatureSkill.Perception.Name";
+    private const string PerceptionDescription = "SignatureSkill.Perception.Description";
+
+    private static BlueprintFeature ConfigurePerception()
+    {
+      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
+        .SetDisplayName(PerceptionDisplayName)
+        .SetDescription(PerceptionDescription)
+        .AddRecommendationStatMiminum(16, StatType.Wisdom)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPerception))
+        .AddComponent<SignaturePerceptionTrigger>()
         .Configure();
     }
 
@@ -240,5 +261,103 @@ namespace CharacterOptionsPlus.Feats
         }
       }
     }
+
+    #region Perception
+    [TypeId("e48b6792-f51c-465a-87d8-5903ac170bfb")]
+    private class SignaturePerceptionTrigger :
+      UnitFactComponentDelegate,
+      IInitiatorRulebookHandler<RuleSkillCheck>,
+      IInitiatorRulebookHandler<RuleCachedPerceptionCheck>
+    {
+      public void OnEventAboutToTrigger(RuleSkillCheck evt)
+      {
+        try
+        {
+          if (evt.StatType != StatType.SkillPerception)
+            return;
+
+          if (evt.Reason.SourceEntity is null || evt.Reason.SourceEntity is not StaticEntityData)
+            return;
+
+          var perceptionRanks = Owner.Stats.GetStat(StatType.SkillPerception).BaseValue;
+          if (perceptionRanks < 10)
+            return;
+
+          var bonus = perceptionRanks >= 20 ? 10 : 5;
+          if (Owner.Stats.GetStat(StatType.SkillPerception).BaseValue >= 20)
+          {
+            Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
+            evt.AddModifier(bonus, Fact);
+          } 
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignaturePerceptionTrigger.OnEventAboutToTrigger(RuleSkillCheck)", e);
+        }
+      }
+
+      // RuleCachedPerceptionCheck is only used for hidden units
+      public void OnEventAboutToTrigger(RuleCachedPerceptionCheck evt)
+      {
+        try
+        {
+          var perceptionRanks = Owner.Stats.GetStat(StatType.SkillPerception).BaseValue;
+          if (perceptionRanks < 10)
+            return;
+
+          var bonus = perceptionRanks >= 20 ? 10 : 5;
+          if (Owner.Stats.GetStat(StatType.SkillPerception).BaseValue >= 20)
+          {
+            Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
+            evt.AddModifier(bonus, Fact);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignaturePerceptionTrigger.OnEventAboutToTrigger(RuleCachedPerceptionCheck)", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleSkillCheck evt) { }
+
+      public void OnEventDidTrigger(RuleCachedPerceptionCheck evt) { }
+    }
+
+    [HarmonyPatch(typeof(CampingRole))]
+    static class CampingRole_Patch
+    {
+      private static BlueprintUnitFact _signaturePerception;
+      private static BlueprintUnitFact SignaturePerception
+      {
+        get
+        {
+          _signaturePerception ??= BlueprintTool.Get<BlueprintUnitFact>(Guids.SignatureSkillPerception);
+          return _signaturePerception;
+        }
+      }
+
+      [HarmonyPatch(nameof(CampingRole.CreateRuleCheck)), HarmonyPostfix]
+      static void CreateRuleCheck(CampingRole __instance, RuleSkillCheck __result)
+      {
+        try
+        {
+          if (__instance.m_RoleType != CampingRoleType.GuardFirstWatch && __instance.m_RoleType != CampingRoleType.GuardSecondWatch)
+            return;
+
+          var signatureSkill = __result.Initiator.GetFact(SignaturePerception);
+          if (signatureSkill is not null)
+          {
+            var bonus = __result.Initiator.Stats.SkillPerception.BaseValue >= 15 ? 4 : 2;
+            Logger.NativeLog($"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
+            __result.AddModifier(bonus, signatureSkill);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("CampingRole_Patch.CreateRuleCheck", e);
+        }
+      }
+    }
+    #endregion
   }
 }

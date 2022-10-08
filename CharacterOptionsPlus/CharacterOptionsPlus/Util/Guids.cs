@@ -67,6 +67,7 @@ namespace CharacterOptionsPlus.Util
 
     internal const string SignatureSkillFeat = "7bb79f1f-8a90-4cf0-9322-c81961fae21a";
     internal const string SignatureSkillDemoralize = "70d0cbae-811f-47aa-87c8-593d2a6d1a9e";
+    internal const string SignatureSkillPerception = "bfad5d33-ea63-4451-8342-1bc56425a6d4";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
