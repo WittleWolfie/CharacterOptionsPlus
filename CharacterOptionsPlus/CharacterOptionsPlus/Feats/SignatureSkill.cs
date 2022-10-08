@@ -64,7 +64,7 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName}");
 
-      FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat)
+      var feat = FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
@@ -73,10 +73,18 @@ namespace CharacterOptionsPlus.Feats
         .AddToAllFeatures(ConfigureDemoralize())
         .Configure();
 
-      // Add to selections
-      FeatureConfigurator.For(FeatName)
-        .AddToGroups(FeatureGroup.Feat, FeatureGroup.RogueTalent)
-        .Configure(delayed: true);
+      // Add to feat selection
+      FeatureConfigurator.For(FeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+
+      // Grant as a bonus feature for rogues
+      ProgressionConfigurator.For(ProgressionRefs.RogueProgression)
+        .ModifyLevelEntries(
+          entry =>
+          {
+            if (entry.Level == 5 || entry.Level == 10 || entry.Level == 15 || entry.Level == 20)
+              entry.m_Features.Add(feat.ToReference<BlueprintFeatureBaseReference>());
+          })
+        .Configure();
     }
 
     private const string DemoralizeName = "SignatureSkill.Demoralize";
