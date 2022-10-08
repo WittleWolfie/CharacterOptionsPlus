@@ -25,7 +25,6 @@ using Kingmaker.UnitLogic.Class.LevelUp;
 namespace CharacterOptionsPlus.Feats
 {
   // TODO: Perception, Knowledge, Acrobatics, Escape Artist, Stealth
-  // TODO: Add to progression for Rogues (5 / 10 / 15 / 20). Apparently they just don't get these in WotR
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
