@@ -158,10 +158,7 @@ namespace CharacterOptionsPlus.Feats
 
           var result = Context.TriggerRule(ruleSavingThrow);
           if (result.IsPassed)
-          {
-            // TODO: Log if it doesn't show in the combat log... it should right?
             return;
-          }
 
           if (succeedBy >= 20 && intimidateRanks >= 20)
           {
