@@ -83,6 +83,19 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat).Configure();
       FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize).Configure();
       FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
+
+      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
+      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
+      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
+
+      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
+      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
+      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
+
+      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
+      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
+      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
+
       BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
       AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
       FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
@@ -386,9 +399,53 @@ namespace CharacterOptionsPlus.Feats
     #endregion
 
     #region Knowledge / Lore
+
+    #region Blueprint Links
+    private static BlueprintFeature _arcana;
+    private static BlueprintFeature Arcana
+    {
+      get
+      {
+        _arcana ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillKnowledgeArcana);
+        return _arcana;
+      }
+    }
+
+    private static BlueprintFeature _World;
+    private static BlueprintFeature World
+    {
+      get
+      {
+        _World ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillKnowledgeWorld);
+        return _World;
+      }
+    }
+
+    private static BlueprintFeature _Nature;
+    private static BlueprintFeature Nature
+    {
+      get
+      {
+        _Nature ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillLoreNature);
+        return _Nature;
+      }
+    }
+
+    private static BlueprintFeature _Religion;
+    private static BlueprintFeature Religion
+    {
+      get
+      {
+        _Religion ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillLoreReligion);
+        return _Religion;
+      }
+    }
+    #endregion
+
     private const string KnowledgeDescription = "SignatureSkill.Knowledge.Description";
     private const string KnowledgeAbilityDescription = "SignatureSkill.Knowledge.Ability.Description";
 
+    #region Arcana
     private const string KnowledgeArcanaName = "SignatureSkill.KnowledgeArcana";
     private const string KnowledgeArcanaDisplayName = "SignatureSkill.KnowledgeArcana.Name";
 
@@ -411,12 +468,16 @@ namespace CharacterOptionsPlus.Feats
         .AllowTargeting(enemies: true)
         .SetActionType(CommandType.Move)
         .SetAnimation(CastAnimationStyle.Omni)
-        .AddComponent(new SignatureSkillAbilityRequirements(StatType.SkillKnowledgeArcana))
+        .AddComponent<SignatureSkillAbilityRequirements>()
         .AddAbilityEffectRunAction(
           ActionsBuilder.New()
             .MakeKnowledgeCheck(successActions: ActionsBuilder.New().Add(new ApplySignatureSkillBuff(buffRef))))
         .Configure();
       var abilityRef = ability.ToReference<BlueprintAbilityReference>();
+
+      FeatureConfigurator.New("Fake1", Guids.SignatureSkillKnowledgeWorld).Configure();
+      FeatureConfigurator.New("Fake2", Guids.SignatureSkillLoreNature).Configure();
+      FeatureConfigurator.New("Fake3", Guids.SignatureSkillLoreReligion).Configure();
 
       return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana)
         .SetDisplayName(KnowledgeArcanaDisplayName)
@@ -427,6 +488,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana, buffRef, abilityRef))
         .Configure();
     }
+    #endregion
 
     private class SignatureKnowledgeComponent :
       UnitFactComponentDelegate,
@@ -669,37 +731,21 @@ namespace CharacterOptionsPlus.Feats
 
     private class SignatureSkillAbilityRequirements : BlueprintComponent, IAbilityTargetRestriction
     {
-      private const string ExpectedText = "SignatureSkill.Knowledge.Ability.TargetRestriction.Expected";
-      private const string ActualText = "SignatureSkill.Knowledge.Ability.TargetRestriction.Actual";
-
-      private readonly StatType Skill;
-
-      public SignatureSkillAbilityRequirements(StatType skill)
-      {
-        Skill = skill;
-      }
+      private const string MissingFeat = "SignatureSkill.Knowledge.Ability.TargetRestriction.Feat";
+      private const string MissingRanks = "SignatureSkill.Knowledge.Ability.TargetRestriction.Ranks";
 
       public string GetAbilityTargetRestrictionUIText(UnitEntityData caster, TargetWrapper target)
       {
-        var sb = new StringBuilder();
-        try
+        if (target.Unit is null)
+          return string.Empty;
+
+        var requiredFeat = GetRequiredFeat(target.Unit);
+        if (caster.HasFact(requiredFeat))
         {
-          sb.Append(
-            $"{LocalizationTool.GetString(ExpectedText)}: <b>{LocalizedTexts.Instance.Stats.GetText(Skill)}</b>");
-          if (target.Unit is not null)
-          {
-            var statType =
-              target.Unit.Blueprint.Type ? target.Unit.Blueprint.Type.KnowledgeStat : StatType.SkillLoreNature;
-            sb.AppendLine();
-            sb.AppendLine(
-              $"{LocalizationTool.GetString(ActualText)}: <b>{LocalizedTexts.Instance.Stats.GetText(statType)}</b>");
-          }
+          return string.Format(
+            LocalizationTool.GetString(MissingRanks), LocalizedTexts.Instance.Stats.GetText(GetStatType(target.Unit)));
         }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureSkillAbilityRequirements.GetAbilityTargetRestrictionUIText", e);
-        }
-        return sb.ToString();
+        return string.Format(LocalizationTool.GetString(MissingFeat).ToString(), requiredFeat.Name);
       }
 
       public bool IsTargetRestrictionPassed(UnitEntityData caster, TargetWrapper target)
@@ -709,15 +755,34 @@ namespace CharacterOptionsPlus.Feats
           if (target.Unit is null)
             return false;
 
-          var statType =
-            target.Unit.Blueprint.Type ? target.Unit.Blueprint.Type.KnowledgeStat : StatType.SkillLoreNature;
-          return statType == Skill;
+          if (caster.Stats.GetStat(GetStatType(target.Unit)).BaseValue < 10)
+            return False;
+
+          return caster.HasFact(GetRequiredFeat(target.Unit));
         }
         catch (Exception e)
         {
           Logger.LogException("SignatureSkillAbilityRequirements.IsTargetRestrictionPassed", e);
         }
         return false;
+      }
+
+      private static StatType GetStatType(UnitEntityData target)
+      {
+        return target.Blueprint.Type ? target.Blueprint.Type.KnowledgeStat : StatType.SkillLoreNature;
+      }
+
+      private static BlueprintFeature GetRequiredFeat(UnitEntityData target)
+      {
+        return
+          GetStatType(target) switch
+          {
+            StatType.SkillLoreNature => Nature,
+            StatType.SkillLoreReligion => Religion,
+            StatType.SkillKnowledgeWorld => World,
+            StatType.SkillKnowledgeArcana => Arcana,
+            _ => throw new NotImplementedException()
+          };
       }
     }
 
