@@ -523,8 +523,8 @@ namespace CharacterOptionsPlus.Feats
     #endregion
 
     #region Nature
-    private const string KnowledgeNatureName = "SignatureSkill.KnowledgeNature";
-    private const string KnowledgeNatureDisplayName = "SignatureSkill.KnowledgeNature.Name";
+    private const string KnowledgeNatureName = "SignatureSkill.LoreNature";
+    private const string KnowledgeNatureDisplayName = "SignatureSkill.LoreNature.Name";
 
     private static BlueprintFeature ConfigureKnowledgeNature()
     {
@@ -539,8 +539,8 @@ namespace CharacterOptionsPlus.Feats
     #endregion
 
     #region Religion
-    private const string KnowledgeReligionName = "SigReligionSkill.KnowledgeReligion";
-    private const string KnowledgeReligionDisplayName = "SigReligionSkill.KnowledgeReligion.Name";
+    private const string KnowledgeReligionName = "SignatureSkill.LoreReligion";
+    private const string KnowledgeReligionDisplayName = "SignatureSkill.LoreReligion.Name";
 
     private static BlueprintFeature ConfigureKnowledgeReligion()
     {

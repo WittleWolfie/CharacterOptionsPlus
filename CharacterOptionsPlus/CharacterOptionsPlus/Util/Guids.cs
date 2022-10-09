@@ -96,7 +96,7 @@ namespace CharacterOptionsPlus.Util
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
-   //     (SignatureSkillFeat, SignatureSkill.FeatDisplayName),
+        (SignatureSkillFeat, SignatureSkill.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
     #endregion
