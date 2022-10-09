@@ -45,10 +45,14 @@ using Kingmaker.Controllers;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
 using System.Text;
 using Kingmaker.Blueprints.Root;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+using Kingmaker.UnitLogic.ActivatableAbilities;
+using static Kingmaker.Blueprints.Classes.Prerequisites.Prerequisite;
+using Kingmaker.UnitLogic.FactLogic;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO: Knowledge, Acrobatics, Escape Artist, Stealth
+  // TODO: Acrobatics, Escape Artist, Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -173,6 +177,79 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
+    #region Acrobatics
+    private const string AcrobaticsName = "SignatureSkill.Acrobatics";
+    private const string AcrobaticsDisplayName = "SignatureSkill.Acrobatics.Name";
+    private const string AcrobaticsDescription = "SignatureSkill.Acrobatics.Description";
+
+    private const string AcrobaticsAbility = "SignatureSkill.Acrobatics.Ability";
+    private const string AcrobaticsAbilityBuff = "SignatureSkill.Acrobatics.Ability.Buff";
+    private const string AcrobaticsAbilityDescription = "SignatureSkill.Acrobatics.Ability.Description";
+
+    private static BlueprintFeature ConfigureAcrobatics()
+    {
+      var buff = BuffConfigurator.New(AcrobaticsAbilityBuff, Guids.SignatureSkillAcrobaticsAbilityBuff)
+        .SetDisplayName(AcrobaticsDisplayName)
+        .SetDescription(AcrobaticsAbilityDescription)
+        .AddComponent<AcrobaticMovement>()
+        // None is used for Mobility checks to avoid AOO
+        .AddCMDBonusAgainstManeuvers(
+          value: -5, maneuvers: new[] { CombatManeuver.None }, descriptor: ModifierDescriptor.UntypedStackable)
+        .Configure();
+
+      var ability = ActivatableAbilityConfigurator.New(AcrobaticsAbility, Guids.SignatureSkillAcrobaticsAbility)
+        .SetDisplayName(AcrobaticsDisplayName)
+        .SetDescription(AcrobaticsAbilityDescription)
+        .SetDeactivateIfCombatEnded()
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.WithUnitCommand)
+        .SetBuff(buff)
+        .Configure();
+
+      return FeatureConfigurator.New(AcrobaticsName, Guids.SignatureSkillAcrobatics)
+        .SetDisplayName(AcrobaticsDisplayName)
+        .SetDescription(AcrobaticsDescription)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddFacts(new() { ability })
+        .Configure();
+    }
+
+    [HarmonyPatch(typeof(UnitEntityData))]
+    static class UnitEntityData_Patch
+    {
+      private static BlueprintBuff _acrobatics;
+      private static BlueprintBuff Acrobatics
+      {
+        get
+        {
+          _acrobatics ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAcrobaticsAbilityBuff);
+          return _acrobatics;
+        }
+      }
+
+      [HarmonyPatch(nameof(UnitEntityData.CalculateSpeedModifier)), HarmonyPostfix]
+      static void CalculateSpeedModifier(UnitEntityData __instance, ref float __result)
+      {
+        try
+        {
+          if (!__instance.Descriptor.State.HasCondition(UnitCondition.UseMobilityToNegateAttackOfOpportunity))
+            return;
+
+          if (!__instance.HasFact(Acrobatics) || __instance.Descriptor.State.Features.TricksterMobilityFastMovement)
+            return;
+
+          __result *= 2f;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UnitEntityData_Patch.CalculateSpeedModifier", e);
+        }
+      }
+    }
+    #endregion
+
     #region Demoralize
     private const string DemoralizeName = "SignatureSkill.Demoralize";
     private const string DemoralizeDisplayName = "SignatureSkill.Demoralize.Name";
@@ -183,7 +260,9 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize)
         .SetDisplayName(DemoralizeDisplayName)
         .SetDescription(DemoralizeDescription)
-        .AddRecommendationStatMiminum(16, StatType.Charisma)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillPersuasion, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
         .AddComponent<SignatureDemoralizeComponent>()
         .Configure();
@@ -280,116 +359,6 @@ namespace CharacterOptionsPlus.Feats
         catch (Exception e)
         {
           Logger.LogException("SignatureDemoralizeComponent.AfterIntimidateSuccess", e);
-        }
-      }
-    }
-    #endregion
-
-    #region Perception
-    private const string PerceptionName = "SignatureSkill.Perception";
-    private const string PerceptionDisplayName = "SignatureSkill.Perception.Name";
-    private const string PerceptionDescription = "SignatureSkill.Perception.Description";
-
-    private static BlueprintFeature ConfigurePerception()
-    {
-      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
-        .SetDisplayName(PerceptionDisplayName)
-        .SetDescription(PerceptionDescription)
-        .AddRecommendationStatMiminum(16, StatType.Wisdom)
-        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPerception))
-        .AddComponent<SignaturePerceptionComponent>()
-        .Configure();
-    }
-
-    [TypeId("e48b6792-f51c-465a-87d8-5903ac170bfb")]
-    private class SignaturePerceptionComponent :
-      UnitFactComponentDelegate,
-      IInitiatorRulebookHandler<RuleSkillCheck>,
-      IInitiatorRulebookHandler<RuleCachedPerceptionCheck>
-    {
-      public void OnEventAboutToTrigger(RuleSkillCheck evt)
-      {
-        try
-        {
-          if (evt.StatType != StatType.SkillPerception)
-            return;
-
-          if (evt.Reason.SourceEntity is null || evt.Reason.SourceEntity is not StaticEntityData)
-            return;
-
-          var perceptionRanks = Owner.Stats.GetStat(StatType.SkillPerception).BaseValue;
-          if (perceptionRanks < 10)
-            return;
-
-          var bonus = perceptionRanks >= 20 ? 10 : 5;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
-          evt.AddModifier(bonus, Fact);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignaturePerceptionComponent.OnEventAboutToTrigger(RuleSkillCheck)", e);
-        }
-      }
-
-      // RuleCachedPerceptionCheck is only used for hidden units
-      public void OnEventAboutToTrigger(RuleCachedPerceptionCheck evt)
-      {
-        try
-        {
-          var perceptionRanks = Owner.Stats.GetStat(StatType.SkillPerception).BaseValue;
-          if (perceptionRanks < 10)
-            return;
-
-          var bonus = perceptionRanks >= 20 ? 10 : 5;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
-          evt.AddModifier(bonus, Fact);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignaturePerceptionComponent.OnEventAboutToTrigger(RuleCachedPerceptionCheck)", e);
-        }
-      }
-
-      public void OnEventDidTrigger(RuleSkillCheck evt) { }
-
-      public void OnEventDidTrigger(RuleCachedPerceptionCheck evt) { }
-    }
-
-    [HarmonyPatch(typeof(CampingRole))]
-    static class CampingRole_Patch
-    {
-      private static BlueprintUnitFact _signaturePerception;
-      private static BlueprintUnitFact SignaturePerception
-      {
-        get
-        {
-          _signaturePerception ??= BlueprintTool.Get<BlueprintUnitFact>(Guids.SignatureSkillPerception);
-          return _signaturePerception;
-        }
-      }
-
-      [HarmonyPatch(nameof(CampingRole.CreateRuleCheck)), HarmonyPostfix]
-      static void CreateRuleCheck(CampingRole __instance, RuleSkillCheck __result)
-      {
-        try
-        {
-          if (__result == null)
-            return;
-
-          if (__instance.m_RoleType != CampingRoleType.GuardFirstWatch && __instance.m_RoleType != CampingRoleType.GuardSecondWatch)
-            return;
-
-          var signatureSkill = __result.Initiator.GetFact(SignaturePerception);
-          if (signatureSkill is not null)
-          {
-            var bonus = __result.Initiator.Stats.SkillPerception.BaseValue >= 15 ? 4 : 2;
-            Logger.NativeLog($"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
-            __result.AddModifier(bonus, signatureSkill);
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("CampingRole_Patch.CreateRuleCheck", e);
         }
       }
     }
@@ -496,7 +465,9 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana)
         .SetDisplayName(KnowledgeArcanaDisplayName)
         .SetDescription(KnowledgeDescription)
-        .AddPrerequisiteStatValue(StatType.SkillKnowledgeArcana, 5)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillKnowledgeArcana, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeArcana))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana))
         .Configure();
@@ -512,7 +483,9 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(KnowledgeWorldName, Guids.SignatureSkillKnowledgeWorld)
         .SetDisplayName(KnowledgeWorldDisplayName)
         .SetDescription(KnowledgeDescription)
-        .AddPrerequisiteStatValue(StatType.SkillKnowledgeWorld, 5)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillKnowledgeWorld, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeWorld))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeWorld))
         .Configure();
@@ -528,7 +501,9 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillLoreNature)
         .SetDisplayName(KnowledgeNatureDisplayName)
         .SetDescription(KnowledgeDescription)
-        .AddPrerequisiteStatValue(StatType.SkillLoreNature, 5)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillLoreNature, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillLoreNature))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreNature))
         .Configure();
@@ -544,13 +519,16 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillLoreReligion)
         .SetDisplayName(KnowledgeReligionDisplayName)
         .SetDescription(KnowledgeDescription)
-        .AddPrerequisiteStatValue(StatType.SkillLoreReligion, 5)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillLoreReligion, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillLoreReligion))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreReligion))
         .Configure();
     }
     #endregion
 
+    [TypeId("769750b3-8f3b-42c5-8cbd-f6aa9910ab62")]
     private class SignatureKnowledgeComponent :
       UnitFactComponentDelegate,
       IUnitIdentifiedHandler,
@@ -718,6 +696,7 @@ namespace CharacterOptionsPlus.Feats
       #endregion
     }
 
+    [TypeId("3addba51-c42a-476c-9847-d547b29757cc")]
     private class ApplySignatureSkillBuff : ContextAction
     {
       public override string GetCaption()
@@ -749,6 +728,7 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
+    [TypeId("77039b8b-eb62-407d-b959-c301905d3882")]
     private class SignatureSkillAbilityRequirements : BlueprintComponent, IAbilityTargetRestriction
     {
       private const string MissingFeat = "SignatureSkill.Knowledge.Ability.TargetRestriction.Feat";
@@ -886,6 +866,118 @@ namespace CharacterOptionsPlus.Feats
         {
           Logger.LogException("InspectUnitsManager_Patch.Transpiler", e);
           return instructions;
+        }
+      }
+    }
+    #endregion
+
+    #region Perception
+    private const string PerceptionName = "SignatureSkill.Perception";
+    private const string PerceptionDisplayName = "SignatureSkill.Perception.Name";
+    private const string PerceptionDescription = "SignatureSkill.Perception.Description";
+
+    private static BlueprintFeature ConfigurePerception()
+    {
+      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
+        .SetDisplayName(PerceptionDisplayName)
+        .SetDescription(PerceptionDescription)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillPerception, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPerception))
+        .AddComponent<SignaturePerceptionComponent>()
+        .Configure();
+    }
+
+    [TypeId("e48b6792-f51c-465a-87d8-5903ac170bfb")]
+    private class SignaturePerceptionComponent :
+      UnitFactComponentDelegate,
+      IInitiatorRulebookHandler<RuleSkillCheck>,
+      IInitiatorRulebookHandler<RuleCachedPerceptionCheck>
+    {
+      public void OnEventAboutToTrigger(RuleSkillCheck evt)
+      {
+        try
+        {
+          if (evt.StatType != StatType.SkillPerception)
+            return;
+
+          if (evt.Reason.SourceEntity is null || evt.Reason.SourceEntity is not StaticEntityData)
+            return;
+
+          var perceptionRanks = Owner.Stats.GetStat(StatType.SkillPerception).BaseValue;
+          if (perceptionRanks < 10)
+            return;
+
+          var bonus = perceptionRanks >= 20 ? 10 : 5;
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
+          evt.AddModifier(bonus, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignaturePerceptionComponent.OnEventAboutToTrigger(RuleSkillCheck)", e);
+        }
+      }
+
+      // RuleCachedPerceptionCheck is only used for hidden units
+      public void OnEventAboutToTrigger(RuleCachedPerceptionCheck evt)
+      {
+        try
+        {
+          var perceptionRanks = Owner.Stats.GetStat(StatType.SkillPerception).BaseValue;
+          if (perceptionRanks < 10)
+            return;
+
+          var bonus = perceptionRanks >= 20 ? 10 : 5;
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
+          evt.AddModifier(bonus, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignaturePerceptionComponent.OnEventAboutToTrigger(RuleCachedPerceptionCheck)", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleSkillCheck evt) { }
+
+      public void OnEventDidTrigger(RuleCachedPerceptionCheck evt) { }
+    }
+
+    [HarmonyPatch(typeof(CampingRole))]
+    static class CampingRole_Patch
+    {
+      private static BlueprintUnitFact _signaturePerception;
+      private static BlueprintUnitFact SignaturePerception
+      {
+        get
+        {
+          _signaturePerception ??= BlueprintTool.Get<BlueprintUnitFact>(Guids.SignatureSkillPerception);
+          return _signaturePerception;
+        }
+      }
+
+      [HarmonyPatch(nameof(CampingRole.CreateRuleCheck)), HarmonyPostfix]
+      static void CreateRuleCheck(CampingRole __instance, RuleSkillCheck __result)
+      {
+        try
+        {
+          if (__result == null)
+            return;
+
+          if (__instance.m_RoleType != CampingRoleType.GuardFirstWatch && __instance.m_RoleType != CampingRoleType.GuardSecondWatch)
+            return;
+
+          var signatureSkill = __result.Initiator.GetFact(SignaturePerception);
+          if (signatureSkill is not null)
+          {
+            var bonus = __result.Initiator.Stats.SkillPerception.BaseValue >= 15 ? 4 : 2;
+            Logger.NativeLog($"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
+            __result.AddModifier(bonus, signatureSkill);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("CampingRole_Patch.CreateRuleCheck", e);
         }
       }
     }

@@ -66,14 +66,17 @@ namespace CharacterOptionsPlus.Util
     internal const string PairedOpportunistsRagerToggle = "68a15456-1076-408f-bd0f-9205c913f0ed";
 
     internal const string SignatureSkillFeat = "7bb79f1f-8a90-4cf0-9322-c81961fae21a";
+    internal const string SignatureSkillAcrobatics = "c48a21a8-8c32-464b-b1a9-b6a39953fc48";
+    internal const string SignatureSkillAcrobaticsAbility = "52518d3d-c23d-469a-af03-a9daf990d296";
+    internal const string SignatureSkillAcrobaticsAbilityBuff = "44d89421-c539-49c0-ab0d-c69391a52cb8";
     internal const string SignatureSkillDemoralize = "70d0cbae-811f-47aa-87c8-593d2a6d1a9e";
-    internal const string SignatureSkillPerception = "bfad5d33-ea63-4451-8342-1bc56425a6d4";
     internal const string SignatureSkillKnowledgeAbility = "3ffba240-5446-4dfa-92b7-cd82de34e6b9";
     internal const string SignatureSkillKnowledgeBuff = "8a1cd964-541b-4c2b-8506-47cb80780b92";
     internal const string SignatureSkillKnowledgeArcana = "d36369ae-3f05-4c00-aee1-5e46f09771d5";
     internal const string SignatureSkillKnowledgeWorld = "c2f152a0-c7e4-4f8b-8634-1af3061cde29";
     internal const string SignatureSkillLoreNature = "e3258da0-d4d4-4150-8049-09b3c726a232";
     internal const string SignatureSkillLoreReligion = "74442dfb-6deb-4700-bac0-2b99b6fe91d6";
+    internal const string SignatureSkillPerception = "bfad5d33-ea63-4451-8342-1bc56425a6d4";
 
     // todo: unused
     internal const string SignatureSkillKnowledgeWorldBuff = "cc7c219a-f684-49a4-8386-be7a390c63d5";
