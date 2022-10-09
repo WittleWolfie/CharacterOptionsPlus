@@ -84,26 +84,20 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize).Configure();
       FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
 
-      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
-      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
-      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
+      BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff).Configure();
+      AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility).Configure();
 
-      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
-      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
       FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
-
-      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
-      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
-      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
-
-      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
-      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
-      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
+      FeatureConfigurator.New(KnowledgeWorldName, Guids.SignatureSkillKnowledgeArcana).Configure();
+      FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillKnowledgeArcana).Configure();
+      FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillKnowledgeArcana).Configure();
     }
 
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatName}");
+
+      ConfigureKnowledgeCommon();
 
       var feat = FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat)
         .SetDisplayName(FeatDisplayName)
@@ -111,7 +105,13 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(IconName)
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
-        .AddToAllFeatures(ConfigureKnowledgeArcana(), ConfigureDemoralize(), ConfigurePerception())
+        .AddToAllFeatures(
+          ConfigureDemoralize(),
+          ConfigureKnowledgeArcana(),
+          ConfigureKnowledgeWorld(),
+          ConfigureKnowledgeNature(),
+          ConfigureKnowledgeReligion(),
+          ConfigurePerception())
         .Configure();
 
       // Add to feat selection
@@ -440,27 +440,43 @@ namespace CharacterOptionsPlus.Feats
         return _Religion;
       }
     }
+
+    private static BlueprintBuff _buff;
+    private static BlueprintBuff Buff
+    {
+      get
+      {
+        _buff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillKnowledgeBuff);
+        return _buff;
+      }
+    }
+
+    private static BlueprintAbility _ability;
+    private static BlueprintAbility Ability
+    {
+      get
+      {
+        _ability ??= BlueprintTool.Get<BlueprintAbility>(Guids.SignatureSkillKnowledgeAbility);
+        return _ability;
+      }
+    }
     #endregion
 
     private const string KnowledgeDescription = "SignatureSkill.Knowledge.Description";
+
+    private const string KnowledgeAbility = "SignatureSkill.Knowledge.Ability.Name";
     private const string KnowledgeAbilityDescription = "SignatureSkill.Knowledge.Ability.Description";
 
-    #region Arcana
-    private const string KnowledgeArcanaName = "SignatureSkill.KnowledgeArcana";
-    private const string KnowledgeArcanaDisplayName = "SignatureSkill.KnowledgeArcana.Name";
+    private const string KnowledgeBuff = "SignatureSkill.Knowledge.Arcana.Buff";
 
-    private const string KnowledgeArcanaBuff = "SignatureSkill.Knowledge.Arcana.Buff";
-    private const string KnowledgeArcanaAbility = "SignatureSkill.Knowledge.Arcana.Ability";
-
-    private static BlueprintFeature ConfigureKnowledgeArcana()
+    private static void ConfigureKnowledgeCommon()
     {
-      var buff = BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff)
-        .SetDisplayName(KnowledgeArcanaDisplayName)
+      BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff)
+        .SetDisplayName(KnowledgeAbility)
         .SetDescription(KnowledgeAbilityDescription)
         .Configure();
-      var buffRef = buff.ToReference<BlueprintBuffReference>();
 
-      var ability = AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility)
+      AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility)
         .SetDisplayName(KnowledgeArcanaDisplayName)
         .SetDescription(KnowledgeAbilityDescription)
         .SetRange(AbilityRange.Long)
@@ -470,22 +486,70 @@ namespace CharacterOptionsPlus.Feats
         .SetAnimation(CastAnimationStyle.Omni)
         .AddComponent<SignatureSkillAbilityRequirements>()
         .AddAbilityEffectRunAction(
-          ActionsBuilder.New()
-            .MakeKnowledgeCheck(successActions: ActionsBuilder.New().Add(new ApplySignatureSkillBuff(buffRef))))
+          ActionsBuilder.New().MakeKnowledgeCheck(successActions: ActionsBuilder.New().Add<ApplySignatureSkillBuff>()))
         .Configure();
-      var abilityRef = ability.ToReference<BlueprintAbilityReference>();
+    }
 
-      FeatureConfigurator.New("Fake1", Guids.SignatureSkillKnowledgeWorld).Configure();
-      FeatureConfigurator.New("Fake2", Guids.SignatureSkillLoreNature).Configure();
-      FeatureConfigurator.New("Fake3", Guids.SignatureSkillLoreReligion).Configure();
+    #region Arcana
+    private const string KnowledgeArcanaName = "SignatureSkill.KnowledgeArcana";
+    private const string KnowledgeArcanaDisplayName = "SignatureSkill.KnowledgeArcana.Name";
 
+    private static BlueprintFeature ConfigureKnowledgeArcana()
+    {
       return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana)
         .SetDisplayName(KnowledgeArcanaDisplayName)
         .SetDescription(KnowledgeDescription)
         .AddPrerequisiteStatValue(StatType.SkillKnowledgeArcana, 5)
-        .AddRecommendationStatMiminum(16, StatType.Intelligence)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeArcana))
-        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana, buffRef, abilityRef))
+        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana))
+        .Configure();
+    }
+    #endregion
+
+    #region World
+    private const string KnowledgeWorldName = "SignatureSkill.KnowledgeWorld";
+    private const string KnowledgeWorldDisplayName = "SignatureSkill.KnowledgeWorld.Name";
+
+    private static BlueprintFeature ConfigureKnowledgeWorld()
+    {
+      return FeatureConfigurator.New(KnowledgeWorldName, Guids.SignatureSkillKnowledgeWorld)
+        .SetDisplayName(KnowledgeWorldDisplayName)
+        .SetDescription(KnowledgeDescription)
+        .AddPrerequisiteStatValue(StatType.SkillKnowledgeWorld, 5)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeWorld))
+        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeWorld))
+        .Configure();
+    }
+    #endregion
+
+    #region Nature
+    private const string KnowledgeNatureName = "SignatureSkill.KnowledgeNature";
+    private const string KnowledgeNatureDisplayName = "SignatureSkill.KnowledgeNature.Name";
+
+    private static BlueprintFeature ConfigureKnowledgeNature()
+    {
+      return FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillLoreNature)
+        .SetDisplayName(KnowledgeNatureDisplayName)
+        .SetDescription(KnowledgeDescription)
+        .AddPrerequisiteStatValue(StatType.SkillLoreNature, 5)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillLoreNature))
+        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreNature))
+        .Configure();
+    }
+    #endregion
+
+    #region Religion
+    private const string KnowledgeReligionName = "SigReligionSkill.KnowledgeReligion";
+    private const string KnowledgeReligionDisplayName = "SigReligionSkill.KnowledgeReligion.Name";
+
+    private static BlueprintFeature ConfigureKnowledgeReligion()
+    {
+      return FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillLoreReligion)
+        .SetDisplayName(KnowledgeReligionDisplayName)
+        .SetDescription(KnowledgeDescription)
+        .AddPrerequisiteStatValue(StatType.SkillLoreReligion, 5)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillLoreReligion))
+        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreReligion))
         .Configure();
     }
     #endregion
@@ -501,33 +565,9 @@ namespace CharacterOptionsPlus.Feats
     {
       private readonly StatType Skill;
 
-      private readonly BlueprintBuffReference BuffReference;
-      private BlueprintBuff _buff;
-      private BlueprintBuff Buff
-      {
-        get
-        {
-          _buff ??= BuffReference;
-          return _buff;
-        }
-      }
-
-      private readonly BlueprintAbilityReference AbilityReference;
-      private BlueprintAbility _ability;
-      private BlueprintAbility Ability
-      {
-        get
-        {
-          _ability ??= AbilityReference;
-          return _ability;
-        }
-      }
-
-      public SignatureKnowledgeComponent(StatType skill, BlueprintBuffReference buff, BlueprintAbilityReference ability)
+      public SignatureKnowledgeComponent(StatType skill)
       {
         Skill = skill;
-        BuffReference = buff;
-        AbilityReference = ability;
       }
 
       #region Reroll
@@ -683,23 +723,6 @@ namespace CharacterOptionsPlus.Feats
 
     private class ApplySignatureSkillBuff : ContextAction
     {
-      private readonly BlueprintBuffReference BuffReference;
-
-      private BlueprintBuff _buff;
-      private BlueprintBuff Buff
-      {
-        get
-        {
-          _buff ??= BuffReference;
-          return _buff;
-        }
-      }
-
-      public ApplySignatureSkillBuff(BlueprintBuffReference buff)
-      {
-        BuffReference = buff;
-      }
-
       public override string GetCaption()
       {
         return "Apply Signature Skill buff";

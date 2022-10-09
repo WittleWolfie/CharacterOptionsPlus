@@ -155,7 +155,7 @@
   },
   {
     "Key": "SignatureSkill.Knowledge.Ability.Description",
-    "enGB": "As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute. When you have 15 Ranks in the skill used to identify the creature the bonus increases to +2. When you have 20 Ranks in the skill used to identify the creature the bonus increases to +3."
+    "enGB": "As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute. When you have 15 Ranks in the skill used to identify the creature the bonus applies to saving throws and increases to +2. When you have 20 Ranks in the skill used to identify the creature the bonus increases to +3."
   },
   {
     "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Feat",
