@@ -183,6 +183,8 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
+    // TODO: Merge the two mobility thingies using Ability Variants
+    // Probably that requires replacing the original, including save fixing
     #region Acrobatics
     private const string AcrobaticsName = "SignatureSkill.Acrobatics";
     private const string AcrobaticsDisplayName = "SignatureSkill.Acrobatics.Name";
@@ -490,6 +492,55 @@ namespace CharacterOptionsPlus.Feats
           Logger.LogException("SignatureDemoralizeComponent.AfterIntimidateSuccess", e);
         }
       }
+    }
+    #endregion
+
+    #region EscapeArtist
+    private const string EscapeArtistName = "SignatureSkill.EscapeArtist";
+    private const string EscapeArtistDisplayName = "SignatureSkill.EscapeArtist.Name";
+    private const string EscapeArtistDescription = "SignatureSkill.EscapeArtist.Description";
+
+    private const string EscapeArtistAbility = "SignatureSkill.EscapeArtist.Ability";
+    private const string EscapeArtistAbilityBuff = "SignatureSkill.EscapeArtist.Ability.Buff";
+    private const string EscapeArtistAbilityDescription = "SignatureSkill.EscapeArtist.Ability.Description";
+
+    private static BlueprintFeature ConfigureEscapeArtist()
+    {
+      var buff = BuffConfigurator.New(EscapeArtistAbilityBuff, Guids.SignatureSkillEscapeArtistAbilityBuff)
+        .SetDisplayName(EscapeArtistDisplayName)
+        .SetDescription(EscapeArtistAbilityDescription)
+        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
+        .AddComponent<AcrobaticMovement>()
+        .Configure();
+
+      var ability = ActivatableAbilityConfigurator.New(EscapeArtistAbility, Guids.SignatureSkillEscapeArtistAbility)
+        .SetDisplayName(EscapeArtistDisplayName)
+        .SetDescription(EscapeArtistAbilityDescription)
+        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
+        .SetDeactivateIfCombatEnded()
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.WithUnitCommand)
+        .SetBuff(buff)
+        .Configure();
+
+      return FeatureConfigurator.New(EscapeArtistName, Guids.SignatureSkillEscapeArtist)
+        .SetDisplayName(EscapeArtistDisplayName)
+        .SetDescription(EscapeArtistDescription)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent<SignatureEscapeArtistComponent>()
+        .AddFacts(new() { ability })
+        .Configure();
+    }
+
+    private class SignatureEscapeArtistComponent :
+      UnitFactComponentDelegate,
+      IInitiatorRulebookHandler<RuleCalculateCMD>,
+      ITargetRulebookHandler<RuleCalculateCMD>,
+      IInitiatorRulebookHandler<RuleSavingThrow>,
+      IUnitLevelUpHandler
+    {
     }
     #endregion
 

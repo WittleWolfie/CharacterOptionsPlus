@@ -128,6 +128,16 @@
   },
 
   {
+    "Key": "SignatureSkill.EscapeArtist.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Escape Artist"
+  },
+  {
+    "Key": "SignatureSkill.EscapeArtist.Description",
+    "enGB": "5 Ranks: As a standard action, you can attempt to break free from a grapple or entangling effect, if that effect allows you to break free.\n\n10 Ranks: You can attempt to break free as a move action. If you attempt to break free using a full-round action, you receive a +10 bonus on the check.\n\n15 Ranks: As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC.\n\n20 Ranks: You can attempt to break free as a swift action. You can attempt to suppress a slow or paralysis effect using a standard action (against the save DC), a move action (against the save DC + 5), or a swift action (against the save DC + 10)."
+  },
+
+  {
     "Key": "SignatureSkill.KnowledgeArcana.Name",
     "ProcessTemplates": false,
     "enGB": "Signature Skill: Knowledge (Arcana)"
