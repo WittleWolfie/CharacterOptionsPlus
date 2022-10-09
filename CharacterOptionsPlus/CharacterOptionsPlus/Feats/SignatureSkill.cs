@@ -52,7 +52,7 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO: Acrobatics, Escape Artist, Stealth
+  // TODO: Escape Artist, Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -115,6 +115,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
         .AddToAllFeatures(
+          ConfigureAcrobatics(),
           ConfigureDemoralize(),
           ConfigureKnowledgeArcana(),
           ConfigureKnowledgeWorld(),
@@ -196,15 +197,14 @@ namespace CharacterOptionsPlus.Feats
       var buff = BuffConfigurator.New(AcrobaticsAbilityBuff, Guids.SignatureSkillAcrobaticsAbilityBuff)
         .SetDisplayName(AcrobaticsDisplayName)
         .SetDescription(AcrobaticsAbilityDescription)
+        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
         .AddComponent<AcrobaticMovement>()
-        // None is used for Mobility checks to avoid AOO
-        .AddCMDBonusAgainstManeuvers(
-          value: -5, maneuvers: new[] { CombatManeuver.None }, descriptor: ModifierDescriptor.UntypedStackable)
         .Configure();
 
       var ability = ActivatableAbilityConfigurator.New(AcrobaticsAbility, Guids.SignatureSkillAcrobaticsAbility)
         .SetDisplayName(AcrobaticsDisplayName)
         .SetDescription(AcrobaticsAbilityDescription)
+        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
         .SetDeactivateIfCombatEnded()
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.WithUnitCommand)
@@ -224,6 +224,7 @@ namespace CharacterOptionsPlus.Feats
     private class SignatureAcrobaticsComponent :
       UnitFactComponentDelegate,
       IInitiatorRulebookHandler<RuleCalculateCMD>,
+      ITargetRulebookHandler<RuleCalculateCMD>,
       IInitiatorRulebookHandler<RuleSavingThrow>,
       IUnitLevelUpHandler
     {
@@ -234,6 +235,16 @@ namespace CharacterOptionsPlus.Feats
         {
           _getUp ??= FeatureRefs.AcrobatsFootwearFeature.Reference.Get();
           return _getUp;
+        }
+      }
+
+      private static BlueprintBuff _mobilityBuff;
+      private static BlueprintBuff MobilityBuff
+      {
+        get
+        {
+          _mobilityBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAcrobaticsAbilityBuff);
+          return _mobilityBuff;
         }
       }
 
@@ -263,21 +274,42 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          if (evt.Type != CombatManeuver.Trip)
-            return;
-
-          var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
-          if (ranks < 10)
-            return;
-
-          var bonus = ranks >= 20 ? 4 : 2;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} CMD");
-          evt.AddModifier(bonus, Fact);
+          if (evt.Initiator == Owner)
+            CheckForPenalty(evt);
+          else if (evt.Target == Owner)
+            CheckForBonus(evt);
         }
         catch (Exception e)
         {
           Logger.LogException("SignatureAcrobaticsComponent.OnEventAboutToTrigger(RuleCalculateCMD)", e);
         }
+      }
+
+      private void CheckForPenalty(RuleCalculateCMD evt)
+      {
+        // None is used only for Mobility / AOO avoidance
+        if (evt.Type != CombatManeuver.None)
+          return;
+
+        if (!evt.Initiator.HasFact(MobilityBuff))
+          return;
+
+        Logger.NativeLog($"Adding +5 to {evt.Target.CharacterName} CMD");
+        evt.AddModifier(5, Fact);
+      }
+
+      private void CheckForBonus(RuleCalculateCMD evt)
+      {
+        if (evt.Type != CombatManeuver.Trip)
+          return;
+
+        var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
+        if (ranks < 10)
+          return;
+
+        var bonus = ranks >= 20 ? 4 : 2;
+        Logger.NativeLog($"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
+        evt.AddModifier(bonus, Fact);
       }
 
       public void OnEventAboutToTrigger(RuleSavingThrow evt)
