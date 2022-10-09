@@ -145,7 +145,19 @@
   },
   {
     "Key": "SignatureSkill.Knowledge.Description",
-    "enGB": "5 Ranks: When you successfully identify a creature you gain additional information.\n\n10 Ranks: As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and caster level checks against creatures of that kind for 1 minute.\n\n15 Ranks: When you fail a skill check, you can reroll the check at a -10 penalty. The competence bonus increases to +2 and applies to saving throws.\n\n20 Ranks: When you make a skill check, you can roll twice and take the better result. The competence bonus increases to +3."
+    "enGB": "5 Ranks: When you successfully identify a creature you gain additional information.\n\n10 Ranks: As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute.\n\n15 Ranks: The competence bonus increases to +2 and applies to saving throws.\n\n20 Ranks: When you make a skill check, you can roll twice and take the better result. The competence bonus increases to +3."
+  },
+  {
+    "Key": "SignatureSkill.Knowledge.Ability.Description",
+    "enGB": "As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute. When you have 15 Ranks in the skill used to identify the creature the bonus increases to +2. When you have 20 Ranks in the skill used to identify the creature the bonus increases to +3."
+  },
+  {
+    "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Expected",
+    "enGB": "Target must be identifiable using"
+  },
+  {
+    "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Actual",
+    "enGB": "Target is identified using"
   },
 
   {

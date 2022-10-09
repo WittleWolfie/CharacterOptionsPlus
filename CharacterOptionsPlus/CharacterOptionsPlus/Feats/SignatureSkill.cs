@@ -31,6 +31,20 @@ using Kingmaker.Inspect;
 using Kingmaker.EntitySystem.Entities;
 using System.Collections.Generic;
 using System.Reflection;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using Kingmaker.Enums;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
+using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using Kingmaker.Designers;
+using System.Linq;
+using Kingmaker.Controllers;
+using Kingmaker.UnitLogic.Abilities.Components.Base;
+using System.Text;
+using Kingmaker.Blueprints.Root;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -69,6 +83,9 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat).Configure();
       FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize).Configure();
       FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
+      BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff).Configure();
+      AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility).Configure();
+      FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -370,32 +387,88 @@ namespace CharacterOptionsPlus.Feats
 
     #region Knowledge / Lore
     private const string KnowledgeDescription = "SignatureSkill.Knowledge.Description";
+    private const string KnowledgeAbilityDescription = "SignatureSkill.Knowledge.Ability.Description";
 
     private const string KnowledgeArcanaName = "SignatureSkill.KnowledgeArcana";
     private const string KnowledgeArcanaDisplayName = "SignatureSkill.KnowledgeArcana.Name";
 
+    private const string KnowledgeArcanaBuff = "SignatureSkill.Knowledge.Arcana.Buff";
+    private const string KnowledgeArcanaAbility = "SignatureSkill.Knowledge.Arcana.Ability";
+
     private static BlueprintFeature ConfigureKnowledgeArcana()
     {
+      var buff = BuffConfigurator.New(KnowledgeArcanaBuff, Guids.SignatureSkillKnowledgeArcanaBuff)
+        .SetDisplayName(KnowledgeArcanaDisplayName)
+        .SetDescription(KnowledgeAbilityDescription)
+        .Configure();
+      var buffRef = buff.ToReference<BlueprintBuffReference>();
+
+      var ability = AbilityConfigurator.New(KnowledgeArcanaAbility, Guids.SignatureSkillKnowledgeArcanaAbility)
+        .SetDisplayName(KnowledgeArcanaDisplayName)
+        .SetDescription(KnowledgeAbilityDescription)
+        .SetRange(AbilityRange.Long)
+        .SetType(AbilityType.Extraordinary)
+        .AllowTargeting(enemies: true)
+        .SetActionType(CommandType.Move)
+        .SetAnimation(CastAnimationStyle.Omni)
+        .AddComponent(new SignatureSkillAbilityRequirements(StatType.SkillKnowledgeArcana))
+        .AddAbilityEffectRunAction(
+          ActionsBuilder.New()
+            .MakeKnowledgeCheck(successActions: ActionsBuilder.New().Add(new ApplySignatureSkillBuff(buffRef))))
+        .Configure();
+      var abilityRef = ability.ToReference<BlueprintAbilityReference>();
+
       return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana)
         .SetDisplayName(KnowledgeArcanaDisplayName)
         .SetDescription(KnowledgeDescription)
         .AddPrerequisiteStatValue(StatType.SkillKnowledgeArcana, 5)
         .AddRecommendationStatMiminum(16, StatType.Intelligence)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeArcana))
-        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana))
+        .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana, buffRef, abilityRef))
         .Configure();
     }
 
     private class SignatureKnowledgeComponent :
-      UnitFactComponentDelegate, IUnitIdentifiedHandler, IInitiatorRulebookHandler<RuleRollD20>
+      UnitFactComponentDelegate,
+      IUnitIdentifiedHandler,
+      IInitiatorRulebookHandler<RuleRollD20>,
+      IInitiatorRulebookHandler<RuleSavingThrow>,
+      IInitiatorRulebookHandler<RuleCalculateAttackBonus>,
+      IInitiatorRulebookHandler<RuleSpellResistanceCheck>,
+      IUnitLevelUpHandler
     {
       private readonly StatType Skill;
 
-      public SignatureKnowledgeComponent(StatType skill)
+      private readonly BlueprintBuffReference BuffReference;
+      private BlueprintBuff _buff;
+      private BlueprintBuff Buff
       {
-        Skill = skill;
+        get
+        {
+          _buff ??= BuffReference;
+          return _buff;
+        }
       }
 
+      private readonly BlueprintAbilityReference AbilityReference;
+      private BlueprintAbility _ability;
+      private BlueprintAbility Ability
+      {
+        get
+        {
+          _ability ??= AbilityReference;
+          return _ability;
+        }
+      }
+
+      public SignatureKnowledgeComponent(StatType skill, BlueprintBuffReference buff, BlueprintAbilityReference ability)
+      {
+        Skill = skill;
+        BuffReference = buff;
+        AbilityReference = ability;
+      }
+
+      #region Reroll
       public void OnEventAboutToTrigger(RuleRollD20 evt)
       {
         try
@@ -415,37 +488,84 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("SignatureInspectionComponent.OnEventAboutToTrigger", e);
+          Logger.LogException("SignatureInspectionComponent.OnEventAboutToTrigger(RuleRollD20)", e);
         }
       }
 
-      public void OnEventDidTrigger(RuleRollD20 evt)
+      #endregion
+
+      #region Competence Bonus
+      public void OnEventAboutToTrigger(RuleSavingThrow evt)
       {
         try
         {
-          if (Rulebook.CurrentContext.PreviousEvent is not RuleSkillCheck skillCheck)
+          var buff = evt.Reason.Caster.GetFact(Buff);
+          if (buff is null || buff.MaybeContext?.MaybeCaster != evt.Initiator)
             return;
 
-          if (skillCheck.Success)
-            return;
-
-          if (skillCheck.StatType != Skill)
-            return;
-
-          var skillRanks = Owner.Stats.GetStat(Skill).BaseValue;
-          if (skillRanks < 15)
-            return;
-
-          Logger.Log($"Rerolling {Skill} for {Owner.CharacterName} with -10 penalty.");
-          evt.AddModifier(-10, Fact);
-          evt.Reroll(Fact, takeBest: true);
-
+          var bonus = GetBonus(evt.Initiator);
+          Logger.NativeLog($"Adding +{bonus} to saving throw for {evt.Initiator.CharacterName}");
+          evt.AddModifier(bonus, Fact, ModifierDescriptor.Competence);
         }
         catch (Exception e)
         {
-          Logger.LogException("SignatureInspectionComponent.OnEventDidTrigger", e);
+          Logger.LogException("SignatureInspectionComponent.OnEventAboutToTrigger(RuleSavingThrow)", e);
         }
       }
+
+      public void OnEventAboutToTrigger(RuleCalculateAttackBonus evt)
+      {
+        try
+        {
+          if (evt.Target is null)
+          {
+            Logger.Warning("No target available for attack.");
+            return;
+          }
+
+          var buff = evt.Target.GetFact(Buff);
+          if (buff is null || buff.MaybeContext?.MaybeCaster != evt.Initiator)
+            return;
+
+          var bonus = GetBonus(evt.Initiator);
+          Logger.NativeLog($"Adding +{bonus} to attack against {evt.Target.CharacterName}");
+          evt.AddModifier(bonus, Fact, ModifierDescriptor.Competence);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureKnowledgeBuffComponent.OnEventAboutToTrigger(RuleCalculateAttackBonus)", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleSpellResistanceCheck evt)
+      {
+        try
+        {
+          if (evt.Target is null)
+          {
+            Logger.Warning("No target available for attack.");
+            return;
+          }
+
+          var buff = evt.Target.GetFact(Buff);
+          if (buff is null || buff.MaybeContext?.MaybeCaster != evt.Initiator)
+            return;
+
+          var bonus = GetBonus(evt.Initiator);
+          Logger.NativeLog($"Adding +{bonus} to spell resistance check against {evt.Target.CharacterName}");
+          evt.AddSpellPenetration(bonus, ModifierDescriptor.Competence);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureKnowledgeBuffComponent.OnEventAboutToTrigger(RuleSpellResistanceCheck)", e);
+        }
+      }
+
+      private int GetBonus(UnitEntityData unit)
+      {
+        return Math.Max(3, (unit.Stats.GetStat(Skill).BaseValue - 5) / 5);
+      }
+      #endregion
 
       public void OnUnitIdentified(RuleSkillCheck skillCheck, ref int checkBonus)
       {
@@ -461,6 +581,143 @@ namespace CharacterOptionsPlus.Feats
         {
           Logger.LogException("SignatureInspectionComponent.OnUnitIdentified", e);
         }
+      }
+
+      // Grants the ability at rank 10
+      public void HandleUnitAfterLevelUp(UnitEntityData unit, LevelUpController controller)
+      {
+        try
+        {
+          if (unit != Owner)
+            return;
+
+          if (unit.HasFact(Ability))
+            return;
+
+          if (unit.Stats.GetStat(Skill).BaseValue >= 10)
+          {
+            Logger.NativeLog($"Granting {Ability.Name} to {Owner.CharacterName}");
+            unit.AddFact(Ability);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureInspectionComponent.HandleUnitAfterLevelUp", e);
+        }
+      }
+
+      #region Unused
+      public void OnEventDidTrigger(RuleCalculateAttackBonus evt) { }
+
+      public void OnEventDidTrigger(RuleSpellResistanceCheck evt) { }
+
+      public void OnEventDidTrigger(RuleSavingThrow evt) { }
+
+      public void OnEventDidTrigger(RuleRollD20 evt) { }
+
+      public void HandleUnitBeforeLevelUp(UnitEntityData unit) { }
+      #endregion
+    }
+
+    private class ApplySignatureSkillBuff : ContextAction
+    {
+      private readonly BlueprintBuffReference BuffReference;
+
+      private BlueprintBuff _buff;
+      private BlueprintBuff Buff
+      {
+        get
+        {
+          _buff ??= BuffReference;
+          return _buff;
+        }
+      }
+
+      public ApplySignatureSkillBuff(BlueprintBuffReference buff)
+      {
+        BuffReference = buff;
+      }
+
+      public override string GetCaption()
+      {
+        return "Apply Signature Skill buff";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          List<UnitEntityData> targets = new() { Context.MainTarget.Unit };
+
+          var targetType = Context.MainTarget.Unit.Blueprint.Type;
+          targets.AddRange(
+            GameHelper.GetTargetsAround(Context.MaybeCaster.Position, 120.Feet())
+              .Where(unit => unit.IsEnemy(Context.MaybeCaster) && unit.Blueprint.Type == targetType));
+
+          foreach (var target in targets)
+          {
+            var buff = target.AddBuff(Buff, Context, duration: 1.Minutes());
+            buff.IsNotDispelable = true;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("ApplySignatureSkillBuff.RunAction", e);
+        }
+      }
+    }
+
+    private class SignatureSkillAbilityRequirements : BlueprintComponent, IAbilityTargetRestriction
+    {
+      private const string ExpectedText = "SignatureSkill.Knowledge.Ability.TargetRestriction.Expected";
+      private const string ActualText = "SignatureSkill.Knowledge.Ability.TargetRestriction.Actual";
+
+      private readonly StatType Skill;
+
+      public SignatureSkillAbilityRequirements(StatType skill)
+      {
+        Skill = skill;
+      }
+
+      public string GetAbilityTargetRestrictionUIText(UnitEntityData caster, TargetWrapper target)
+      {
+        var sb = new StringBuilder();
+        try
+        {
+          sb.Append(
+            $"{LocalizationTool.GetString(ExpectedText)}: <b>{LocalizedTexts.Instance.Stats.GetText(Skill)}</b>");
+          if (target.Unit is not null)
+          {
+            var statType =
+              target.Unit.Blueprint.Type ? target.Unit.Blueprint.Type.KnowledgeStat : StatType.SkillLoreNature;
+            sb.AppendLine();
+            sb.AppendLine(
+              $"{LocalizationTool.GetString(ActualText)}: <b>{LocalizedTexts.Instance.Stats.GetText(statType)}</b>");
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureSkillAbilityRequirements.GetAbilityTargetRestrictionUIText", e);
+        }
+        return sb.ToString();
+      }
+
+      public bool IsTargetRestrictionPassed(UnitEntityData caster, TargetWrapper target)
+      {
+        try
+        {
+          if (target.Unit is null)
+            return false;
+
+          var statType =
+            target.Unit.Blueprint.Type ? target.Unit.Blueprint.Type.KnowledgeStat : StatType.SkillLoreNature;
+          return statType == Skill;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureSkillAbilityRequirements.IsTargetRestrictionPassed", e);
+        }
+        return false;
       }
     }
 
