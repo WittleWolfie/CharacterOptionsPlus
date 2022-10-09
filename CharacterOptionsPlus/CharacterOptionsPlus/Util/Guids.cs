@@ -96,7 +96,7 @@ namespace CharacterOptionsPlus.Util
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
-        (SignatureSkillFeat, SignatureSkill.FeatDisplayName),
+   //     (SignatureSkillFeat, SignatureSkill.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };
     #endregion
@@ -136,6 +136,7 @@ namespace CharacterOptionsPlus.Util
     #region Draconic Heritage
     // Used to prevent multiple selections
     internal const string DraconicHeritage = "86bfc14d-08bd-4a5b-9d53-521ca22a5d99";
+    internal const string DraconicHeritageRequisite = "f20409c5-343e-40a4-9ebe-7189a40e3a63";
 
     internal const string DraconicBlackHeritage = "cb5eaa9d-9ccc-4b55-bd05-88caffc38139";
     internal const string DraconicBlackHeritageResistance = "4cc57a5d-17c1-4988-be61-32652b002439";
@@ -201,6 +202,7 @@ namespace CharacterOptionsPlus.Util
     #region Elemental Heritage
     // Used to prevent multiple selections
     internal const string ElementalHeritage = "b77ff128-3a16-4da7-9f91-afd24c9fd6ae";
+    internal const string ElementalHeritageRequisite = "9dd9b2a4-f4b4-47db-a1d1-d74901e3f095";
 
     internal const string ElementalAirHeritage = "10f79138-da20-4202-b09f-941261f7d212";
     internal const string ElementalAirHeritageRay = "6460bd7b-19f1-4356-82c7-137f05c4ee11";
