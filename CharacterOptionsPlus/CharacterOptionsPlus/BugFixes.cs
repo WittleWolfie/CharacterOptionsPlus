@@ -129,13 +129,19 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
+    // Fixes are in Eldritch Heritage
+    internal static string SingleDraconicBloodline = "single-draconic-bloodline";
+    internal static string SingleElementalBloodline = "single-elemental-bloodline";
+
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
-        (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
         (HeavenlyFireResourceAmount, "HeavenlyFireResourceAmount.Name", "HeavenlyFireResourceAmount.Description"),
+        (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
         (SerpentineBiteDC, "SerpentineBiteDC.Name", "SerpentineBiteDC.Description"),
         (SerpentineFriendBonus, "SerpentineFriendBonus.Name", "SerpentineFriendBonus.Description"),
+        (SingleDraconicBloodline, "SingleDraconicBloodline.Name", "SingleDraconicBloodline.Description"),
+        (SingleElementalBloodline, "SingleElementalBloodline.Name", "SingleElementalBloodline.Description"),
       };
   }
 }

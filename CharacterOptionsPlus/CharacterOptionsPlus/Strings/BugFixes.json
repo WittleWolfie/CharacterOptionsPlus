@@ -1,22 +1,22 @@
 ﻿[
   {
-    "Key": "PackRagerTeamworkSelection.Name",
-    "ProcessTemplates": false,
-    "enGB": "Pack Rager Teamwork Selection"
-  },
-  {
-    "Key": "PackRagerTeamworkSelection.Description",
-    "enGB": "Flags the Pack Rager's Teamwork Selection so Teamwork Feats added using BlueprintCore or TTT-Core are included."
-  },
-
-  {
     "Key": "HeavenlyFireResourceAmount.Name",
     "ProcessTemplates": false,
     "enGB": "Heavenly Fire Resource Amount"
   },
   {
     "Key": "HeavenlyFireResourceAmount.Description",
-    "enGB": "Correctly sets the max uses per day to 3 + Charisma modifier."
+    "enGB": "REQUIRES RESTART\n\nCorrectly sets the max uses per day to 3 + Charisma modifier."
+  },
+
+  {
+    "Key": "PackRagerTeamworkSelection.Name",
+    "ProcessTemplates": false,
+    "enGB": "Pack Rager Teamwork Selection"
+  },
+  {
+    "Key": "PackRagerTeamworkSelection.Description",
+    "enGB": "REQUIRES RESTART\n\nFlags the Pack Rager's Teamwork Selection so Teamwork Feats added using BlueprintCore or TTT-Core are included."
   },
 
   {
@@ -26,7 +26,7 @@
   },
   {
     "Key": "SerpentineFriendBonus.Description",
-    "enGB": "Applies +3 to Perception and Persuasion as stated, instead of +2 to Perception and +3 to Persuasion."
+    "enGB": "REQUIRES RESTART\n\nApplies +3 to Perception and Persuasion as stated, instead of +2 to Perception and +3 to Persuasion."
   },
 
   {
@@ -36,6 +36,26 @@
   },
   {
     "Key": "SerpentineBiteDC.Description",
-    "enGB": "Correctly sets the DC of the Serpentine Bloodline Bite poison for Socererors and Magi."
+    "enGB": "REQUIRES RESTART\n\nCorrectly sets the DC of the Serpentine Bloodline Bite poison for Socererors and Magi."
+  },
+
+  {
+    "Key": "SingleDraconicBloodline.Name",
+    "ProcessTemplates": false,
+    "enGB": "Single Draconic Bloodline"
+  },
+  {
+    "Key": "SingleDraconicBloodline.Description",
+    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the draconic bloodline."
+  },
+
+  {
+    "Key": "SingleElementalBloodline.Name",
+    "ProcessTemplates": false,
+    "enGB": "Single Elemental Bloodline"
+  },
+  {
+    "Key": "SingleElementalBloodline.Description",
+    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline."
   }
 ]
