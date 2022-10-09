@@ -322,11 +322,8 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = perceptionRanks >= 20 ? 10 : 5;
-          if (Owner.Stats.GetStat(StatType.SkillPerception).BaseValue >= 20)
-          {
-            Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
-            evt.AddModifier(bonus, Fact);
-          } 
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
+          evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
         {
@@ -344,11 +341,8 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = perceptionRanks >= 20 ? 10 : 5;
-          if (Owner.Stats.GetStat(StatType.SkillPerception).BaseValue >= 20)
-          {
-            Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
-            evt.AddModifier(bonus, Fact);
-          }
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
+          evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
         {
@@ -379,6 +373,9 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
+          if (__result == null)
+            return;
+
           if (__instance.m_RoleType != CampingRoleType.GuardFirstWatch && __instance.m_RoleType != CampingRoleType.GuardSecondWatch)
             return;
 
