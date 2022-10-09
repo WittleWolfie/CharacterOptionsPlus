@@ -181,6 +181,16 @@
   },
 
   {
+    "Key": "SignatureSkill.Stealth.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Stealth"
+  },
+  {
+    "Key": "SignatureSkill.Stealth.Description",
+    "enGB": "5 Ranks: When you break stealth, make a Stealth check with a -5 penalty against the nearest enemy. If you succeed, you are partially concealed until the start of your next turn.\n\n10 Ranks: When you break stealth, make a Stealth check against the nearest enemy. If you succeed, gain total concealment for 1 round.\n\n15 Ranks: If you attack after successfully using Stealth, your target is denied its Dexterity bonus against all attacks that you make before the end of your turn.\n\n20 Ranks: If you attack after successfully using Stealth, your target is denied its Dexterity bonus against all attacks that you make before the beginning of your next turn."
+  },
+
+  {
     "Key": "SkaldsVigor.Name",
     "ProcessTemplates": false,
     "enGB": "Skald's Vigor"
