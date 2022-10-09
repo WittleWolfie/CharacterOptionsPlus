@@ -44,6 +44,6 @@
   {
     "Key": "Settings.Homebrew.GloriousHeat.Description",
     "ProcessTemplates": false,
-    "enGB": "The default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing."
+    "enGB": "REQUIRES RESTART\n\nThe default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing."
   }
 ]
