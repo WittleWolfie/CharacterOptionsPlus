@@ -85,16 +85,22 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName} (disabled)");
 
       FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat).Configure();
+
+      BuffConfigurator.New(AcrobaticsAbilityBuff, Guids.SignatureSkillAcrobaticsAbilityBuff).Configure();
+      ActivatableAbilityConfigurator.New(AcrobaticsAbility, Guids.SignatureSkillAcrobaticsAbility).Configure();
+      FeatureConfigurator.New(AcrobaticsName, Guids.SignatureSkillAcrobatics).Configure();
+
       FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize).Configure();
-      FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
 
       BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff).Configure();
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility).Configure();
-
       FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
       FeatureConfigurator.New(KnowledgeWorldName, Guids.SignatureSkillKnowledgeArcana).Configure();
       FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillKnowledgeArcana).Configure();
       FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillKnowledgeArcana).Configure();
+
+      FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
+
     }
 
     private static void ConfigureEnabled()
