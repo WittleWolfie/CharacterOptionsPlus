@@ -1,54 +1,54 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
+using HarmonyLib;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
-using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.ElementsSystem;
-using Kingmaker.RuleSystem.Rules;
-using Kingmaker.UnitLogic.Buffs;
-using Kingmaker.UnitLogic.Mechanics.Actions;
-using Kingmaker.UnitLogic.Mechanics;
-using Kingmaker.UnitLogic;
-using System;
-using TabletopTweaks.Core.NewEvents;
-using static UnityModManagerNet.UnityModManager.ModEntry;
-using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.Utility;
-using Kingmaker.EntitySystem.Stats;
-using Kingmaker.RuleSystem;
-using Kingmaker.Blueprints;
-using Kingmaker.Designers.Mechanics.Recommendations;
-using Kingmaker.UnitLogic.Class.LevelUp;
-using HarmonyLib;
-using Kingmaker.Controllers.Rest.State;
 using Kingmaker.Blueprints.Facts;
-using BlueprintCore.Utils;
-using Kingmaker.PubSubSystem;
+using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Blueprints.Root;
+using Kingmaker.Controllers;
+using Kingmaker.Controllers.Rest.State;
+using Kingmaker.Designers;
+using Kingmaker.Designers.Mechanics.Recommendations;
+using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
-using Kingmaker.Inspect;
 using Kingmaker.EntitySystem.Entities;
-using System.Collections.Generic;
-using System.Reflection;
-using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
-using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using Kingmaker.Inspect;
+using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem;
+using Kingmaker.RuleSystem.Rules;
+using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components.Base;
+using Kingmaker.UnitLogic.ActivatableAbilities;
+using Kingmaker.UnitLogic.Buffs;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Class.LevelUp;
+using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Mechanics;
+using Kingmaker.UnitLogic.Mechanics.Actions;
+using Kingmaker.UnitLogic.Parts;
+using Kingmaker.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using TabletopTweaks.Core.NewEvents;
+using static Kingmaker.Blueprints.Classes.Prerequisites.Prerequisite;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using BlueprintCore.Actions.Builder;
-using BlueprintCore.Actions.Builder.ContextEx;
-using Kingmaker.Designers;
-using System.Linq;
-using Kingmaker.Controllers;
-using Kingmaker.UnitLogic.Abilities.Components.Base;
-using System.Text;
-using Kingmaker.Blueprints.Root;
-using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
-using Kingmaker.UnitLogic.ActivatableAbilities;
-using static Kingmaker.Blueprints.Classes.Prerequisites.Prerequisite;
-using Kingmaker.UnitLogic.FactLogic;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -100,7 +100,6 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillKnowledgeArcana).Configure();
 
       FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
-
     }
 
     private static void ConfigureEnabled()
@@ -220,6 +219,97 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddFacts(new() { ability })
         .Configure();
+    }
+
+    private class SignatureAcrobaticsComponent :
+      UnitFactComponentDelegate,
+      IInitiatorRulebookHandler<RuleCalculateCMD>,
+      IInitiatorRulebookHandler<RuleSavingThrow>,
+      IUnitLevelUpHandler
+    {
+      private static BlueprintFeature _getUp;
+      private static BlueprintFeature GetUp
+      {
+        get
+        {
+          _getUp ??= FeatureRefs.AcrobatsFootwearFeature.Reference.Get();
+          return _getUp;
+        }
+      }
+
+      public void HandleUnitAfterLevelUp(UnitEntityData unit, LevelUpController controller)
+      {
+        try
+        {
+          if (unit != Owner)
+            return;
+
+          if (unit.HasFact(GetUp))
+            return;
+
+          if (unit.Stats.GetStat(StatType.SkillMobility).BaseValue >= 15)
+          {
+            Logger.NativeLog($"Granting {GetUp.Name} to {Owner.CharacterName}");
+            unit.AddFact(GetUp);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureInspectionComponent.HandleUnitAfterLevelUp", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateCMD evt)
+      {
+        try
+        {
+          if (evt.Type != CombatManeuver.Trip)
+            return;
+
+          var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
+          if (ranks < 10)
+            return;
+
+          var bonus = ranks >= 20 ? 4 : 2;
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} CMD");
+          evt.AddModifier(bonus, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureAcrobaticsComponent.OnEventAboutToTrigger(RuleCalculateCMD)", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleSavingThrow evt)
+      {
+        try
+        {
+          if (evt.Type != SavingThrowType.Reflex)
+            return;
+
+          var inPit = Owner.Get<UnitPartInPit>();
+          if (inPit is null || inPit.State != UnitInPitState.ReadyToEvade)
+            return;
+
+          var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
+          if (ranks < 10)
+            return;
+
+          var bonus = ranks >= 20 ? 4 : 2;
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
+          evt.AddModifier(bonus, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureAcrobaticsComponent.OnEventAboutToTrigger(RuleSavingThrow)", e);
+        }
+      }
+
+      public void HandleUnitBeforeLevelUp(UnitEntityData unit) { }
+
+      public void OnEventDidTrigger(RuleCalculateCMD evt) { }
+
+      public void OnEventDidTrigger(RuleSavingThrow evt) { }
     }
 
     [HarmonyPatch(typeof(UnitEntityData))]
