@@ -1,3 +1,9 @@
+## v0.4.1
+
+* Updates
+    * Draconic / Elemental Bloodline changes now flagged as bug fixes
+    * Draconic / Elemental Heritage should function properly with respec
+
 ## v0.4.0
 
 * New Feats:
