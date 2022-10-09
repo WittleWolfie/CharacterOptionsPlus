@@ -217,6 +217,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent<SignatureAcrobaticsComponent>()
         .AddFacts(new() { ability })
         .Configure();
     }
