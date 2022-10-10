@@ -1,3 +1,7 @@
+## v0.4.2
+
+* Hurtful works again, and correctly...
+
 ## v0.4.1
 
 * Updates
