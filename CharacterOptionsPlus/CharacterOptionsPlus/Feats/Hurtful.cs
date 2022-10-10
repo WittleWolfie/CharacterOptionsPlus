@@ -83,8 +83,7 @@ namespace CharacterOptionsPlus.Feats
         BuffConfigurator.New(BuffName, Guids.HurtfulBuff)
           // No need to clutter the UI, the ability itself is sufficient to indicate it is active.
           .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-          .AddComponent(
-            new HurtfulComponent(ConditionsBuilder.New().TargetInMeleeRange().HasActionsAvailable(requireSwift: true)))
+          .AddComponent(new HurtfulComponent(ConditionsBuilder.New().TargetInMeleeRange()))
           .Configure();
 
       // Toggle ability to enable / disable hurtful trigger
@@ -126,7 +125,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (!Conditions.Check())
           {
-            Logger.NativeLog($"Conditions not met");
+            Logger.NativeLog($"Target not in melee range (or no melee weapon equipped)");
             return;
           }
 
@@ -157,7 +156,7 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          if (caster.HasSwiftAction())
+          if (!caster.HasSwiftAction())
           {
             Logger.NativeLog($"No swift action available.");
             return;
