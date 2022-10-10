@@ -7,6 +7,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
+using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
 using Kingmaker.Blueprints;
@@ -45,6 +46,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TabletopTweaks.Core.NewEvents;
+using TabletopTweaks.Core.Utilities;
 using static Kingmaker.Blueprints.Classes.Prerequisites.Prerequisite;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
@@ -536,11 +538,65 @@ namespace CharacterOptionsPlus.Feats
 
     private class SignatureEscapeArtistComponent :
       UnitFactComponentDelegate,
-      IInitiatorRulebookHandler<RuleCalculateCMD>,
-      ITargetRulebookHandler<RuleCalculateCMD>,
-      IInitiatorRulebookHandler<RuleSavingThrow>,
-      IUnitLevelUpHandler
+      IUnitBuffHandler
     {
+      public void HandleBuffDidAdded(Buff buff)
+      {
+        try
+        {
+          if (buff.Owner != Owner)
+            return;
+
+          if (IsBreakFreeBuff(buff))
+          {
+            Owner.Ensure<UnitPartEscapeArtist>().BreakFreeBuffs.Add(buff);
+            return;
+          }
+
+          if (buff.Blueprint.GetComponents<AddCondition>().Any(
+            c => c.Condition == UnitCondition.Slowed || c.Condition == UnitCondition.Paralyzed))
+          {
+            Owner.Ensure<UnitPartEscapeArtist>().SuppressBuffs.Add(buff);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureEscapeArtistComponent.HandleBuffDidAdded", e);
+        }
+      }
+
+      private static bool IsBreakFreeBuff(Buff buff)
+      {
+        if (buff.Blueprint.ElementsArray.Any(element => element is ContextActionBreakFree))
+          return true;
+
+        if (buff.SourceAbility?.ElementsArray?.Any(element => element is ContextActionGrapple) == true)
+          return true;
+
+        return false;
+      }
+
+      public void HandleBuffDidRemoved(Buff buff)
+      {
+        try
+        {
+          if (buff.Owner != Owner)
+            return;
+
+          var unitPart = Owner.Get<UnitPartEscapeArtist>();
+          if (unitPart is null)
+            return;
+
+          if (unitPart.BreakFreeBuffs.Remove(buff))
+            return;
+
+          unitPart.SuppressBuffs.Remove(buff);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureEscapeArtistComponent.HandleBuffDidRemoved", e);
+        }
+      }
     }
     #endregion
 
