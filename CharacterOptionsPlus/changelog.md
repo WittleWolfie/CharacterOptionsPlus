@@ -1,3 +1,12 @@
+## v0.5.0
+
+* New Feats:
+    * Signature Skill
+        * Free bonus feat for Rogues at 5 / 10 / 15 / 20
+        * Available for every skill except Use Magic Device and Thievery
+* Updates:
+    * Lich Companion upgrade can now select Paired Opportunists as a teamwork feat
+
 ## v0.4.2
 
 * Hurtful works again, and correctly...
