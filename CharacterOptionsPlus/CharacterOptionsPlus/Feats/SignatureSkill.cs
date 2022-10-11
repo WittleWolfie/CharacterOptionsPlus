@@ -19,6 +19,7 @@ using Kingmaker.Blueprints.Root;
 using Kingmaker.Controllers;
 using Kingmaker.Controllers.Rest.State;
 using Kingmaker.Designers;
+using Kingmaker.Designers.EventConditionActionSystem.ContextData;
 using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
@@ -117,13 +118,14 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
         .AddToAllFeatures(
-          ConfigureMobility(),
-          ConfigurePersuasion(),
+          ConfigureAthletics(),
           ConfigureKnowledgeArcana(),
           ConfigureKnowledgeWorld(),
           ConfigureKnowledgeNature(),
           ConfigureKnowledgeReligion(),
-          ConfigurePerception())
+          ConfigureMobility(),
+          ConfigurePerception(),
+          ConfigurePersuasion())
         .Configure();
 
       // Add to feat selection
@@ -191,19 +193,21 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsDescription = "SignatureSkill.Athletics.Description";
 
     private const string AthleticsAbility = "SignatureSkill.Athletics.Ability";
-    private const string AthleticsAbilityBuff = "SignatureSkill.Athletics.Ability.Buff";
-    private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.Ability.Description";
+    private const string AthleticsAbilityName = "SignatureSkill.Athletics.BreakFree.Name";
+    private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.BreakFree.Description";
 
     private static BlueprintFeature ConfigureAthletics()
     {
-
-      var ability = ActivatableAbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
-        .SetDisplayName(AthleticsDisplayName)
+      var ability = AbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
+        .SetDisplayName(AthleticsAbilityName)
         .SetDescription(AthleticsAbilityDescription)
-        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
-        .SetDeactivateIfCombatEnded()
-        .SetDeactivateImmediately()
-        .SetActivationType(AbilityActivationType.WithUnitCommand)
+        .SetRange(AbilityRange.Personal)
+        .SetType(AbilityType.Extraordinary)
+        .AllowTargeting(self: true)
+        .SetActionType(CommandType.Standard)
+        .SetAnimation(CastAnimationStyle.Omni)
+        .AddComponent<SignatureAthleticsAbilityRequirements>()
+        .AddAbilityEffectRunAction(ActionsBuilder.New().Add<BreakFree>())
         .Configure();
 
       return FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics)
@@ -212,11 +216,72 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillAthletics, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillAthletics))
         .AddComponent<SignatureAthleticsComponent>()
         .AddFacts(new() { ability })
         .Configure();
     }
 
+    private class BreakFree : ContextAction
+    {
+      public override string GetCaption()
+      {
+        return "Break Free";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          var buff = Context.MaybeCaster?.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs.FirstOrDefault();
+          if (buff is null)
+          {
+            Logger.Warning($"{Context.MaybeCaster} has nothing to break free from");
+            return;
+          }
+
+          using (ContextData<FactData>.Request().Setup(buff))
+          {
+            foreach (var action in
+                buff.Blueprint.ElementsArray.Where(e => e is ContextActionBreakFree).Cast<ContextActionBreakFree>())
+            {
+              Logger.NativeLog($"Breaking free from: {buff.Name} for {Context.MaybeCaster.CharacterName}");
+              buff.RunActionInContext(new() { Actions = new GameAction[] { action } });
+            }
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("BreakFree.RunAction", e);
+        }
+      }
+    }
+
+    [TypeId("62f99d41-f2c2-4e6f-9aad-b84094db9cd2")]
+    private class SignatureAthleticsAbilityRequirements : BlueprintComponent, IAbilityCasterRestriction
+    {
+      private const string Restriction = "SignatureSkill.Athletics.BreakFree.Restriction";
+
+      public string GetAbilityCasterRestrictionUIText()
+      {
+        return LocalizationTool.GetString(Restriction);
+      }
+
+      public bool IsCasterRestrictionPassed(UnitEntityData caster)
+      {
+        try
+        {
+          return caster.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs?.Any() == true;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureAthleticsAbilityRequirements.IsCasterRestrictionPassed", e);
+        }
+        return false;
+      }
+    }
+
+    [TypeId("885b1244-2816-47a7-a4ad-4bd48fd75695")]
     private class SignatureAthleticsComponent :
       UnitFactComponentDelegate,
       IUnitBuffHandler
@@ -230,6 +295,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (IsBreakFreeBuff(buff))
           {
+            Logger.NativeLog($"Adding {buff.Name} to BreakFreeBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().BreakFreeBuffs.Add(buff);
             return;
           }
@@ -237,6 +303,7 @@ namespace CharacterOptionsPlus.Feats
           if (buff.Blueprint.GetComponents<AddCondition>().Any(
             c => c.Condition == UnitCondition.Slowed || c.Condition == UnitCondition.Paralyzed))
           {
+            Logger.NativeLog($"Adding {buff.Name} to SuppressBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().SuppressBuffs.Add(buff);
           }
         }
@@ -267,6 +334,7 @@ namespace CharacterOptionsPlus.Feats
           var unitPart = Owner.Get<UnitPartEscapeArtist>();
           if (unitPart is null)
             return;
+          Logger.NativeLog($"Removing {buff.Name} for {Owner.CharacterName}");
 
           if (unitPart.BreakFreeBuffs.Remove(buff))
             return;
@@ -367,7 +435,7 @@ namespace CharacterOptionsPlus.Feats
         .AllowTargeting(enemies: true)
         .SetActionType(CommandType.Move)
         .SetAnimation(CastAnimationStyle.Omni)
-        .AddComponent<SignatureSkillAbilityRequirements>()
+        .AddComponent<SignatureKnowledgeAbilityRequirements>()
         .AddAbilityEffectRunAction(
           ActionsBuilder.New().MakeKnowledgeCheck(successActions: ActionsBuilder.New().Add<ApplySignatureSkillBuff>()))
         .Configure();
@@ -646,7 +714,7 @@ namespace CharacterOptionsPlus.Feats
     }
 
     [TypeId("77039b8b-eb62-407d-b959-c301905d3882")]
-    private class SignatureSkillAbilityRequirements : BlueprintComponent, IAbilityTargetRestriction
+    private class SignatureKnowledgeAbilityRequirements : BlueprintComponent, IAbilityTargetRestriction
     {
       private const string MissingFeat = "SignatureSkill.Knowledge.Ability.TargetRestriction.Feat";
       private const string MissingRanks = "SignatureSkill.Knowledge.Ability.TargetRestriction.Ranks";
