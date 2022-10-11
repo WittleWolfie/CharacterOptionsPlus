@@ -88,11 +88,11 @@ namespace CharacterOptionsPlus.Feats
 
       FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat).Configure();
 
-      BuffConfigurator.New(AcrobaticsAbilityBuff, Guids.SignatureSkillAcrobaticsAbilityBuff).Configure();
-      ActivatableAbilityConfigurator.New(AcrobaticsAbility, Guids.SignatureSkillAcrobaticsAbility).Configure();
-      FeatureConfigurator.New(AcrobaticsName, Guids.SignatureSkillAcrobatics).Configure();
+      BuffConfigurator.New(MobilityAbilityBuff, Guids.SignatureSkillMobilityAbilityBuff).Configure();
+      ActivatableAbilityConfigurator.New(MobilityAbility, Guids.SignatureSkillMobilityAbility).Configure();
+      FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility).Configure();
 
-      FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize).Configure();
+      FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion).Configure();
 
       BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff).Configure();
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility).Configure();
@@ -117,8 +117,8 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
         .AddToAllFeatures(
-          ConfigureAcrobatics(),
-          ConfigureDemoralize(),
+          ConfigureMobility(),
+          ConfigurePersuasion(),
           ConfigureKnowledgeArcana(),
           ConfigureKnowledgeWorld(),
           ConfigureKnowledgeNature(),
@@ -185,358 +185,39 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
-    // TODO: Merge the two mobility thingies using Ability Variants
-    // Probably that requires replacing the original, including save fixing
-    #region Acrobatics
-    private const string AcrobaticsName = "SignatureSkill.Acrobatics";
-    private const string AcrobaticsDisplayName = "SignatureSkill.Acrobatics.Name";
-    private const string AcrobaticsDescription = "SignatureSkill.Acrobatics.Description";
+    #region Athletics
+    private const string AthleticsName = "SignatureSkill.Athletics";
+    private const string AthleticsDisplayName = "SignatureSkill.Athletics.Name";
+    private const string AthleticsDescription = "SignatureSkill.Athletics.Description";
 
-    private const string AcrobaticsAbility = "SignatureSkill.Acrobatics.Ability";
-    private const string AcrobaticsAbilityBuff = "SignatureSkill.Acrobatics.Ability.Buff";
-    private const string AcrobaticsAbilityDescription = "SignatureSkill.Acrobatics.Ability.Description";
+    private const string AthleticsAbility = "SignatureSkill.Athletics.Ability";
+    private const string AthleticsAbilityBuff = "SignatureSkill.Athletics.Ability.Buff";
+    private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.Ability.Description";
 
-    private static BlueprintFeature ConfigureAcrobatics()
+    private static BlueprintFeature ConfigureAthletics()
     {
-      var buff = BuffConfigurator.New(AcrobaticsAbilityBuff, Guids.SignatureSkillAcrobaticsAbilityBuff)
-        .SetDisplayName(AcrobaticsDisplayName)
-        .SetDescription(AcrobaticsAbilityDescription)
-        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
-        .AddComponent<AcrobaticMovement>()
-        .Configure();
 
-      var ability = ActivatableAbilityConfigurator.New(AcrobaticsAbility, Guids.SignatureSkillAcrobaticsAbility)
-        .SetDisplayName(AcrobaticsDisplayName)
-        .SetDescription(AcrobaticsAbilityDescription)
+      var ability = ActivatableAbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
+        .SetDisplayName(AthleticsDisplayName)
+        .SetDescription(AthleticsAbilityDescription)
         .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
         .SetDeactivateIfCombatEnded()
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.WithUnitCommand)
-        .SetBuff(buff)
         .Configure();
 
-      return FeatureConfigurator.New(AcrobaticsName, Guids.SignatureSkillAcrobatics)
-        .SetDisplayName(AcrobaticsDisplayName)
-        .SetDescription(AcrobaticsDescription)
+      return FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics)
+        .SetDisplayName(AthleticsDisplayName)
+        .SetDescription(AthleticsDescription)
         .SetIsClassFeature()
-        .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
+        .AddPrerequisiteStatValue(StatType.SkillAthletics, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
-        .AddComponent<SignatureAcrobaticsComponent>()
+        .AddComponent<SignatureAthleticsComponent>()
         .AddFacts(new() { ability })
         .Configure();
     }
 
-    private class SignatureAcrobaticsComponent :
-      UnitFactComponentDelegate,
-      IInitiatorRulebookHandler<RuleCalculateCMD>,
-      ITargetRulebookHandler<RuleCalculateCMD>,
-      IInitiatorRulebookHandler<RuleSavingThrow>,
-      IUnitLevelUpHandler
-    {
-      private static BlueprintFeature _getUp;
-      private static BlueprintFeature GetUp
-      {
-        get
-        {
-          _getUp ??= FeatureRefs.AcrobatsFootwearFeature.Reference.Get();
-          return _getUp;
-        }
-      }
-
-      private static BlueprintBuff _mobilityBuff;
-      private static BlueprintBuff MobilityBuff
-      {
-        get
-        {
-          _mobilityBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAcrobaticsAbilityBuff);
-          return _mobilityBuff;
-        }
-      }
-
-      public void HandleUnitAfterLevelUp(UnitEntityData unit, LevelUpController controller)
-      {
-        try
-        {
-          if (unit != Owner)
-            return;
-
-          if (unit.HasFact(GetUp))
-            return;
-
-          if (unit.Stats.GetStat(StatType.SkillMobility).BaseValue >= 15)
-          {
-            Logger.NativeLog($"Granting {GetUp.Name} to {Owner.CharacterName}");
-            unit.AddFact(GetUp);
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureInspectionComponent.HandleUnitAfterLevelUp", e);
-        }
-      }
-
-      public void OnEventAboutToTrigger(RuleCalculateCMD evt)
-      {
-        try
-        {
-          if (evt.Initiator == Owner)
-            CheckForPenalty(evt);
-          else if (evt.Target == Owner)
-            CheckForBonus(evt);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureAcrobaticsComponent.OnEventAboutToTrigger(RuleCalculateCMD)", e);
-        }
-      }
-
-      private void CheckForPenalty(RuleCalculateCMD evt)
-      {
-        // None is used only for Mobility / AOO avoidance
-        if (evt.Type != CombatManeuver.None)
-          return;
-
-        if (!evt.Initiator.HasFact(MobilityBuff))
-          return;
-
-        Logger.NativeLog($"Adding +5 to {evt.Target.CharacterName} CMD");
-        evt.AddModifier(5, Fact);
-      }
-
-      private void CheckForBonus(RuleCalculateCMD evt)
-      {
-        if (evt.Type != CombatManeuver.Trip)
-          return;
-
-        var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
-        if (ranks < 10)
-          return;
-
-        var bonus = ranks >= 20 ? 4 : 2;
-        Logger.NativeLog($"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
-        evt.AddModifier(bonus, Fact);
-      }
-
-      public void OnEventAboutToTrigger(RuleSavingThrow evt)
-      {
-        try
-        {
-          if (evt.Type != SavingThrowType.Reflex)
-            return;
-
-          var inPit = Owner.Get<UnitPartInPit>();
-          if (inPit is null || inPit.State != UnitInPitState.ReadyToEvade)
-            return;
-
-          var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
-          if (ranks < 10)
-            return;
-
-          var bonus = ranks >= 20 ? 4 : 2;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
-          evt.AddModifier(bonus, Fact);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureAcrobaticsComponent.OnEventAboutToTrigger(RuleSavingThrow)", e);
-        }
-      }
-
-      public void HandleUnitBeforeLevelUp(UnitEntityData unit) { }
-
-      public void OnEventDidTrigger(RuleCalculateCMD evt) { }
-
-      public void OnEventDidTrigger(RuleSavingThrow evt) { }
-    }
-
-    [HarmonyPatch(typeof(UnitEntityData))]
-    static class UnitEntityData_Patch
-    {
-      private static BlueprintBuff _acrobatics;
-      private static BlueprintBuff Acrobatics
-      {
-        get
-        {
-          _acrobatics ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAcrobaticsAbilityBuff);
-          return _acrobatics;
-        }
-      }
-
-      [HarmonyPatch(nameof(UnitEntityData.CalculateSpeedModifier)), HarmonyPostfix]
-      static void CalculateSpeedModifier(UnitEntityData __instance, ref float __result)
-      {
-        try
-        {
-          if (!__instance.Descriptor.State.HasCondition(UnitCondition.UseMobilityToNegateAttackOfOpportunity))
-            return;
-
-          if (!__instance.HasFact(Acrobatics) || __instance.Descriptor.State.Features.TricksterMobilityFastMovement)
-            return;
-
-          __result *= 2f;
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("UnitEntityData_Patch.CalculateSpeedModifier", e);
-        }
-      }
-    }
-    #endregion
-
-    #region Demoralize
-    private const string DemoralizeName = "SignatureSkill.Demoralize";
-    private const string DemoralizeDisplayName = "SignatureSkill.Demoralize.Name";
-    private const string DemoralizeDescription = "SignatureSkill.Demoralize.Description";
-
-    private static BlueprintFeature ConfigureDemoralize()
-    {
-      return FeatureConfigurator.New(DemoralizeName, Guids.SignatureSkillDemoralize)
-        .SetDisplayName(DemoralizeDisplayName)
-        .SetDescription(DemoralizeDescription)
-        .SetIsClassFeature()
-        .AddPrerequisiteStatValue(StatType.SkillPersuasion, value: 5, group: GroupType.Any)
-        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
-        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
-        .AddComponent<SignatureDemoralizeComponent>()
-        .Configure();
-    }
-
-    [TypeId("c01de10e-c307-450d-8c78-81bc2fdaacb3")]
-    private class SignatureDemoralizeComponent : UnitFactComponentDelegate, IInitiatorDemoralizeHandler
-    {
-      private static BlueprintBuff _frightened;
-      private static BlueprintBuff Frightened
-      {
-        get
-        {
-          _frightened ??= BuffRefs.Frightened.Reference.Get();
-          return _frightened;
-        }
-      }
-
-      private static BlueprintBuff _panicked;
-      private static BlueprintBuff Panicked
-      {
-        get
-        {
-          // TODO: Replace w/ equivalent to CowerBuff
-          _panicked ??= BuffRefs.EyebitePanickedBuff.Reference.Get();
-          return _panicked;
-        }
-      }
-
-      private static BlueprintBuff _cowering;
-      private static BlueprintBuff Cowering
-      {
-        get
-        {
-          _cowering ??= BuffRefs.CowerBuff.Reference.Get();
-          return _cowering;
-        }
-      }
-
-      public void AfterIntimidateSuccess(Demoralize action, RuleSkillCheck intimidateCheck, Buff appliedBuff)
-      {
-        try
-        {
-          var target = ContextData<MechanicsContext.Data>.Current?.CurrentTarget?.Unit;
-          if (target is null)
-          {
-            Logger.Warning($"No target for demoralize.");
-            return;
-          }
-
-          if (appliedBuff is null)
-          {
-            Logger.NativeLog($"{target.CharacterName} is immune to demoralize");
-            return;
-          }
-
-          var caster = Context.MaybeCaster;
-          if (caster is null)
-          {
-            Logger.Warning($"Caster is missing");
-            return;
-          }
-
-          var succeedBy = intimidateCheck.RollResult - intimidateCheck.DC;
-          if (succeedBy < 10)
-          {
-            Logger.NativeLog($"Failed to exceed DC by 10: {succeedBy}");
-            return;
-          }
-
-          var intimidateRanks = Owner.Stats.SkillPersuasion.BaseValue;
-          var ruleSavingThrow = new RuleSavingThrow(target, SavingThrowType.Will, 10 + intimidateRanks);
-          ruleSavingThrow.Reason = Context;
-
-          var result = Context.TriggerRule(ruleSavingThrow);
-          if (result.IsPassed)
-            return;
-
-          if (succeedBy >= 20 && intimidateRanks >= 20)
-          {
-            var cowerDuration =
-              ContextValueHelper.CalculateDiceValue(DiceType.D4, diceCountValue: 1, bonusValue: 0, Context);
-            target.AddBuff(Cowering, Context, duration: cowerDuration.Rounds().Seconds);
-            // Link duration of Panicked to the demoralize buff
-            appliedBuff.StoreFact(target.AddBuff(Panicked, Context));
-          }
-          else if (succeedBy >= 20 && intimidateRanks >= 15)
-            target.AddBuff(Cowering, Context, duration: 1.Rounds().Seconds);
-          else if (intimidateRanks >= 10)
-            target.AddBuff(Panicked, Context, duration: 1.Rounds().Seconds);
-          else
-            target.AddBuff(Frightened, Context, duration: 1.Rounds().Seconds);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureDemoralizeComponent.AfterIntimidateSuccess", e);
-        }
-      }
-    }
-    #endregion
-
-    #region EscapeArtist
-    private const string EscapeArtistName = "SignatureSkill.EscapeArtist";
-    private const string EscapeArtistDisplayName = "SignatureSkill.EscapeArtist.Name";
-    private const string EscapeArtistDescription = "SignatureSkill.EscapeArtist.Description";
-
-    private const string EscapeArtistAbility = "SignatureSkill.EscapeArtist.Ability";
-    private const string EscapeArtistAbilityBuff = "SignatureSkill.EscapeArtist.Ability.Buff";
-    private const string EscapeArtistAbilityDescription = "SignatureSkill.EscapeArtist.Ability.Description";
-
-    private static BlueprintFeature ConfigureEscapeArtist()
-    {
-      var buff = BuffConfigurator.New(EscapeArtistAbilityBuff, Guids.SignatureSkillEscapeArtistAbilityBuff)
-        .SetDisplayName(EscapeArtistDisplayName)
-        .SetDescription(EscapeArtistAbilityDescription)
-        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
-        .AddComponent<AcrobaticMovement>()
-        .Configure();
-
-      var ability = ActivatableAbilityConfigurator.New(EscapeArtistAbility, Guids.SignatureSkillEscapeArtistAbility)
-        .SetDisplayName(EscapeArtistDisplayName)
-        .SetDescription(EscapeArtistAbilityDescription)
-        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
-        .SetDeactivateIfCombatEnded()
-        .SetDeactivateImmediately()
-        .SetActivationType(AbilityActivationType.WithUnitCommand)
-        .SetBuff(buff)
-        .Configure();
-
-      return FeatureConfigurator.New(EscapeArtistName, Guids.SignatureSkillEscapeArtist)
-        .SetDisplayName(EscapeArtistDisplayName)
-        .SetDescription(EscapeArtistDescription)
-        .SetIsClassFeature()
-        .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
-        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
-        .AddComponent<SignatureEscapeArtistComponent>()
-        .AddFacts(new() { ability })
-        .Configure();
-    }
-
-    private class SignatureEscapeArtistComponent :
+    private class SignatureAthleticsComponent :
       UnitFactComponentDelegate,
       IUnitBuffHandler
     {
@@ -561,7 +242,7 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("SignatureEscapeArtistComponent.HandleBuffDidAdded", e);
+          Logger.LogException("SignatureAthleticsComponent.HandleBuffDidAdded", e);
         }
       }
 
@@ -594,7 +275,7 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("SignatureEscapeArtistComponent.HandleBuffDidRemoved", e);
+          Logger.LogException("SignatureAthleticsComponent.HandleBuffDidRemoved", e);
         }
       }
     }
@@ -1107,6 +788,204 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
+    // TODO: Merge the two mobility thingies using Ability Variants
+    // Probably that requires replacing the original, including save fixing
+    #region Mobility
+    private const string MobilityName = "SignatureSkill.Mobility";
+    private const string MobilityDisplayName = "SignatureSkill.Mobility.Name";
+    private const string MobilityDescription = "SignatureSkill.Mobility.Description";
+
+    private const string MobilityAbility = "SignatureSkill.Mobility.Ability";
+    private const string MobilityAbilityBuff = "SignatureSkill.Mobility.Ability.Buff";
+    private const string MobilityAbilityDescription = "SignatureSkill.Mobility.Ability.Description";
+
+    private static BlueprintFeature ConfigureMobility()
+    {
+      var buff = BuffConfigurator.New(MobilityAbilityBuff, Guids.SignatureSkillMobilityAbilityBuff)
+        .SetDisplayName(MobilityDisplayName)
+        .SetDescription(MobilityAbilityDescription)
+        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
+        .AddComponent<AcrobaticMovement>()
+        .Configure();
+
+      var ability = ActivatableAbilityConfigurator.New(MobilityAbility, Guids.SignatureSkillMobilityAbility)
+        .SetDisplayName(MobilityDisplayName)
+        .SetDescription(MobilityAbilityDescription)
+        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
+        .SetDeactivateIfCombatEnded()
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.WithUnitCommand)
+        .SetBuff(buff)
+        .Configure();
+
+      return FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility)
+        .SetDisplayName(MobilityDisplayName)
+        .SetDescription(MobilityDescription)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent<SignatureMobilityComponent>()
+        .AddFacts(new() { ability })
+        .Configure();
+    }
+
+    private class SignatureMobilityComponent :
+      UnitFactComponentDelegate,
+      IInitiatorRulebookHandler<RuleCalculateCMD>,
+      ITargetRulebookHandler<RuleCalculateCMD>,
+      IInitiatorRulebookHandler<RuleSavingThrow>,
+      IUnitLevelUpHandler
+    {
+      private static BlueprintFeature _getUp;
+      private static BlueprintFeature GetUp
+      {
+        get
+        {
+          _getUp ??= FeatureRefs.AcrobatsFootwearFeature.Reference.Get();
+          return _getUp;
+        }
+      }
+
+      private static BlueprintBuff _mobilityBuff;
+      private static BlueprintBuff MobilityBuff
+      {
+        get
+        {
+          _mobilityBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillMobilityAbilityBuff);
+          return _mobilityBuff;
+        }
+      }
+
+      public void HandleUnitAfterLevelUp(UnitEntityData unit, LevelUpController controller)
+      {
+        try
+        {
+          if (unit != Owner)
+            return;
+
+          if (unit.HasFact(GetUp))
+            return;
+
+          if (unit.Stats.GetStat(StatType.SkillMobility).BaseValue >= 15)
+          {
+            Logger.NativeLog($"Granting {GetUp.Name} to {Owner.CharacterName}");
+            unit.AddFact(GetUp);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureInspectionComponent.HandleUnitAfterLevelUp", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateCMD evt)
+      {
+        try
+        {
+          if (evt.Initiator == Owner)
+            CheckForPenalty(evt);
+          else if (evt.Target == Owner)
+            CheckForBonus(evt);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureMobilityComponent.OnEventAboutToTrigger(RuleCalculateCMD)", e);
+        }
+      }
+
+      private void CheckForPenalty(RuleCalculateCMD evt)
+      {
+        // None is used only for Mobility / AOO avoidance
+        if (evt.Type != CombatManeuver.None)
+          return;
+
+        if (!evt.Initiator.HasFact(MobilityBuff))
+          return;
+
+        Logger.NativeLog($"Adding +5 to {evt.Target.CharacterName} CMD");
+        evt.AddModifier(5, Fact);
+      }
+
+      private void CheckForBonus(RuleCalculateCMD evt)
+      {
+        if (evt.Type != CombatManeuver.Trip)
+          return;
+
+        var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
+        if (ranks < 10)
+          return;
+
+        var bonus = ranks >= 20 ? 4 : 2;
+        Logger.NativeLog($"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
+        evt.AddModifier(bonus, Fact);
+      }
+
+      public void OnEventAboutToTrigger(RuleSavingThrow evt)
+      {
+        try
+        {
+          if (evt.Type != SavingThrowType.Reflex)
+            return;
+
+          var inPit = Owner.Get<UnitPartInPit>();
+          if (inPit is null || inPit.State != UnitInPitState.ReadyToEvade)
+            return;
+
+          var ranks = Owner.Stats.GetStat(StatType.SkillMobility).BaseValue;
+          if (ranks < 10)
+            return;
+
+          var bonus = ranks >= 20 ? 4 : 2;
+          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
+          evt.AddModifier(bonus, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureMobilityComponent.OnEventAboutToTrigger(RuleSavingThrow)", e);
+        }
+      }
+
+      public void HandleUnitBeforeLevelUp(UnitEntityData unit) { }
+
+      public void OnEventDidTrigger(RuleCalculateCMD evt) { }
+
+      public void OnEventDidTrigger(RuleSavingThrow evt) { }
+    }
+
+    [HarmonyPatch(typeof(UnitEntityData))]
+    static class UnitEntityData_Patch
+    {
+      private static BlueprintBuff _Mobility;
+      private static BlueprintBuff Mobility
+      {
+        get
+        {
+          _Mobility ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillMobilityAbilityBuff);
+          return _Mobility;
+        }
+      }
+
+      [HarmonyPatch(nameof(UnitEntityData.CalculateSpeedModifier)), HarmonyPostfix]
+      static void CalculateSpeedModifier(UnitEntityData __instance, ref float __result)
+      {
+        try
+        {
+          if (!__instance.Descriptor.State.HasCondition(UnitCondition.UseMobilityToNegateAttackOfOpportunity))
+            return;
+
+          if (!__instance.HasFact(Mobility) || __instance.Descriptor.State.Features.TricksterMobilityFastMovement)
+            return;
+
+          __result *= 2f;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UnitEntityData_Patch.CalculateSpeedModifier", e);
+        }
+      }
+    }
+    #endregion
+
     #region Perception
     private const string PerceptionName = "SignatureSkill.Perception";
     private const string PerceptionDisplayName = "SignatureSkill.Perception.Name";
@@ -1214,6 +1093,120 @@ namespace CharacterOptionsPlus.Feats
         catch (Exception e)
         {
           Logger.LogException("CampingRole_Patch.CreateRuleCheck", e);
+        }
+      }
+    }
+    #endregion
+
+    #region Persuasion
+    private const string PersuasionName = "SignatureSkill.Persuasion";
+    private const string PersuasionDisplayName = "SignatureSkill.Persuasion.Name";
+    private const string PersuasionDescription = "SignatureSkill.Persuasion.Description";
+
+    private static BlueprintFeature ConfigurePersuasion()
+    {
+      return FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion)
+        .SetDisplayName(PersuasionDisplayName)
+        .SetDescription(PersuasionDescription)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillPersuasion, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillPersuasion))
+        .AddComponent<SignaturePersuasionComponent>()
+        .Configure();
+    }
+
+    [TypeId("c01de10e-c307-450d-8c78-81bc2fdaacb3")]
+    private class SignaturePersuasionComponent : UnitFactComponentDelegate, IInitiatorDemoralizeHandler
+    {
+      private static BlueprintBuff _frightened;
+      private static BlueprintBuff Frightened
+      {
+        get
+        {
+          _frightened ??= BuffRefs.Frightened.Reference.Get();
+          return _frightened;
+        }
+      }
+
+      private static BlueprintBuff _panicked;
+      private static BlueprintBuff Panicked
+      {
+        get
+        {
+          // TODO: Replace w/ equivalent to CowerBuff
+          _panicked ??= BuffRefs.EyebitePanickedBuff.Reference.Get();
+          return _panicked;
+        }
+      }
+
+      private static BlueprintBuff _cowering;
+      private static BlueprintBuff Cowering
+      {
+        get
+        {
+          _cowering ??= BuffRefs.CowerBuff.Reference.Get();
+          return _cowering;
+        }
+      }
+
+      public void AfterIntimidateSuccess(Demoralize action, RuleSkillCheck intimidateCheck, Buff appliedBuff)
+      {
+        try
+        {
+          var target = ContextData<MechanicsContext.Data>.Current?.CurrentTarget?.Unit;
+          if (target is null)
+          {
+            Logger.Warning($"No target for Persuasion.");
+            return;
+          }
+
+          if (appliedBuff is null)
+          {
+            Logger.NativeLog($"{target.CharacterName} is immune to Persuasion");
+            return;
+          }
+
+          var caster = Context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning($"Caster is missing");
+            return;
+          }
+
+          var succeedBy = intimidateCheck.RollResult - intimidateCheck.DC;
+          if (succeedBy < 10)
+          {
+            Logger.NativeLog($"Failed to exceed DC by 10: {succeedBy}");
+            return;
+          }
+
+          var intimidateRanks = Owner.Stats.SkillPersuasion.BaseValue;
+          var ruleSavingThrow = new RuleSavingThrow(target, SavingThrowType.Will, 10 + intimidateRanks);
+          ruleSavingThrow.Reason = Context;
+
+          var result = Context.TriggerRule(ruleSavingThrow);
+          if (result.IsPassed)
+            return;
+
+          if (succeedBy >= 20 && intimidateRanks >= 20)
+          {
+            var cowerDuration =
+              ContextValueHelper.CalculateDiceValue(DiceType.D4, diceCountValue: 1, bonusValue: 0, Context);
+            target.AddBuff(Cowering, Context, duration: cowerDuration.Rounds().Seconds);
+            // Link duration of Panicked to the Persuasion buff
+            appliedBuff.StoreFact(target.AddBuff(Panicked, Context));
+          }
+          else if (succeedBy >= 20 && intimidateRanks >= 15)
+            target.AddBuff(Cowering, Context, duration: 1.Rounds().Seconds);
+          else if (intimidateRanks >= 10)
+            target.AddBuff(Panicked, Context, duration: 1.Rounds().Seconds);
+          else
+            target.AddBuff(Frightened, Context, duration: 1.Rounds().Seconds);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignaturePersuasionComponent.AfterIntimidateSuccess", e);
         }
       }
     }
