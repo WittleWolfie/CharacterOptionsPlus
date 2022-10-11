@@ -46,7 +46,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="ILRepack.MSBuild.Task" Version="*" />
-    <PackageReference Include="WW-Blueprint-Core" Version="2.4.0" />
+    <PackageReference Include="WW-Blueprint-Core" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
