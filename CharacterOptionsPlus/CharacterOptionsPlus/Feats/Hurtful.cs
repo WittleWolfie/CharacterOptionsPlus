@@ -17,6 +17,7 @@ using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Commands.Base;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
+using Kingmaker.Visual.Animation.Kingmaker;
 using System;
 using TabletopTweaks.Core.NewEvents;
 using static UnityModManagerNet.UnityModManager.ModEntry;
@@ -162,6 +163,8 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
+          var attackAnimation = caster.View.AnimationManager.CreateHandle(UnitAnimationType.SpecialAttack);
+          caster.View.AnimationManager.Execute(attackAnimation);
           caster.SpendAction(UnitCommand.CommandType.Swift, isFullRound: False, timeSinceCommandStart: 0);
           var attack =
             Context.TriggerRule<RuleAttackWithWeapon>(
