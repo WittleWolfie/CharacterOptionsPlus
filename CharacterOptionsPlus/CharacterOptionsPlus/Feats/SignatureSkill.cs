@@ -266,6 +266,7 @@ namespace CharacterOptionsPlus.Feats
               return;
             }
 
+            Logger.NativeLog($"Breaking free from: {targetGrapple.m_Buff?.Name} for {target.CharacterName}");
             if (target.TryBreakFree(initiator, UnitHelper.BreakFreeFlags.Default, targetGrapple.Context))
               target.Remove<UnitPartGrappleTarget>();
             return;
@@ -296,8 +297,7 @@ namespace CharacterOptionsPlus.Feats
         {
           var grapple = caster.Get<UnitPartGrappleTarget>();
           return caster.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs?.Any() == true
-            && grapple is not null
-            && grapple.Initiator.Value is not null;
+            || (grapple is not null && grapple.Initiator.Value is not null);
         }
         catch (Exception e)
         {
