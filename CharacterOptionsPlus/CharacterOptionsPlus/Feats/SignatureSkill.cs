@@ -799,7 +799,7 @@ namespace CharacterOptionsPlus.Feats
         //   ldloc.s unitEntityData   [New]
         //   call OnUnitIdentified    [New]
         //   callvirt SetCheck(int32) [Existing]
-        // Note that this removes the call to GetSuccess which normally follows load for ruleSkillCheck
+        // Note that this removes the call to RollResult which normally follows load for ruleSkillCheck
         try
         {
           var code = new List<CodeInstruction>(instructions);
@@ -844,7 +844,7 @@ namespace CharacterOptionsPlus.Feats
               CodeInstruction.Call(typeof(InspectUnitsManager_Patch), nameof(InspectUnitsManager_Patch.OnUnitIdentified)),
             };
           code.InsertRange(insertionIndex, newCode);
-          code.RemoveAt(insertionIndex - 1); // Remove the call to ruleSkillCheck.Success
+          code.RemoveAt(insertionIndex - 1); // Remove the call to ruleSkillCheck.RollResult
           return code;
         }
         catch (Exception e)
