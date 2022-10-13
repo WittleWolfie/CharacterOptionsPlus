@@ -233,22 +233,45 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          var buff = Context.MaybeCaster?.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs.FirstOrDefault();
-          if (buff is null)
+          var target = Context.MaybeCaster;
+          if (target is null)
           {
-            Logger.Warning($"{Context.MaybeCaster} has nothing to break free from");
+            Logger.Warning("Break free missing caster");
             return;
           }
 
-          using (ContextData<FactData>.Request().Setup(buff))
+          var buff = target?.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs.FirstOrDefault();
+          if (buff is not null)
           {
-            foreach (var action in
-                buff.Blueprint.ElementsArray.Where(e => e is ContextActionBreakFree).Cast<ContextActionBreakFree>())
+            using (ContextData<FactData>.Request().Setup(buff))
             {
-              Logger.NativeLog($"Breaking free from: {buff.Name} for {Context.MaybeCaster.CharacterName}");
-              buff.RunActionInContext(new() { Actions = new GameAction[] { action } });
+              foreach (var action in
+                  buff.Blueprint.ElementsArray.Where(e => e is ContextActionBreakFree).Cast<ContextActionBreakFree>())
+              {
+                Logger.NativeLog($"Breaking free from: {buff.Name} for {target.CharacterName}");
+                buff.RunActionInContext(new() { Actions = new GameAction[] { action } });
+                return;
+              }
             }
           }
+
+          var targetGrapple = target?.Get<UnitPartGrappleTarget>();
+          if (targetGrapple is not null)
+          {
+            var initiator = targetGrapple.Initiator.Value;
+            var initiatorGraple = targetGrapple.Initiator.Value;
+            if (initiatorGraple is null)
+            {
+              Logger.Warning($"No grapple initiator for {target.CharacterName}");
+              return;
+            }
+
+            if (target.TryBreakFree(initiator, UnitHelper.BreakFreeFlags.Default, targetGrapple.Context))
+              target.Remove<UnitPartGrappleTarget>();
+            return;
+          }
+
+          Logger.Warning($"{target.CharacterName} has nothing to break free from");
         }
         catch (Exception e)
         {
@@ -271,7 +294,10 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          return caster.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs?.Any() == true;
+          var grapple = caster.Get<UnitPartGrappleTarget>();
+          return caster.Get<UnitPartEscapeArtist>()?.BreakFreeBuffs?.Any() == true
+            && grapple is not null
+            && grapple.Initiator.Value is not null;
         }
         catch (Exception e)
         {
