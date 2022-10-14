@@ -209,6 +209,8 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsSuppressParalyzeBuff = "SignatureSkill.Athletics.Suppress.Paralyze.All";
     private const string AthleticsSuppressSlowBuff = "SignatureSkill.Athletics.Suppress.Slow.All";
 
+    // TODO: Handle action cost reduction
+
     private static BlueprintFeature ConfigureAthletics()
     {
       BuffConfigurator.New(AthleticsSuppressParalyzeBuff, Guids.SignatureSkillAthleticsSuppressParalyzeBuff)
