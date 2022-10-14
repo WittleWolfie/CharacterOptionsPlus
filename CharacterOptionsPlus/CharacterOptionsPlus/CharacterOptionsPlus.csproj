@@ -158,9 +158,8 @@
       <Entry Include="CharacterOptionsPlus.Main" />
 
       <Entry Include="CharacterOptionsPlus.Archetypes.ArrowsongMinstrel/UnitPartMagus_Patch" />
-      
-      <Entry Include="CharacterOptionsPlus.Components.AfterBuffTickActions/BuffCollection_Patch" />
 
+      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartEscapeArtist/Buff_Patch" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/CharGenSpellsPhaseVM_Patch" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/LevelUpState_Patch" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/SelectSpell_Patch" />
