@@ -197,8 +197,28 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsAbilityName = "SignatureSkill.Athletics.BreakFree.Name";
     private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.BreakFree.Description";
 
+    private const string AthleticsSuppressAbility = "SignatureSkill.Athletics.Suppress.Ability";
+    private const string AthleticsSuppressAbilityName = "SignatureSkill.Athletics.Suppress.Name";
+    private const string AthleticsSuppressAbilityDescription = "SignatureSkill.Athletics.Suppress.Description";
+    private const string AthleticsSuppressBuff = "SignatureSkill.Athletics.Suppress.Buff";
+
     private static BlueprintFeature ConfigureAthletics()
     {
+      var suppressConditions = BuffConfigurator.New(AthleticsSuppressBuff, Guids.SignatureSkillAthleticsSuppressBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddComponent(new SuppressConditions(UnitCondition.Slowed, UnitCondition.Paralyzed))
+        .Configure();
+
+      var suppressAbility = AbilityConfigurator.New(AthleticsSuppressAbility, Guids.SignatureSkillAthleticsSuppressAbility)
+        .SetDisplayName(AthleticsSuppressAbilityName)
+        .SetDescription(AthleticsSuppressAbilityDescription)
+        .SetRange(AbilityRange.Personal)
+        .SetType(AbilityType.Extraordinary)
+        .SetActionType(CommandType.Standard)
+        .SetAnimation(CastAnimationStyle.Omni)
+        .AllowTargeting(self: true)
+        .Configure();
+
       var ability = AbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
         .SetDisplayName(AthleticsAbilityName)
         .SetDescription(AthleticsAbilityDescription)

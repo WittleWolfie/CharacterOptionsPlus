@@ -125,6 +125,19 @@
     "Key": "SignatureSkill.Athletics.BreakFree.Restriction",
     "enGB": "No effects which allow breaking free"
   },
+  {
+    "Key": "SignatureSkill.Athletics.Suppress.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Resist Paralyze"
+  },
+  {
+    "Key": "SignatureSkill.Athletics.Suppress.Description",
+    "enGB": "As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC."
+  },
+  {
+    "Key": "SignatureSkill.Athletics.Suppress.Restriction",
+    "enGB": "No paralyzing or slowing effects"
+  },
 
   {
     "Key": "SignatureSkill.KnowledgeArcana.Name",
