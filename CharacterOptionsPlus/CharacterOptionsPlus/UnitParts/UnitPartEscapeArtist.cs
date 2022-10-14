@@ -60,6 +60,9 @@ namespace CharacterOptionsPlus.UnitParts
     public HashSet<Buff> SuppressBuffs = new();
 
     [JsonProperty]
+    public HashSet<Buff> SuppressedBuffs = new();
+
+    [JsonProperty]
     public Buff SuppressTarget;
 
     [JsonProperty]
@@ -98,23 +101,39 @@ namespace CharacterOptionsPlus.UnitParts
     public void RemoveSuppressBuff(Buff buff)
     {
       SuppressBuffs.Remove(buff);
+      SuppressedBuffs.Remove(buff);
 
       if (SuppressTarget == buff)
-      {
-        SuppressTarget = null;
-      }
+        UpdateSuppressTarget();
 
-      UpdateSuppressTarget();
+      // If a suppression buff ended, put the suppressed buff back into the valid pool
+      if (buff.Blueprint == ParalyzeBuff || buff.Blueprint == SlowBuff)
+      {
+        Buff parentBuff = null;
+        foreach (var parent in SuppressedBuffs)
+        {
+          if (parent.m_StoredFacts is not null && parent.m_StoredFacts.Contains(buff))
+          {
+            parentBuff = parent;
+            break;
+          }
+        }
+
+        if (parentBuff is not null)
+        {
+          SuppressedBuffs.Remove(parentBuff);
+          UpdateSuppressTarget();
+        }
+      }
     }
 
     private void UpdateSuppressTarget()
     {
-      foreach (var suppressBuff in SuppressBuffs)
+      SuppressTarget = null;
+      foreach (var buff in SuppressBuffs.Except(SuppressedBuffs))
       {
         AddSupressBuff(
-          suppressBuff,
-          AppliesCondition(suppressBuff, UnitCondition.Paralyzed),
-          AppliesCondition(suppressBuff, UnitCondition.Slowed));
+          buff, AppliesCondition(buff, UnitCondition.Paralyzed), AppliesCondition(buff, UnitCondition.Slowed));
       }
     }
 
@@ -137,11 +156,11 @@ namespace CharacterOptionsPlus.UnitParts
       var dc = SuppressTarget.Context.Params.DC + 10;
       Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {dc}");
 
-      var animation = unit.View.AnimationManager.CreateHandle(UnitAnimationType.Dodge);
-      unit.View.AnimationManager.Execute(animation);
-
       if (spendAction)
       {
+        var animation = unit.View.AnimationManager.CreateHandle(UnitAnimationType.Dodge);
+        unit.View.AnimationManager.Execute(animation);
+
         var actionCost =
           unit.Stats.GetStat(StatType.SkillAthletics).BaseValue >= 20 ? CommandType.Move : CommandType.Standard;
         unit.SpendAction(actionCost, isFullRound: false, timeSinceCommandStart: 0);
@@ -161,10 +180,11 @@ namespace CharacterOptionsPlus.UnitParts
           Logger.NativeLog($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(SlowBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
-      }
 
-      SuppressTarget = null;
-      UpdateSuppressTarget();
+        SuppressedBuffs.Add(SuppressTarget);
+        SuppressTarget = null;
+        UpdateSuppressTarget();
+      }
     }
 
     internal static bool AppliesCondition(Buff buff, UnitCondition condition)

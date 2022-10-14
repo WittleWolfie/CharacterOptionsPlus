@@ -51,7 +51,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TabletopTweaks.Core.NewEvents;
-using TabletopTweaks.Core.Utilities;
 using static Kingmaker.Blueprints.Classes.Prerequisites.Prerequisite;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
@@ -244,6 +243,7 @@ namespace CharacterOptionsPlus.Feats
         .SetType(AbilityType.Extraordinary)
         .AllowTargeting(self: true)
         .SetActionType(CommandType.Standard)
+        .SetAnimation(CastAnimationStyle.Omni)
         .AddComponent<SuppressSlowAbilityRequirements>()
         .AddAbilityEffectRunAction(ActionsBuilder.New().Add<SuppressSlow>())
         .Configure();
