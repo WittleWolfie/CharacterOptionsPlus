@@ -7,6 +7,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
+using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
@@ -428,13 +429,13 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
-    private static BlueprintAbility _ability;
-    private static BlueprintAbility Ability
+    private static BlueprintAbility _knowledgeAbilityBlueprint;
+    private static BlueprintAbility KnowledgeAbilityBlueprint
     {
       get
       {
-        _ability ??= BlueprintTool.Get<BlueprintAbility>(Guids.SignatureSkillKnowledgeAbility);
-        return _ability;
+        _knowledgeAbilityBlueprint ??= BlueprintTool.Get<BlueprintAbility>(Guids.SignatureSkillKnowledgeAbility);
+        return _knowledgeAbilityBlueprint;
       }
     }
     #endregion
@@ -481,6 +482,10 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeArcana))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeArcana))
+        .AddComponent(
+          new AddFactsOnSkillRank(
+            StatType.SkillKnowledgeArcana,
+            (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
     #endregion
@@ -499,6 +504,10 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillKnowledgeWorld))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeWorld))
+        .AddComponent(
+          new AddFactsOnSkillRank(
+            StatType.SkillKnowledgeArcana,
+            (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
     #endregion
@@ -517,6 +526,10 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillLoreNature))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreNature))
+        .AddComponent(
+          new AddFactsOnSkillRank(
+            StatType.SkillKnowledgeArcana,
+            (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
     #endregion
@@ -535,6 +548,10 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillLoreReligion))
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreReligion))
+        .AddComponent(
+          new AddFactsOnSkillRank(
+            StatType.SkillKnowledgeArcana,
+            (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
     #endregion
@@ -546,8 +563,7 @@ namespace CharacterOptionsPlus.Feats
       IInitiatorRulebookHandler<RuleRollD20>,
       IInitiatorRulebookHandler<RuleSavingThrow>,
       IInitiatorRulebookHandler<RuleCalculateAttackBonus>,
-      IInitiatorRulebookHandler<RuleSpellResistanceCheck>,
-      IUnitLevelUpHandler
+      IInitiatorRulebookHandler<RuleSpellResistanceCheck>
     {
       private readonly StatType Skill;
 
@@ -671,29 +687,6 @@ namespace CharacterOptionsPlus.Feats
         }
       }
 
-      // Grants the ability at rank 10
-      public void HandleUnitAfterLevelUp(UnitEntityData unit, LevelUpController controller)
-      {
-        try
-        {
-          if (unit != Owner)
-            return;
-
-          if (unit.HasFact(Ability))
-            return;
-
-          if (unit.Stats.GetStat(Skill).BaseValue >= 10)
-          {
-            Logger.NativeLog($"Granting {Ability.Name} to {Owner.CharacterName}");
-            unit.AddFact(Ability);
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureInspectionComponent.HandleUnitAfterLevelUp", e);
-        }
-      }
-
       #region Unused
       public void OnEventDidTrigger(RuleCalculateAttackBonus evt) { }
 
@@ -702,8 +695,6 @@ namespace CharacterOptionsPlus.Feats
       public void OnEventDidTrigger(RuleSavingThrow evt) { }
 
       public void OnEventDidTrigger(RuleRollD20 evt) { }
-
-      public void HandleUnitBeforeLevelUp(UnitEntityData unit) { }
       #endregion
     }
 
@@ -885,6 +876,17 @@ namespace CharacterOptionsPlus.Feats
     // TODO: Merge the two mobility thingies using Ability Variants
     // Probably that requires replacing the original, including save fixing
     #region Mobility
+
+    private static BlueprintFeature _getUp;
+    private static BlueprintFeature GetUp
+    {
+      get
+      {
+        _getUp ??= FeatureRefs.AcrobatsFootwearFeature.Reference.Get();
+        return _getUp;
+      }
+    }
+
     private const string MobilityName = "SignatureSkill.Mobility";
     private const string MobilityDisplayName = "SignatureSkill.Mobility.Name";
     private const string MobilityDescription = "SignatureSkill.Mobility.Description";
@@ -919,6 +921,9 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent<SignatureMobilityComponent>()
+        .AddComponent(
+          new AddFactsOnSkillRank(
+            StatType.SkillMobility, (GetUp.ToReference<BlueprintUnitFactReference>(), 15)))
         .AddFacts(new() { ability })
         .Configure();
     }
@@ -927,19 +932,8 @@ namespace CharacterOptionsPlus.Feats
       UnitFactComponentDelegate,
       IInitiatorRulebookHandler<RuleCalculateCMD>,
       ITargetRulebookHandler<RuleCalculateCMD>,
-      IInitiatorRulebookHandler<RuleSavingThrow>,
-      IUnitLevelUpHandler
+      IInitiatorRulebookHandler<RuleSavingThrow>
     {
-      private static BlueprintFeature _getUp;
-      private static BlueprintFeature GetUp
-      {
-        get
-        {
-          _getUp ??= FeatureRefs.AcrobatsFootwearFeature.Reference.Get();
-          return _getUp;
-        }
-      }
-
       private static BlueprintBuff _mobilityBuff;
       private static BlueprintBuff MobilityBuff
       {
@@ -947,28 +941,6 @@ namespace CharacterOptionsPlus.Feats
         {
           _mobilityBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillMobilityAbilityBuff);
           return _mobilityBuff;
-        }
-      }
-
-      public void HandleUnitAfterLevelUp(UnitEntityData unit, LevelUpController controller)
-      {
-        try
-        {
-          if (unit != Owner)
-            return;
-
-          if (unit.HasFact(GetUp))
-            return;
-
-          if (unit.Stats.GetStat(StatType.SkillMobility).BaseValue >= 15)
-          {
-            Logger.NativeLog($"Granting {GetUp.Name} to {Owner.CharacterName}");
-            unit.AddFact(GetUp);
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("SignatureInspectionComponent.HandleUnitAfterLevelUp", e);
         }
       }
 
@@ -1038,8 +1010,6 @@ namespace CharacterOptionsPlus.Feats
           Logger.LogException("SignatureMobilityComponent.OnEventAboutToTrigger(RuleSavingThrow)", e);
         }
       }
-
-      public void HandleUnitBeforeLevelUp(UnitEntityData unit) { }
 
       public void OnEventDidTrigger(RuleCalculateCMD evt) { }
 
