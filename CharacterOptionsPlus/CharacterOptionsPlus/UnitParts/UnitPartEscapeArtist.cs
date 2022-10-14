@@ -71,6 +71,10 @@ namespace CharacterOptionsPlus.UnitParts
     [JsonProperty]
     public bool AppliesSlow;
 
+    // Automatically replaces SuppressTarget if the applied buff is higher priority
+    // Priority is evaluated:
+    //  - Paralyze + Slow > Paralyze > Slow
+    //  - Lowest DC is prioritized (i.e. most likely to succeed)
     public void AddSupressBuff(Buff buff, bool appliesParalyze, bool appliesSlow)
     {
       SuppressBuffs.Add(buff);
