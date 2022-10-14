@@ -14,10 +14,6 @@ namespace CharacterOptionsPlus.UnitParts
     [JsonProperty]
     public List<Buff> BreakFreeBuffs = new();
 
-    // TODO: Keep in mind, when suppresing conditions they are counted. So the suppress
-    // needs to reverse itself (only if the buff is still active tho)
-    // e.g. Buff: +1 Slowed, Suppress: -1 Slowed
-    // When it ends, Buff: -1 Slowed, so Suppress: +1 Slowed
     [JsonProperty]
     public List<Buff> SuppressBuffs = new();
   }

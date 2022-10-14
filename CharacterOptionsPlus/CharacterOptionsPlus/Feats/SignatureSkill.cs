@@ -6,8 +6,10 @@ using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Components;
+using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
@@ -21,6 +23,7 @@ using Kingmaker.Controllers;
 using Kingmaker.Controllers.Rest.State;
 using Kingmaker.Designers;
 using Kingmaker.Designers.EventConditionActionSystem.ContextData;
+using Kingmaker.Designers.Mechanics.Buffs;
 using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
@@ -200,23 +203,41 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsSuppressAbility = "SignatureSkill.Athletics.Suppress.Ability";
     private const string AthleticsSuppressAbilityName = "SignatureSkill.Athletics.Suppress.Name";
     private const string AthleticsSuppressAbilityDescription = "SignatureSkill.Athletics.Suppress.Description";
-    private const string AthleticsSuppressBuff = "SignatureSkill.Athletics.Suppress.Buff";
+    private const string AthleticsSuppressAbilityBuff = "SignatureSkill.Athletics.Suppress.Ability.Buff";
+    private const string AthleticsSuppressParalyzeBuff = "SignatureSkill.Athletics.Suppress.Paralyze.All";
+    private const string AthleticsSuppressSlowBuff = "SignatureSkill.Athletics.Suppress.Paralyze.All";
 
     private static BlueprintFeature ConfigureAthletics()
     {
-      var suppressConditions = BuffConfigurator.New(AthleticsSuppressBuff, Guids.SignatureSkillAthleticsSuppressBuff)
+      BuffConfigurator.New(AthleticsSuppressParalyzeBuff, Guids.SignatureSkillAthleticsSuppressParalyzeBuff)
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .AddComponent(new SuppressConditions(UnitCondition.Slowed, UnitCondition.Paralyzed))
+        .AddComponent(new SuppressConditions(UnitCondition.Paralyzed))
+        .SetStacking(StackingType.Stack)
         .Configure();
 
-      var suppressAbility = AbilityConfigurator.New(AthleticsSuppressAbility, Guids.SignatureSkillAthleticsSuppressAbility)
+      BuffConfigurator.New(AthleticsSuppressSlowBuff, Guids.SignatureSkillAthleticsSuppressSlowBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddComponent(new SuppressConditions(UnitCondition.Slowed))
+        .SetStacking(StackingType.Stack)
+        .Configure();
+
+      var buff = BuffConfigurator.New(AthleticsSuppressAbilityBuff, Guids.SignatureSkillAthleticsSuppressAbilityBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddComponent(
+          new AfterBuffTickActions(
+            ActionsBuilder.New()
+              .Conditional(
+                ConditionsBuilder.New().Add(new HasConditions(new() { UnitCondition.Slowed, UnitCondition.Paralyzed })),
+                ifTrue: ActionsBuilder.New().Add<TrySuppressConditions>())))
+        .Configure();
+
+      var suppressAbility = ActivatableAbilityConfigurator.New(AthleticsSuppressAbility, Guids.SignatureSkillAthleticsSuppressAbility)
         .SetDisplayName(AthleticsSuppressAbilityName)
         .SetDescription(AthleticsSuppressAbilityDescription)
-        .SetRange(AbilityRange.Personal)
-        .SetType(AbilityType.Extraordinary)
-        .SetActionType(CommandType.Standard)
-        .SetAnimation(CastAnimationStyle.Omni)
-        .AllowTargeting(self: true)
+        .SetDeactivateImmediately()
+        .SetDoNotTurnOffOnRest()
+        .SetIsOnByDefault()
+        .SetBuff(buff)
         .Configure();
 
       var ability = AbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
@@ -227,7 +248,7 @@ namespace CharacterOptionsPlus.Feats
         .AllowTargeting(self: true)
         .SetActionType(CommandType.Standard)
         .SetAnimation(CastAnimationStyle.Omni)
-        .AddComponent<SignatureAthleticsAbilityRequirements>()
+        .AddComponent<BreakFreeAbilityRequirements>()
         .AddAbilityEffectRunAction(ActionsBuilder.New().Add<BreakFree>())
         .Configure();
 
@@ -240,9 +261,124 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillAthletics))
         .AddComponent<SignatureAthleticsComponent>()
         .AddFacts(new() { ability })
+        .AddComponent(
+          new AddFactsOnSkillRank(
+            StatType.SkillAthletics, (suppressAbility.ToReference<BlueprintUnitFactReference>(), rank: 15)))
         .Configure();
     }
 
+    [TypeId("63aeec96-2c10-4c6d-9c43-065ea590f2da")]
+    private class TrySuppressConditions : ContextAction
+    {
+      private static BlueprintBuff _paralyzeBuff;
+      private static BlueprintBuff ParalyzeBuff
+      {
+        get
+        {
+          _paralyzeBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAthleticsSuppressParalyzeBuff);
+          return _paralyzeBuff;
+        }
+      }
+      private static BlueprintBuff _slowBuff;
+      private static BlueprintBuff SlowBuff
+      {
+        get
+        {
+          _slowBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAthleticsSuppressSlowBuff);
+          return _slowBuff;
+        }
+      }
+
+      public override string GetCaption()
+      {
+        return $"Try suppress slow, paralyzed";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          var target = Context.MaybeCaster;
+          if (target is null)
+          {
+            Logger.Warning("Try suppress missing caster");
+            return;
+          }
+
+          var escapeArtist = target.Get<UnitPartEscapeArtist>();
+          if (escapeArtist is null || !escapeArtist.SuppressBuffs.Any())
+          {
+            Logger.Warning($"{target.CharacterName} has no buffs to suppress");
+            return;
+          }
+
+          var slowBuffs = new List<Buff>();
+          var paralyzeBuffs = new List<Buff>();
+          foreach (var buff in escapeArtist.SuppressBuffs)
+          {
+            if (AppliesCondition(buff, UnitCondition.Slowed))
+              slowBuffs.Add(buff);
+            if (AppliesCondition(buff, UnitCondition.Paralyzed))
+              paralyzeBuffs.Add(buff);
+          }
+
+          if (TrySuppress(target, paralyzeBuffs.Where(b => slowBuffs.Contains(b)), paralyze: true, slow: true))
+            return;
+
+          if (TrySuppress(target, paralyzeBuffs, paralyze: true))
+            return;
+
+          TrySuppress(target, slowBuffs, slow: true);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("TrySuppressConditions.RunAction", e);
+        }
+      }
+
+      private bool TrySuppress(UnitEntityData unit, IEnumerable<Buff> buffs, bool paralyze = false, bool slow = false)
+      {
+        if (!buffs.Any())
+          return false;
+
+        Buff targetBuff = buffs.FirstOrDefault();
+        var dc = targetBuff.Context.Params.DC;
+        foreach (var buff in buffs)
+        {
+          var buffDC = buff.Context.Params.DC;
+          if (buffDC < dc)
+          {
+            dc = buffDC;
+            targetBuff = buff;
+          }
+        }
+
+        TrySuppress(unit, targetBuff, dc, paralyze, slow);
+        return true;
+      }
+
+      private void TrySuppress(UnitEntityData unit, Buff buff, int dc, bool paralyze, bool slow)
+      {
+        var modifiedDC = dc + 10;
+        Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {buff.Name}, DC {modifiedDC}");
+        if (GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, modifiedDC), buff.Context).Success)
+        {
+          // TODO: Duration logic
+          if (paralyze)
+          {
+            Logger.Log($"Suppressing paralyze on {unit.CharacterName} caused by {buff.Name}");
+            buff.StoreFact(unit.AddBuff(ParalyzeBuff, Context));
+          }
+          if (slow)
+          {
+            Logger.Log($"Suppressing slow on {unit.CharacterName} caused by {buff.Name}");
+            buff.StoreFact(unit.AddBuff(SlowBuff, Context));
+          }
+        }
+      }
+    }
+
+    [TypeId("ef1e6886-95d1-4e56-8081-0573378ef701")]
     private class BreakFree : ContextAction
     {
       public override string GetCaption()
@@ -303,7 +439,7 @@ namespace CharacterOptionsPlus.Feats
     }
 
     [TypeId("62f99d41-f2c2-4e6f-9aad-b84094db9cd2")]
-    private class SignatureAthleticsAbilityRequirements : BlueprintComponent, IAbilityCasterRestriction
+    private class BreakFreeAbilityRequirements : BlueprintComponent, IAbilityCasterRestriction
     {
       private const string Restriction = "SignatureSkill.Athletics.BreakFree.Restriction";
 
@@ -322,7 +458,7 @@ namespace CharacterOptionsPlus.Feats
         }
         catch (Exception e)
         {
-          Logger.LogException("SignatureAthleticsAbilityRequirements.IsCasterRestrictionPassed", e);
+          Logger.LogException("BreakFreeabilityRequirements.IsCasterRestrictionPassed", e);
         }
         return false;
       }
@@ -347,8 +483,10 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          if (buff.Blueprint.GetComponents<AddCondition>().Any(
-            c => c.Condition == UnitCondition.Slowed || c.Condition == UnitCondition.Paralyzed))
+          if (buff.Context.Params is null || buff.Context.Params.DC <= 0)
+            return;
+
+          if (AppliesCondition(buff, UnitCondition.Slowed) || AppliesCondition(buff, UnitCondition.Paralyzed))
           {
             Logger.NativeLog($"Adding {buff.Name} to SuppressBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().SuppressBuffs.Add(buff);
@@ -381,7 +519,6 @@ namespace CharacterOptionsPlus.Feats
           var unitPart = Owner.Get<UnitPartEscapeArtist>();
           if (unitPart is null)
             return;
-          Logger.NativeLog($"Removing {buff.Name} for {Owner.CharacterName}");
 
           if (unitPart.BreakFreeBuffs.Remove(buff))
             return;
@@ -393,6 +530,19 @@ namespace CharacterOptionsPlus.Feats
           Logger.LogException("SignatureAthleticsComponent.HandleBuffDidRemoved", e);
         }
       }
+    }
+
+    private static bool AppliesCondition(Buff buff, UnitCondition condition)
+    {
+      return buff.Blueprint.Components.Any(
+        c =>
+        {
+          if (c is AddCondition add)
+            return add.Condition == condition;
+          if (c is BuffStatusCondition status)
+            return status.Condition == condition;
+          return false;
+        });
     }
     #endregion
 

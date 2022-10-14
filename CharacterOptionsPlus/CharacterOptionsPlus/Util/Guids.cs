@@ -69,8 +69,10 @@ namespace CharacterOptionsPlus.Util
 
     internal const string SignatureSkillAthletics = "1a436197-9e8d-44df-bf08-33afa9b025cd";
     internal const string SignatureSkillAthleticsAbility = "cc7c219a-f684-49a4-8386-be7a390c63d5";
+    internal const string SignatureSkillAthleticsSuppressAbilityBuff = "ba838ccd-8bec-44c4-a98d-80aef50f1dae";
     internal const string SignatureSkillAthleticsSuppressAbility = "b6a7878a-ef3e-4a9f-9ede-a688f2358921";
-    internal const string SignatureSkillAthleticsSuppressBuff = "b1e07337-a211-4ba8-af93-767c82e0c957";
+    internal const string SignatureSkillAthleticsSuppressParalyzeBuff = "b1e07337-a211-4ba8-af93-767c82e0c957";
+    internal const string SignatureSkillAthleticsSuppressSlowBuff = "e3258da0-d4d4-4150-8049-09b3c726a232";
 
     internal const string SignatureSkillKnowledgeAbility = "3ffba240-5446-4dfa-92b7-cd82de34e6b9";
     internal const string SignatureSkillKnowledgeBuff = "8a1cd964-541b-4c2b-8506-47cb80780b92";
@@ -90,8 +92,6 @@ namespace CharacterOptionsPlus.Util
     internal const string SignatureSkillStealth = "8f798047-b6ce-4d7e-bdc7-1f68eeec0d1f";
 
     // todo: unused
-    internal const string SignatureSkillLoreReligionAbility = "ba838ccd-8bec-44c4-a98d-80aef50f1dae";
-    internal const string SignatureSkillLoreNatureBuff = "e3258da0-d4d4-4150-8049-09b3c726a232";
     internal const string SignatureSkillLoreNatureAbility = "8ce7f623-57be-49dd-a2db-8d13d8a6825a";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";

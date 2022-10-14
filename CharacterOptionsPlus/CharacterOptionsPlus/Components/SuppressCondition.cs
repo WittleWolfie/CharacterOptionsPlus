@@ -31,7 +31,7 @@ namespace CharacterOptionsPlus.Components
         {
           if (Owner.State.HasCondition(condition))
           {
-            Logger.Log($"Suppressing {Conditions} on {Owner.CharacterName}");
+            Logger.Log($"Suppressing {string.Join(", ", Conditions)} on {Owner.CharacterName}");
             Owner.State.RemoveCondition(condition);
             Data.SuppressedConditions.Add(condition);
           }
@@ -63,7 +63,7 @@ namespace CharacterOptionsPlus.Components
     public class ComponentData
     {
       [JsonProperty]
-      public List<UnitCondition> SuppressedConditions;
+      public List<UnitCondition> SuppressedConditions = new();
     }
   }
 }
