@@ -130,6 +130,7 @@ namespace CharacterOptionsPlus.UnitParts
     private void UpdateSuppressTarget()
     {
       SuppressTarget = null;
+      // If it's already suppressed it's not a valid suppression target
       foreach (var buff in SuppressBuffs.Except(SuppressedBuffs))
       {
         AddSupressBuff(
@@ -156,6 +157,8 @@ namespace CharacterOptionsPlus.UnitParts
       var dc = SuppressTarget.Context.Params.DC + 10;
       Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {dc}");
 
+      // This is basically whether or not this is activated automatically at start of round or by an active ability.
+      // Manually spending / triggering the action for the ability causes problems.
       if (spendAction)
       {
         var animation = unit.View.AnimationManager.CreateHandle(UnitAnimationType.Dodge);
