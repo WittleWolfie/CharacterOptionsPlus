@@ -134,7 +134,10 @@ namespace CharacterOptionsPlus.UnitParts
       }
 
       var unit = Owner.Unit;
-      var modifiedDC = SuppressTarget.Context.Params.DC + 10;
+      var modifiedDC =
+        unit.Stats.GetStat(StatType.SkillAthletics).BaseValue >= 20
+          ? SuppressTarget.Context.Params.DC
+          : SuppressTarget.Context.Params.DC + 10;
       Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {modifiedDC}");
 
       var animation = unit.View.AnimationManager.CreateHandle(UnitAnimationType.Dodge);
