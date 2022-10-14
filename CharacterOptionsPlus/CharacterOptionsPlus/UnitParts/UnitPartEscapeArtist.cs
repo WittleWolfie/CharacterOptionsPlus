@@ -8,6 +8,7 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.Utility;
 using Kingmaker.Visual.Animation.Kingmaker;
 using Newtonsoft.Json;
 using System;
@@ -135,26 +136,29 @@ namespace CharacterOptionsPlus.UnitParts
       var unit = Owner.Unit;
       var modifiedDC = SuppressTarget.Context.Params.DC + 10;
       Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {modifiedDC}");
+
       var animation = unit.View.AnimationManager.CreateHandle(UnitAnimationType.Dodge);
       unit.View.AnimationManager.Execute(animation);
+
       unit.SpendAction(CommandType.Standard, isFullRound: false, timeSinceCommandStart: 0);
-      if (GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, modifiedDC), SuppressTarget.Context).Success)
+      var result = GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, modifiedDC), SuppressTarget.Context);
+      if (result.Success)
       {
-        // TODO: Duration logic
+        var rounds = (1 + (result.RollResult - modifiedDC) / 5).Rounds();
         if (AppliesCondition(SuppressTarget, UnitCondition.Paralyzed))
         {
           Logger.Log($"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}");
-          SuppressTarget.StoreFact(unit.AddBuff(ParalyzeBuff, SuppressTarget.Context));
+          SuppressTarget.StoreFact(unit.AddBuff(ParalyzeBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
         if (AppliesCondition(SuppressTarget, UnitCondition.Slowed))
         {
           Logger.Log($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name}");
-          SuppressTarget.StoreFact(unit.AddBuff(SlowBuff, SuppressTarget.Context));
+          SuppressTarget.StoreFact(unit.AddBuff(SlowBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
-
-        SuppressTarget = null;
-        UpdateSuppressTarget();
       }
+
+      SuppressTarget = null;
+      UpdateSuppressTarget();
     }
 
     internal static bool AppliesCondition(Buff buff, UnitCondition condition)
