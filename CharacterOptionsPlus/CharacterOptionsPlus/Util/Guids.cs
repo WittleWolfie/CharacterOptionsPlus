@@ -69,8 +69,9 @@ namespace CharacterOptionsPlus.Util
 
     internal const string SignatureSkillAthletics = "1a436197-9e8d-44df-bf08-33afa9b025cd";
     internal const string SignatureSkillAthleticsAbility = "cc7c219a-f684-49a4-8386-be7a390c63d5";
-    internal const string SignatureSkillAthleticsSuppressAbilityBuff = "ba838ccd-8bec-44c4-a98d-80aef50f1dae";
-    internal const string SignatureSkillAthleticsSuppressAbility = "b6a7878a-ef3e-4a9f-9ede-a688f2358921";
+    internal const string SignatureSkillAthleticsSuppressPassiveBuff = "ba838ccd-8bec-44c4-a98d-80aef50f1dae";
+    internal const string SignatureSkillAthleticsSuppressPassive = "b6a7878a-ef3e-4a9f-9ede-a688f2358921";
+    internal const string SignatureskillAthleticsSuppressActive = "2f375a7f-317c-439d-acc2-8ead9f34e4ac";
     internal const string SignatureSkillAthleticsSuppressParalyzeBuff = "b1e07337-a211-4ba8-af93-767c82e0c957";
     internal const string SignatureSkillAthleticsSuppressSlowBuff = "8ce7f623-57be-49dd-a2db-8d13d8a6825a";
 

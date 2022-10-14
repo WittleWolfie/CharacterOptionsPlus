@@ -110,7 +110,7 @@
   },
   {
     "Key": "SignatureSkill.Athletics.Description",
-    "enGB": "5 Ranks: As a standard action, you can attempt to break free from a grapple or entangling effect, if that effect allows you to break free.\n\n10 Ranks: You can attempt to break free as a move action.\n\n15 Ranks: As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC.\n\n20 Ranks: You can attempt to break free as a swift action. The Athletics check to suppress a slow or paralysis effect uses the save DC."
+    "enGB": "5 Ranks: As a standard action, you can attempt to break free from a grapple or entangling effect, if that effect allows you to break free.\n\n10 Ranks: You can attempt to break free as a move action.\n\n15 Ranks: As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC.\n\n20 Ranks: You can attempt to break free as a swift action. You can attempt to suppress a slow or paralysis effect as a move action."
   },
   {
     "Key": "SignatureSkill.Athletics.BreakFree.Name",
@@ -126,17 +126,26 @@
     "enGB": "No effects which allow breaking free"
   },
   {
-    "Key": "SignatureSkill.Athletics.Suppress.Name",
+    "Key": "SignatureSkill.Athletics.Suppress.Passive.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Resist Paralyze"
+    "enGB": "Signature Skill: Suppress Paralyze"
   },
   {
-    "Key": "SignatureSkill.Athletics.Suppress.Description",
-    "enGB": "As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC."
+    "Key": "SignatureSkill.Athletics.Suppress.Passive.Description",
+    "enGB": "At the start of each round make an Athletics check to suppress a paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a Standard action."
+  },
+  {
+    "Key": "SignatureSkill.Athletics.Suppress.Active.Name",
+    "ProcessTemplates": false,
+    "enGB": "Signature Skill: Suppress Slow"
+  },
+  {
+    "Key": "SignatureSkill.Athletics.Suppress.Active.Description",
+    "enGB": "As a standard action you can attempt an Athletics check to suppress a slow effect for 1 round, plus 1 round for every 5 by which you exceed the DC."
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Restriction",
-    "enGB": "No paralyzing or slowing effects"
+    "enGB": "No slowing effects"
   },
 
   {

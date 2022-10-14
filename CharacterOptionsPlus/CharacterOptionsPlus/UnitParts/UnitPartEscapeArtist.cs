@@ -28,7 +28,7 @@ namespace CharacterOptionsPlus.UnitParts
     {
       get
       {
-        _suppressBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAthleticsSuppressAbilityBuff);
+        _suppressBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillAthleticsSuppressPassiveBuff);
         return _suppressBuff;
       }
     }
@@ -125,7 +125,7 @@ namespace CharacterOptionsPlus.UnitParts
       AppliesSlow = appliesSlow;
     }
 
-    public void TrySuppress()
+    public void TrySuppress(bool spendAction = true)
     {
       if (SuppressTarget is null)
       {
@@ -134,28 +134,31 @@ namespace CharacterOptionsPlus.UnitParts
       }
 
       var unit = Owner.Unit;
-      var modifiedDC =
-        unit.Stats.GetStat(StatType.SkillAthletics).BaseValue >= 20
-          ? SuppressTarget.Context.Params.DC
-          : SuppressTarget.Context.Params.DC + 10;
-      Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {modifiedDC}");
+      var dc = SuppressTarget.Context.Params.DC + 10;
+      Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {dc}");
 
       var animation = unit.View.AnimationManager.CreateHandle(UnitAnimationType.Dodge);
       unit.View.AnimationManager.Execute(animation);
 
-      unit.SpendAction(CommandType.Standard, isFullRound: false, timeSinceCommandStart: 0);
-      var result = GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, modifiedDC), SuppressTarget.Context);
+      if (spendAction)
+      {
+        var actionCost =
+          unit.Stats.GetStat(StatType.SkillAthletics).BaseValue >= 20 ? CommandType.Move : CommandType.Standard;
+        unit.SpendAction(actionCost, isFullRound: false, timeSinceCommandStart: 0);
+      }
+
+      var result = GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, dc), SuppressTarget.Context);
       if (result.Success)
       {
-        var rounds = (1 + (result.RollResult - modifiedDC) / 5).Rounds();
+        var rounds = (1 + (result.RollResult - dc) / 5).Rounds();
         if (AppliesCondition(SuppressTarget, UnitCondition.Paralyzed))
         {
-          Logger.Log($"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}");
+          Logger.NativeLog($"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(ParalyzeBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
         if (AppliesCondition(SuppressTarget, UnitCondition.Slowed))
         {
-          Logger.Log($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name}");
+          Logger.NativeLog($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(SlowBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
       }

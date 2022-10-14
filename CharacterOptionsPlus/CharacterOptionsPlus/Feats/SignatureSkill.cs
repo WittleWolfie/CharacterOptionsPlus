@@ -200,10 +200,13 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsAbilityName = "SignatureSkill.Athletics.BreakFree.Name";
     private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.BreakFree.Description";
 
-    private const string AthleticsSuppressAbility = "SignatureSkill.Athletics.Suppress.Ability";
-    private const string AthleticsSuppressAbilityName = "SignatureSkill.Athletics.Suppress.Name";
-    private const string AthleticsSuppressAbilityDescription = "SignatureSkill.Athletics.Suppress.Description";
-    private const string AthleticsSuppressAbilityBuff = "SignatureSkill.Athletics.Suppress.Ability.Buff";
+    private const string AthleticsSuppressPassive = "SignatureSkill.Athletics.Suppress.Passive";
+    private const string AthleticsSuppressPassiveName = "SignatureSkill.Athletics.Suppress.Passive.Name";
+    private const string AthleticsSuppressPassiveDescription = "SignatureSkill.Athletics.Suppress.Passive.Description";
+    private const string AthleticsSuppressPassiveBuff = "SignatureSkill.Athletics.Suppress.Passive.Buff";
+    private const string AthleticsSuppressActive = "SignatureSkill.Athletics.Suppress.Active";
+    private const string AthleticsSuppressActiveName = "SignatureSkill.Athletics.Suppress.Active.Name";
+    private const string AthleticsSuppressActiveDescription = "SignatureSkill.Athletics.Suppress.Active.Description";
     private const string AthleticsSuppressParalyzeBuff = "SignatureSkill.Athletics.Suppress.Paralyze.All";
     private const string AthleticsSuppressSlowBuff = "SignatureSkill.Athletics.Suppress.Slow.All";
 
@@ -221,17 +224,28 @@ namespace CharacterOptionsPlus.Feats
         .SetStacking(StackingType.Stack)
         .Configure();
 
-      var buff = BuffConfigurator.New(AthleticsSuppressAbilityBuff, Guids.SignatureSkillAthleticsSuppressAbilityBuff)
+      var buff = BuffConfigurator.New(AthleticsSuppressPassiveBuff, Guids.SignatureSkillAthleticsSuppressPassiveBuff)
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .Configure();
 
-      var suppressAbility = ActivatableAbilityConfigurator.New(AthleticsSuppressAbility, Guids.SignatureSkillAthleticsSuppressAbility)
-        .SetDisplayName(AthleticsSuppressAbilityName)
-        .SetDescription(AthleticsSuppressAbilityDescription)
+      var passiveSuppress = ActivatableAbilityConfigurator.New(AthleticsSuppressPassive, Guids.SignatureSkillAthleticsSuppressPassive)
+        .SetDisplayName(AthleticsSuppressPassiveName)
+        .SetDescription(AthleticsSuppressPassiveDescription)
         .SetDeactivateImmediately()
         .SetDoNotTurnOffOnRest()
         .SetIsOnByDefault()
         .SetBuff(buff)
+        .Configure();
+
+      var activeSuppress = AbilityConfigurator.New(AthleticsSuppressActive, Guids.SignatureskillAthleticsSuppressActive)
+        .SetDisplayName(AthleticsSuppressActiveName)
+        .SetDescription(AthleticsSuppressActiveDescription)
+        .SetRange(AbilityRange.Personal)
+        .SetType(AbilityType.Extraordinary)
+        .AllowTargeting(self: true)
+        .SetActionType(CommandType.Standard)
+        .AddComponent<SuppressSlowAbilityRequirements>()
+        .AddAbilityEffectRunAction(ActionsBuilder.New().Add<SuppressSlow>())
         .Configure();
 
       var ability = AbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
@@ -257,8 +271,70 @@ namespace CharacterOptionsPlus.Feats
         .AddFacts(new() { ability })
         .AddComponent(
           new AddFactsOnSkillRank(
-            StatType.SkillAthletics, (suppressAbility.ToReference<BlueprintUnitFactReference>(), rank: 15)))
+            StatType.SkillAthletics,
+            (passiveSuppress.ToReference<BlueprintUnitFactReference>(), rank: 15),
+            (activeSuppress.ToReference<BlueprintUnitFactReference>(), rank: 15)))
         .Configure();
+    }
+
+    [TypeId("567d5b5e-65b7-423d-81ef-86a2229a4dab")]
+    private class SuppressSlow : ContextAction
+    {
+      public override string GetCaption()
+      {
+        return "Suppress slow";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          var target = Context.MaybeCaster;
+          if (target is null)
+          {
+            Logger.Warning("Suppress slow missing caster");
+            return;
+          }
+
+          var escapeArtist = target.Get<UnitPartEscapeArtist>();
+          if (escapeArtist?.SuppressTarget is null)
+          {
+            Logger.Warning("Nothing to suppress");
+            return;
+          }
+
+          escapeArtist.TrySuppress(spendAction: false);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SuppressSlow.RunAction", e);
+        }
+      }
+    }
+
+    [TypeId("ceaf8034-d3cb-46a5-b452-7eb6713d27a4")]
+    private class SuppressSlowAbilityRequirements : BlueprintComponent, IAbilityCasterRestriction
+    {
+      private const string Restriction = "SignatureSkill.Athletics.Suppress.Restriction";
+
+      public string GetAbilityCasterRestrictionUIText()
+      {
+        return LocalizationTool.GetString(Restriction);
+      }
+
+      public bool IsCasterRestrictionPassed(UnitEntityData caster)
+      {
+        try
+        {
+          var escapeArtist = caster.Get<UnitPartEscapeArtist>();
+          return escapeArtist?.SuppressTarget is not null;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SuppressSlowAbilityRequirements.IsCasterRestrictionPassed", e);
+        }
+        return false;
+      }
     }
 
     [TypeId("ef1e6886-95d1-4e56-8081-0573378ef701")]
