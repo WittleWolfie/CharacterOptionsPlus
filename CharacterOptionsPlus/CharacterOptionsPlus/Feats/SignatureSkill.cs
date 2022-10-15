@@ -617,6 +617,7 @@ namespace CharacterOptionsPlus.Feats
     #endregion
 
     private const string KnowledgeDescription = "SignatureSkill.Knowledge.Description";
+    private const string KnowledgeIcon = IconPrefix + "signatureknowledge.png";
 
     private const string KnowledgeAbility = "SignatureSkill.Knowledge.Ability.Name";
     private const string KnowledgeAbilityDescription = "SignatureSkill.Knowledge.Ability.Description";
@@ -628,11 +629,13 @@ namespace CharacterOptionsPlus.Feats
       BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff)
         .SetDisplayName(KnowledgeAbility)
         .SetDescription(KnowledgeAbilityDescription)
+        .SetIcon(KnowledgeIcon)
         .Configure();
 
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility)
         .SetDisplayName(KnowledgeArcanaDisplayName)
         .SetDescription(KnowledgeAbilityDescription)
+        .SetIcon(KnowledgeIcon)
         .SetRange(AbilityRange.Long)
         .SetType(AbilityType.Extraordinary)
         .AllowTargeting(enemies: true)
