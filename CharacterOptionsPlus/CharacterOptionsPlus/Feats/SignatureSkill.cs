@@ -59,8 +59,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 namespace CharacterOptionsPlus.Feats
 {
   // Icons Remaining:
-  //  - Knowledge / Lore
-  //  - Mobility
   //  - Perception
   //  - Persuasion
   //  - Stealth
@@ -1075,12 +1073,15 @@ namespace CharacterOptionsPlus.Feats
     private const string MobilityAbilityBuff = "SignatureSkill.Mobility.Ability.Buff";
     private const string MobilityAbilityDescription = "SignatureSkill.Mobility.Ability.Description";
 
+    private const string MobilityBaseIcon = IconPrefix + "basemobility.png";
+    private const string MobilityIcon = IconPrefix + "signaturemobility.png";
+
     private static BlueprintFeature ConfigureMobility()
     {
       var buff = BuffConfigurator.New(MobilityAbilityBuff, Guids.SignatureSkillMobilityAbilityBuff)
         .SetDisplayName(MobilityDisplayName)
         .SetDescription(MobilityAbilityDescription)
-        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
+        .SetIcon(MobilityIcon)
         .AddComponent<AcrobaticMovement>()
         // Makes sure only one is turned on
         .AddComponent(
@@ -1091,22 +1092,30 @@ namespace CharacterOptionsPlus.Feats
       var ability = ActivatableAbilityConfigurator.New(MobilityAbility, Guids.SignatureSkillMobilityAbility)
         .SetDisplayName(MobilityDisplayName)
         .SetDescription(MobilityAbilityDescription)
-        .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
+        .SetIcon(MobilityIcon)
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.WithUnitCommand)
         .SetBuff(buff)
         .Configure();
 
       BuffConfigurator.For(BuffRefs.MobilityUseAbilityBuff)
+        // Correct the icon
+        .SetIcon(MobilityBaseIcon)
         // Makes sure only one is turned on
         .AddComponent(
           new ActivatableAbilityVariant(
             BlueprintTool.GetRef<BlueprintActivatableAbilityReference>(Guids.SignatureSkillMobilityAbility)))
         .Configure();
 
+      // Update the icon
+      ActivatableAbilityConfigurator.For(ActivatableAbilityRefs.MobilityUseAbility)
+        .SetIcon(MobilityBaseIcon)
+        .Configure();
+
       return FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility)
         .SetDisplayName(MobilityDisplayName)
         .SetDescription(MobilityDescription)
+        .SetIcon(FeatureRefs.SkillFocusAcrobatics.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
