@@ -58,6 +58,12 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
+  // Icons Remaining:
+  //  - Knowledge / Lore
+  //  - Mobility
+  //  - Perception
+  //  - Persuasion
+  //  - Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -66,7 +72,6 @@ namespace CharacterOptionsPlus.Feats
     private const string FeatDescription = "SignatureSkill.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "furiousfocus.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
