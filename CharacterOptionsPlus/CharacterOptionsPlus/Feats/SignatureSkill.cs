@@ -257,6 +257,7 @@ namespace CharacterOptionsPlus.Feats
       var activeSuppress = AbilityConfigurator.New(AthleticsSuppressActive, Guids.SignatureskillAthleticsSuppressActive)
         .SetDisplayName(AthleticsSuppressActiveName)
         .SetDescription(AthleticsSuppressActiveDescription)
+        .SetIcon(AbilityRefs.Haste.Reference.Get().Icon)
         .SetRange(AbilityRange.Personal)
         .SetType(AbilityType.Extraordinary)
         .AllowTargeting(self: true)
