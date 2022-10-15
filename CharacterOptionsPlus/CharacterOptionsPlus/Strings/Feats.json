@@ -190,6 +190,10 @@
     "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Ranks",
     "enGB": "Requires 10 Ranks in {0}."
   },
+  {
+    "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Identified",
+    "enGB": "Target already identified."
+  },
 
   {
     "Key": "SignatureSkill.Mobility.Name",

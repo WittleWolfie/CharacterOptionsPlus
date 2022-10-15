@@ -624,6 +624,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(KnowledgeAbility)
         .SetDescription(KnowledgeAbilityDescription)
         .SetIcon(KnowledgeIcon)
+        .SetStacking(StackingType.Stack)
         .Configure();
 
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility)
@@ -896,6 +897,11 @@ namespace CharacterOptionsPlus.Feats
 
           foreach (var target in targets)
           {
+            // Skip those who already have it. This is needed because the buff is per-owner so it needs to stack.
+            var identifyBuff = target.GetFact(Buff);
+            if (identifyBuff is not null && identifyBuff.MaybeContext?.MaybeCaster == Context.MaybeCaster)
+              continue;
+
             var buff = target.AddBuff(Buff, Context, duration: 1.Minutes());
             buff.IsNotDispelable = true;
           }
@@ -912,11 +918,16 @@ namespace CharacterOptionsPlus.Feats
     {
       private const string MissingFeat = "SignatureSkill.Knowledge.Ability.TargetRestriction.Feat";
       private const string MissingRanks = "SignatureSkill.Knowledge.Ability.TargetRestriction.Ranks";
+      private const string AlreadyIdentified = "SignatureSkill.Knowledge.Ability.TargetRestriction.Identified";
 
       public string GetAbilityTargetRestrictionUIText(UnitEntityData caster, TargetWrapper target)
       {
         if (target.Unit is null)
           return string.Empty;
+
+        var identifyBuff = target.Unit.GetFact(Buff);
+        if (identifyBuff is not null && identifyBuff.MaybeContext?.MaybeCaster == caster)
+          return LocalizationTool.GetString(AlreadyIdentified);
 
         var requiredFeat = GetRequiredFeat(target.Unit);
         if (caster.HasFact(requiredFeat))
@@ -934,8 +945,12 @@ namespace CharacterOptionsPlus.Feats
           if (target.Unit is null)
             return false;
 
+          var identifyBuff = target.Unit.GetFact(Buff);
+          if (identifyBuff is not null && identifyBuff.MaybeContext?.MaybeCaster == caster)
+            return false;
+
           if (caster.Stats.GetStat(GetStatType(target.Unit)).BaseValue < 10)
-            return False;
+            return false;
 
           return caster.HasFact(GetRequiredFeat(target.Unit));
         }
