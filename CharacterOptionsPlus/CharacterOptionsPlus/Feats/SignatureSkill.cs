@@ -219,6 +219,7 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsSuppressPassiveName = "SignatureSkill.Athletics.Suppress.Passive.Name";
     private const string AthleticsSuppressPassiveDescription = "SignatureSkill.Athletics.Suppress.Passive.Description";
     private const string AthleticsSuppressPassiveBuff = "SignatureSkill.Athletics.Suppress.Passive.Buff";
+    private const string SuppressPassiveIcon = IconPrefix + "suppressparalyze.png";
     private const string AthleticsSuppressActive = "SignatureSkill.Athletics.Suppress.Active";
     private const string AthleticsSuppressActiveName = "SignatureSkill.Athletics.Suppress.Active.Name";
     private const string AthleticsSuppressActiveDescription = "SignatureSkill.Athletics.Suppress.Active.Description";
@@ -246,6 +247,7 @@ namespace CharacterOptionsPlus.Feats
       var passiveSuppress = ActivatableAbilityConfigurator.New(AthleticsSuppressPassive, Guids.SignatureSkillAthleticsSuppressPassive)
         .SetDisplayName(AthleticsSuppressPassiveName)
         .SetDescription(AthleticsSuppressPassiveDescription)
+        .SetIcon(SuppressPassiveIcon)
         .SetDeactivateImmediately()
         .SetDoNotTurnOffOnRest()
         .SetIsOnByDefault()
