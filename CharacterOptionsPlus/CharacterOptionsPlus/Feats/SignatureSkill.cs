@@ -9,7 +9,6 @@ using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Components;
-using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;

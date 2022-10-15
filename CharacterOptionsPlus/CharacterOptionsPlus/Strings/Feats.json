@@ -119,7 +119,7 @@
   },
   {
     "Key": "SignatureSkill.Athletics.BreakFree.Description",
-    "enGB": "As a standard action, you can attempt to break free from a grapple or entangling effect, if that effect allows you to break free."
+    "enGB": "You can attempt to break free from a grapple or entangling effect, if that effect allows you to break free. This uses a standard action. If you have 10 Ranks in Athletics it uses a move action. If you have 20 Ranks in Athletics it uses a swift action."
   },
   {
     "Key": "SignatureSkill.Athletics.BreakFree.Restriction",
@@ -132,7 +132,7 @@
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Passive.Description",
-    "enGB": "At the start of each round make an Athletics check to suppress a paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a Standard action."
+    "enGB": "At the start of each round make an Athletics check to suppress a paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action."
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Active.Name",
@@ -141,7 +141,7 @@
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Active.Description",
-    "enGB": "As a standard action you can attempt an Athletics check to suppress a slow effect for 1 round, plus 1 round for every 5 by which you exceed the DC."
+    "enGB": "You can attempt an Athletics check to suppress a slow effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action."
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Restriction",
