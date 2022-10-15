@@ -58,8 +58,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // Icons Remaining:
-  //  - Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -1513,6 +1511,7 @@ namespace CharacterOptionsPlus.Feats
       BuffConfigurator.New(StealthSurprise, Guids.SignatureSkillStealthSurprise)
         .SetDisplayName(StealthDisplayName)
         .SetDescription(StealthSurpriseDescription)
+        .SetIcon(AbilityRefs.InstantEnemy.Reference.Get().Icon)
         .AddComponent<SignatureStealthSurprise>()
         .Configure();
 
