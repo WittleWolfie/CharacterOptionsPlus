@@ -1032,10 +1032,7 @@ namespace CharacterOptionsPlus.Feats
     }
     #endregion
 
-    // TODO: Merge the two mobility thingies using Ability Variants
-    // Probably that requires replacing the original, including save fixing
     #region Mobility
-
     private static BlueprintFeature _getUp;
     private static BlueprintFeature GetUp
     {
@@ -1088,6 +1085,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillMobility, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillMobility))
         .AddComponent<SignatureMobilityComponent>()
         .AddComponent(
           new AddFactsOnSkillRank(
