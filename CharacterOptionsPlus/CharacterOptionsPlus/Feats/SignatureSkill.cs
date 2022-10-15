@@ -627,7 +627,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility)
-        .SetDisplayName(KnowledgeArcanaDisplayName)
+        .SetDisplayName(KnowledgeAbility)
         .SetDescription(KnowledgeAbilityDescription)
         .SetIcon(KnowledgeIcon)
         .SetRange(AbilityRange.Long)
