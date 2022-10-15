@@ -6,7 +6,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
-using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.UnitParts;
@@ -22,7 +22,6 @@ using Kingmaker.Controllers;
 using Kingmaker.Controllers.Rest.State;
 using Kingmaker.Designers;
 using Kingmaker.Designers.EventConditionActionSystem.ContextData;
-using Kingmaker.Designers.Mechanics.Buffs;
 using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
@@ -195,7 +194,7 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsDisplayName = "SignatureSkill.Athletics.Name";
     private const string AthleticsDescription = "SignatureSkill.Athletics.Description";
 
-    private const string AthleticsAbility = "SignatureSkill.Athletics.Ability";
+    private const string AthleticsBreakFree = "SignatureSkill.Athletics.Ability";
     private const string AthleticsAbilityName = "SignatureSkill.Athletics.BreakFree.Name";
     private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.BreakFree.Description";
 
@@ -208,8 +207,6 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsSuppressActiveDescription = "SignatureSkill.Athletics.Suppress.Active.Description";
     private const string AthleticsSuppressParalyzeBuff = "SignatureSkill.Athletics.Suppress.Paralyze.All";
     private const string AthleticsSuppressSlowBuff = "SignatureSkill.Athletics.Suppress.Slow.All";
-
-    // TODO: Handle action cost reduction
 
     private static BlueprintFeature ConfigureAthletics()
     {
@@ -248,9 +245,13 @@ namespace CharacterOptionsPlus.Feats
         .SetAnimation(CastAnimationStyle.Omni)
         .AddComponent<SuppressSlowAbilityRequirements>()
         .AddAbilityEffectRunAction(ActionsBuilder.New().Add<SuppressSlow>())
+        .AddComponent(
+          new ReplaceCommandType(
+            new SuppressCostCalculator(),
+            BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.SignatureskillAthleticsSuppressActive)))
         .Configure();
 
-      var ability = AbilityConfigurator.New(AthleticsAbility, Guids.SignatureSkillAthleticsAbility)
+      var breakFree = AbilityConfigurator.New(AthleticsBreakFree, Guids.SignatureSkillAthleticsBreakFree)
         .SetDisplayName(AthleticsAbilityName)
         .SetDescription(AthleticsAbilityDescription)
         .SetRange(AbilityRange.Personal)
@@ -260,6 +261,10 @@ namespace CharacterOptionsPlus.Feats
         .SetAnimation(CastAnimationStyle.Omni)
         .AddComponent<BreakFreeAbilityRequirements>()
         .AddAbilityEffectRunAction(ActionsBuilder.New().Add<BreakFree>())
+        .AddComponent(
+          new ReplaceCommandType(
+            new BreakFreeCostCalculator(),
+            BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.SignatureSkillAthleticsBreakFree)))
         .Configure();
 
       return FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics)
@@ -270,13 +275,37 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillAthletics))
         .AddComponent<SignatureAthleticsComponent>()
-        .AddFacts(new() { ability })
+        .AddFacts(new() { breakFree })
         .AddComponent(
           new AddFactsOnSkillRank(
             StatType.SkillAthletics,
             (passiveSuppress.ToReference<BlueprintUnitFactReference>(), rank: 15),
             (activeSuppress.ToReference<BlueprintUnitFactReference>(), rank: 15)))
         .Configure();
+    }
+
+    private class BreakFreeCostCalculator : ICalculateCommandType
+    {
+      public CommandType Calculate(UnitEntityData unit)
+      {
+        var athleticsRanks = unit.Stats.GetStat(StatType.SkillAthletics).BaseValue;
+        if (athleticsRanks >= 20)
+          return CommandType.Swift;
+        if (athleticsRanks >= 10)
+          return CommandType.Move;
+        return CommandType.Standard;
+      }
+    }
+
+    private class SuppressCostCalculator : ICalculateCommandType
+    {
+      public CommandType Calculate(UnitEntityData unit)
+      {
+        var athleticsRanks = unit.Stats.GetStat(StatType.SkillAthletics).BaseValue;
+        if (athleticsRanks >= 20)
+          return CommandType.Move;
+        return CommandType.Standard;
+      }
     }
 
     [TypeId("567d5b5e-65b7-423d-81ef-86a2229a4dab")]

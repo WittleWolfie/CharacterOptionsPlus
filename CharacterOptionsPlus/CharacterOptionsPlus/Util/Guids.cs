@@ -68,7 +68,7 @@ namespace CharacterOptionsPlus.Util
     internal const string SignatureSkillFeat = "7bb79f1f-8a90-4cf0-9322-c81961fae21a";
 
     internal const string SignatureSkillAthletics = "1a436197-9e8d-44df-bf08-33afa9b025cd";
-    internal const string SignatureSkillAthleticsAbility = "cc7c219a-f684-49a4-8386-be7a390c63d5";
+    internal const string SignatureSkillAthleticsBreakFree = "cc7c219a-f684-49a4-8386-be7a390c63d5";
     internal const string SignatureSkillAthleticsSuppressPassiveBuff = "ba838ccd-8bec-44c4-a98d-80aef50f1dae";
     internal const string SignatureSkillAthleticsSuppressPassive = "b6a7878a-ef3e-4a9f-9ede-a688f2358921";
     internal const string SignatureskillAthleticsSuppressActive = "2f375a7f-317c-439d-acc2-8ead9f34e4ac";
@@ -95,7 +95,11 @@ namespace CharacterOptionsPlus.Util
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
-    
+
+    // unused
+    internal const string SignatureSkillAthleticsBreakFreeMove = "0bb1836e-b35b-420d-bf98-ecbddf176d73";
+    internal const string SignatureSkillAthleticsBreakFreeSwift = "0e4960e4-a427-4176-be9a-ff96eb027093";
+    internal const string SignatureskillAthleticsSuppressActiveMove = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
     internal static readonly (string guid, string displayName)[] Feats =
       new (string, string)[]
