@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.BasicEx;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
@@ -1060,6 +1061,10 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(MobilityAbilityDescription)
         .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
         .AddComponent<AcrobaticMovement>()
+        // Makes sure only one is turned on
+        .AddFactContextActions(
+          activated: ActionsBuilder.New()
+            .SwitchActivatableAbility(ability: ActivatableAbilityRefs.MobilityUseAbility.ToString(), isOn: false))
         .Configure();
 
       var ability = ActivatableAbilityConfigurator.New(MobilityAbility, Guids.SignatureSkillMobilityAbility)
@@ -1070,6 +1075,11 @@ namespace CharacterOptionsPlus.Feats
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.WithUnitCommand)
         .SetBuff(buff)
+        .Configure();
+
+      BuffConfigurator.For(BuffRefs.MobilityUseAbilityBuff)
+        // Makes sure only one is turned on
+        .AddFactContextActions(activated: ActionsBuilder.New().SwitchActivatableAbility(ability: ability, isOn: false))
         .Configure();
 
       return FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility)
