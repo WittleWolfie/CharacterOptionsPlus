@@ -172,6 +172,7 @@ namespace CharacterOptionsPlus.Feats
         var skillTypes =
           new[]
           {
+            StatType.SkillAthletics,
             StatType.SkillKnowledgeArcana,
             StatType.SkillKnowledgeWorld,
             StatType.SkillLoreNature,
