@@ -17,11 +17,10 @@ namespace CharacterOptionsPlus.Components
   internal class AddFactsOnSkillRank :
     UnitFactComponentDelegate<AddFactsOnSkillRank.ComponentData>, IOwnerGainLevelHandler
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("AddFeatureOnSkillRank");
+    private static readonly ModLogger Logger = Logging.GetLogger("AddFactsOnSkillRank");
 
     private readonly StatType Skill;
     private readonly (BlueprintUnitFactReference fact, int rank)[] Facts;
-
 
     public AddFactsOnSkillRank(StatType skill, params (BlueprintUnitFactReference fact, int rank)[] facts)
     {
