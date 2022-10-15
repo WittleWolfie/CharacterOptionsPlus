@@ -1541,14 +1541,22 @@ namespace CharacterOptionsPlus.Feats
           enemyPerception.Take10ForSuccess = true;
           var enemyResult = GameHelper.TriggerSkillCheck(enemyPerception);
 
-          var distancePenalty = (int) Math.Round((double)(nearestDistance / GameConsts.StealthDCIncrement.Meters));
+          var distanceBonus = (int) Math.Round((double)(nearestDistance / GameConsts.StealthDCIncrement.Meters));
+          var skillRanks = unit.Stats.GetStat(StatType.SkillStealth).BaseValue;
+          var ranksPenalty = skillRanks >= 10 ? 0 : 5;
+          var dc = enemyResult.RollResult + ranksPenalty - distanceBonus;
           if (GameHelper.TriggerSkillCheck(
-            new(unit, StatType.SkillStealth, enemyResult.RollResult - distancePenalty)).Success)
+            new(unit, StatType.SkillStealth, enemyResult.RollResult - distanceBonus + ranksPenalty)).Success)
           {
-            if (unit.Stats.GetStat(StatType.SkillStealth).BaseValue >= 10)
-              unit.AddBuff(Concealment, Context, 1.Rounds().Seconds);
-            else
+            Logger.Log($"Applying concealment to {unit.CharacterName} for 1 round.");
+            if (skillRanks >= 10)
               unit.AddBuff(TotalConcealment, Context, 1.Rounds().Seconds);
+            else
+              unit.AddBuff(Concealment, Context, 2.Rounds().Seconds);
+          }
+          else
+          {
+            Logger.Log($"{unit.CharacterName} failed stealth check against {nearestEnemy.CharacterName}");
           }
         }
         catch (Exception e)
