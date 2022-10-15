@@ -58,7 +58,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO: Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -115,6 +114,11 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
 
       FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion).Configure();
+
+      BuffConfigurator.New(StealthConcealment, Guids.SignatureSkillStealthConcealment).Configure();
+      BuffConfigurator.New(StealthConcealmentGreater, Guids.SignatureSkillStealthConcealmentGreater).Configure();
+      BuffConfigurator.New(StealthSurprise, Guids.SignatureSkillStealthSurprise).Configure();
+      FeatureConfigurator.New(StealthName, Guids.SignatureSkillStealth).Configure();
     }
 
     private static void ConfigureEnabled()
