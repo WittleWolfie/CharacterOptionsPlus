@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 370426678
+CRC: 497874717
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 407467b332ef608ffa885076b6ec6e0a
+    Hash: 825e0054f17f5f778c7c52fc695b7f83
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -15,6 +15,8 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Icons/BreakFree.png
+- Assets/Icons/SuppressParalyze.png
 - Assets/Icons/GreaterSkaldVigor.png
 - Assets/Icons/EldritchHeritage.png
 - Assets/Icons/SkaldVigor.png
@@ -23,7 +25,10 @@ Assets:
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
 - Assets/Icons/EldritchHeritageImproved.png
+- Assets/Icons/SignatureKnowledge.png
+- Assets/Icons/BaseMobility.png
 - Assets/Illustrations/wolfie.png
+- Assets/Icons/SignatureMobility.png
 - Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/GloriousHeat.png
 Dependencies: []
