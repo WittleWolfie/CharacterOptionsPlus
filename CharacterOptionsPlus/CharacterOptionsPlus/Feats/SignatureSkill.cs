@@ -12,7 +12,6 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
-using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -21,6 +20,7 @@ using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.Root;
 using Kingmaker.Controllers;
 using Kingmaker.Controllers.Rest.State;
+using Kingmaker.Controllers.Units;
 using Kingmaker.Designers;
 using Kingmaker.Designers.EventConditionActionSystem.ContextData;
 using Kingmaker.Designers.Mechanics.Recommendations;
@@ -39,6 +39,7 @@ using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Class.LevelUp;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics;
@@ -1456,6 +1457,9 @@ namespace CharacterOptionsPlus.Feats
     private const string StealthConcealmentGreater = "SignatureSkill.Stealth.Concealment.Greater";
     private const string StealthConcealmentGreaterDescription = "SignatureSkill.Stealth.Concealment.Greater.Description";
 
+    private const string StealthSurprise = "SignatureSkill.Stealth.Surprise";
+    private const string StealthSurpriseDescription = "SignatureSkill.Stealth.Surprise.Description";
+
     private const ConcealmentDescriptor SignatureStealth = (ConcealmentDescriptor)101;
 
     private static BlueprintFeature ConfigureStealth()
@@ -1472,6 +1476,12 @@ namespace CharacterOptionsPlus.Feats
         .AddConcealment(concealment: Concealment.Total, descriptor: SignatureStealth)
         .Configure();
 
+      BuffConfigurator.New(StealthSurprise, Guids.SignatureSkillStealthSurprise)
+        .SetDisplayName(StealthDisplayName)
+        .SetDescription(StealthSurpriseDescription)
+        .AddComponent<SignatureStealthSurprise>()
+        .Configure();
+
       return FeatureConfigurator.New(StealthName, Guids.SignatureSkillStealth)
         .SetDisplayName(StealthDisplayName)
         .SetDescription(StealthDescription)
@@ -1481,6 +1491,30 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new RecommendationSignatureSkill(StatType.SkillStealth))
         .AddComponent<SignatureStealthComponent>()
         .Configure();
+    }
+
+    [TypeId("5c66b62f-d712-4585-bef4-623a0af65403")]
+    private class SignatureStealthSurprise : UnitBuffComponentDelegate, ITargetRulebookHandler<RuleCheckTargetFlatFooted>
+    {
+      public void OnEventDidTrigger(RuleCheckTargetFlatFooted evt)
+      {
+        try
+        {
+          if (evt.Target != Owner)
+            return;
+
+          if (evt.Initiator != Context.MaybeCaster)
+            return;
+
+          evt.IsFlatFooted = true;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureStealthSurprise.OnEventDidTrigger", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCheckTargetFlatFooted evt) { }
     }
 
     [TypeId("c01de10e-c307-450d-8c78-81bc2fdaacb3")]
@@ -1562,6 +1596,52 @@ namespace CharacterOptionsPlus.Feats
         catch (Exception e)
         {
           Logger.LogException("SignatureStealthComponent.HandleUnitSwitchStealthCondition", e);
+        }
+      }
+    }
+
+    [HarmonyPatch(typeof(UnitStealthController))]
+    static class UnitStealthController_Patch
+    {
+      private static BlueprintBuff _denyDexterity;
+      private static BlueprintBuff DenyDexterity
+      {
+        get
+        {
+          _denyDexterity ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillStealthSurprise);
+          return _denyDexterity;
+        }
+      }
+
+      private static BlueprintFeature _signatureSkillStealth;
+      private static BlueprintFeature SignatureSkillStealth
+      {
+        get
+        {
+          _signatureSkillStealth ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillStealth);
+          return _signatureSkillStealth;
+        }
+      }
+
+      [HarmonyPatch(nameof(UnitStealthController.HandleUnitMakeOffensiveAction)), HarmonyPrefix]
+      static void HandleUnitMakeOffensiveAction(UnitEntityData unit, UnitEntityData target)
+      {
+        try
+        {
+          if (!unit.Descriptor.State.IsInStealth || !unit.HasFact(SignatureSkillStealth))
+            return;
+
+          var skillRanks = unit.Stats.GetStat(StatType.SkillStealth).BaseValue;
+          if (skillRanks < 15)
+            return;
+
+          var duration = skillRanks >= 20 ? 2 : 1;
+          Logger.Log($"Denying Dexterity bonuses to {target.CharacterName} for {duration} rounds");
+          target.AddBuff(DenyDexterity, unit, duration: duration.Rounds().Seconds);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UnitStealthController_Patch.HandleUnitMakeOffensiveAction", e);
         }
       }
     }

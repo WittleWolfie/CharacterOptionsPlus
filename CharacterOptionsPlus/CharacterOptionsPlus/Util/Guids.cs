@@ -93,6 +93,7 @@ namespace CharacterOptionsPlus.Util
     internal const string SignatureSkillStealth = "8f798047-b6ce-4d7e-bdc7-1f68eeec0d1f";
     internal const string SignatureSkillStealthConcealment = "0bb1836e-b35b-420d-bf98-ecbddf176d73";
     internal const string SignatureSkillStealthConcealmentGreater = "0e4960e4-a427-4176-be9a-ff96eb027093";
+    internal const string SignatureSkillStealthSurprise = "3aa58bf8-b3dc-45fb-80f0-e03b9e5a95e6";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
