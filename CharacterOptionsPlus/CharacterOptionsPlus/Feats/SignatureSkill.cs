@@ -59,8 +59,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 namespace CharacterOptionsPlus.Feats
 {
   // Icons Remaining:
-  //  - Perception
-  //  - Persuasion
   //  - Stealth
   internal class SignatureSkill
   {
@@ -1261,6 +1259,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
         .SetDisplayName(PerceptionDisplayName)
         .SetDescription(PerceptionDescription)
+        .SetIcon(FeatureRefs.SkillFocusPerception.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillPerception, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
@@ -1373,6 +1372,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion)
         .SetDisplayName(PersuasionDisplayName)
         .SetDescription(PersuasionDescription)
+        .SetIcon(FeatureRefs.SkillFocusDiplomacy.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillPersuasion, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
