@@ -89,12 +89,15 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName} (disabled)");
 
       FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat).Configure();
+      
+      BuffConfigurator.New(AthleticsSuppressParalyzeBuff, Guids.SignatureSkillAthleticsSuppressParalyzeBuff).Configure();
+      BuffConfigurator.New(AthleticsSuppressSlowBuff, Guids.SignatureSkillAthleticsSuppressSlowBuff).Configure();
+      BuffConfigurator.New(AthleticsSuppressPassiveBuff, Guids.SignatureSkillAthleticsSuppressPassiveBuff).Configure();
+      ActivatableAbilityConfigurator.New(AthleticsSuppressPassive, Guids.SignatureSkillAthleticsSuppressPassive).Configure();
+      AbilityConfigurator.New(AthleticsSuppressActive, Guids.SignatureskillAthleticsSuppressActive).Configure();
+      AbilityConfigurator.New(AthleticsBreakFree, Guids.SignatureSkillAthleticsBreakFree).Configure();
+      FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics).Configure();
 
-      BuffConfigurator.New(MobilityAbilityBuff, Guids.SignatureSkillMobilityAbilityBuff).Configure();
-      ActivatableAbilityConfigurator.New(MobilityAbility, Guids.SignatureSkillMobilityAbility).Configure();
-      FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility).Configure();
-
-      FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion).Configure();
 
       BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff).Configure();
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility).Configure();
@@ -103,7 +106,13 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillKnowledgeArcana).Configure();
       FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillKnowledgeArcana).Configure();
 
+      BuffConfigurator.New(MobilityAbilityBuff, Guids.SignatureSkillMobilityAbilityBuff).Configure();
+      ActivatableAbilityConfigurator.New(MobilityAbility, Guids.SignatureSkillMobilityAbility).Configure();
+      FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility).Configure();
+
       FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception).Configure();
+
+      FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion).Configure();
     }
 
     private static void ConfigureEnabled()
