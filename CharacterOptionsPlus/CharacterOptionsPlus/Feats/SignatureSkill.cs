@@ -1067,7 +1067,6 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(MobilityDisplayName)
         .SetDescription(MobilityAbilityDescription)
         .SetIcon(ActivatableAbilityRefs.MobilityUseAbility.Reference.Get().Icon) // TODO: Replace
-        .SetDeactivateIfCombatEnded()
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.WithUnitCommand)
         .SetBuff(buff)
