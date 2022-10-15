@@ -99,7 +99,6 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(AthleticsBreakFree, Guids.SignatureSkillAthleticsBreakFree).Configure();
       FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics).Configure();
 
-
       BuffConfigurator.New(KnowledgeBuff, Guids.SignatureSkillKnowledgeBuff).Configure();
       AbilityConfigurator.New(KnowledgeAbility, Guids.SignatureSkillKnowledgeAbility).Configure();
       FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana).Configure();
@@ -130,7 +129,8 @@ namespace CharacterOptionsPlus.Feats
       var feat = FeatureSelectionConfigurator.New(FeatName, Guids.SignatureSkillFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
-        .SetIcon(IconName)
+        .SetIcon(FeatureSelectionRefs.SkillFocusSelection.Reference.Get().Icon)
+        .SetIsClassFeature()
         .AddFeatureTagsComponent(featureTags: FeatureTag.Skills)
         .AddComponent<RecommendationSignatureSkill>()
         .AddToAllFeatures(
@@ -211,6 +211,7 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsDescription = "SignatureSkill.Athletics.Description";
 
     private const string AthleticsBreakFree = "SignatureSkill.Athletics.Ability";
+    private const string BreakFreeIcon = IconPrefix + "breakfree.png";
     private const string AthleticsAbilityName = "SignatureSkill.Athletics.BreakFree.Name";
     private const string AthleticsAbilityDescription = "SignatureSkill.Athletics.BreakFree.Description";
 
@@ -270,6 +271,7 @@ namespace CharacterOptionsPlus.Feats
       var breakFree = AbilityConfigurator.New(AthleticsBreakFree, Guids.SignatureSkillAthleticsBreakFree)
         .SetDisplayName(AthleticsAbilityName)
         .SetDescription(AthleticsAbilityDescription)
+        .SetIcon(BreakFreeIcon)
         .SetRange(AbilityRange.Personal)
         .SetType(AbilityType.Extraordinary)
         .AllowTargeting(self: true)
@@ -286,6 +288,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics)
         .SetDisplayName(AthleticsDisplayName)
         .SetDescription(AthleticsDescription)
+        .SetIcon(FeatureRefs.SkillFocusPhysique.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillAthletics, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
@@ -1468,15 +1471,18 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureStealth()
     {
+      var displacementIcon = BuffRefs.DisplacementBuff.Reference.Get().Icon;
       BuffConfigurator.New(StealthConcealment, Guids.SignatureSkillStealthConcealment)
         .SetDisplayName(StealthDisplayName)
         .SetDescription(StealthConcealmentDescription)
+        .SetIcon(displacementIcon)
         .AddConcealment(concealment: Concealment.Partial, descriptor: SignatureStealth)
         .Configure();
 
       BuffConfigurator.New(StealthConcealmentGreater, Guids.SignatureSkillStealthConcealmentGreater)
         .SetDisplayName(StealthDisplayName)
         .SetDescription(StealthConcealmentGreaterDescription)
+        .SetIcon(displacementIcon)
         .AddConcealment(concealment: Concealment.Total, descriptor: SignatureStealth)
         .Configure();
 
@@ -1489,6 +1495,7 @@ namespace CharacterOptionsPlus.Feats
       return FeatureConfigurator.New(StealthName, Guids.SignatureSkillStealth)
         .SetDisplayName(StealthDisplayName)
         .SetDescription(StealthDescription)
+        .SetIcon(FeatureRefs.SkillFocusStealth.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddPrerequisiteStatValue(StatType.SkillStealth, value: 5, group: GroupType.Any)
         .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
