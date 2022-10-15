@@ -12,6 +12,7 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
+using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -56,7 +57,7 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO: Escape Artist, Stealth
+  // TODO: Stealth
   internal class SignatureSkill
   {
     internal const string FeatName = "SignatureSkill";
@@ -135,7 +136,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureKnowledgeReligion(),
           ConfigureMobility(),
           ConfigurePerception(),
-          ConfigurePersuasion())
+          ConfigurePersuasion(),
+          ConfigureStealth())
         .Configure();
 
       // Add to feat selection
@@ -1438,6 +1440,120 @@ namespace CharacterOptionsPlus.Feats
         catch (Exception e)
         {
           Logger.LogException("SignaturePersuasionComponent.AfterIntimidateSuccess", e);
+        }
+      }
+    }
+    #endregion
+
+    #region Stealth
+    private const string StealthName = "SignatureSkill.Stealth";
+    private const string StealthDisplayName = "SignatureSkill.Stealth.Name";
+    private const string StealthDescription = "SignatureSkill.Stealth.Description";
+
+    private const string StealthConcealment = "SignatureSkill.Stealth.Concealment";
+    private const string StealthConcealmentDescription = "SignatureSkill.Stealth.Concealment.Description";
+
+    private const string StealthConcealmentGreater = "SignatureSkill.Stealth.Concealment.Greater";
+    private const string StealthConcealmentGreaterDescription = "SignatureSkill.Stealth.Concealment.Greater.Description";
+
+    private const ConcealmentDescriptor SignatureStealth = (ConcealmentDescriptor)101;
+
+    private static BlueprintFeature ConfigureStealth()
+    {
+      BuffConfigurator.New(StealthConcealment, Guids.SignatureSkillStealthConcealment)
+        .SetDisplayName(StealthDisplayName)
+        .SetDescription(StealthConcealmentDescription)
+        .AddConcealment(concealment: Concealment.Partial, descriptor: SignatureStealth)
+        .Configure();
+
+      BuffConfigurator.New(StealthConcealmentGreater, Guids.SignatureSkillStealthConcealmentGreater)
+        .SetDisplayName(StealthDisplayName)
+        .SetDescription(StealthConcealmentGreaterDescription)
+        .AddConcealment(concealment: Concealment.Total, descriptor: SignatureStealth)
+        .Configure();
+
+      return FeatureConfigurator.New(StealthName, Guids.SignatureSkillStealth)
+        .SetDisplayName(StealthDisplayName)
+        .SetDescription(StealthDescription)
+        .SetIsClassFeature()
+        .AddPrerequisiteStatValue(StatType.SkillStealth, value: 5, group: GroupType.Any)
+        .AddPrerequisiteClassLevel(CharacterClassRefs.RogueClass.ToString(), level: 5, group: GroupType.Any)
+        .AddComponent(new RecommendationSignatureSkill(StatType.SkillStealth))
+        .AddComponent<SignatureStealthComponent>()
+        .Configure();
+    }
+
+    [TypeId("c01de10e-c307-450d-8c78-81bc2fdaacb3")]
+    private class SignatureStealthComponent : UnitFactComponentDelegate, IUnitStealthHandler
+    {
+      private static BlueprintBuff _concealment;
+      private static BlueprintBuff Concealment
+      {
+        get
+        {
+          _concealment ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillStealthConcealment);
+          return _concealment;
+        }
+      }
+
+      private static BlueprintBuff _totalConcealment;
+      private static BlueprintBuff TotalConcealment
+      {
+        get
+        {
+          _totalConcealment ??= BlueprintTool.Get<BlueprintBuff>(Guids.SignatureSkillStealthConcealmentGreater);
+          return _totalConcealment;
+        }
+      }
+
+      public void HandleUnitSwitchStealthCondition(UnitEntityData unit, bool inStealth)
+      {
+        try
+        {
+          if (unit != Owner)
+            return;
+
+          if (inStealth)
+            return;
+
+          UnitEntityData nearestEnemy = null;
+          float nearestDistance = 99999f;
+          foreach (var target in GameHelper.GetTargetsAround(unit.Position, 120.Feet()))
+          {
+            if (target.IsEnemy(unit))
+            {
+              var distance = unit.DistanceTo(target) - unit.View.Corpulence - target.View.Corpulence;
+              if (distance < nearestDistance)
+              {
+                nearestEnemy = target;
+                nearestDistance = distance;
+              }
+            }
+          }
+
+          if (nearestEnemy is null)
+          {
+            Logger.NativeLog("No enemies nearby");
+            return;
+          }
+
+          var enemyPerception = new RuleSkillCheck(nearestEnemy, StatType.SkillPerception, dc: 0);
+          enemyPerception.Take10ForSuccess = true;
+          var enemyResult = GameHelper.TriggerSkillCheck(enemyPerception);
+
+          var distancePenalty = (int) Math.Round((double)(nearestDistance / GameConsts.StealthDCIncrement.Meters));
+          if (GameHelper.TriggerSkillCheck(
+            new(unit, StatType.SkillStealth, enemyResult.RollResult - distancePenalty)).Success)
+          {
+            if (unit.Stats.GetStat(StatType.SkillStealth).BaseValue >= 10)
+              unit.AddBuff(Concealment, Context, 1.Rounds().Seconds);
+            else
+              unit.AddBuff(TotalConcealment, Context, 1.Rounds().Seconds);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("SignatureStealthComponent.HandleUnitSwitchStealthCondition", e);
         }
       }
     }

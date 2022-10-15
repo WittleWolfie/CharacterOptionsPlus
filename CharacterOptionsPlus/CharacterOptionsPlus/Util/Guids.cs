@@ -91,14 +91,14 @@ namespace CharacterOptionsPlus.Util
     internal const string SignatureSkillPersuasion = "70d0cbae-811f-47aa-87c8-593d2a6d1a9e";
 
     internal const string SignatureSkillStealth = "8f798047-b6ce-4d7e-bdc7-1f68eeec0d1f";
+    internal const string SignatureSkillStealthConcealment = "0bb1836e-b35b-420d-bf98-ecbddf176d73";
+    internal const string SignatureSkillStealthConcealmentGreater = "0e4960e4-a427-4176-be9a-ff96eb027093";
 
     internal const string SkaldsVigorFeat = "55dd527b-8721-426b-aaa2-036ccc9a0458";
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
 
     // unused
-    internal const string SignatureSkillAthleticsBreakFreeMove = "0bb1836e-b35b-420d-bf98-ecbddf176d73";
-    internal const string SignatureSkillAthleticsBreakFreeSwift = "0e4960e4-a427-4176-be9a-ff96eb027093";
     internal const string SignatureskillAthleticsSuppressActiveMove = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
     internal static readonly (string guid, string displayName)[] Feats =
