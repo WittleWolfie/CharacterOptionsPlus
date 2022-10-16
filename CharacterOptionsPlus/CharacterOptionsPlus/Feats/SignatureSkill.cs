@@ -163,6 +163,56 @@ namespace CharacterOptionsPlus.Feats
     [TypeId("d97a84e9-bde0-4bad-ab33-89a41841e26a")]
     private class RecommendationSignatureSkill : LevelUpRecommendationComponent
     {
+      private static BlueprintFeature _athletics;
+      private static BlueprintFeature Athletics
+      {
+        get
+        {
+          _athletics ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillAthletics);
+          return _athletics;
+        }
+      }
+
+      private static BlueprintFeature _mobility;
+      private static BlueprintFeature Mobility
+      {
+        get
+        {
+          _mobility ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillMobility);
+          return _mobility;
+        }
+      }
+
+      private static BlueprintFeature _perception;
+      private static BlueprintFeature Perception
+      {
+        get
+        {
+          _perception ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillPerception);
+          return _perception;
+        }
+      }
+
+      private static BlueprintFeature _persuasion;
+      private static BlueprintFeature Persuasion
+      {
+        get
+        {
+          _persuasion ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillPersuasion);
+          return _persuasion;
+        }
+      }
+
+      private static BlueprintFeature _stealth;
+      private static BlueprintFeature Stealth
+      {
+        get
+        {
+          _stealth ??= BlueprintTool.Get<BlueprintFeature>(Guids.SignatureSkillStealth);
+          return _stealth;
+        }
+      }
+
       private readonly StatType? Skill;
 
       public RecommendationSignatureSkill() { Skill = null; }
@@ -185,20 +235,23 @@ namespace CharacterOptionsPlus.Feats
         var skillTypes =
           new[]
           {
-            StatType.SkillAthletics,
-            StatType.SkillKnowledgeArcana,
-            StatType.SkillKnowledgeWorld,
-            StatType.SkillLoreNature,
-            StatType.SkillLoreReligion,
-            StatType.SkillMobility,
-            StatType.SkillPerception,
-            StatType.SkillPersuasion,
-            StatType.SkillStealth,
+            (StatType.SkillAthletics, Athletics),
+            (StatType.SkillKnowledgeArcana, Arcana),
+            (StatType.SkillKnowledgeWorld, World),
+            (StatType.SkillLoreNature, Nature),
+            (StatType.SkillLoreReligion, Religion),
+            (StatType.SkillMobility, Mobility),
+            (StatType.SkillPerception, Perception),
+            (StatType.SkillPersuasion, Persuasion),
+            (StatType.SkillStealth, Stealth),
           };
-        foreach (var stat in skillTypes)
+        foreach (var (stat, feature) in skillTypes)
         {
-          if (levelUpState.Unit.Stats.GetStat(stat).BaseValue >= unit.Progression.CharacterLevel)
+          if (levelUpState.Unit.Stats.GetStat(stat).BaseValue >= unit.Progression.CharacterLevel
+            && !levelUpState.Unit.HasFact(feature))
+          {
             return RecommendationPriority.Good;
+          }
         }
         return RecommendationPriority.Same;
       }
@@ -287,7 +340,8 @@ namespace CharacterOptionsPlus.Feats
             BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.SignatureSkillAthleticsBreakFree)))
         .Configure();
 
-      return FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics)
+      return FeatureConfigurator.New(AthleticsName, Guids.SignatureSkillAthletics, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(AthleticsDisplayName)
         .SetDescription(AthleticsDescription)
         .SetIcon(FeatureRefs.SkillFocusPhysique.Reference.Get().Icon)
@@ -648,7 +702,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureKnowledgeArcana()
     {
-      return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana)
+      return FeatureConfigurator.New(KnowledgeArcanaName, Guids.SignatureSkillKnowledgeArcana, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(KnowledgeArcanaDisplayName)
         .SetDescription(KnowledgeDescription)
         .SetIcon(FeatureRefs.SkillFocusKnowledgeArcana.Reference.Get().Icon)
@@ -671,7 +726,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureKnowledgeWorld()
     {
-      return FeatureConfigurator.New(KnowledgeWorldName, Guids.SignatureSkillKnowledgeWorld)
+      return FeatureConfigurator.New(KnowledgeWorldName, Guids.SignatureSkillKnowledgeWorld, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(KnowledgeWorldDisplayName)
         .SetDescription(KnowledgeDescription)
         .SetIcon(FeatureRefs.SkillFocusKnowledgeWorld.Reference.Get().Icon)
@@ -694,7 +750,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureKnowledgeNature()
     {
-      return FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillLoreNature)
+      return FeatureConfigurator.New(KnowledgeNatureName, Guids.SignatureSkillLoreNature, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(KnowledgeNatureDisplayName)
         .SetDescription(KnowledgeDescription)
         .SetIcon(FeatureRefs.SkillFocusLoreNature.Reference.Get().Icon)
@@ -717,7 +774,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureKnowledgeReligion()
     {
-      return FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillLoreReligion)
+      return FeatureConfigurator.New(KnowledgeReligionName, Guids.SignatureSkillLoreReligion, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(KnowledgeReligionDisplayName)
         .SetDescription(KnowledgeDescription)
         .SetIcon(FeatureRefs.SkillFocusLoreReligion.Reference.Get().Icon)
@@ -1123,7 +1181,8 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(MobilityBaseIcon)
         .Configure();
 
-      return FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility)
+      return FeatureConfigurator.New(MobilityName, Guids.SignatureSkillMobility, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(MobilityDisplayName)
         .SetDescription(MobilityDescription)
         .SetIcon(FeatureRefs.SkillFocusAcrobatics.Reference.Get().Icon)
@@ -1269,7 +1328,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigurePerception()
     {
-      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception)
+      return FeatureConfigurator.New(PerceptionName, Guids.SignatureSkillPerception, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(PerceptionDisplayName)
         .SetDescription(PerceptionDescription)
         .SetIcon(FeatureRefs.SkillFocusPerception.Reference.Get().Icon)
@@ -1382,7 +1442,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigurePersuasion()
     {
-      return FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion)
+      return FeatureConfigurator.New(PersuasionName, Guids.SignatureSkillPersuasion, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(PersuasionDisplayName)
         .SetDescription(PersuasionDescription)
         .SetIcon(FeatureRefs.SkillFocusDiplomacy.Reference.Get().Icon)
@@ -1530,7 +1591,8 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent<SignatureStealthSurprise>()
         .Configure();
 
-      return FeatureConfigurator.New(StealthName, Guids.SignatureSkillStealth)
+      return FeatureConfigurator.New(StealthName, Guids.SignatureSkillStealth, FeatureGroup.Feat)
+        .SkipAddToSelections()
         .SetDisplayName(StealthDisplayName)
         .SetDescription(StealthDescription)
         .SetIcon(FeatureRefs.SkillFocusStealth.Reference.Get().Icon)
