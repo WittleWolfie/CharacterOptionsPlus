@@ -6,6 +6,7 @@
         * Available for every skill except Use Magic Device and Thievery
 * Updates:
     * Lich Companion upgrade can now select Paired Opportunists as a teamwork feat
+    * Hurtful now has an attack animation when it triggers!
 
 ## v0.4.2
 
