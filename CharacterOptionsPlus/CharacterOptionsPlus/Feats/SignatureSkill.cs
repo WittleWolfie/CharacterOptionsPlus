@@ -682,7 +682,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillKnowledgeWorld))
         .AddComponent(
           new AddFactsOnSkillRank(
-            StatType.SkillKnowledgeArcana,
+            StatType.SkillKnowledgeWorld,
             (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
@@ -705,7 +705,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreNature))
         .AddComponent(
           new AddFactsOnSkillRank(
-            StatType.SkillKnowledgeArcana,
+            StatType.SkillLoreNature,
             (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
@@ -728,7 +728,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new SignatureKnowledgeComponent(StatType.SkillLoreReligion))
         .AddComponent(
           new AddFactsOnSkillRank(
-            StatType.SkillKnowledgeArcana,
+            StatType.SkillLoreReligion,
             (KnowledgeAbilityBlueprint.ToReference<BlueprintUnitFactReference>(), 10)))
         .Configure();
     }
