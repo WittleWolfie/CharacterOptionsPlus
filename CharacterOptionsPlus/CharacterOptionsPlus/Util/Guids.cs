@@ -40,6 +40,9 @@ namespace CharacterOptionsPlus.Util
 
     #region Class Features
     internal const string IceTombHex = "7c7f44cb-76b9-49a4-a40d-57fee16140ba";
+    internal const string IceTombAbility = "595790fd-4b57-49e5-8e99-664dcca67092";
+    internal const string IceTombBuff = "66e31ecf-ced9-4527-b985-52ec33e64c12";
+    internal const string IceTombCooldown = "00a72a90-dd68-4981-9d99-d0780b4c5a20";
     #endregion
 
     #region Feats
