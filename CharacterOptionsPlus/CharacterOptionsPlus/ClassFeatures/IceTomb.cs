@@ -1,7 +1,14 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Blueprints.References;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
 using System;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.ClassFeatures
@@ -16,9 +23,10 @@ namespace CharacterOptionsPlus.ClassFeatures
     private const string AbilityName = "IceTomb.Ability";
 
     private const string BuffName = "IceTomb.Buff";
+    private const string CooldownName = "IceTomb.Cooldown";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "IceTomb.png"; // TODO
+    private const string IconName = IconPrefix + "gloriousheat.png"; // TODO
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -48,10 +56,34 @@ namespace CharacterOptionsPlus.ClassFeatures
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var buff = BuffConfigurator.New(BuffName, Guids.IceTombBuff)
+        .Configure();
+
+      var cooldown = BuffConfigurator.New(CooldownName, Guids.IceTombCooldown)
+        .Configure();
+
+      var ability = AbilityConfigurator.New(AbilityName, Guids.IceTombAbility)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .SetType(AbilityType.Supernatural)
+        .SetRange(AbilityRange.Long)
+        .AllowTargeting(enemies: true)
+        .SetEffectOnAlly(AbilityEffectOnUnit.Harmful)
+        .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
+        .SetAnimation(CastAnimationStyle.Directional)
+        .SetActionType(CommandType.Standard)
+        .SetAvailableMetamagic(
+          Metamagic.Quicken, Metamagic.Extend, Metamagic.Heighten, Metamagic.CompletelyNormal, Metamagic.Persistent)
+        .SetLocalizedSavingThrow(AbilityRefs.WitchHexAgonyAbility.Reference.Get().LocalizedSavingThrow)
+        .Configure();
+
       FeatureConfigurator.New(FeatureName, Guids.IceTombHex, FeatureGroup.WitchHex)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .AddPrerequisiteFeature(FeatureRefs.WitchMajorHex.ToString())
+        .AddFacts(new() { ability })
         .Configure(delayed: true);
     }
   }
