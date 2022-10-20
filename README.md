@@ -37,6 +37,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Hurtful](https://www.d20pfsrd.com/feats/combat-feats/hurtful-combat/)
     * [Paired Opportunists](https://www.d20pfsrd.com/feats/combat-feats/paired-opportunists-combat-teamwork/)
     * [Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/skald-s-vigor/) and [Greater Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/greater-skald-s-vigor/)
+    * [Signature Skill](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
+        * Grants skill unlocks for all skills except Use Magic Device and Thievery
+        * Automatically granted to rogue at level 5 / 10 / 15 / 20 per TT rules for unchained rogue
 
 ## Bug Fixes
 
@@ -63,7 +66,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 * Feats
     * [Dazing Spell](https://www.d20pfsrd.com/feats/metamagic-feats/dazing-spell-metamagic/)
-    * [Signature Skill (Intimidate)](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
 
 * Spells
