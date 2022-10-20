@@ -60,12 +60,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
         * [Evasion](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/rogue-adv-talents-master-tricks/)
         * [Slowing Strike](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/slowing-strike/)
     * Witch
-        * [Hoarfrost](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-hoarfrost-su/)
-            * Already in-game but it sucks, considering improving it.
         * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
 
 * Feats
-    * [Dazing Spell](https://www.d20pfsrd.com/feats/metamagic-feats/dazing-spell-metamagic/)
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
 
 * Spells
@@ -118,7 +115,7 @@ You can use options to disable any feature added. This will:
 
 This will not:
 
-* Remove the feature from characters
+* Remove the feature from characters (but it will not work)
 * Grant a replacement feature for characters who have it
 
 ## Acknowledgements
