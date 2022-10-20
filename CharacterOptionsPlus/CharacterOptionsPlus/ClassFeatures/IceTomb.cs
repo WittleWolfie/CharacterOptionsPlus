@@ -1,11 +1,20 @@
-﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Enums.Damage;
+using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Mechanics;
+using Kingmaker.UnitLogic.Mechanics.Components;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
@@ -62,6 +71,8 @@ namespace CharacterOptionsPlus.ClassFeatures
       var cooldown = BuffConfigurator.New(CooldownName, Guids.IceTombCooldown)
         .Configure();
 
+
+      var agonyHex = AbilityRefs.WitchHexAgonyAbility.Reference.Get();
       var ability = AbilityConfigurator.New(AbilityName, Guids.IceTombAbility)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
@@ -75,7 +86,18 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
           Metamagic.Quicken, Metamagic.Extend, Metamagic.Heighten, Metamagic.CompletelyNormal, Metamagic.Persistent)
-        .SetLocalizedSavingThrow(AbilityRefs.WitchHexAgonyAbility.Reference.Get().LocalizedSavingThrow)
+        .SetLocalizedSavingThrow(agonyHex.LocalizedSavingThrow)
+        .AddSpellDescriptorComponent(SpellDescriptor.Hex | SpellDescriptor.Cold | SpellDescriptor.Paralysis)
+        .AddAbilityTargetHasFact(checkedFacts: new() { cooldown }, inverted: true) // Prevent targeting twice
+        .AddAbilityEffectRunAction(
+          ActionsBuilder.New()
+            .ApplyBuff(cooldown, ContextDuration.Fixed(1, rate: DurationRate.Days), isNotDispelable: true)
+            .DealDamage(
+              damageType: new() { Type = DamageType.Energy, Energy = DamageEnergyType.Cold},
+              value: new() { DiceType = Kingmaker.RuleSystem.DiceType.D8, DiceCountValue = 3},
+              halfIfSaved: true)
+            .ConditionalSaved(failed: ActionsBuilder.New().ApplyBuffPermanent(buff)))
+        .AddComponent(agonyHex.GetComponent<ContextSetAbilityParams>())
         .Configure();
 
       FeatureConfigurator.New(FeatureName, Guids.IceTombHex, FeatureGroup.WitchHex)
