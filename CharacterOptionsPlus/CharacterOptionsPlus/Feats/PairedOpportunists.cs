@@ -32,7 +32,7 @@ namespace CharacterOptionsPlus.Feats
     internal const string AbilityName = "PairedOpportunists.Ability";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "pairedopportunists.png"; // TODO: Create it!
+    private const string IconName = IconPrefix + "pairedopportunists.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
