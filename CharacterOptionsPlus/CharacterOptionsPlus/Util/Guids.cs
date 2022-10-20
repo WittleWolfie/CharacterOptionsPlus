@@ -38,6 +38,10 @@ namespace CharacterOptionsPlus.Util
       };
     #endregion
 
+    #region Class Features
+    internal const string IceTombHex = "7c7f44cb-76b9-49a4-a40d-57fee16140ba";
+    #endregion
+
     #region Feats
     internal const string EldritchHeritageFeat = "f9d9eb8b-01d9-4799-bb27-f5ad1a7f7e31";
     internal const string ImprovedEldritchHeritageFeat = "553ed7eb-e1f2-4ba2-a3cf-1c66e7c33bcd";

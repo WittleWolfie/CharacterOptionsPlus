@@ -1,6 +1,7 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Root;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Archetypes;
+using CharacterOptionsPlus.ClassFeatures;
 using CharacterOptionsPlus.Feats;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
@@ -79,6 +80,7 @@ namespace CharacterOptionsPlus
           LocalizationTool.LoadEmbeddedLocalizationPacks(
             "CharacterOptionsPlus.Strings.Archetypes.json",
             "CharacterOptionsPlus.Strings.BugFixes.json",
+            "CharacterOptionsPlus.Strings.ClassFeatures.json",
             "CharacterOptionsPlus.Strings.Feats.json",
             "CharacterOptionsPlus.Strings.Settings.json");
 
@@ -88,6 +90,7 @@ namespace CharacterOptionsPlus
           BugFixes.Configure();
 
           ConfigureArchetypes();
+          ConfigureClassFeatures();
           ConfigureFeats();
         }
         catch (Exception e)
@@ -101,6 +104,13 @@ namespace CharacterOptionsPlus
         Logger.Log("Configuring archetypes.");
 
         ArrowsongMinstrel.Configure();
+      }
+
+      private static void ConfigureClassFeatures()
+      {
+        Logger.Log("Configuring class features.");
+
+        IceTomb.Configure();
       }
 
       private static void ConfigureFeats()
