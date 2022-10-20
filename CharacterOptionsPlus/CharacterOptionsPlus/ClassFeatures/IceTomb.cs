@@ -9,10 +9,13 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem.Rules.Damage;
+using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using System;
@@ -58,6 +61,9 @@ namespace CharacterOptionsPlus.ClassFeatures
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      BuffConfigurator.New(BuffName, Guids.IceTombBuff).Configure();
+      BuffConfigurator.New(CooldownName, Guids.IceTombCooldown).Configure();
+      AbilityConfigurator.New(AbilityName, Guids.IceTombAbility).Configure();
       FeatureConfigurator.New(FeatureName, Guids.IceTombHex).Configure();
     }
 
@@ -66,11 +72,23 @@ namespace CharacterOptionsPlus.ClassFeatures
       Logger.Log($"Configuring {FeatureName}");
 
       var buff = BuffConfigurator.New(BuffName, Guids.IceTombBuff)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .SetFxOnStart(BuffRefs.IcyPrisonEntangledBuff.Reference.Get().FxOnStart)
+        .AddCondition(condition: UnitCondition.Paralyzed)
+        .AddCondition(condition: UnitCondition.Unconscious)
+        .AddFactContextActions(
+          newRound:
+            ActionsBuilder.New()
+              .SavingThrow(
+                SavingThrowType.Fortitude,
+                onResult: ActionsBuilder.New().ConditionalSaved(succeed: ActionsBuilder.New().RemoveSelf())))
         .Configure();
 
       var cooldown = BuffConfigurator.New(CooldownName, Guids.IceTombCooldown)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .Configure();
-
 
       var agonyHex = AbilityRefs.WitchHexAgonyAbility.Reference.Get();
       var ability = AbilityConfigurator.New(AbilityName, Guids.IceTombAbility)
@@ -104,6 +122,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.WitchMajorHex.ToString())
         .AddFacts(new() { ability })
         .Configure(delayed: true);

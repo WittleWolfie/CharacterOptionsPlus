@@ -6,6 +6,6 @@
   },
   {
     "Key": "IceTomb.Description",
-    "enGB": "A storm of ice and freezing wind envelops the target, which takes 3d8 points of cold damage (Fortitude half). If the target fails its save, it is paralyzed and unconscious but does not need to eat or breathe while the ice lasts. The target can break the ice with a successful Fortitude saving throw, after which it is staggered for 1d4 rounds. Whether or not the target’s saving throw is successful, it cannot be the target of this hex again for 1 day."
+    "enGB": "A storm of ice and freezing wind envelops the target, which takes 3d8 points of cold damage (Fortitude half). If the target fails its save, it is paralyzed and unconscious but does not need to eat or breathe while the ice lasts. Each round the target can break the ice with a successful Fortitude saving throw, after which it is staggered for 1d4 rounds. Whether or not the target’s saving throw is successful, it cannot be the target of this hex again for 1 day."
   }
 ]
