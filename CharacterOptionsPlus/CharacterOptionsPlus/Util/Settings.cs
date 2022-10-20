@@ -54,6 +54,14 @@ namespace CharacterOptionsPlus.Util
             .WithLongDescription(GetString("Settings.EnableFeature")));
       }
 
+      settings.AddSubHeader(GetString("Settings.ClassFeatures.Title"));
+      foreach (var (guid, name) in Guids.ClassFeatures)
+      {
+        settings.AddToggle(
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+            .WithLongDescription(GetString("Settings.EnableFeature")));
+      }
+
       settings.AddSubHeader(GetString("Settings.Feats.Title"));
       foreach (var (guid, name) in Guids.Feats)
       {

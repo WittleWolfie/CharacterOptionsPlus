@@ -18,6 +18,12 @@
   },
 
   {
+    "Key": "Settings.ClassFeatures.Title",
+    "ProcessTemplates": false,
+    "enGB": "Class Features"
+  },
+
+  {
     "Key": "Settings.Feats.Title",
     "ProcessTemplates": false,
     "enGB": "Feats"

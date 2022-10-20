@@ -1,4 +1,5 @@
 ﻿using CharacterOptionsPlus.Archetypes;
+using CharacterOptionsPlus.ClassFeatures;
 using CharacterOptionsPlus.Feats;
 using Kingmaker.Utility;
 using System;
@@ -43,6 +44,12 @@ namespace CharacterOptionsPlus.Util
     internal const string IceTombAbility = "595790fd-4b57-49e5-8e99-664dcca67092";
     internal const string IceTombBuff = "66e31ecf-ced9-4527-b985-52ec33e64c12";
     internal const string IceTombCooldown = "00a72a90-dd68-4981-9d99-d0780b4c5a20";
+
+    internal static readonly (string guid, string displayName)[] ClassFeatures =
+      new (string, string)[]
+      {
+        (IceTombHex, IceTomb.DisplayName),
+      };
     #endregion
 
     #region Feats
