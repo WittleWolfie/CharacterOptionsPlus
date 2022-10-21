@@ -27,7 +27,11 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 * Archetypes
     * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
-    
+
+* Class Features
+    * Witch (Next Release)
+        * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
+
 * Feats
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
         * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
@@ -59,8 +63,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
         * [Deadly Range](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/deadly-range/)
         * [Evasion](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/rogue-adv-talents-master-tricks/)
         * [Slowing Strike](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/slowing-strike/)
-    * Witch
-        * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
 
 * Feats
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
