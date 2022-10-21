@@ -1,5 +1,7 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints.Classes.Spells;
 using System;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -37,19 +39,33 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
-      FeatureConfigurator.New(FeatureName, Guids.IceSlickSpell).Configure();
+      AbilityConfigurator.New(FeatureName, Guids.IceSlickSpell).Configure();
     }
 
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatureName}");
 
-      FeatureConfigurator.New(FeatureName, Guids.IceSlickSpell)
+      AbilityConfigurator.NewSpell(
+          FeatureName,
+          Guids.IceSlickSpell,
+          SpellSchool.Evocation,
+          canSpecialize: true,
+          SpellDescriptor.Cold,
+          SpellDescriptor.MovementImpairing,
+          SpellDescriptor.Ground)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
-        .SetIsClassFeature()
-        .Configure(delayed: true);
+        .AddToSpellLists(
+          level: 2,
+          SpellList.Druid, 
+          SpellList.Magus,
+          SpellList.Ranger,
+          SpellList.Wizard,
+          SpellList.Witch,
+          SpellList.Lich)
+        .Configure();
     }
   }
 }

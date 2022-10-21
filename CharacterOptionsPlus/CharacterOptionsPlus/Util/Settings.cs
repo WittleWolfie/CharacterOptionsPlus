@@ -78,6 +78,14 @@ namespace CharacterOptionsPlus.Util
             .WithLongDescription(GetString(description)));
       }
 
+      settings.AddSubHeader(GetString("Settings.Spells.Title"));
+      foreach (var (guid, name) in Guids.Spells)
+      {
+        settings.AddToggle(
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+            .WithLongDescription(GetString("Settings.EnableFeature")));
+      }
+
       Menu.AddSettings(settings);
     }
 
