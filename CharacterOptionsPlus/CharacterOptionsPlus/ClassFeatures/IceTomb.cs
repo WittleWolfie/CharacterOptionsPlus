@@ -39,9 +39,6 @@ namespace CharacterOptionsPlus.ClassFeatures
     private const string CooldownName = "IceTomb.Cooldown";
     private const string CooldownDisplayName = "IceTomb.Cooldown.Name";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png"; // TODO
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -73,11 +70,12 @@ namespace CharacterOptionsPlus.ClassFeatures
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var icyPrison = BuffRefs.IcyPrisonEntangledBuff.Reference.Get();
       var buff = BuffConfigurator.New(BuffName, Guids.IceTombBuff)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
-        .SetFxOnStart(BuffRefs.IcyPrisonEntangledBuff.Reference.Get().FxOnStart)
+        .SetIcon(icyPrison.Icon)
+        .SetFxOnStart(icyPrison.FxOnStart)
         .AddCondition(condition: UnitCondition.Paralyzed)
         .AddCondition(condition: UnitCondition.Unconscious)
         .AddFactContextActions(
@@ -106,7 +104,7 @@ namespace CharacterOptionsPlus.ClassFeatures
       var ability = AbilityConfigurator.New(AbilityName, Guids.IceTombAbility)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icyPrison.Icon)
         .SetType(AbilityType.Supernatural)
         .SetRange(AbilityRange.Long)
         .AllowTargeting(enemies: true)
@@ -134,7 +132,7 @@ namespace CharacterOptionsPlus.ClassFeatures
       FeatureConfigurator.New(FeatureName, Guids.IceTombHex, FeatureGroup.WitchHex)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icyPrison.Icon)
         .SetIsClassFeature()
         .AddPrerequisiteFeature(FeatureRefs.WitchMajorHex.ToString())
         .AddFacts(new() { ability })
