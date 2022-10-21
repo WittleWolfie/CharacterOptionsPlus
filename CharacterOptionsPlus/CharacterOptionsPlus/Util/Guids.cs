@@ -1,6 +1,7 @@
 ﻿using CharacterOptionsPlus.Archetypes;
 using CharacterOptionsPlus.ClassFeatures;
 using CharacterOptionsPlus.Feats;
+using CharacterOptionsPlus.Spells;
 using Kingmaker.Utility;
 using System;
 using System.Collections.Generic;
@@ -287,6 +288,16 @@ namespace CharacterOptionsPlus.Util
     internal const string UndeadHeritageBlastAbility = "348a4515-bef2-4aea-8155-e92f9dd5e745";
     internal const string UndeadHeritageIncorporeal = "d0f79e44-5583-4c4d-bdf8-fa5b62b22fe0";
     internal const string UndeadHeritageIncorporealAbility = "fac3a233-d710-4934-8bc0-01dbb315c0bc";
+    #endregion
+
+    #region Spells
+    internal const string IceSlickSpell = "ff0cd827-3f35-4ed7-a811-18cd716124ed";
+
+    internal static readonly (string guid, string displayName)[] Spells =
+      new (string, string)[]
+      {
+        (IceSlickSpell, IceSlick.DisplayName),
+      };
     #endregion
 
     #region TTT

@@ -3,6 +3,7 @@ using BlueprintCore.Utils;
 using CharacterOptionsPlus.Archetypes;
 using CharacterOptionsPlus.ClassFeatures;
 using CharacterOptionsPlus.Feats;
+using CharacterOptionsPlus.Spells;
 using CharacterOptionsPlus.Util;
 using HarmonyLib;
 using Kingmaker.PubSubSystem;
@@ -82,7 +83,8 @@ namespace CharacterOptionsPlus
             "CharacterOptionsPlus.Strings.BugFixes.json",
             "CharacterOptionsPlus.Strings.ClassFeatures.json",
             "CharacterOptionsPlus.Strings.Feats.json",
-            "CharacterOptionsPlus.Strings.Settings.json");
+            "CharacterOptionsPlus.Strings.Settings.json",
+            "CharacterOptionsPlus.Strings.Spells.json");
 
           // Then settings
           Settings.Init();
@@ -92,6 +94,7 @@ namespace CharacterOptionsPlus
           ConfigureArchetypes();
           ConfigureClassFeatures();
           ConfigureFeats();
+          ConfigureSpells();
         }
         catch (Exception e)
         {
@@ -126,12 +129,18 @@ namespace CharacterOptionsPlus
         SkaldsVigor.Configure();
       }
 
-
       private static void ConfigureFeatsDelayed()
       {
         Logger.Log($"Configuring feats delayed.");
 
         EldritchHeritage.ConfigureDelayed();
+      }
+
+      private static void ConfigureSpells()
+      {
+        Logger.Log("Configuring spells.");
+
+        IceSlick.Configure();
       }
     }
   }

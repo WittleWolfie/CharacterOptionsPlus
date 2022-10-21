@@ -30,6 +30,7 @@
     <None Remove="Strings\ClassFeatures.json" />
     <None Remove="Strings\Feats.json" />
     <None Remove="Strings\Settings.json" />
+    <None Remove="Strings\Spells.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +41,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings\Settings.json" />
+    <EmbeddedResource Include="Strings\Spells.json" />
   </ItemGroup>
 
   <ItemGroup>

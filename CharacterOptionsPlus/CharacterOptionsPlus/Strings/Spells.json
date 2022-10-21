@@ -1,0 +1,11 @@
+﻿[
+  {
+    "Key": "IceSlick.Name",
+    "ProcessTemplates": false,
+    "enGB": "Ice Slick"
+  },
+  {
+    "Key": "IceSlick.Description",
+    "enGB": "Any creature in the area when the spell is cast takes 1d6 points of cold damage + 1 point per caster level (maximum +10) and falls prone; creatures that succeed at a Reflex save take half damage and don’t fall prone. Spell resistance applies to this initial effect.\n\nA creature can walk within or through the area of ice at half its normal speed with a successful DC 10 Acrobatics check. Failure by 4 or less means the creature can’t move that round and must succeed at a Reflex save or fall; failure by 5 or more means it falls. Creatures that do not move on their turn do not need to attempt this check."
+  }
+]
