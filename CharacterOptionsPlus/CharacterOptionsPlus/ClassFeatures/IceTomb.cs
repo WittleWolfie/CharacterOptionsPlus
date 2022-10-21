@@ -11,6 +11,7 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
+using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
@@ -36,6 +37,7 @@ namespace CharacterOptionsPlus.ClassFeatures
 
     private const string BuffName = "IceTomb.Buff";
     private const string CooldownName = "IceTomb.Cooldown";
+    private const string CooldownDisplayName = "IceTomb.Cooldown.Name";
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "gloriousheat.png"; // TODO
@@ -83,10 +85,20 @@ namespace CharacterOptionsPlus.ClassFeatures
             ActionsBuilder.New()
               .SavingThrow(
                 SavingThrowType.Fortitude,
-                onResult: ActionsBuilder.New().ConditionalSaved(succeed: ActionsBuilder.New().RemoveSelf())))
+                onResult:
+                  ActionsBuilder.New()
+                    .ConditionalSaved(
+                      succeed:
+                        ActionsBuilder.New()
+                          .RemoveSelf()
+                          .ApplyBuff(
+                            BuffRefs.Staggered.ToString(),
+                            ContextDuration.FixedDice(DiceType.D4),
+                            isNotDispelable: true))))
         .Configure();
 
       var cooldown = BuffConfigurator.New(CooldownName, Guids.IceTombCooldown)
+        .SetDisplayName(CooldownDisplayName) // Used for ability target restriction text
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .Configure();
 
@@ -112,9 +124,10 @@ namespace CharacterOptionsPlus.ClassFeatures
             .ApplyBuff(cooldown, ContextDuration.Fixed(1, rate: DurationRate.Days), isNotDispelable: true)
             .DealDamage(
               damageType: new() { Type = DamageType.Energy, Energy = DamageEnergyType.Cold},
-              value: new() { DiceType = Kingmaker.RuleSystem.DiceType.D8, DiceCountValue = 3},
+              value: new() { DiceType = DiceType.D8, DiceCountValue = 3, BonusValue = 0},
               halfIfSaved: true)
-            .ConditionalSaved(failed: ActionsBuilder.New().ApplyBuffPermanent(buff)))
+            .ConditionalSaved(failed: ActionsBuilder.New().ApplyBuffPermanent(buff)),
+          savingThrowType: SavingThrowType.Fortitude)
         .AddComponent(agonyHex.GetComponent<ContextSetAbilityParams>())
         .Configure();
 
