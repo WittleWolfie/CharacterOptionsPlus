@@ -292,6 +292,7 @@ namespace CharacterOptionsPlus.Util
 
     #region Spells
     internal const string IceSlickSpell = "ff0cd827-3f35-4ed7-a811-18cd716124ed";
+    internal const string IceSlickAoE = "b94a289c-49c2-4754-83a5-e171ad39fba6";
 
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]
