@@ -153,6 +153,7 @@
       <ILStrip Include="&quot;$(SolutionDir)\tools\BrokenEvent.ILStrip.CLI.exe&quot;" />
 
       <!-- BlueprintCore Entry Points -->
+      <Entry Include="BlueprintCore.Utils.Assets.AssetTool/AssetBundle_Patch" />
       <Entry Include="BlueprintCore.Utils.Assets.AssetTool/BlueprintsCaches_Patch" />
       <Entry Include="BlueprintCore.Utils.Assets.AssetTool/BundlesLoadService_Patch" />
       <Entry Include="BlueprintCore.Utils.LocalizationTool/LocalizationManager_Patch" />

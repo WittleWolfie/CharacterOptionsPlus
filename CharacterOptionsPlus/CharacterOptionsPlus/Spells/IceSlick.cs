@@ -1,10 +1,10 @@
 ﻿using BlueprintCore.Actions.Builder;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
-using Kingmaker.ResourceLinks;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
@@ -29,7 +29,8 @@ namespace CharacterOptionsPlus.Spells
 
     private const string AreaEffect = "IceSlick.AoE";
     // A 20 ft "cold puddle"
-    private const string AreaEffectFx = "fd21d914e9f6f5e4faa77365549ad0a7";
+    private const string AreaEffectFxSource = "fd21d914e9f6f5e4faa77365549ad0a7";
+    private const string AreaEffectFx = "c1ef4fc5-e5ea-43b7-a9d4-cbb4be41516a";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -60,12 +61,13 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName}");
 
       // This handles updating the look of the effect
-      FxTool.RegisterAoESpawnHandler(AreaEffect, ModifyFx);
+      AssetTool.RegisterDynamicPrefabLink(AreaEffectFx, AreaEffectFxSource, ModifyFx);
       var area = AbilityAreaEffectConfigurator.New(AreaEffect, Guids.IceSlickAoE)
         .SetAffectEnemies()
         .SetAggroEnemies()
         .SetSize(10.Feet())
-        .SetFx(new PrefabLink() { AssetId = AreaEffectFx })
+        .SetShape(AreaEffectShape.Cylinder)
+        .SetFx(AreaEffectFx)
         .Configure();
 
       AbilityConfigurator.NewSpell(
@@ -114,7 +116,8 @@ namespace CharacterOptionsPlus.Spells
 
     private static void ModifyFx(GameObject puddle)
     {
-      // TODO: Shrink size and remove spikes
+      UnityEngine.Object.DestroyImmediate(puddle.transform.Find("Transform/ProjectorCollision_big").gameObject); // Remove unwanted particle effects
+      puddle.transform.localScale = new(0.55f, 1.0f, 0.55f); // Scale from 20ft to 10ft
     }
   }
 }
