@@ -1,6 +1,4 @@
 ﻿using HarmonyLib;
-using Kingmaker.Blueprints;
-using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.View.MapObjects;
 using System;
 using System.Collections.Generic;
