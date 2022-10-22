@@ -17,6 +17,12 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
+  // TODO:
+  //  - Mechanics
+  //  - Create an icon
+  //  - Profit
+  //  - ?? Modded spell lists
+
   internal class IceSlick
   {
     private const string FeatureName = "IceSlick";
