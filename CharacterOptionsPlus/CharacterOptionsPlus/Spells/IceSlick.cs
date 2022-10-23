@@ -2,17 +2,22 @@
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Actions;
-using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
+using Kingmaker;
 using Kingmaker.Blueprints.Classes.Spells;
-using Kingmaker.EntitySystem.Stats;
+using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Controllers;
+using Kingmaker.ElementsSystem;
+using Kingmaker.EntitySystem.Entities;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components.AreaEffects;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Utility;
 using System;
@@ -77,19 +82,7 @@ namespace CharacterOptionsPlus.Spells
       var area = AbilityAreaEffectConfigurator.New(AreaEffect, Guids.IceSlickAoE)
         .CopyFrom(AbilityAreaEffectRefs.GreaseArea)
         .SetFx(AreaEffectFx)
-        .AddAbilityAreaEffectBuff(buff: BuffRefs.GreaseBuff.ToString())
-        .AddComponent(
-          new AreaEffectSpawnUnitActions(
-            ActionsBuilder.New().Add(
-              new SpellResistanceCheck(
-                onResistFail:
-                  ActionsBuilder.New().SavingThrow(
-                    SavingThrowType.Reflex,
-                    onResult:
-                      ActionsBuilder.New().DealDamage(
-                        DamageTypes.Energy(DamageEnergyType.Cold),
-                        value: ContextDice.Value(DiceType.D6, bonus: ContextValues.Rank()),
-                        halfIfSaved: true))))))
+        .AddComponent<IceSlickEffect>()
         .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 10))
         .Configure();
 
@@ -141,6 +134,52 @@ namespace CharacterOptionsPlus.Spells
     {
       UnityEngine.Object.DestroyImmediate(puddle.transform.Find("Transform/ProjectorCollision_big").gameObject); // Remove unwanted particle effects
       puddle.transform.localScale = new(0.55f, 1.0f, 0.55f); // Scale from 20ft to 10ft
+    }
+
+    // TODO: Just bring in all the logic here so you can handle things like the context saved and SR correctly.
+    [TypeId("998be8d7-fd17-4474-a440-baa5ac051fee")]
+    private class IceSlickEffect : AbilityAreaEffectRunAction
+    {
+      private readonly ActionList OnSpawn =
+        ActionsBuilder.New().Add<SpellResistanceCheck>(
+          c =>
+            c.OnResistFail =
+              ActionsBuilder.New().DealDamage(
+                DamageTypes.Energy(DamageEnergyType.Cold),
+                value: ContextDice.Value(DiceType.D6, bonus: ContextValues.Rank()),
+                halfIfSaved: true)
+              .Build())
+          .Build();
+
+      public IceSlickEffect()
+      {
+        UnitEnter = ActionsBuilder.New().ApplyBuffPermanent(BuffRefs.GreaseBuff.ToString()).Build();
+        UnitExit = ActionsBuilder.New().RemoveBuff(BuffRefs.GreaseBuff.ToString()).Build();
+        Round = Constants.Empty.Actions;
+      }
+
+      public override void OnUnitEnter(MechanicsContext context, AreaEffectEntityData areaEffect, UnitEntityData unit)
+      {
+        try
+        {
+          base.OnUnitEnter(context, areaEffect, unit);
+          if (Game.Instance.TimeController.GameTime - areaEffect.m_CreationTime < 0.2f.Seconds())
+          {
+            Logger.Log($"Running spawn actions on {unit.CharacterName}");
+            using (ContextData<AreaEffectContextData>.Request().Setup(areaEffect))
+            {
+              using (context.GetDataScope(unit))
+              {
+                OnSpawn.Run();
+              }
+            }
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("IceSlickEffect.OnUnitEnter", e);
+        }
+      }
     }
   }
 }

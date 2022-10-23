@@ -14,14 +14,8 @@ namespace CharacterOptionsPlus.Actions
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(SpellResistanceCheck));
 
-    private readonly ActionList OnResistSucceed;
-    private readonly ActionList OnResistFail;
-
-    public SpellResistanceCheck(ActionsBuilder onResistSucceed = null, ActionsBuilder onResistFail = null)
-    {
-      OnResistSucceed = onResistSucceed?.Build() ?? Constants.Empty.Actions;
-      OnResistFail = onResistFail?.Build() ?? Constants.Empty.Actions;
-    }
+    internal ActionList OnResistSucceed = Constants.Empty.Actions;
+    internal ActionList OnResistFail = Constants.Empty.Actions;
 
     public override string GetCaption()
     {
