@@ -1,10 +1,16 @@
 ﻿using BlueprintCore.Actions.Builder;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Actions;
+using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.EntitySystem.Stats;
+using Kingmaker.Enums.Damage;
+using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
@@ -34,6 +40,7 @@ namespace CharacterOptionsPlus.Spells
     private const string IconName = IconPrefix + "gloriousheat.png";
 
     private const string AreaEffect = "IceSlick.AoE";
+
     // A 20 ft "cold puddle"
     private const string AreaEffectFxSource = "fd21d914e9f6f5e4faa77365549ad0a7";
     private const string AreaEffectFx = "c1ef4fc5-e5ea-43b7-a9d4-cbb4be41516a";
@@ -54,8 +61,7 @@ namespace CharacterOptionsPlus.Spells
         Logger.LogException("IceSlick.Configure", e);
       }
     }
-
-    private static void ConfigureDisabled()
+         private static void ConfigureDisabled()
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
@@ -69,11 +75,22 @@ namespace CharacterOptionsPlus.Spells
       // This handles updating the look of the effect
       AssetTool.RegisterDynamicPrefabLink(AreaEffectFx, AreaEffectFxSource, ModifyFx);
       var area = AbilityAreaEffectConfigurator.New(AreaEffect, Guids.IceSlickAoE)
-        .SetAffectEnemies()
-        .SetAggroEnemies()
-        .SetSize(10.Feet())
-        .SetShape(AreaEffectShape.Cylinder)
+        .CopyFrom(AbilityAreaEffectRefs.GreaseArea)
         .SetFx(AreaEffectFx)
+        .AddAbilityAreaEffectBuff(buff: BuffRefs.GreaseBuff.ToString())
+        .AddComponent(
+          new AreaEffectSpawnUnitActions(
+            ActionsBuilder.New().Add(
+              new SpellResistanceCheck(
+                onResistFail:
+                  ActionsBuilder.New().SavingThrow(
+                    SavingThrowType.Reflex,
+                    onResult:
+                      ActionsBuilder.New().DealDamage(
+                        DamageTypes.Energy(DamageEnergyType.Cold),
+                        value: ContextDice.Value(DiceType.D6, bonus: ContextValues.Rank()),
+                        halfIfSaved: true))))))
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 10))
         .Configure();
 
       AbilityConfigurator.NewSpell(

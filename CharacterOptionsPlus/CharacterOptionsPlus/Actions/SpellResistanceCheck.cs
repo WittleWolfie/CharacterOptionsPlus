@@ -1,0 +1,58 @@
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Utils;
+using CharacterOptionsPlus.Util;
+using Kingmaker.ElementsSystem;
+using Kingmaker.RuleSystem;
+using Kingmaker.RuleSystem.Rules;
+using Kingmaker.UnitLogic.Mechanics.Actions;
+using System;
+using static UnityModManagerNet.UnityModManager.ModEntry;
+
+namespace CharacterOptionsPlus.Actions
+{
+  internal class SpellResistanceCheck : ContextAction
+  {
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(SpellResistanceCheck));
+
+    private readonly ActionList OnResistSucceed;
+    private readonly ActionList OnResistFail;
+
+    public SpellResistanceCheck(ActionsBuilder onResistSucceed = null, ActionsBuilder onResistFail = null)
+    {
+      OnResistSucceed = onResistSucceed?.Build() ?? Constants.Empty.Actions;
+      OnResistFail = onResistFail?.Build() ?? Constants.Empty.Actions;
+    }
+
+    public override string GetCaption()
+    {
+      return "Make a spell resistance check";
+    }
+
+    public override void RunAction()
+    {
+      try
+      {
+        if (Context.MaybeCaster is null)
+        {
+          Logger.Warning("No caster!");
+          return;
+        }
+
+        if (Context.MainTarget?.Unit is null)
+        {
+          Logger.Warning("No target!");
+          return;
+        }
+
+        if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Context, Context.MainTarget.Unit)).IsSpellResisted)
+          OnResistSucceed.Run();
+        else
+          OnResistFail.Run();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("SpellResistanceCheck.RunAction", e);
+      }
+    }
+  }
+}
