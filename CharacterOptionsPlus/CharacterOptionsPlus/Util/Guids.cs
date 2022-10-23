@@ -17,6 +17,10 @@ namespace CharacterOptionsPlus.Util
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(Guids));
 
+    // unused
+    internal const string SignatureskillAthleticsSuppressActiveMove = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
+    internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
+
     #region Archetypes
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
     internal const string ArrowsongMinstrelProficiencies = "e24693cb-6e0b-4bbd-af5b-05de85f5ff88";
@@ -114,8 +118,6 @@ namespace CharacterOptionsPlus.Util
     internal const string SkaldsVigorGreaterFeat = "ee4756c6-797f-4848-a814-4a27a159641d";
     internal const string SkaldsVigorBuff = "9e67121d-0433-4706-a107-7796187df3e1";
 
-    // unused
-    internal const string SignatureskillAthleticsSuppressActiveMove = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
     internal static readonly (string guid, string displayName)[] Feats =
       new (string, string)[]
