@@ -19,7 +19,6 @@ namespace CharacterOptionsPlus.Util
 
     // unused
     internal const string SignatureskillAthleticsSuppressActiveMove = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
-    internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
     #region Archetypes
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
@@ -295,6 +294,7 @@ namespace CharacterOptionsPlus.Util
     #region Spells
     internal const string IceSlickSpell = "ff0cd827-3f35-4ed7-a811-18cd716124ed";
     internal const string IceSlickAoE = "b94a289c-49c2-4754-83a5-e171ad39fba6";
+    internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]

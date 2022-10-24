@@ -1,6 +1,7 @@
 ﻿using BlueprintCore.Actions.Builder;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
@@ -46,6 +47,7 @@ namespace CharacterOptionsPlus.Spells
     private const string IconName = IconPrefix + "gloriousheat.png";
 
     private const string AreaEffect = "IceSlick.AoE";
+    private const string BuffName = "IceSlick.Buff";
 
     // A 20 ft "cold puddle"
     private const string AreaEffectFxSource = "fd21d914e9f6f5e4faa77365549ad0a7";
@@ -67,16 +69,31 @@ namespace CharacterOptionsPlus.Spells
         Logger.LogException("IceSlick.Configure", e);
       }
     }
-         private static void ConfigureDisabled()
+    
+    private static void ConfigureDisabled()
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
       AbilityConfigurator.New(FeatureName, Guids.IceSlickSpell).Configure();
     }
 
+    private static readonly ActionsBuilder ApplyProne =
+      ActionsBuilder.New()
+        .ApplyBuff(BuffRefs.Prone.ToString(), durationValue: ContextDuration.Fixed(1), isNotDispelable: true);
+
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatureName}");
+
+      BuffConfigurator.New(BuffName, Guids.IceSlickAoEBuff)
+        .CopyFrom(BuffRefs.GreaseBuff)
+        .AddSpellDescriptorComponent(SpellDescriptor.Ground | SpellDescriptor.MovementImpairing)
+        .AddFactContextActions(
+          newRound:
+            ActionsBuilder.New()
+              .SavingThrow(
+                SavingThrowType.Reflex, onResult: ActionsBuilder.New().ConditionalSaved(failed: ApplyProne)))
+        .Configure();
 
       // This handles updating the look of the effect
       AssetTool.RegisterDynamicPrefabLink(AreaEffectFx, AreaEffectFxSource, ModifyFx);
@@ -146,12 +163,9 @@ namespace CharacterOptionsPlus.Spells
 
       public IceSlickEffect()
       {
-        var applyProne =
-          ActionsBuilder.New()
-            .ApplyBuff(BuffRefs.Prone.ToString(), durationValue: ContextDuration.Fixed(1), isNotDispelable: true);
         OnSpawn =
           ActionsBuilder.New()
-            .ApplyBuffPermanent(BuffRefs.SpellResistanceBuff.ToString())
+            .ApplyBuffPermanent(Guids.IceSlickAoEBuff, isNotDispelable: true)
             .SavingThrow(
               SavingThrowType.Reflex,
               onResult:
@@ -167,16 +181,17 @@ namespace CharacterOptionsPlus.Spells
                             halfIfSaved: true)
                           .Build())
                   // If they failed the save apply prone
-                  .ConditionalSaved(failed: applyProne))
+                  .ConditionalSaved(failed: ApplyProne))
             .Build();
 
-        var saveOrFall =
-          ActionsBuilder.New()
-            .SavingThrow(SavingThrowType.Reflex, onResult: ActionsBuilder.New().ConditionalSaved(failed: applyProne))
-            .Build();
-        UnitEnter = saveOrFall;
-        Round = saveOrFall;
-        UnitExit = Constants.Empty.Actions;
+        UnitEnter =
+            ActionsBuilder.New()
+              .ApplyBuffPermanent(Guids.IceSlickAoEBuff, isNotDispelable: true)
+              .SavingThrow(
+                SavingThrowType.Reflex, onResult: ActionsBuilder.New().ConditionalSaved(failed: ApplyProne))
+              .Build();
+        Round = Constants.Empty.Actions;
+        UnitExit = ActionsBuilder.New().RemoveBuff(Guids.IceSlickAoEBuff).Build();
       }
 
       public override void OnUnitEnter(MechanicsContext context, AreaEffectEntityData areaEffect, UnitEntityData unit)
