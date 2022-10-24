@@ -71,6 +71,8 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      BuffConfigurator.New(BuffName, Guids.IceSlickAoEBuff).Configure();
+      AbilityAreaEffectConfigurator.New(AreaEffect, Guids.IceSlickAoE).Configure();
       AbilityConfigurator.New(FeatureName, Guids.IceSlickSpell).Configure();
     }
 
