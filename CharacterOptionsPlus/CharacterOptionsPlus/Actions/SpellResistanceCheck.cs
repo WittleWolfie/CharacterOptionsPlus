@@ -1,5 +1,4 @@
-﻿using BlueprintCore.Actions.Builder;
-using BlueprintCore.Utils;
+﻿using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
 using Kingmaker.ElementsSystem;
 using Kingmaker.RuleSystem;
@@ -32,13 +31,13 @@ namespace CharacterOptionsPlus.Actions
           return;
         }
 
-        if (Context.MainTarget?.Unit is null)
+        if (Target?.Unit is null)
         {
           Logger.Warning("No target!");
           return;
         }
 
-        if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Context, Context.MainTarget.Unit)).IsSpellResisted)
+        if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Context, Target.Unit)).IsSpellResisted)
           OnResistSucceed.Run();
         else
           OnResistFail.Run();

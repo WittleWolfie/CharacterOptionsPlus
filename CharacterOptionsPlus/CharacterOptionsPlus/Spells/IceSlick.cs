@@ -13,6 +13,7 @@ using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Controllers;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem.Entities;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic.Abilities;
@@ -83,6 +84,7 @@ namespace CharacterOptionsPlus.Spells
         .CopyFrom(AbilityAreaEffectRefs.GreaseArea)
         .SetFx(AreaEffectFx)
         .AddComponent<IceSlickEffect>()
+        .AddSpellDescriptorComponent(SpellDescriptor.Cold | SpellDescriptor.Ground | SpellDescriptor.MovementImpairing)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 10))
         .Configure();
 
@@ -100,6 +102,7 @@ namespace CharacterOptionsPlus.Spells
         .SetActionType(CommandType.Standard)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(friends: true, enemies: true, self: true, point: true)
+        .SetSpellResistance()
         .SetShouldTurnToTarget()
         .SetEffectOnAlly(AbilityEffectOnUnit.Harmful)
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
@@ -136,43 +139,69 @@ namespace CharacterOptionsPlus.Spells
       puddle.transform.localScale = new(0.55f, 1.0f, 0.55f); // Scale from 20ft to 10ft
     }
 
-    // TODO: Just bring in all the logic here so you can handle things like the context saved and SR correctly.
     [TypeId("998be8d7-fd17-4474-a440-baa5ac051fee")]
     private class IceSlickEffect : AbilityAreaEffectRunAction
     {
-      private readonly ActionList OnSpawn =
-        ActionsBuilder.New().Add<SpellResistanceCheck>(
-          c =>
-            c.OnResistFail =
-              ActionsBuilder.New().DealDamage(
-                DamageTypes.Energy(DamageEnergyType.Cold),
-                value: ContextDice.Value(DiceType.D6, bonus: ContextValues.Rank()),
-                halfIfSaved: true)
-              .Build())
-          .Build();
+      private readonly ActionList OnSpawn;
 
       public IceSlickEffect()
       {
-        UnitEnter = ActionsBuilder.New().ApplyBuffPermanent(BuffRefs.GreaseBuff.ToString()).Build();
-        UnitExit = ActionsBuilder.New().RemoveBuff(BuffRefs.GreaseBuff.ToString()).Build();
-        Round = Constants.Empty.Actions;
+        var applyProne =
+          ActionsBuilder.New()
+            .ApplyBuff(BuffRefs.Prone.ToString(), durationValue: ContextDuration.Fixed(1), isNotDispelable: true);
+        OnSpawn =
+          ActionsBuilder.New()
+            .ApplyBuffPermanent(BuffRefs.SpellResistanceBuff.ToString())
+            .SavingThrow(
+              SavingThrowType.Reflex,
+              onResult:
+                ActionsBuilder.New()
+                  // Damage is only dealt if spell resistance passes
+                  .Add<SpellResistanceCheck>(
+                    c =>
+                      c.OnResistFail =
+                        ActionsBuilder.New()
+                          .DealDamage(
+                            DamageTypes.Energy(DamageEnergyType.Cold),
+                            value: ContextDice.Value(DiceType.D6, bonus: ContextValues.Rank()),
+                            halfIfSaved: true)
+                          .Build())
+                  // If they failed the save apply prone
+                  .ConditionalSaved(failed: applyProne))
+            .Build();
+
+        var saveOrFall =
+          ActionsBuilder.New()
+            .SavingThrow(SavingThrowType.Reflex, onResult: ActionsBuilder.New().ConditionalSaved(failed: applyProne))
+            .Build();
+        UnitEnter = saveOrFall;
+        Round = saveOrFall;
+        UnitExit = Constants.Empty.Actions;
       }
 
       public override void OnUnitEnter(MechanicsContext context, AreaEffectEntityData areaEffect, UnitEntityData unit)
       {
         try
         {
-          base.OnUnitEnter(context, areaEffect, unit);
-          if (Game.Instance.TimeController.GameTime - areaEffect.m_CreationTime < 0.2f.Seconds())
+          if (context.MaybeCaster is null)
+          {
+            Logger.Warning("No caster!");
+            return;
+          }
+
+          // Assume this is right when the effect spawned
+          if (Game.Instance.TimeController.GameTime - areaEffect.m_CreationTime < 0.25f.Seconds())
           {
             Logger.Log($"Running spawn actions on {unit.CharacterName}");
             using (ContextData<AreaEffectContextData>.Request().Setup(areaEffect))
             {
               using (context.GetDataScope(unit))
-              {
                 OnSpawn.Run();
-              }
             }
+          }
+          else
+          {
+            base.OnUnitEnter(context, areaEffect, unit);
           }
         }
         catch (Exception e)
