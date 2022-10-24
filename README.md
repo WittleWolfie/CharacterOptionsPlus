@@ -27,11 +27,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 * Archetypes
     * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
-
 * Class Features
-    * Witch (Next Release)
+    * Witch
         * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
-
 * Feats
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
         * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
@@ -44,6 +42,8 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Signature Skill](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
         * Grants skill unlocks for all skills except Use Magic Device and Thievery
         * Automatically granted to rogue at level 5 / 10 / 15 / 20 per TT rules for unchained rogue
+* Spells
+    * [Ice Slick](https://www.d20pfsrd.com/magic/all-spells/i/ice-slick/)
 
 ## Bug Fixes
 
@@ -77,7 +77,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
     * [Freezing Sphere](https://www.d20pfsrd.com/magic/all-spells/f/freezing-sphere/)
     * [Frost Fall](https://www.d20pfsrd.com/magic/all-spells/f/frost-fall/)
-    * [Ice Slick](https://www.d20pfsrd.com/magic/all-spells/i/ice-slick/)
     * [Ice Spears](https://www.d20pfsrd.com/magic/all-spells/i/ice-spears/)
     * [Implosion](https://www.d20pfsrd.com/magic/all-spells/i/implosion/)
     * [Infernal Healing](https://www.d20pfsrd.com/magic/all-spells/i/infernal-healing/)
