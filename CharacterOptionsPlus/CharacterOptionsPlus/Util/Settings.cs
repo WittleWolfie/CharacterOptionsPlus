@@ -44,7 +44,15 @@ namespace CharacterOptionsPlus.Util
             GetKey(GloriousHeat.OriginalFeatSetting),
             defaultValue: false,
             GetString("Settings.Homebrew.GloriousHeat"))
-          .WithLongDescription(GetString("Settings.Homebrew.GloriousHeat.Description")));      
+          .WithLongDescription(GetString("Settings.Homebrew.GloriousHeat.Description")));
+
+      settings.AddSubHeader(GetString("Settings.Fixes.Title"), startExpanded: false);
+      foreach (var (key, name, description) in BugFixes.Entries)
+      {
+        settings.AddToggle(
+          Toggle.New(GetKey(key), defaultValue: true, GetString(name))
+            .WithLongDescription(GetString(description)));
+      }
 
       settings.AddSubHeader(GetString("Settings.Archetypes.Title"));
       foreach (var (guid, name) in Guids.Archetypes)
@@ -68,14 +76,6 @@ namespace CharacterOptionsPlus.Util
         settings.AddToggle(
           Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
             .WithLongDescription(GetString("Settings.EnableFeature")));
-      }
-
-      settings.AddSubHeader(GetString("Settings.Fixes.Title"), startExpanded: false);
-      foreach (var (key, name, description) in BugFixes.Entries)
-      {
-        settings.AddToggle(
-          Toggle.New(GetKey(key), defaultValue: true, GetString(name))
-            .WithLongDescription(GetString(description)));
       }
 
       settings.AddSubHeader(GetString("Settings.Spells.Title"));
