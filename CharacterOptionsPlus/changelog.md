@@ -1,3 +1,10 @@
+## v0.6.0
+
+* New Class Features:
+    * Ice Tomb Hex (Witch)
+* New Spells:
+    * Ice Slick
+
 ## v0.5.0
 
 * New Feats:
