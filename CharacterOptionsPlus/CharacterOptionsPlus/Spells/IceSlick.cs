@@ -32,7 +32,6 @@ namespace CharacterOptionsPlus.Spells
 {
   // TODO:
   //  - Create an icon
-  //  - ?? Modded spell lists
 
   internal class IceSlick
   {
