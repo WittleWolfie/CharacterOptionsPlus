@@ -4,6 +4,8 @@
     * Consecrate / Desecrate
 
 * Updates:
+    * Russian localization for most content
+        * If you spot errors or want to help localize text, reach out to me
     * Ice Slick has a reasonable icon now...
 
 ## v0.6.0
