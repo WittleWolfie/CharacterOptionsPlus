@@ -41,7 +41,7 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "IceSlick.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "iceslick.png";
 
     private const string AreaEffect = "IceSlick.AoE";
     private const string BuffName = "IceSlick.Buff";
