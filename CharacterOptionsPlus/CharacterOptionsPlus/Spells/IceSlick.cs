@@ -30,9 +30,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
-  // TODO:
-  //  - Create an icon
-
   internal class IceSlick
   {
     private const string FeatureName = "IceSlick";
