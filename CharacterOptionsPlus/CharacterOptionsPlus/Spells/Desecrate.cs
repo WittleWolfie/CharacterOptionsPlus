@@ -26,9 +26,14 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "Desecrate.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "Desecrate.png";
+    private const string IconName = IconPrefix + "iceslick.png"; // todo: create icon
 
     private const string AreaEffect = "Desecrate.AoE";
+
+    // For Consecrate use this: bbd6decdae32bce41ae8f06c6c5eb893
+    // In the path /Holy00_Alignment_Aoe_20Feet(Clone)(Clone)/Ground (1)/sparks (2)
+    //  - Set ParticleSystem (Component) startColor to RGB(1.0, 0.86, 0)
+    //  - Delete /Holy00_Alignment_Aoe_20Feet(Clone)(Clone)/Ground (1)/BorderWaves
 
     // A 25 ft "negative puddle"
     private const string AreaEffectFxSource = "b56b39f94af1bb04da24ba4206cc9140";
@@ -112,7 +117,10 @@ namespace CharacterOptionsPlus.Spells
 
     private static void ModifyFx(GameObject puddle)
     {
-     // UnityEngine.Object.DestroyImmediate(puddle.transform.Find("Transform/ProjectorCollision_big").gameObject); // Remove unwanted particle effects
+      // Destroy everything except the fog cloud
+      UnityEngine.Object.DestroyImmediate(puddle.transform.Find("Ground/Sparks").gameObject);
+      UnityEngine.Object.DestroyImmediate(puddle.transform.Find("Ground/Smoke").gameObject);
+      UnityEngine.Object.DestroyImmediate(puddle.transform.Find("Ground/Decal").gameObject);
       puddle.transform.localScale = new(0.85f, 1.0f, 0.85f); // Scale from 25ft to 20ft
     }
   }
