@@ -1,3 +1,11 @@
+## v0.7.0
+
+* New Spells:
+    * Consecrate / Desecrate
+
+* Updates:
+    * Ice Slick has a reasonable icon now...
+
 ## v0.6.0
 
 * New Class Features:
