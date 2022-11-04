@@ -1,61 +1,73 @@
-﻿[
+[
   {
     "Key": "HeavenlyFireResourceAmount.Name",
     "ProcessTemplates": false,
-    "enGB": "Heavenly Fire Resource Amount"
+    "enGB": "Heavenly Fire Resource Amount",
+    "ruRU": "Запас ресурса для Небесного Огня."
   },
   {
     "Key": "HeavenlyFireResourceAmount.Description",
-    "enGB": "REQUIRES RESTART\n\nCorrectly sets the max uses per day to 3 + Charisma modifier."
+    "enGB": "REQUIRES RESTART\n\nCorrectly sets the max uses per day to 3 + Charisma modifier.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nКорректно устанавливает максимальнее количество использований Небесного Огня за день на 3 + Модификатор Харизмы."
   },
 
   {
     "Key": "PackRagerTeamworkSelection.Name",
     "ProcessTemplates": false,
-    "enGB": "Pack Rager Teamwork Selection"
+    "enGB": "Pack Rager Teamwork Selection",
+    "ruRU": "Выбор Командных Черт Стайного Дикаря"
   },
   {
     "Key": "PackRagerTeamworkSelection.Description",
-    "enGB": "REQUIRES RESTART\n\nFlags the Pack Rager's Teamwork Selection so Teamwork Feats added using BlueprintCore or TTT-Core are included."
+    "enGB": "REQUIRES RESTART\n\nFlags the Pack Rager's Teamwork Selection so Teamwork Feats added using BlueprintCore or TTT-Core are included.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nПомечает Выбор Командных черт Стайного Дикаря, чтобы они работали с чертами, добавленными через моды на базе TTT или BPCore."
   },
 
   {
     "Key": "SerpentineFriendBonus.Name",
     "ProcessTemplates": false,
-    "enGB": "Serpentine Friend Bonus"
+    "enGB": "Serpentine Friend Bonus",
+    "ruRU": "Бонус от Друга Змей."
   },
   {
     "Key": "SerpentineFriendBonus.Description",
-    "enGB": "REQUIRES RESTART\n\nApplies +3 to Perception and Persuasion as stated, instead of +2 to Perception and +3 to Persuasion."
+    "enGB": "REQUIRES RESTART\n\nApplies +3 to Perception and Persuasion as stated, instead of +2 to Perception and +3 to Persuasion.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nДруг Змей теперь даёт +3 к Восприятию и Убеждению в соответствии с описанием (вместо +2 к Восприятию и +2 к Убеждению)."
   },
 
   {
     "Key": "SerpentineBiteDC.Name",
     "ProcessTemplates": false,
-    "enGB": "Serpentine Bite DC"
+    "enGB": "Serpentine Bite DC",
+    "ruRU": "Сложость спасброска Змеиного Клыка"
   },
   {
     "Key": "SerpentineBiteDC.Description",
-    "enGB": "REQUIRES RESTART\n\nCorrectly sets the DC of the Serpentine Bloodline Bite poison for Socererors and Magi."
+    "enGB": "REQUIRES RESTART\n\nCorrectly sets the DC of the Serpentine Bloodline Bite poison for Socererors and Magi.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nКорректно устанавливает значение сложности способности Змеиный Клык от Змеиного Наследия для Колдунов и Магусов."
   },
 
   {
     "Key": "SingleDraconicBloodline.Name",
     "ProcessTemplates": false,
-    "enGB": "Single Draconic Bloodline"
+    "enGB": "Single Draconic Bloodline",
+    "ruRU": "Одиночное Драконье Наследие"
   },
   {
     "Key": "SingleDraconicBloodline.Description",
-    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the draconic bloodline."
+    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the draconic bloodline.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nЗапрещает выбор нескольких Драконьих Наследий одним персонажем."
   },
 
   {
     "Key": "SingleElementalBloodline.Name",
     "ProcessTemplates": false,
-    "enGB": "Single Elemental Bloodline"
+    "enGB": "Single Elemental Bloodline",
+    "ruRU": "Одиночное Стихийное Наследие"
   },
   {
     "Key": "SingleElementalBloodline.Description",
-    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline."
+    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nЗапрещает выбор нескольких Стихийных Наследий одним персонажем."
   }
 ]

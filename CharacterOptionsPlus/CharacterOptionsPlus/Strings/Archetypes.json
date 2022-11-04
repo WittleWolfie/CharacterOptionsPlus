@@ -1,53 +1,63 @@
-﻿[
+[
   // **** Arrowsong Minstrel **** //
   {
     "Key": "ArrowsongMinstrel.Name",
     "ProcessTemplates": false,
-    "enGB": "Arrowsong Minstrel"
+    "enGB": "Arrowsong Minstrel",
+    "ruRU": "Менестрель Поющих Стрел"
   },
   {
     "Key": "ArrowsongMinstrel.Description",
-    "enGB": "Arrowsong minstrels combine the elven traditions of archery, song, and spellcasting into a seamless harmony of dazzling magical effects."
+    "enGB": "Arrowsong minstrels combine the elven traditions of archery, song, and spellcasting into a seamless harmony of dazzling magical effects.",
+    "ruRU": "Менестрели Поющих Стрел сплетают эльфийские традиции стрельбы, пения и колдовства в безупречную гармонию блистатетльной волшбы."
   },
 
   {
     "Key": "ArrowsongMinstrel.Proficiencies",
     "ProcessTemplates": false,
-    "enGB": "Arrowsong Minstrel Proficiencies"
+    "enGB": "Arrowsong Minstrel Proficiencies",
+    "ruRU": "Умения Менестрелей Поюших Стрел"
   },
   {
     "Key": "ArrowsongMinstrel.Proficiencies.Description",
-    "enGB": "An arrowsong minstrel is proficient with all simple weapons, plus the longbow, shortsword, and shortbow. Arrowsong minstrels are also proficient with light armor and shields (except tower shields).\n\nAn arrowsong minstrel can cast bard spells while wearing light armor and using a shield without incurring the normal arcane spell failure chance. Like any other arcane spellcaster, An arrowsong minstrel wearing medium or heavy armor incurs a chance of arcane spell failure if the spell in question has a somatic component. A multiclass arrowsong minstrel still incurs the normal arcane spell failure chance for arcane spells received from other classes."
+    "enGB": "An arrowsong minstrel is proficient with all simple weapons, plus the longbow, shortsword, and shortbow. Arrowsong minstrels are also proficient with light armor and shields (except tower shields).\n\nAn arrowsong minstrel can cast bard spells while wearing light armor and using a shield without incurring the normal arcane spell failure chance. Like any other arcane spellcaster, An arrowsong minstrel wearing medium or heavy armor incurs a chance of arcane spell failure if the spell in question has a somatic component. A multiclass arrowsong minstrel still incurs the normal arcane spell failure chance for arcane spells received from other classes.",
+    "ruRU": "Менестрель Поющих Стрел умеет обращаться со всем простым оружием, а также с длинными и короткими луками, короткими мечами. Помимо этого они умеют носить лёгкую броню и всеми щитами (кроме башенных).\n\nДаже будучи облачённым в лёгкую броню и с щитом в руке, Менестель Поющих Стрел всё равно способен сотворять заклинания из списка заклинаний барда без обычного для таких случаев шанса провала мистических заклинаний. Если Менестрель Поющих Стрел облачён в среднюю или тяжёлую броню, он подвержен шансу провала мистических заклинаний как любой обычный заклинатель, равно как и при сотворении заклинаний, полученных от уровней в других классах."
   },
 
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.Name",
     "ProcessTemplates": false,
-    "enGB": "Arcane Archery"
+    "enGB": "Arcane Archery",
+    "ruRU": "Мистическая стрельба"
   },
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.Description",
-    "enGB": "For the purpose of meeting the requirements of feats and prestige classes, an Arrowsong minstrel treats her bard level as her base attack bonus (in addition to base attack bonuses gained from other classes and Hit Dice)."
+    "enGB": "For the purpose of meeting the requirements of feats and prestige classes, an Arrowsong minstrel treats her bard level as her base attack bonus (in addition to base attack bonuses gained from other classes and Hit Dice).",
+    "ruRU": "При расчёте Базового Бонуса Атаки для проверки соответствия требованиям черт и Престиж-классов, приавляйте уровень Менестрель Поющих Стрел вместо полученного от него бонуса (помимо бонусов полученного от уровней в других классах и от Костей Здоровья)."
   },
 
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.BonusSpells",
     "ProcessTemplates": false,
-    "enGB": "Arcane Archery (Spells)"
+    "enGB": "Arcane Archery (Spells)",
+    "ruRU": "Мистическая стрельба (Заклинания)"
   },
   {
     "Key": "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description",
-    "enGB": "An Arrowsong minstrel’s skill at ranged martial arts allows her to learn to cast a number of powerful, offensive spells that would otherwise be unavailable to her.\n\nAt 1st level, she selects 4 spells from the sorcerer/wizard spell list and adds them to her bard spell list as bard spells of the same level. The spells selected must not already be on the bard spell list, and must be 6th level or lower. At 4th level and every 4 bard levels thereafter, she adds an additional sorcerer/wizard spell to her bard spell list.\n\nAn Arrowsong minstrel is limited to the following spells when adding spells to her spell list in this manner: acid arrow, arrow eruption, flame arrow, hurricane bow, greater magic weapon, longshot, magic weapon, protection from arrows, spectral hand, true strike, and sorcerer/wizard spells of the evocation school. An Arrowsong minstrel must still select these spells as spells known before she can cast them."
+    "enGB": "An Arrowsong minstrel’s skill at ranged martial arts allows her to learn to cast a number of powerful, offensive spells that would otherwise be unavailable to her.\n\nAt 1st level, she selects 4 spells from the sorcerer/wizard spell list and adds them to her bard spell list as bard spells of the same level. The spells selected must not already be on the bard spell list, and must be 6th level or lower. At 4th level and every 4 bard levels thereafter, she adds an additional sorcerer/wizard spell to her bard spell list.\n\nAn Arrowsong minstrel is limited to the following spells when adding spells to her spell list in this manner: acid arrow, arrow eruption, flame arrow, hurricane bow, greater magic weapon, longshot, magic weapon, protection from arrows, spectral hand, true strike, and sorcerer/wizard spells of the evocation school. An Arrowsong minstrel must still select these spells as spells known before she can cast them.",
+    "ruRU": "За счёт своим навыкам дальнего боя, Менестрель Поющих Стрел позволяют ему выучить несколько мощных боевых заклинаний, которые в ином случае были бы ему недоступны.\n\nНа первом уровне он выбирвает 4 заклинания из списка заклинаний Мага/Колдуна и добавляет их к своему списку заклинаний барда соответствующего уровня. Нельзя выбрать заклинания выше 6-го круга и заклинания, которые уже есть в списке заклинаний барда. На 4-ом уовне и каждые последующие 4 уровня Менестрель поющих Стрел добавляет ещё одно заклинание из списка Колдуна/Мага к своим заклинаниям Барда.\n\nМенестрель Поющих Стрел не может добавить этим способом любое заклинание - он ограничен следующим списком: Кислотная Стрела, Ливень Стрел, Огненная Стрела, Ураганный Лук, Волшебное Оружие Высшее, Далёкий Выстрел, Волшебное Оружие, Защита от стрел, Призрачная Рука, Верный Удар, и заклинания школы Сотворения из списка Колдуна/Мага. Эти заклинания добавляются только лишь к списку доступных для изучения заклинаний - Менестрель Побщих Стрел всё равно должен изучить их, прежде чем он сможет сотворять их."
   },
 
   {
     "Key": "ArrowsongMinstrel.SpellStrike.Name",
     "ProcessTemplates": false,
-    "enGB": "Arrowsong Strike"
+    "enGB": "Arrowsong Strike",
+    "ruRU": "Удар поющей стрелы"
   },
   {
     "Key": "ArrowsongMinstrel.SpellStrike.Description",
-    "enGB": "At 6th level, an Arrowsong minstrel can use spellstrike (as per the magus class feature) to cast a single-target ranged touch attack spell and deliver it through a ranged weapon attack. She cannot use spellstrike with normal touch attacks or melee attacks.\n\nAt 18th level, an Arrowsong minstrel can use spell combat (as per the magus class feature)."
+    "enGB": "At 6th level, an Arrowsong minstrel can use spellstrike (as per the magus class feature) to cast a single-target ranged touch attack spell and deliver it through a ranged weapon attack. She cannot use spellstrike with normal touch attacks or melee attacks.\n\nAt 18th level, an Arrowsong minstrel can use spell combat (as per the magus class feature).",
+    "ruRU": "На 6-ом уровне Менестрель Поющих Стрел получает способность совершать Колдовской Удар(подобно способности Магуса), чтобы сотворить дальнобойное заклинание с атакой касанием, направленное на одиночную цель, и доставить эффект этого заклинания через атаку оружием дальнего боя. Эту разновидность Колдовского Удара нельзя использовать с обычными атаками касанием или с атаками ближнего боя.\n\nНа 18-ом уровне Менестрель Поющих Стрел получает возможность пользовать Магией в Дистанционном Бою (подобно черте архетипа Чародейский Лучник)."
   }
   // **************************** //
 ]

@@ -1,61 +1,71 @@
-﻿[
+[
   {
     "Key": "Settings.Title",
     "ProcessTemplates": false,
-    "enGB": "Character Options+"
+    "enGB": "Character Options+",
+    "ruRU": "Расширенные опции персонажа"
   },
 
   {
     "Key": "Settings.Homebrew.Title",
     "ProcessTemplates": false,
-    "enGB": "Optional Rules"
+    "enGB": "Optional Rules",
+    "ruRU": "Опциональные правила"
   },
 
   {
     "Key": "Settings.Archetypes.Title",
     "ProcessTemplates": false,
-    "enGB": "Archetypes"
+    "enGB": "Archetypes",
+    "ruRU": "Архетипы"
   },
 
   {
     "Key": "Settings.ClassFeatures.Title",
     "ProcessTemplates": false,
-    "enGB": "Class Features"
+    "enGB": "Class Features",
+    "ruRU": "Классовые черты"
   },
 
   {
     "Key": "Settings.Feats.Title",
     "ProcessTemplates": false,
-    "enGB": "Feats"
+    "enGB": "Feats",
+    "ruRU": "Черты"
   },
 
   {
     "Key": "Settings.Fixes.Title",
     "ProcessTemplates": false,
-    "enGB": "Bug Fixes"
+    "enGB": "Bug Fixes",
+    "ruRU": "Исправления багов"
   },
 
   {
     "Key": "Settings.Spells.Title",
     "ProcessTemplates": false,
-    "enGB": "Spells"
+    "enGB": "Spells",
+    "ruRU": "Заклинания"
   },
 
   {
     "Key": "Settings.EnableFeature",
     "ProcessTemplates": false,
-    "enGB": "REQUIRES RESTART\n\nTurning this off prevents the feature from working: characters cannot select this feature and characters with it cannot use it. You can still load save games that reference it."
+    "enGB": "REQUIRES RESTART\n\nTurning this off prevents the feature from working: characters cannot select this feature and characters with it cannot use it. You can still load save games that reference it.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТ\n\nЕсли вы отключите эту настройку, черта перестанет работать: персонажи, у которых она уже есть, не смогут ею пользоваться. Но это не помешает загружать сохранения, в которых присутствует эта черта."
   },
 
   {
     "Key": "Settings.Homebrew.GloriousHeat",
     "ProcessTemplates": false,
-    "enGB": "Use original Glorious Heat"
+    "enGB": "Use original Glorious Heat",
+    "ruRU": "Не использовать исправленную версию Благостного Жара."
   },
 
   {
     "Key": "Settings.Homebrew.GloriousHeat.Description",
     "ProcessTemplates": false,
-    "enGB": "REQUIRES RESTART\n\nThe default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing."
+    "enGB": "REQUIRES RESTART\n\nThe default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing.",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТ\n\nПо умолчанию Благостному Жару учитывает официальную эррату, согласно которой эффект лечения с 1/2 Уровня Персонажа до Круга Заклинания. Если эта настройка включена, то будет использоваться старая врсия правил, хотя лечение с Фокусов всё равно намеренно запрещено, чтобы не допустить возможности бесконечного лечения."
   }
 ]

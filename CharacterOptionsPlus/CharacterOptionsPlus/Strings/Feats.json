@@ -2,272 +2,329 @@
   {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
-    "enGB": "Draconic Heritage (Any)"
+    "enGB": "Draconic Heritage (Any)",
+    "ruRu": "Родословная дракона (Любая)",
   },
   {
     "Key": "DraconicHeritage.Description",
-    "enGB": "At some point in your family's history, a dragon interbred with your bloodline, and now its ancient power flows through your veins."
+    "enGB": "At some point in your family's history, a dragon interbred with your bloodline, and now its ancient power flows through your veins.",
+    "ruRu": "Среди ваших предков был дракон, и его кровь течёт в ваших жилах."
   },
 
   {
     "Key": "EldritchHeritage.Name",
     "ProcessTemplates": false,
-    "enGB": "Eldritch Heritage"
+    "enGB": "Eldritch Heritage",
+    "ruRu": "Родословная чародеев"
   },
   {
     "Key": "EldritchHeritage.Description",
-    "enGB": "Select one sorcerer bloodline. You must have Skill focus in the class skill that bloodline grants to a sorcerer at 1st level (for example, Lore: Religion for the celestial bloodline). This bloodline cannot be a bloodline you already have. You gain the first-level bloodline power for the selected bloodline. For purposes of using that power, treat your sorcerer level as equal to your character level – 2, even if you have levels in sorcerer. You do not gain any of the other bloodline abilities."
+    "enGB": "Select one sorcerer bloodline. You must have Skill focus in the class skill that bloodline grants to a sorcerer at 1st level (for example, Lore: Religion for the celestial bloodline). This bloodline cannot be a bloodline you already have. You gain the first-level bloodline power for the selected bloodline. For purposes of using that power, treat your sorcerer level as equal to your character level – 2, even if you have levels in sorcerer. You do not gain any of the other bloodline abilities.",
+    "ruRu": "Выберите одно Наследие Колдуна. У вас должна быть черта Эксперт в одном из классовых навыков, который это Наследие даёт Колдуну на 1-ом уровне (например, Знание (Религия) для Небесного Наследия). Вы не можете выбрать Наследие, которое у вас уже есть. Вы получаете способность первого уровня данного Наследия. При расчёте эффектов данного Наследия считайте свой уровень Колдуна равным уровню вавшего персонажа -2, даже если у вас есть уровни Колдуна. Вы не получаете никаких других преимуществ или способностей данного Наследия."
   },
 
   {
     "Key": "EldritchHeritageImproved.Name",
     "ProcessTemplates": false,
-    "enGB": "Improved Eldritch Heritage"
+    "enGB": "Improved Eldritch Heritage",
+    "ruRu": "Улучшенная родословная чародеев"
   },
   {
     "Key": "EldritchHeritageImproved.Description",
-    "enGB": "You gain either the 3rd-level or the 9th-level power (your choice) of the bloodline you selected with the Eldritch Heritage feat. For purposes of using that power, treat your sorcerer level as equal to your character level – 2, even if you have levels in sorcerer. You do not gain any of the other bloodline abilities."
+    "enGB": "You gain either the 3rd-level or the 9th-level power (your choice) of the bloodline you selected with the Eldritch Heritage feat. For purposes of using that power, treat your sorcerer level as equal to your character level – 2, even if you have levels in sorcerer. You do not gain any of the other bloodline abilities.",
+    "ruRu": "Вы получаете способность либо 3-го, либо 9-го уровня (на своё усмотрение) от Наследия, выбранного при получении черты Родословная чародеев. При расчёте эффектов данного Наследия считайте свой уровень Колдуна равным уровню вавшего персонажа -2, даже если у вас есть уровни Колдуна. Вы не получаете никаких других преимуществ или способностей данного Наследия."
   },
 
   {
     "Key": "EldritchHeritageGreater.Name",
     "ProcessTemplates": false,
-    "enGB": "Greater Eldritch Heritage"
+    "enGB": "Greater Eldritch Heritage",
+    "ruRu": "Высшая родословная чародеев"
   },
   {
     "Key": "EldritchHeritageGreater.Description",
-    "enGB": "You gain an additional power from the bloodline you selected with the Eldritch Heritage feat. You gain a 15th-level (or lower) sorcerer bloodline power that you do not already have. For purposes of using that power, treat your character level as your sorcerer level for all your sorcerer bloodline powers granted by this feat, Eldritch Heritage, and Improved Eldritch Heritage."
+    "enGB": "You gain an additional power from the bloodline you selected with the Eldritch Heritage feat. You gain a 15th-level (or lower) sorcerer bloodline power that you do not already have. For purposes of using that power, treat your character level as your sorcerer level for all your sorcerer bloodline powers granted by this feat, Eldritch Heritage, and Improved Eldritch Heritage.",
+    "ruRu": "Вы получаете дополнительную способность того Наследия, что было выбрано при получении черты Родословная чародеев. Вы можете взять способность 15-го уровня или ниже из числа тех, которых у вас ещё нет. При расчёте эффектов данного Наследия считайте свой уровень Колдуна так же как для способностей, полученных от черт Родословная чародеев и Улучшеннаяя родословная чародеев. Вы не получаете никаких других преимуществ или способностей данного Наследия."
   },
 
   {
     "Key": "ElementalHeritage.Name",
     "ProcessTemplates": false,
-    "enGB": "Elemental Heritage (Any)"
+    "enGB": "Elemental Heritage (Any)",
+    "ruRu": "Стихийная родсловная (Любая)"
   },
   {
     "Key": "ElementalHeritage.Description",
-    "enGB": "The power of the elements resides in you, and at times you can hardly control its fury. This influence comes from an elemental outsider in your family history or a time when you or your relatives were exposed to a powerful elemental force."
+    "enGB": "The power of the elements resides in you, and at times you can hardly control its fury. This influence comes from an elemental outsider in your family history or a time when you or your relatives were exposed to a powerful elemental force.",
+    "ruRu": "Сила стихии живёт в вас и вам непросто управлять ей. Возможно среди ваших предков было потустороннее существо, или же кто-то из ваших родственников попал под воздействие редкого стихийного эффекта."
   },
 
   {
     "Key": "FuriousFocus.Name",
     "ProcessTemplates": false,
-    "enGB": "Furious Focus"
+    "enGB": "Furious Focus",
+    "ruRu": "Сфокусированная ярость"
   },
   {
     "Key": "FuriousFocus.Description",
-    "enGB": "When you are wielding a two-handed weapon or a one-handed weapon with two hands, and using the Power Attack feat, you do not suffer Power Attack�s penalty on melee attack rolls on the first attack you make each turn. You still suffer the penalty on any additional attacks, including attacks of opportunity."
+    "enGB": "When you are wielding a two-handed weapon or a one-handed weapon with two hands, and using the Power Attack feat, you do not suffer Power Attack�s penalty on melee attack rolls on the first attack you make each turn. You still suffer the penalty on any additional attacks, including attacks of opportunity.",
+    "ruRu": "Когда вы сражаетесь двуручным оружием или одноручным оружием, которое держите в обеих руках, и используете при этом черту Сокрушительрный удар, вы не получаете штраф к бонусу атаки от Сокрушительного удара на каждую первую атаку в раунде. Этот штраф всё равно применяется ко всем остальным атакам, в том числе и к Внеочередным."
   },
 
   {
     "Key": "GloriousHeat.Name",
     "ProcessTemplates": false,
-    "enGB": "Glorious Heat"
+    "enGB": "Glorious Heat",
+    "ruRu": "Благостный жар"
   },
   {
     "Key": "GloriousHeat.Description",
-    "enGB": "When you cast a divine spell with the [fire] descriptor, an ally you can see within 30 feet heals a number of hit points equal to the level of the spell cast and gains a +1 morale bonus on attack rolls until the end of its next turn."
+    "enGB": "When you cast a divine spell with the [fire] descriptor, an ally you can see within 30 feet heals a number of hit points equal to the level of the spell cast and gains a +1 morale bonus on attack rolls until the end of its next turn.",
+    "ruRu": "Когда вы сотворяете сакральное заклинание с дескриптором [огонь], союзник в поле вашего зрения в пределах 30-ти футах от вас исцеляется на количество очков здоровья равных уровню сотворённого заклинания, а также получает бонус морали +1 к броскам атаки до конца следующего хода."
   },
   {
     "Key": "GloriousHeat.Buff.Description",
-    "enGB": "Divine fire burns within granting you +1 morale bonus on attack rolls until the end of your next turn."
+    "enGB": "Divine fire burns within granting you +1 morale bonus on attack rolls until the end of your next turn.",
+    "ruRu": "Внутри вас горит божественный пламень, даруя бонус морали +1 к броскам атаки до конца вашего следующего хода."
   },
 
   {
     "Key": "Hurtful.Name",
     "ProcessTemplates": false,
-    "enGB": "Hurtful"
+    "enGB": "Hurtful",
+    "ruRu": "Ранящий"
   },
   {
     "Key": "Hurtful.Description",
-    "enGB": "When you successfully demoralize an opponent within your melee reach with an Intimidate check, you can make a single melee attack against that creature as a swift action. If your attack misses the target, its shaken condition from being demoralized immediately ends."
+    "enGB": "When you successfully demoralize an opponent within your melee reach with an Intimidate check, you can make a single melee attack against that creature as a swift action. If your attack misses the target, its shaken condition from being demoralized immediately ends.",
+    "ruRu": "Когда вы успешно деморализуете броском Устрашения своего противника в зоне досягаемости вашего оружия, вы можете совершить Быстырм действием одиночную атаку по этому протвинку. Если ваша атака не попадает по цели, с неё мгновенно снимается эффект деморализации."
   },
 
   {
     "Key": "PairedOpportunists.Name",
     "ProcessTemplates": false,
-    "enGB": "Paired Opportunists"
+    "enGB": "Paired Opportunists",
+    "ruRu": "Парный оппортунист"
   },
   {
     "Key": "PairedOpportunists.Description",
-    "enGB": "Whenever you are adjacent to an ally who also has this feat, you receive a +4 circumstance bonus on attacks of opportunity against creatures that you both threaten. Enemies that provoke attacks of opportunity from your ally also provoke attacks of opportunity from you so long as you threaten them. This does not allow you to take more than one attack of opportunity against a creature for a given action."
+    "enGB": "Whenever you are adjacent to an ally who also has this feat, you receive a +4 circumstance bonus on attacks of opportunity against creatures that you both threaten. Enemies that provoke attacks of opportunity from your ally also provoke attacks of opportunity from you so long as you threaten them. This does not allow you to take more than one attack of opportunity against a creature for a given action.",
+    "ruRu": "Когда вы находитесь рядом с союзником, у которого тоже есть эта черта, вы получаете бонус ситуативный бонус +4 к броскам на попадание Внеочередными атаками по существам, которые находятся в зоне, контролируемой вами обоими. Враги, которые провоцируют Внеочередную атаку со сторонры вашего союзника также провоцируют Внеочередную атаку с вашей стороны. Вы не можете совершить более одной внеочередной атаки по противнику на каждоё совершённое им действие."
   },
 
   {
     "Key": "SignatureSkill.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill"
+    "enGB": "Signature Skill",
+    "ruRu": "Знаковый навык"
   },
   {
     "Key": "SignatureSkill.Description",
-    "enGB": "Your ability with a particular skill is the stuff of legends, and you can do things with that skill that others cannot.\n\nChoose one signature skill. Each grants you benefits for every 5 Ranks  "
+    "enGB": "Your ability with a particular skill is the stuff of legends, and you can do things with that skill that others cannot.\n\nChoose one signature skill. Each grants you benefits for every 5 Ranks  ",
+    "ruRu": "О ваших навыках в определённой сфере ходят легенды, и вы с их помощью вы способны творить такое, что другим и не снилось.\n\nВыберите один знаковый навык. Каждыйы из них даёт уникальные преимущества за каждые 5 вложенных уровней."
   },
 
   {
     "Key": "SignatureSkill.Athletics.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Athletics"
+    "enGB": "Signature Skill: Athletics",
+    "ruRu": "Знаковый навык: Атлетика"
   },
   {
     "Key": "SignatureSkill.Athletics.Description",
-    "enGB": "5 Ranks: As a standard action, you can attempt to break free from a grapple or entangling effect, if that effect allows you to break free.\n\n10 Ranks: You can attempt to break free as a move action.\n\n15 Ranks: As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC.\n\n20 Ranks: You can attempt to break free as a swift action. You can attempt to suppress a slow or paralysis effect as a move action."
+    "enGB": "5 Ranks: As a standard action, you can attempt to break free from a grapple or entangling effect, if that effect allows you to break free.\n\n10 Ranks: You can attempt to break free as a move action.\n\n15 Ranks: As a standard action you can attempt an Athletics check against the save DC + 10 to suppress a slow or paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC.\n\n20 Ranks: You can attempt to break free as a swift action. You can attempt to suppress a slow or paralysis effect as a move action.",
+    "ruRu": "5 уровней: Стандартным действием вы можете попыпаться выбраться из захвата или опутывающего эффекта, если эффект допускает подобное.\n\n10 уровней: попытка выбраться из захвата может быть совершена Вспомогательным действием.\n\n15 уровней: Стандартным действием вы можете попытаться подавить эффект замедления или паралича, совершив проверку Атлектики против сложности эффекта + 10. Эффект подавляется на 1 раунд + 1 раунд за каждые 5 очков успеха сверх сложности.\n\n20 уровней: попытка выбраться из захвата может быть совершена Быстрым дейсвтием; попытка подавить эффект замедления или паралича может быть совершена Вспомогательными действием."
   },
   {
     "Key": "SignatureSkill.Athletics.BreakFree.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Break Free"
+    "enGB": "Signature Skill: Break Free",
+    "ruRu": "Знаковый навык: освободиться от пут"
   },
   {
     "Key": "SignatureSkill.Athletics.BreakFree.Description",
-    "enGB": "You can attempt to break free from a grapple or entangling effect, if that effect allows you to break free. This uses a standard action. If you have 10 Ranks in Athletics it uses a move action. If you have 20 Ranks in Athletics it uses a swift action."
+    "enGB": "You can attempt to break free from a grapple or entangling effect, if that effect allows you to break free. This uses a standard action. If you have 10 Ranks in Athletics it uses a move action. If you have 20 Ranks in Athletics it uses a swift action.",
+    "ruRu": "Вы можете попытаться выбраться из захвата или эффекта опутывания, если эффект допускает подобное. Для этого требуется совершить Стандартное действие. Если у вас 10 уровней в навыке Атлетика, это можно сделать Вспомогательным действием. Если у вас 20 уровней в Атлектике, это можно сделать Быстрым действием."
   },
   {
     "Key": "SignatureSkill.Athletics.BreakFree.Restriction",
-    "enGB": "No effects which allow breaking free"
+    "enGB": "No effects which allow breaking free",
+    "ruRu": "Отсутствуют эффекты захвата/опутывания, от которых можно освободиться."
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Passive.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Suppress Paralyze"
+    "enGB": "Signature Skill: Suppress Paralyze",
+    "ruRu": "Знаковый навык: подавить паралич"
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Passive.Description",
-    "enGB": "At the start of each round make an Athletics check to suppress a paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action."
+    "enGB": "At the start of each round make an Athletics check to suppress a paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action.",
+    "ruRu": "В начале каждого раунда совершите проверку Атлетики, чтобы подавить эффект паралича на 1 раунд + 1 раунд за каждые 5 очков успеха сверх сложности. Для этого требуется Стандартное действие. Если у вас больше 20 уровней в навыке Атлетика, вы можете совершить эту проверку Вспомогательным действием."
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Active.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Suppress Slow"
+    "enGB": "Signature Skill: Suppress Slow",
+    "ruRu": "Знаковый навык: подавить замедление"
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Active.Description",
-    "enGB": "You can attempt an Athletics check to suppress a slow effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action."
+    "enGB": "You can attempt an Athletics check to suppress a slow effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action.",
+    "ruRu": "В начале каждого раунда совершите проверку Атлетики, чтобы подавить эффект замедления на 1 раунд + 1 раунд за каждые 5 очков успеха сверх сложности. Для этого требуется Стандартное действие. Если у вас больше 20 уровней в навыке Атлетика, вы можете совершить эту проверку Вспомогательным действием."
   },
   {
     "Key": "SignatureSkill.Athletics.Suppress.Restriction",
-    "enGB": "No slowing effects"
+    "enGB": "No slowing effects",
+    "ruRu": "Отсутствуют эффекты замедления"
   },
 
   {
     "Key": "SignatureSkill.KnowledgeArcana.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Knowledge (Arcana)"
+    "enGB": "Signature Skill: Knowledge (Arcana)",
+    "ruRu": "Знаковый навык: Знание (Магия)"
   },
   {
     "Key": "SignatureSkill.KnowledgeWorld.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Knowledge (World)"
+    "enGB": "Signature Skill: Knowledge (World)",
+    "ruRu": "Знаковый навык: Знание (Мир)"
   },
   {
     "Key": "SignatureSkill.LoreNature.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Lore (Nature)"
+    "enGB": "Signature Skill: Lore (Nature)",
+    "ruRu": "Знаковый навык: Знание (Природа)"
   },
   {
     "Key": "SignatureSkill.LoreReligion.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Lore (Religion)"
+    "enGB": "Signature Skill: Lore (Religion)",
+    "ruRu": "Знаковый навык: Знание (Религия)"
   },
   {
     "Key": "SignatureSkill.Knowledge.Description",
-    "enGB": "5 Ranks: When you successfully identify a creature you gain additional information.\n\n10 Ranks: As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute.\n\n15 Ranks: The competence bonus increases to +2 and applies to saving throws.\n\n20 Ranks: When you make a skill check, you can roll twice and take the better result. The competence bonus increases to +3."
+    "enGB": "5 Ranks: When you successfully identify a creature you gain additional information.\n\n10 Ranks: As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute.\n\n15 Ranks: The competence bonus increases to +2 and applies to saving throws.\n\n20 Ranks: When you make a skill check, you can roll twice and take the better result. The competence bonus increases to +3.",
+    "ruRu": "5 уровней: когда вы успешно опознаёте существо, вы получаете о нём дополнительную информацию.\n\n10 уровней: вы можете попытаться опознать существо Вспомогательным действием. Если попытка оказывается успешной, вы получаете бонус мастерства +1 к броскам атаки по этому существу и преодолению его устойчивости к магии на 1 минуту.\n\n15 уровней: бонус мастерства увеличивается увеличивается до +2 и применяется также к спасброскам.\n\n20 уровней: когда вы совершаете проверку навыка, вы можете совершить бросок дважды и выбрать лучший результат. Бонус мастерства увеличивается до +3."
   },
 
   {
     "Key": "SignatureSkill.Knowledge.Ability.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Identify"
+    "enGB": "Signature Skill: Identify",
+    "ruRu": "Знаковый навык: опознание существ"
   },
   {
     "Key": "SignatureSkill.Knowledge.Ability.Description",
-    "enGB": "As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute. When you have 15 Ranks in the skill used to identify the creature the bonus applies to saving throws and increases to +2. When you have 20 Ranks in the skill used to identify the creature the bonus increases to +3."
+    "enGB": "As a move action you can attempt to identify a creature. If you succeed you gain a +1 competence bonus on attack rolls and spell penetration against creatures of that kind for 1 minute. When you have 15 Ranks in the skill used to identify the creature the bonus applies to saving throws and increases to +2. When you have 20 Ranks in the skill used to identify the creature the bonus increases to +3.",
+    "ruRu": "Вспомогательным действием вы можете попытаться опознать существо. В случае успеха на 1 минуту вы получаете бонус мастерства +1 к атакам по данному существу и к преодолению его сопротивления магии. Если у вас 15 уровней в навыке, бонус мастерства увеличивается до +2 и применяется также к спасброскам. Если у вас 20 уровней в навыке, бонус мастерства увеличивается до +3."
   },
   {
     "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Feat",
-    "enGB": "Requires {0}."
+    "enGB": "Requires {0}.",
+    "ruRu": "Требуется {0}."
   },
   {
     "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Ranks",
-    "enGB": "Requires 10 Ranks in {0}."
+    "enGB": "Requires 10 Ranks in {0}.",
+    "ruRu": "Требуется 10 уровней в {0}."
   },
   {
     "Key": "SignatureSkill.Knowledge.Ability.TargetRestriction.Identified",
-    "enGB": "Target already identified."
+    "enGB": "Target already identified.",
+    "ruRu": "Цель уже опознана."
   },
 
   {
     "Key": "SignatureSkill.Mobility.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Mobility"
+    "enGB": "Signature Skill: Mobility",
+    "ruRu": "Знаковый навык: подвижность"
   },
   {
     "Key": "SignatureSkill.Mobility.Description",
-    "enGB": "5 Ranks: You can move at full speed through a threatened square without provoking an attack of opportunity from an enemy by using Mobility and adding +5 to the DC.\n\n10 Ranks: You receive a +2 bonus on Reflex saving throws to avoid falling into pits and to your CMD against trip manuevers.\n\n15 Ranks: You do not provoke attacks of opportunity when standing up from prone.\n\n20 Ranks: You receive a +4 bonus on saving throws to avoid falling into pits and to your CMD against trip maneuvers."
+    "enGB": "5 Ranks: You can move at full speed through a threatened square without provoking an attack of opportunity from an enemy by using Mobility and adding +5 to the DC.\n\n10 Ranks: You receive a +2 bonus on Reflex saving throws to avoid falling into pits and to your CMD against trip manuevers.\n\n15 Ranks: You do not provoke attacks of opportunity when standing up from prone.\n\n20 Ranks: You receive a +4 bonus on saving throws to avoid falling into pits and to your CMD against trip maneuvers.",
+    "ruRu": "5 уровней: при использовании Акробатики для перемещания по контролируемой противником зоне, вы способны двигаться с обычной скоростью и не провофировать при этом внеочередных атак, но сложность проверки увеличивается на 5.\n\n10 уровней: вы получаете бонус +2 к спасброскам Реакции, чтобы не упасть в яму и при защите от боевого приёма Сбивание с ног.\n\n15 уровней: вы не провоцируете Внеочередные атаки, когда встаёте с земли из лежачего положения.\n\n20 уровней: бонус к спасброскам Реакции увеличивается до +4."
   },
   {
     "Key": "SignatureSkill.Mobility.Ability.Description",
-    "enGB": "You can move at full speed through a threatened square without provoking an attack of opportunity from an enemy by using Mobility and adding +5 to the DC."
+    "enGB": "You can move at full speed through a threatened square without provoking an attack of opportunity from an enemy by using Mobility and adding +5 to the DC.",
+    "ruRu": "вы сопособны перемещаться по контролируемой противником зоне, не провоцируя Внеочередных атака, при помощи проверки Подвижности со сложностоью +5."
   },
 
   {
     "Key": "SignatureSkill.Perception.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Perception"
+    "enGB": "Signature Skill: Perception",
+    "ruRu": "Знаковый навык: внимание"
   },
   {
     "Key": "SignatureSkill.Perception.Description",
-    "enGB": "5 Ranks: You receive a +2 Perception bonus while on guard duty.\n\n10 Ranks: You receive a +5 Perception bonus to detect hidden units or objects.\n\n15 Ranks: You receive a +4 Perception bonus while on guard duty.\n\n20 Ranks: You receive a +10 Perception bonus to detect hidden units or objects."
+    "enGB": "5 Ranks: You receive a +2 Perception bonus while on guard duty.\n\n10 Ranks: You receive a +5 Perception bonus to detect hidden units or objects.\n\n15 Ranks: You receive a +4 Perception bonus while on guard duty.\n\n20 Ranks: You receive a +10 Perception bonus to detect hidden units or objects.",
+    "ruRu": "5 уровней: вы получаете бонус +2 к проверкам Внимание, стоя на страже лагеря на привале.\n\n10 уровней: вы получаете бонус +5 к проверкам Внимания при попытке обнаружить спрятанные предметы или противников.\n\n15 уровней: юонус Внимания при страже лагеря увеличивается до +10.\n\n20уровней: бонус к проверкам Внимания при поиске скрытых предметов и существ увеличивается до +10."
   },
 
   {
     "Key": "SignatureSkill.Persuasion.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Persuasion"
+    "enGB": "Signature Skill: Persuasion",
+    "ruRu": "Знаковый наывк: убеждение"
   },
   {
     "Key": "SignatureSkill.Persuasion.Description",
-    "enGB": "5 Ranks: If you exceed the DC to demoralize a target by at least 10, is is frightened for the first round of the effect.\n\n10 Ranks: If you exceed the DC to demoralize a target by at least 10, it is panicked for the first round of the effect.\n\n15 Ranks: If you exceed the DC to demoralize a target by at least 20, it is cowering for the first round of the effect and frightened for the remaining duration.\n\n20 Ranks: If you exceed the DC to demoralize a target by at least 20, it is cowering for 1d4 rounds and panicked for the remaining duration of the effect.\n\nA Will save (DC = 10 + Persuasion) negates these additional effects, but the target is still shaken."
+    "enGB": "5 Ranks: If you exceed the DC to demoralize a target by at least 10, is is frightened for the first round of the effect.\n\n10 Ranks: If you exceed the DC to demoralize a target by at least 10, it is panicked for the first round of the effect.\n\n15 Ranks: If you exceed the DC to demoralize a target by at least 20, it is cowering for the first round of the effect and frightened for the remaining duration.\n\n20 Ranks: If you exceed the DC to demoralize a target by at least 20, it is cowering for 1d4 rounds and panicked for the remaining duration of the effect.\n\nA Will save (DC = 10 + Persuasion) negates these additional effects, but the target is still shaken.",
+    "ruRu": "5 уровней: если ваша проверка Устрашения с целью деморализовать противника превосходит сложность как минимум на 10, цель оказывается Испугана в течении 1-го раунда.\n\n10 уровней: если ваша проверка Устрашения с целью деморализовать противника превосходит сложность как минимум на 10, цель оказывается в Панике в течении 1-го раунда.\n\n15 уровней: если ваша проверка Устрашения с целью деморализовать противника превосходит сложность как минимум на 20, цель Замирает от страха в течении 1-го раунда и остаётся Испугана на остальное время эффекта.\n\n20 уровней:если ваша проверка Устрашения с целью деморализовать противника превосходит сложность как минимум на 20, цель Замирает от страха на 1d4 раунда и остаётся в Панике на оставшееся время эффекта.\n\nСпасбросок Воли со сложностью 10 + навык Устрашения отменяет эти дополнительные эффекты, но цель всё равно остаётся при этом Потрсяённой."
   },
 
   {
     "Key": "SignatureSkill.Stealth.Name",
     "ProcessTemplates": false,
-    "enGB": "Signature Skill: Stealth"
+    "enGB": "Signature Skill: Stealth",
+    "ruRu": "Знаковый навык: скрытность"
   },
   {
     "Key": "SignatureSkill.Stealth.Description",
-    "enGB": "5 Ranks: When you break stealth, make a Stealth check with a -5 penalty against the nearest enemy. If you succeed, you are partially concealed for 1 round.\n\n10 Ranks: When you break stealth, make a Stealth check against the nearest enemy. If you succeed, gain total concealment for 1 round.\n\n15 Ranks: If you attack after successfully using Stealth, your target is flat-footed against your attacks for 1 round.\n\n20 Ranks: If you attack after successfully using Stealth, your target is flat-footed against your attacks for 2 rounds."
+    "enGB": "5 Ranks: When you break stealth, make a Stealth check with a -5 penalty against the nearest enemy. If you succeed, you are partially concealed for 1 round.\n\n10 Ranks: When you break stealth, make a Stealth check against the nearest enemy. If you succeed, gain total concealment for 1 round.\n\n15 Ranks: If you attack after successfully using Stealth, your target is flat-footed against your attacks for 1 round.\n\n20 Ranks: If you attack after successfully using Stealth, your target is flat-footed against your attacks for 2 rounds.",
+    "ruRu": "5 уровней: когда вы выходите из режима незаметности, совершите проверку Скрытности со сложностью -5 против ближашего противника. В случае успеха вы получаете полную частичную маскировку на 1 раунд.\n\n10 уровней:когда вы выходите из режима незаметности, совершите проверку Скрытности со сложностью -5 против ближашего противника. В случае успеха вы получаете полную полную маскировку на 1 раунд.\n\n15 уровней: если вы успешно атакуете противника при выходе из режима незаметности, это существо на 1 раунд считается застигнутым врасплох при ваших атаках.\n\n20 уровней: если вы успешно атакуете противника при выходе из режима незаметности, это существо на 2 раунда считается застигнутым врасплох при ваших атаках."
   },
   {
     "Key": "SignatureSkill.Stealth.Concealment.Description",
-    "enGB": "You are partially concealed until the start of your next turn."
+    "enGB": "You are partially concealed until the start of your next turn.",
+    "ruRu": "Вы находитесь под эффектом частичной маскировки до начала вашего следующего хода."
   },
   {
     "Key": "SignatureSkill.Stealth.Concealment.Greater.Description",
-    "enGB": "You are totally concealed until the start of your next turn."
+    "enGB": "You are totally concealed until the start of your next turn.",
+    "ruRu": "Вы находитесь под эффектом полной маскировки до начала вашего следующего хода."
   },
   {
     "Key": "SignatureSkill.Stealth.Surprise.Description",
-    "enGB": "You are flat-footed against the caster's attacks."
+    "enGB": "You are flat-footed against the caster's attacks.",
+    "ruRu": "Вы считаетесь застигнутым врасплох, будучи атакованным тем, кто оставил этот эффект."
   },
 
   {
     "Key": "SkaldsVigor.Name",
     "ProcessTemplates": false,
-    "enGB": "Skald's Vigor"
+    "enGB": "Skald's Vigor",
+    "ruRu": "Жизненная энергия скальда"
   },
   {
     "Key": "SkaldsVigor.Description",
-    "enGB": "While maintaining a raging song, you gain fast healing equal to the twice the damage bonus your song provides, starting in the round after you begin the song. If you stop maintaining your song, the fast healing ends, even if the effects of your song persist."
+    "enGB": "While maintaining a raging song, you gain fast healing equal to the twice the damage bonus your song provides, starting in the round after you begin the song. If you stop maintaining your song, the fast healing ends, even if the effects of your song persist.",
+    "ruRu": "Пока Скальд исполняет песнь Вдохновлённой ярости, он получает эффект Быстрого Исцеления равный удвоённому значению бонуса к урону от этой песни. Быстрое исцеление начинает работать в начале раунда следующего после того, как Скальд начал исполнять песнь. Если Скальд прекращает исполнять песнь, Быстрое Исцеление пропадает, даже если остальные эффекты песни продолжают своё действие."
   },
 
   {
     "Key": "GreaterSkaldsVigor.Name",
     "ProcessTemplates": false,
-    "enGB": "Greater Skald's Vigor"
+    "enGB": "Greater Skald's Vigor",
+    "ruRu": "Жизненная энергия скальда+"
   },
   {
     "Key": "GreaterSkaldsVigor.Description",
-    "enGB": "Your allies share in the fast healing granted by your Skald's Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger."
+    "enGB": "Your allies share in the fast healing granted by your Skald's Vigor, starting in the round when you begin your performance. They must be able to hear the performance. If you stop maintaining the song, the fast healing ends immediately, even if other effects of your song linger.",
+    "ruRu": "Ваши союзники также получают Быстрое Исцеление, вызванное Жизненной энергией Скальда, непосредственно в том раунде, когда вы начали песнь. Эти союзники должны слышать исполнение. Если вы прекращаете поддерживать песнь, Быстрое Исцеление пропадает, даже если остальные эффекты песни продолжают своё действие."
   }
 ]
