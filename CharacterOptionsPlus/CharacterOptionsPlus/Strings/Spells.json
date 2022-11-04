@@ -1,5 +1,15 @@
 ﻿[
   {
+    "Key": "Desecrate.Name",
+    "ProcessTemplates": false,
+    "enGB": "Desecrate"
+  },
+  {
+    "Key": "Desecrate.Description",
+    "enGB": "The DC to resist negative channeled energy within this area gains a +3 profane bonus. Every undead creature entering a desecrated area gains a +1 profane bonus on all attack rolls, damage rolls, and saving throws. An undead creature created within or summoned into such an area gains +1 hit points per HD.\n\nAnyone who casts Animate Dead within this area creates twice as many undead.\n\nDesecrate dispels Consecrate."
+  },
+
+  {
     "Key": "IceSlick.Name",
     "ProcessTemplates": false,
     "enGB": "Ice Slick",
