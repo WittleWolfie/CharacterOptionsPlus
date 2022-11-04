@@ -140,6 +140,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log("Configuring spells.");
 
+        Desecrate.Configure();
         IceSlick.Configure();
       }
     }
