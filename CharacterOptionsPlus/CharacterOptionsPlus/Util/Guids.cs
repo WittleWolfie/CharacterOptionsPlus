@@ -17,9 +17,6 @@ namespace CharacterOptionsPlus.Util
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(Guids));
 
-    // unused
-    internal const string SignatureskillAthleticsSuppressActiveMove = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
-
     #region Archetypes
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";
     internal const string ArrowsongMinstrelProficiencies = "e24693cb-6e0b-4bbd-af5b-05de85f5ff88";
@@ -294,6 +291,7 @@ namespace CharacterOptionsPlus.Util
     #region Spells
     internal const string DesecrateSpell = "ba47baf2-982a-4c4c-82fc-af65dab915af";
     internal const string DesecrateAoE = "372f94fb-0a45-4813-8e85-46783792ec3d";
+    internal const string DesecrateBuff = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
     internal const string IceSlickSpell = "ff0cd827-3f35-4ed7-a811-18cd716124ed";
     internal const string IceSlickAoE = "b94a289c-49c2-4754-83a5-e171ad39fba6";
