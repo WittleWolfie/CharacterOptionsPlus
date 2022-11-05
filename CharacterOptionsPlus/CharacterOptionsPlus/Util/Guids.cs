@@ -289,6 +289,10 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Spells
+    internal const string ConsecrateSpell = "5bc013d5-d014-4502-af6a-e14141d6c35e";
+    internal const string ConsecrateAoE = "ba25ca0e-e0e7-4199-967d-b79cfae32318";
+    internal const string ConsecrateBuff = "ab7079a6-6bff-427e-8257-1f2457c04c14";
+
     internal const string DesecrateSpell = "ba47baf2-982a-4c4c-82fc-af65dab915af";
     internal const string DesecrateAoE = "372f94fb-0a45-4813-8e85-46783792ec3d";
     internal const string DesecrateBuff = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
@@ -300,6 +304,7 @@ namespace CharacterOptionsPlus.Util
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]
       {
+        (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
       };

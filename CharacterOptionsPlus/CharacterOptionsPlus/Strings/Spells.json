@@ -1,5 +1,15 @@
 ﻿[
   {
+    "Key": "Consecrate.Name",
+    "ProcessTemplates": false,
+    "enGB": "Consecrate"
+  },
+  {
+    "Key": "Consecrate.Description",
+    "enGB": "The DC to resist positive channeled energy within this area gains a +3 sacred bonus. Every undead creature entering a consecrated area suffers a -1 penalty on all attack rolls, damage rolls, and saving throws.\n\nUndead cannot be summoned while within this area.\n\nConsecrate dispels Desecrate."
+  },
+
+  {
     "Key": "Desecrate.Name",
     "ProcessTemplates": false,
     "enGB": "Desecrate"
