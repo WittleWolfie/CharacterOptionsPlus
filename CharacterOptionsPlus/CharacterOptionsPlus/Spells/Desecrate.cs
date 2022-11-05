@@ -9,6 +9,7 @@ using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
@@ -145,6 +146,12 @@ namespace CharacterOptionsPlus.Spells
           ActionsBuilder.New()
             .SpawnAreaEffect(area, ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Hours)))
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
+        .SetMaterialComponent(
+          new()
+          {
+            m_Item = ItemRefs.GoldCoins.Cast<BlueprintItemReference>().Reference,
+            Count = 25
+          })
         .Configure();
     }
 
