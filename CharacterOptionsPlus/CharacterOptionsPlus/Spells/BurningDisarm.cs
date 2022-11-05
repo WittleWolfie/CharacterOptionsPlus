@@ -1,8 +1,12 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.EntitySystem.Entities;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Mechanics.Conditions;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
@@ -19,7 +23,7 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "BurningDisarm.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "gloriousheat.png"; // TODO
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -76,7 +80,152 @@ namespace CharacterOptionsPlus.Spells
           (Metamagic)CustomMetamagic.Flaring,
           (Metamagic)CustomMetamagic.Intensified,
           (Metamagic)CustomMetamagic.Piercing)
+        .AddToSpellLists(level: 1, SpellList.Cleric, SpellList.Druid, SpellList.Wizard)
         .Configure();
+    }
+
+    [TypeId("01c302b4-0642-4947-b0e2-5b309f9899cd")]
+    private class WantsToDropWeapon : ContextCondition
+    {
+      private enum StatLevel
+      {
+        Low,
+        Moderate,
+        High
+      }
+
+      private enum CasterType
+      {
+        None,
+        Limited,
+        Full
+      }
+
+      private enum HealthLevel
+      {
+        Critical,
+        Low,
+        Moderate
+      }
+
+      public override bool CheckCondition()
+      {
+        try
+        {
+          var target = Target?.Unit;
+          if (target is null)
+          {
+            Logger.Warning("No target");
+            return false;
+          }
+
+          var abilityParams = Context.Params;
+          if (abilityParams is null)
+          {
+            Logger.Warning("No ability parameters");
+            return false;
+          }
+
+          var intLevel = GetStatLevel(target, StatType.Intelligence);
+          var wisLevel = GetStatLevel(target, StatType.Wisdom);
+
+          if (
+            (intLevel == StatLevel.Low && wisLevel != StatLevel.High)
+            || (wisLevel == StatLevel.Low && intLevel != StatLevel.High))
+          {
+            Logger.NativeLog(
+              $"{target.CharacterName} is not too bright ({intLevel} Int, {wisLevel} Wis), they want to drop their weapon");
+            return true;
+          }
+
+          var casterType = GetCasterType(target);
+          if (intLevel == StatLevel.Moderate && wisLevel == StatLevel.Moderate)
+          {
+            switch (casterType)
+            {
+              case CasterType.None:
+              case CasterType.Limited:
+                Logger.NativeLog($"{target.CharacterName} needs their weapon");
+                return false;
+              case CasterType.Full:
+                Logger.NativeLog($"{target.CharacterName} relies on spells, they want to drop their weapon");
+                return true;
+            }
+          }
+
+          // At this point either Int or Wis must be high
+          var healthLevel = GetHealthLevel(target, abilityParams.CasterLevel);
+          switch (casterType)
+          {
+            case CasterType.None:
+              if (healthLevel == HealthLevel.Critical)
+              {
+                Logger.NativeLog($"{target.CharacterName}'s health is critical, they want to drop their weapon");
+                return true;
+              }
+              Logger.NativeLog($"{target.CharacterName} can take the hit and needs their weapon");
+              return false;
+            case CasterType.Limited:
+              if (healthLevel == HealthLevel.Low)
+              {
+                Logger.NativeLog($"{target.CharacterName}'s health is low, they want to drop their weapon");
+                return true;
+              }
+              Logger.NativeLog($"{target.CharacterName} can take the hit and needs their weapon");
+              return false;
+            case CasterType.Full:
+              Logger.NativeLog($"{target.CharacterName} relies on spells, they want to drop their weapon");
+              return true;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("WantsToDropWeapon.CheckCondition", e);
+        }
+        return false;
+      }
+
+      public override string GetConditionCaption()
+      {
+        return "If true, the target wants to attempt a reflex save to drop their weapon";
+      }
+
+      private static StatLevel GetStatLevel(UnitEntityData unit, StatType stat)
+      {
+        var statValue = unit.Stats.GetStat(stat);
+        if (statValue < 9)
+          return StatLevel.Low;
+        if (statValue < 15)
+          return StatLevel.Moderate;
+        return StatLevel.High;
+      }
+
+      private static CasterType GetCasterType(UnitEntityData unit)
+      {
+        var characterLevel = unit.Progression.CharacterLevel;
+        var maxSpellLevel = 0;
+        foreach (var spellbook in unit.Spellbooks)
+          maxSpellLevel = Math.Max(maxSpellLevel, spellbook.GetMaxSpellLevel());
+
+        if (maxSpellLevel == 0)
+          return CasterType.None;
+
+        float spellLevelRatio = maxSpellLevel / characterLevel;
+        if (spellLevelRatio < 0.5)
+          return CasterType.Limited;
+
+        return CasterType.Full;
+      }
+
+      private static HealthLevel GetHealthLevel(UnitEntityData unit, int casterLevel)
+      {
+        var hp = unit.Stats.HitPoints.ModifiedValue - unit.Damage;
+        if (hp < casterLevel * 4)
+          return HealthLevel.Critical;
+        if (hp < casterLevel * 8)
+          return HealthLevel.Low;
+        return HealthLevel.Moderate;
+      }
     }
   }
 }
