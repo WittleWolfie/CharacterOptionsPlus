@@ -37,7 +37,7 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "Consecrate.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "iceslick.png"; // todo: create icon
+    private const string IconName = IconPrefix + "consecrate.png";
 
     private const string AreaEffect = "Consecrate.AoE";
     private const string BuffName = "Consecrate.Buff";

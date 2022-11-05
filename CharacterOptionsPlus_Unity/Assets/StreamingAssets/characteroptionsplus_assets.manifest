@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3473266477
+CRC: 2277779097
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 40be107e17055c557dce5857371623af
+    Hash: 308f241d458d756d7d20b442ec73fe29
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -19,6 +19,7 @@ Assets:
 - Assets/Icons/SuppressParalyze.png
 - Assets/Icons/GreaterSkaldVigor.png
 - Assets/Icons/EldritchHeritage.png
+- Assets/Icons/Desecrate.png
 - Assets/Icons/SkaldVigor.png
 - Assets/Icons/PairedOpportunists.png
 - Assets/Icons/ArcaneArchery.png
@@ -32,4 +33,5 @@ Assets:
 - Assets/Icons/SignatureMobility.png
 - Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/GloriousHeat.png
+- Assets/Icons/Consecrate.png
 Dependencies: []
