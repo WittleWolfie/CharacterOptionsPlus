@@ -45,11 +45,6 @@ namespace CharacterOptionsPlus.Spells
     private const string AreaEffect = "Desecrate.AoE";
     private const string BuffName = "Desecrate.Buff";
 
-    // For Consecrate use this: bbd6decdae32bce41ae8f06c6c5eb893
-    // In the path /Holy00_Alignment_Aoe_20Feet(Clone)(Clone)/Ground (1)/sparks (2)
-    //  - Set ParticleSystem (Component) startColor to RGB(1.0, 0.86, 0)
-    //  - Delete /Holy00_Alignment_Aoe_20Feet(Clone)(Clone)/Ground (1)/BorderWaves
-
     // A 25 ft "negative puddle"
     private const string AreaEffectFxSource = "b56b39f94af1bb04da24ba4206cc9140";
     private const string AreaEffectFx = "d9538102-91af-44d5-a96b-f234d966fec3";
@@ -75,6 +70,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      BuffConfigurator.New(BuffName, Guids.DesecrateBuff).Configure();
       AbilityAreaEffectConfigurator.New(AreaEffect, Guids.DesecrateAoE).Configure();
       AbilityConfigurator.New(FeatureName, Guids.DesecrateSpell).Configure();
     }
@@ -83,30 +79,9 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
-      AbilityConfigurator.For(AbilityRefs.AnimateDead)
-        .EditComponent<AbilityEffectRunAction>(
-          c =>
-          {
-            var spawnMonster =
-              c.Actions.Actions.Where(
-                a => a is ContextActionSpawnMonster).Cast<ContextActionSpawnMonster>().FirstOrDefault();
-            var spawn = ActionsBuilder.New().AddAll(c.Actions);
-            var augmentedSpawn = ActionsBuilder.New()
-              .SpawnMonsterUsingSummonPool(
-                countValue: ContextDice.Value(DiceType.D4, diceCount: 2, bonus: 4),
-                durationValue: spawnMonster.DurationValue,
-                monster: spawnMonster.m_Blueprint,
-                afterSpawn: spawnMonster.AfterSpawn,
-                summonPool: spawnMonster.SummonPool,
-                levelValue: spawnMonster.LevelValue);
-            c.Actions = ActionsBuilder.New()
-              .Conditional(
-                conditions: ConditionsBuilder.New().CasterHasFact(Guids.DesecrateBuff),
-                ifTrue: augmentedSpawn,
-                ifFalse: spawn)
-              .Build();
-          })
-        .Configure();
+      DoubleSummons(AbilityRefs.AnimateDead.ToString());
+      DoubleSummons(AbilityRefs.DirgeBardAnimateDead.ToString());
+      DoubleSummons(AbilityRefs.OracleBonesAnimateDead.ToString());
 
       var isUndead = ConditionsBuilder.New().HasFact(FeatureRefs.UndeadType.ToString());
       var buff = BuffConfigurator.New(BuffName, Guids.DesecrateBuff)
@@ -170,6 +145,34 @@ namespace CharacterOptionsPlus.Spells
           ActionsBuilder.New()
             .SpawnAreaEffect(area, ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Hours)))
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
+        .Configure();
+    }
+
+    private static void DoubleSummons(string ability)
+    {
+      AbilityConfigurator.For(ability)
+        .EditComponent<AbilityEffectRunAction>(
+          c =>
+          {
+            var spawnMonster =
+              c.Actions.Actions.Where(
+                a => a is ContextActionSpawnMonster).Cast<ContextActionSpawnMonster>().FirstOrDefault();
+            var spawn = ActionsBuilder.New().AddAll(c.Actions);
+            var augmentedSpawn = ActionsBuilder.New()
+              .SpawnMonsterUsingSummonPool(
+                countValue: ContextDice.Value(DiceType.D4, diceCount: 2, bonus: 4),
+                durationValue: spawnMonster.DurationValue,
+                monster: spawnMonster.m_Blueprint,
+                afterSpawn: spawnMonster.AfterSpawn,
+                summonPool: spawnMonster.SummonPool,
+                levelValue: spawnMonster.LevelValue);
+            c.Actions = ActionsBuilder.New()
+              .Conditional(
+                conditions: ConditionsBuilder.New().CasterHasFact(Guids.DesecrateBuff),
+                ifTrue: augmentedSpawn,
+                ifFalse: spawn)
+              .Build();
+          })
         .Configure();
     }
 
