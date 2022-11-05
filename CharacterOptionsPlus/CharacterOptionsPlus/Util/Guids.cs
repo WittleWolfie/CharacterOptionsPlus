@@ -289,6 +289,8 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Spells
+    internal const string BurningDisarmSpell = "4445e61d-3dff-4985-9eb5-37169a0e85bc";
+
     internal const string ConsecrateSpell = "5bc013d5-d014-4502-af6a-e14141d6c35e";
     internal const string ConsecrateAoE = "ba25ca0e-e0e7-4199-967d-b79cfae32318";
     internal const string ConsecrateBuff = "ab7079a6-6bff-427e-8257-1f2457c04c14";

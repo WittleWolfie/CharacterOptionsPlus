@@ -1,5 +1,15 @@
 ﻿[
   {
+    "Key": "BurningDisarm.Name",
+    "ProcessTemplates": false,
+    "enGB": "Burning Disarm"
+  },
+  {
+    "Key": "BurningDisarm.Description",
+    "enGB": "This spell causes a metal object to instantly become red hot. A creature holding the item may attempt a Reflex save to drop it and take no damage, otherwise the hot metal deals 1d4 points of fire damage per caster level (maximum 5d4)."
+  },
+
+  {
     "Key": "Consecrate.Name",
     "ProcessTemplates": false,
     "enGB": "Consecrate"
