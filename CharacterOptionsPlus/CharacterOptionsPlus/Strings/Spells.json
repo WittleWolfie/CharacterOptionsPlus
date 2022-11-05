@@ -6,7 +6,7 @@
   },
   {
     "Key": "BurningDisarm.Description",
-    "enGB": "This spell causes a metal object to instantly become red hot. A creature holding the item may attempt a Reflex save to drop it and take no damage, otherwise the hot metal deals 1d4 points of fire damage per caster level (maximum 5d4)."
+    "enGB": "This spell causes the target's weapon to instantly become red hot. The target may attempt a Reflex save to drop it and take no damage, otherwise the hot metal deals 1d4 points of fire damage per caster level (maximum 5d4). If the target successfully drops it they are disarmed for 1 round per caster level (maximum 5)"
   },
 
   {
