@@ -128,6 +128,7 @@ namespace CharacterOptionsPlus.Spells
       AssetTool.RegisterDynamicPrefabLink(AreaEffectFx, AreaEffectFxSource, ModifyFx);
       var area = AbilityAreaEffectConfigurator.New(AreaEffect, Guids.DesecrateAoE)
         .CopyFrom(AbilityAreaEffectRefs.GreaseArea)
+        .SetSize(20.Feet())
         .SetFx(AreaEffectFx)
         .AddSpellDescriptorComponent(SpellDescriptor.Evil)
         .AddAbilityAreaEffectBuff(buff: buff)
