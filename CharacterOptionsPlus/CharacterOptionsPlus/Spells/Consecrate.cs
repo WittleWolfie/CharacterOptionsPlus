@@ -144,7 +144,8 @@ namespace CharacterOptionsPlus.Spells
         .AddToSpellLists(
           level: 2,
           SpellList.Cleric,
-          SpellList.Inquisitor)
+          SpellList.Inquisitor,
+          SpellList.Angel)
         .AddAbilityAoERadius(radius: 20.Feet())
         .AddAbilityEffectRunAction(
           ActionsBuilder.New()
