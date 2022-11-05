@@ -6,7 +6,7 @@
   },
   {
     "Key": "Consecrate.Description",
-    "enGB": "The DC to resist positive channeled energy within this area gains a +3 sacred bonus. Every undead creature entering a consecrated area suffers a -1 penalty on all attack rolls, damage rolls, and saving throws.\n\nUndead cannot be summoned while within this area.\n\nConsecrate dispels Desecrate."
+    "enGB": "The DC to resist positive channeled energy within this area gains a +3 sacred bonus. Every undead creature entering a consecrated area suffers a -1 penalty on all attack rolls, damage rolls, and saving throws.\n\nUndead cannot be summoned while within this area."
   },
 
   {
@@ -16,7 +16,7 @@
   },
   {
     "Key": "Desecrate.Description",
-    "enGB": "The DC to resist negative channeled energy within this area gains a +3 profane bonus. Every undead creature entering a desecrated area gains a +1 profane bonus on all attack rolls, damage rolls, and saving throws. Undead summons within such an area gain +1 hit point per HD.\n\nAnyone who casts Animate Dead within this area creates twice as many undead.\n\nDesecrate dispels Consecrate."
+    "enGB": "The DC to resist negative channeled energy within this area gains a +3 profane bonus. Every undead creature entering a desecrated area gains a +1 profane bonus on all attack rolls, damage rolls, and saving throws. Undead summons within such an area gain +1 hit point per HD.\n\nAnyone who casts Animate Dead within this area creates twice as many undead."
   },
 
   {
