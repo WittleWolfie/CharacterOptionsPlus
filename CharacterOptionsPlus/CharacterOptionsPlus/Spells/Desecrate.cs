@@ -129,12 +129,12 @@ namespace CharacterOptionsPlus.Spells
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Point)
         .SetAvailableMetamagic(
-          Metamagic.Quicken,
+          Metamagic.CompletelyNormal,
           Metamagic.Extend,
           Metamagic.Heighten,
-          Metamagic.Reach,
-          Metamagic.CompletelyNormal,
           Metamagic.Persistent,
+          Metamagic.Quicken,
+          Metamagic.Reach,
           Metamagic.Selective)
         .AddToSpellLists(
           level: 2,
