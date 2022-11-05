@@ -117,8 +117,10 @@ namespace CharacterOptionsPlus.Spells
           spellDescriptor: SpellDescriptor.ChannelNegativeHarm,
           modifierDescriptor: ModifierDescriptor.Profane,
           value: -3)
-        .AddAttackBonusConditional(conditions: isUndead, bonus: 1, descriptor: ModifierDescriptor.Profane)
-        .AddDamageBonusConditional(conditions: isUndead, bonus: 1, descriptor: ModifierDescriptor.Profane)
+        .AddAttackBonusConditional(
+          conditions: isUndead, bonus: 1, descriptor: ModifierDescriptor.Profane, checkWielder: true)
+        .AddDamageBonusConditional(
+          conditions: isUndead, bonus: 1, descriptor: ModifierDescriptor.Profane, checkWielder: true)
         .AddComponent<DesecrateComponent>()
         .Configure();
 
