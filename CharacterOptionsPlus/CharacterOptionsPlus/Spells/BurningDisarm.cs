@@ -240,21 +240,26 @@ namespace CharacterOptionsPlus.Spells
           switch (casterType)
           {
             case CasterType.None:
-              if (healthLevel == HealthLevel.Critical)
+              switch (healthLevel)
               {
-                Logger.NativeLog($"{target.CharacterName}'s health is critical, they want to drop their weapon");
-                return true;
+                case HealthLevel.Critical:
+                  Logger.NativeLog($"{target.CharacterName}'s health is {healthLevel}, they want to drop their weapon");
+                  return true;
+                default:
+                  Logger.NativeLog($"{target.CharacterName} can take the hit and needs their weapon");
+                  return false;
               }
-              Logger.NativeLog($"{target.CharacterName} can take the hit and needs their weapon");
-              return false;
             case CasterType.Limited:
-              if (healthLevel == HealthLevel.Low)
+              switch (healthLevel)
               {
-                Logger.NativeLog($"{target.CharacterName}'s health is low, they want to drop their weapon");
-                return true;
+                case HealthLevel.Critical:
+                case HealthLevel.Low:
+                  Logger.NativeLog($"{target.CharacterName}'s health is {healthLevel}, they want to drop their weapon");
+                  return true;
+                default:
+                  Logger.NativeLog($"{target.CharacterName} can take the hit and needs their weapon");
+                  return false;
               }
-              Logger.NativeLog($"{target.CharacterName} can take the hit and needs their weapon");
-              return false;
             case CasterType.Full:
               Logger.NativeLog($"{target.CharacterName} relies on spells, they want to drop their weapon");
               return true;
@@ -292,7 +297,7 @@ namespace CharacterOptionsPlus.Spells
         if (maxSpellLevel == 0)
           return CasterType.None;
 
-        float spellLevelRatio = maxSpellLevel / characterLevel;
+        var spellLevelRatio = (float) maxSpellLevel / characterLevel;
         if (spellLevelRatio < 0.5)
           return CasterType.Limited;
 
@@ -302,9 +307,9 @@ namespace CharacterOptionsPlus.Spells
       private static HealthLevel GetHealthLevel(UnitEntityData unit, int casterLevel)
       {
         var hp = unit.Stats.HitPoints.ModifiedValue - unit.Damage;
-        if (hp < casterLevel * 4)
+        if (hp < casterLevel * 2)
           return HealthLevel.Critical;
-        if (hp < casterLevel * 8)
+        if (hp < casterLevel * 4)
           return HealthLevel.Low;
         return HealthLevel.Moderate;
       }
