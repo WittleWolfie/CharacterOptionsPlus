@@ -82,6 +82,7 @@ namespace CharacterOptionsPlus
             "CharacterOptionsPlus.Strings.Archetypes.json",
             "CharacterOptionsPlus.Strings.BugFixes.json",
             "CharacterOptionsPlus.Strings.ClassFeatures.json",
+            "CharacterOptionsPlus.Strings.Components.json",
             "CharacterOptionsPlus.Strings.Feats.json",
             "CharacterOptionsPlus.Strings.Settings.json",
             "CharacterOptionsPlus.Strings.Spells.json");
@@ -140,6 +141,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log("Configuring spells.");
 
+        BurningDisarm.Configure();
         Consecrate.Configure();
         Desecrate.Configure();
         IceSlick.Configure();
