@@ -115,6 +115,7 @@ namespace CharacterOptionsPlus
         Logger.Log("Configuring class features.");
 
         IceTomb.Configure();
+        SlowingStrike.Configure();
       }
 
       private static void ConfigureFeats()

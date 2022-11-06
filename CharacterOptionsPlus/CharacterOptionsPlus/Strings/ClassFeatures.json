@@ -1,5 +1,15 @@
 [
   {
+    "Key": "SlowingStrike.Name",
+    "ProcessTemplates": false,
+    "enGB": "Slowing Strike"
+  },
+  {
+    "Key": "SlowingStrike.Description",
+    "enGB": "An opponent damaged by the slayer's sneak attack has its speed halved for 1d4 rounds. A successful Fortitude saving throw negates this effect (DC = 10 + 1/2 of the slayer’s level + the slayer''s Intelligence modifier). If the slayer targets a creature already affected by this ability the duration of the effect is extended by 1d4 rounds."
+  },
+
+  {
     "Key": "IceTomb.Name",
     "ProcessTemplates": false,
     "enGB": "Ice Tomb",

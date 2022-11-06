@@ -46,10 +46,17 @@ namespace CharacterOptionsPlus.Util
     internal const string IceTombBuff = "66e31ecf-ced9-4527-b985-52ec33e64c12";
     internal const string IceTombCooldown = "00a72a90-dd68-4981-9d99-d0780b4c5a20";
 
+    internal const string SlowingStrikeTalent = "1fda2ef4-8e4f-4698-bca0-6af85d5e5307";
+    internal const string SlowingStrikeBuff = "00650b0e-e4e4-478c-a03b-63d03d53a0ad";
+
+    // unused
+    internal const string SlowingStrikeAbility = "575dff1b-36a9-4d67-8a93-7e7c70ec6d16";
+
     internal static readonly (string guid, string displayName)[] ClassFeatures =
       new (string, string)[]
       {
         (IceTombHex, IceTomb.DisplayName),
+        (SlowingStrikeTalent, SlowingStrike.DisplayName),
       };
     #endregion
 
