@@ -102,10 +102,12 @@ namespace CharacterOptionsPlus.Spells
             .Conditional(
               conditions: ConditionsBuilder.New().Add<WantsToDropWeapon>(),
               ifTrue: ActionsBuilder.New()
-                .SavingThrow(SavingThrowType.Reflex)
-                .ConditionalSaved(
-                  succeed: ActionsBuilder.New().Add<Disarm>(),
-                  failed: dealDamage),
+                .SavingThrow(
+                  SavingThrowType.Reflex,
+                  onResult: ActionsBuilder.New()
+                    .ConditionalSaved(
+                      succeed: ActionsBuilder.New().Add<Disarm>(),
+                      failed: dealDamage)),
               ifFalse: dealDamage))
         .AddComponent<AbilityTargetHasWeaponEquipped>()
         .Configure();
@@ -137,7 +139,7 @@ namespace CharacterOptionsPlus.Spells
             return;
           }
 
-          var disarmDuration = Math.Max(abilityParams.CasterLevel, 5).Rounds();
+          var disarmDuration = Math.Min(abilityParams.CasterLevel, 5).Rounds();
 
           var mainHand = target.Body.PrimaryHand.MaybeWeapon;
           if (mainHand is not null && !mainHand.Blueprint.IsUnarmed && !mainHand.Blueprint.IsNatural)
