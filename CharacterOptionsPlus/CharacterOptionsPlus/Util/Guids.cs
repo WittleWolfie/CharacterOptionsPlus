@@ -306,6 +306,7 @@ namespace CharacterOptionsPlus.Util
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]
       {
+        (BurningDisarmSpell, BurningDisarm.DisplayName),
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),

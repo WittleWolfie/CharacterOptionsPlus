@@ -1,12 +1,23 @@
-﻿using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Blueprints.Root;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
+using Kingmaker.Enums.Damage;
+using Kingmaker.RuleSystem;
+using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Conditions;
+using Kingmaker.Utility;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
@@ -53,6 +64,10 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var dealDamage = ActionsBuilder.New()
+        .DealDamage(
+          damageType: DamageTypes.Energy(DamageEnergyType.Fire),
+          value: ContextDice.Value(DiceType.D4, diceCount: ContextValues.Rank()));
       AbilityConfigurator.NewSpell(
           FeatureName, Guids.BurningDisarmSpell, SpellSchool.Transmutation, canSpecialize: true, SpellDescriptor.Fire)
         .SetDisplayName(DisplayName)
@@ -81,7 +96,72 @@ namespace CharacterOptionsPlus.Spells
           (Metamagic)CustomMetamagic.Intensified,
           (Metamagic)CustomMetamagic.Piercing)
         .AddToSpellLists(level: 1, SpellList.Cleric, SpellList.Druid, SpellList.Wizard)
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel())
+        .AddAbilityEffectRunAction(
+          actions: ActionsBuilder.New()
+            .Conditional(
+              conditions: ConditionsBuilder.New().Add<WantsToDropWeapon>(),
+              ifTrue: ActionsBuilder.New()
+                .SavingThrow(SavingThrowType.Reflex)
+                .ConditionalSaved(
+                  succeed: ActionsBuilder.New().Add<Disarm>(),
+                  failed: dealDamage),
+              ifFalse: dealDamage))
+        .AddComponent<AbilityTargetHasWeaponEquipped>()
         .Configure();
+    }
+
+    [TypeId("4671134d-cc49-4d75-9e02-b6dd149b4b85")]
+    private class Disarm : ContextAction
+    {
+      public override string GetCaption()
+      {
+        return "Disarms the target for round per level (max 5)";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          var target = Target?.Unit;
+          if (target is null)
+          {
+            Logger.Warning("No target");
+            return;
+          }
+
+          var abilityParams = Context.Params;
+          if (abilityParams is null)
+          {
+            Logger.Warning("No ability parameters");
+            return;
+          }
+
+          var disarmDuration = Math.Max(abilityParams.CasterLevel, 5).Rounds();
+
+          var mainHand = target.Body.PrimaryHand.MaybeWeapon;
+          if (mainHand is not null && !mainHand.Blueprint.IsUnarmed && !mainHand.Blueprint.IsNatural)
+          {
+            Logger.NativeLog($"Disarming {target.CharacterName}'s main hand weapon");
+            target.Descriptor.AddBuff(
+              BlueprintRoot.Instance.SystemMechanics.DisarmMainHandBuff, Context, disarmDuration.Seconds);
+            return;
+          }
+
+          var offHand = target.Body.SecondaryHand.MaybeWeapon;
+          if (offHand is not null && !offHand.Blueprint.IsUnarmed && !offHand.Blueprint.IsNatural)
+          {
+            Logger.NativeLog($"Disarming {target.CharacterName}'s off hand weapon");
+            target.Descriptor.AddBuff(
+              BlueprintRoot.Instance.SystemMechanics.DisarmOffHandBuff, Context, disarmDuration.Seconds);
+            return;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Disarm.RunAction", e);
+        }
+      }
     }
 
     [TypeId("01c302b4-0642-4947-b0e2-5b309f9899cd")]
