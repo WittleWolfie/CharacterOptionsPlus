@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2277779097
+CRC: 587445706
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 308f241d458d756d7d20b442ec73fe29
+    Hash: 02ea3b473436846b232631efed6a1985
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -30,6 +30,7 @@ Assets:
 - Assets/Icons/SignatureKnowledge.png
 - Assets/Icons/BaseMobility.png
 - Assets/Illustrations/wolfie.png
+- Assets/Icons/BurningDisarm.png
 - Assets/Icons/SignatureMobility.png
 - Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/GloriousHeat.png

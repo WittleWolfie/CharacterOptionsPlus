@@ -34,7 +34,7 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "BurningDisarm.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png"; // TODO
+    private const string IconName = IconPrefix + "burningdisarm.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
