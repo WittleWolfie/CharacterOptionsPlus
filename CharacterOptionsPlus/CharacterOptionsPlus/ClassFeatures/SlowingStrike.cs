@@ -25,9 +25,6 @@ namespace CharacterOptionsPlus.ClassFeatures
 
     private const string BuffName = "SlowingStrike.Buff";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png"; // TODO:
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -57,17 +54,18 @@ namespace CharacterOptionsPlus.ClassFeatures
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var icon = FeatureRefs.TiringCriticalFeature.Reference.Get().Icon;
       var buff = BuffConfigurator.New(BuffName, Guids.SlowingStrikeBuff)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icon)
         .AddCondition(condition: UnitCondition.Slowed)
         .Configure();
 
       FeatureConfigurator.New(FeatureName, Guids.SlowingStrikeTalent, FeatureGroup.SlayerTalent)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
         .AddRecalculateOnStatChange(stat: StatType.Intelligence)
