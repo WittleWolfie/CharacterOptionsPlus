@@ -28,6 +28,10 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Archetypes
     * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
 * Class Features
+    * Rogue
+        * [Shadow Duplicate](https://www.d20pfsrd.com/classes/core-classes/rogue/rogue-talents/paizo-rogue-talents/shadow-duplicate-sp/)
+    * Slayer
+        * [Slowing Strike](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/slowing-strike/)
     * Witch
         * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
 * Feats
@@ -43,6 +47,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
         * Grants skill unlocks for all skills except Use Magic Device and Thievery
         * Automatically granted to rogue at level 5 / 10 / 15 / 20 per TT rules for unchained rogue
 * Spells
+    * [Burning Disarm](https://www.d20pfsrd.com/magic/all-spells/b/burning-disarm/)
+    * [Consecrate](https://www.d20pfsrd.com/magic/all-spells/c/consecrate/)
+    * [Desecrate](https://www.d20pfsrd.com/magic/all-spells/d/desecrate/)
     * [Ice Slick](https://www.d20pfsrd.com/magic/all-spells/i/ice-slick/)
 
 ## Bug Fixes
@@ -56,21 +63,16 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 ### NOT IMPLEMENTED YET (YOU KNOW, PLANNED)
 
 * Class Features
-    * Rogue
-        * [Shadow Duplicate](https://www.d20pfsrd.com/classes/core-classes/rogue/rogue-talents/paizo-rogue-talents/shadow-duplicate-sp/)
     * Slayer
         * [Evasion](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/rogue-adv-talents-master-tricks/)
-        * [Slowing Strike](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/slowing-strike/)
 
 * Feats
     * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
 
 * Spells
-    * [Burning Disarm](https://www.d20pfsrd.com/magic/all-spells/b/burning-disarm/)
     * [Cone of Cold](https://www.d20pfsrd.com/magic/all-spells/c/cone-of-cold/)
         * Replace Icy Prison in Winter Patron bonus spells
     * [Deadly Juggernaut](https://www.d20pfsrd.com/magic/all-spells/d/deadly-juggernaut/)  (Maybe, already in another mod)
-    * [Desecrate](https://www.d20pfsrd.com/magic/all-spells/d/desecrate/)
     * [Dimensional Blade](https://www.d20pfsrd.com/magic/all-spells/d/dimensional-blade/)
     * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
     * [Freezing Sphere](https://www.d20pfsrd.com/magic/all-spells/f/freezing-sphere/)
