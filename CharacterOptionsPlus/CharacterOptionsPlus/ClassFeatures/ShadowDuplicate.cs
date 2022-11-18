@@ -1,6 +1,9 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Utils.Types;
@@ -9,7 +12,12 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Mechanics;
 using System;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.ClassFeatures
@@ -22,6 +30,8 @@ namespace CharacterOptionsPlus.ClassFeatures
     private const string Description = "ShadowDuplicate.Description";
 
     private const string AbilityName = "ShadowDuplicate.Ability";
+    private const string BuffName = "ShadowDuplicate.Buff";
+    private const string HiddenBuffName = "ShadowDuplicate.Buff.Hidden";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -44,6 +54,8 @@ namespace CharacterOptionsPlus.ClassFeatures
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      BuffConfigurator.New(BuffName, Guids.ShadowDuplicateBuff).Configure();
+      BuffConfigurator.New(HiddenBuffName, Guids.ShadowDuplicateHiddenBuff).Configure();
       ActivatableAbilityConfigurator.New(AbilityName, Guids.ShadowDuplicateAbility).Configure();
       FeatureConfigurator.New(FeatureName, Guids.ShadowDuplicateTalent).Configure();
     }
@@ -53,14 +65,34 @@ namespace CharacterOptionsPlus.ClassFeatures
       Logger.Log($"Configuring {FeatureName}");
 
       var icon = BuffRefs.MirrorImageBuff.Reference.Get().Icon;
+      var buff = BuffConfigurator.New(BuffName, Guids.ShadowDuplicateBuff)
+        .CopyFrom(BuffRefs.MirrorImageBuff)
+        .SetDisplayName(DisplayName)
+        .AddMirrorImage(count: ContextDice.Value(DiceType.One))
+        .Configure();
+
+      var hiddenBuff = BuffConfigurator.New(HiddenBuffName, Guids.ShadowDuplicateHiddenBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddNotDispelable()
+        .AddMirrorImage(count: ContextDice.Value(DiceType.One))
+        .AddTargetAttackRollTrigger(
+          actionOnSelf:
+            ActionsBuilder.New()
+              .RemoveSelf()
+              .ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank()), asChild: false),
+          onlyHit: true)
+        .AddContextRankConfig(
+          ContextRankConfigs.ClassLevel(classes: new[] { CharacterClassRefs.RogueClass.ToString() }))
+        .Configure();
+
       ActivatableAbilityConfigurator.New(AbilityName, Guids.ShadowDuplicateAbility)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
+        .SetBuff(hiddenBuff)
         .Configure();
 
-      FeatureConfigurator.New(
-          FeatureName, Guids.ShadowDuplicateTalent, FeatureGroup.SlayerTalent, FeatureGroup.RogueTalent)
+      FeatureConfigurator.New(FeatureName, Guids.ShadowDuplicateTalent, FeatureGroup.RogueTalent)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
