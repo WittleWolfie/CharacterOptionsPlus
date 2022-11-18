@@ -17,7 +17,6 @@ using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Parts;
 using System;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
@@ -31,17 +30,11 @@ namespace CharacterOptionsPlus.ClassFeatures
 
     internal const string DisplayName = "ShadowDuplicate.Name";
     private const string Description = "ShadowDuplicate.Description";
-    private const string SlayerDescription = "ShadowDuplicate.Description.Slayer";
 
     private const string AbilityName = "ShadowDuplicate.Ability";
     private const string ResourceName = "ShadowDuplicate.Resource";
     private const string BuffName = "ShadowDuplicate.Buff";
     private const string HiddenBuffName = "ShadowDuplicate.Buff.Hidden";
-
-    private const string SlayerFeatureName = "ShadowDuplicate.Slayer";
-    private const string SlayerResourceName = "ShadowDuplicate.Resource.Slayer";
-    private const string SlayerAbilityName = "ShadowDuplicate.Ability.Slayer";
-    private const string SlayerHiddenBuffName = "ShadowDuplicate.Buff.Hidden.Slayer";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -65,14 +58,9 @@ namespace CharacterOptionsPlus.ClassFeatures
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
       BuffConfigurator.New(BuffName, Guids.ShadowDuplicateBuff).Configure();
-
       BuffConfigurator.New(HiddenBuffName, Guids.ShadowDuplicateHiddenBuff).Configure();
       ActivatableAbilityConfigurator.New(AbilityName, Guids.ShadowDuplicateAbility).Configure();
       FeatureConfigurator.New(FeatureName, Guids.ShadowDuplicateTalent).Configure();
-
-      BuffConfigurator.New(SlayerHiddenBuffName, Guids.ShadowDuplicateHiddenBuffSlayer).Configure();
-      ActivatableAbilityConfigurator.New(SlayerAbilityName, Guids.ShadowDuplicateAbilitySlayer).Configure();
-      FeatureConfigurator.New(SlayerFeatureName, Guids.ShadowDuplicateTalentSlayer).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -93,7 +81,9 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetIcon(icon)
         .SetMaxAmount(
           ResourceAmountBuilder.New(1)
-            .IncreaseByLevelStartPlusDivStep(classes: new[] { rogue }, levelsPerStep: 5, bonusPerStep: 1))
+            .IncreaseByLevelStartPlusDivStep(otherClassLevelsMultiplier: 1, levelsPerStep: 5, bonusPerStep: 1))
+        .SetUseMax()
+        .SetMax(4)
         .Configure();
 
       var hiddenBuff = BuffConfigurator.New(HiddenBuffName, Guids.ShadowDuplicateHiddenBuff)
@@ -107,7 +97,7 @@ namespace CharacterOptionsPlus.ClassFeatures
               .RemoveSelf()
               .ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank()), asChild: false))
         .AddContextCalculateAbilityParams(replaceCasterLevel: true, casterLevel: ContextValues.Rank())
-        .AddContextRankConfig(ContextRankConfigs.ClassLevel(classes: new[] { rogue }))
+        .AddContextRankConfig(ContextRankConfigs.CharacterLevel(max: 20))
         .Configure();
 
       var ability = ActivatableAbilityConfigurator.New(AbilityName, Guids.ShadowDuplicateAbility)
@@ -118,42 +108,14 @@ namespace CharacterOptionsPlus.ClassFeatures
         .AddActivatableAbilityResourceLogic(requiredResource: resource, spendType: ResourceSpendType.Never) // Spend logic is custom
         .Configure();
 
-      var feature = FeatureConfigurator.New(FeatureName, Guids.ShadowDuplicateTalent, FeatureGroup.RogueTalent)
+      FeatureConfigurator.New(
+          FeatureName, Guids.ShadowDuplicateTalent, FeatureGroup.RogueTalent, FeatureGroup.SlayerTalent)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
         .SetIsClassFeature()
         .AddFacts(new() { ability })
         .AddAbilityResources(resource: resource, restoreAmount: true)
-        .Configure(delayed: true);
-
-      // Slayer needs a separate copy for the context rank config
-      var slayerResource = AbilityResourceConfigurator.New(SlayerResourceName, Guids.ShadowDuplicateResourceSlayer)
-        .SetIcon(icon)
-        .SetMaxAmount(
-          ResourceAmountBuilder.New(1)
-            .IncreaseByLevelStartPlusDivStep(classes: new[] { slayer }, levelsPerStep: 5, bonusPerStep: 1))
-        .Configure();
-
-      var slayerBuff = BuffConfigurator.New(SlayerHiddenBuffName, Guids.ShadowDuplicateHiddenBuffSlayer)
-        .CopyFrom(hiddenBuff, c => c is not ContextRankConfig && c is not ResourceLogic)
-        .AddComponent(new ResourceLogic(slayerResource))
-        .AddContextRankConfig(ContextRankConfigs.ClassLevel(classes: new[] { slayer }))
-        .Configure();
-
-      var slayerAbility = ActivatableAbilityConfigurator.New(SlayerAbilityName, Guids.ShadowDuplicateAbilitySlayer)
-        .CopyFrom(ability)
-        .SetBuff(slayerBuff)
-        .AddActivatableAbilityResourceLogic(requiredResource: slayerResource, spendType: ResourceSpendType.Never) // Spend logic is custom
-        .Configure();
-
-      FeatureConfigurator.New(SlayerFeatureName, Guids.ShadowDuplicateTalentSlayer, FeatureGroup.SlayerTalent)
-        .SetDisplayName(DisplayName)
-        .SetDescription(SlayerDescription)
-        .SetIcon(icon)
-        .SetIsClassFeature()
-        .AddFacts(new() { slayerAbility })
-        .AddAbilityResources(resource: slayerResource, restoreAmount: true)
         .Configure(delayed: true);
     }
 

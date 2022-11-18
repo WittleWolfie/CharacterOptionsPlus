@@ -50,6 +50,8 @@ namespace CharacterOptionsPlus.Util
     internal const string ShadowDuplicateAbility = "575dff1b-36a9-4d67-8a93-7e7c70ec6d16";
     internal const string ShadowDuplicateResource = "7f948006-fc71-4cfb-8ce1-e34a5f0e3d92";
     internal const string ShadowDuplicateHiddenBuff = "05ab8c51-cfa9-49bc-896a-95d8d5797ded";
+
+    // unused
     internal const string ShadowDuplicateTalentSlayer = "96f784ce-7660-40d4-9cf3-29bc289a8be5";
     internal const string ShadowDuplicateResourceSlayer = "833bfe20-0e00-435f-8cd5-10aeb46c59e0";
     internal const string ShadowDuplicateAbilitySlayer = "a1c959a9-8389-4fca-b633-6c14bc863b20";
