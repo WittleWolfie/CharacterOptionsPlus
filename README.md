@@ -97,6 +97,8 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 3. Open Settings > Mods > Mewsifer Console and select "Mod Bug Report"
     * ![Mewsifer Console Menu screenshot](https://github.com/WittleWolfie/CharacterOptionsPlus/blob/main/screenshots/bug_report.png)
 4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) and attach the generated bug report
+5. Include your save file in the bug report
+    * Saves are stored in `%UserProfile%\AppData\LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games`
 
 ### Mod Options
 
