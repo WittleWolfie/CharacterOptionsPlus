@@ -14,6 +14,7 @@ namespace CharacterOptionsPlus.Util
   internal static class Settings
   {
     private static readonly string RootKey = "cop.settings";
+    private static readonly string RootStringKey = "COP.Settings";
 
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(Settings));
 
@@ -33,20 +34,20 @@ namespace CharacterOptionsPlus.Util
     {
       Logger.Log("Initializing settings.");
       var settings =
-        SettingsBuilder.New(RootKey, GetString("Settings.Title"))
+        SettingsBuilder.New(RootKey, GetString("Title"))
           .AddImage(
             ResourcesLibrary.TryGetResource<Sprite>("assets/illustrations/wolfie.png"), height: 200, imageScale: 0.75f)
           .AddDefaultButton(OnDefaultsApplied);
 
-      settings.AddSubHeader(GetString("Settings.Homebrew.Title"), startExpanded: true)
+      settings.AddSubHeader(GetString("Homebrew.Title"), startExpanded: true)
         .AddToggle(
           Toggle.New(
             GetKey(GloriousHeat.OriginalFeatSetting),
             defaultValue: false,
-            GetString("Settings.Homebrew.GloriousHeat"))
-          .WithLongDescription(GetString("Settings.Homebrew.GloriousHeat.Description")));
+            GetString("Homebrew.GloriousHeat"))
+          .WithLongDescription(GetString("Homebrew.GloriousHeat.Description")));
 
-      settings.AddSubHeader(GetString("Settings.Fixes.Title"), startExpanded: false);
+      settings.AddSubHeader(GetString("Fixes.Title"), startExpanded: false);
       foreach (var (key, name, description) in BugFixes.Entries)
       {
         settings.AddToggle(
@@ -54,36 +55,36 @@ namespace CharacterOptionsPlus.Util
             .WithLongDescription(GetString(description)));
       }
 
-      settings.AddSubHeader(GetString("Settings.Archetypes.Title"));
+      settings.AddSubHeader(GetString("Archetypes.Title"));
       foreach (var (guid, name) in Guids.Archetypes)
       {
         settings.AddToggle(
           Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
-            .WithLongDescription(GetString("Settings.EnableFeature")));
+            .WithLongDescription(GetString("EnableFeature")));
       }
 
-      settings.AddSubHeader(GetString("Settings.ClassFeatures.Title"));
+      settings.AddSubHeader(GetString("ClassFeatures.Title"));
       foreach (var (guid, name) in Guids.ClassFeatures)
       {
         settings.AddToggle(
           Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
-            .WithLongDescription(GetString("Settings.EnableFeature")));
+            .WithLongDescription(GetString("EnableFeature")));
       }
 
-      settings.AddSubHeader(GetString("Settings.Feats.Title"));
+      settings.AddSubHeader(GetString("Feats.Title"));
       foreach (var (guid, name) in Guids.Feats)
       {
         settings.AddToggle(
           Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
-            .WithLongDescription(GetString("Settings.EnableFeature")));
+            .WithLongDescription(GetString("EnableFeature")));
       }
 
-      settings.AddSubHeader(GetString("Settings.Spells.Title"));
+      settings.AddSubHeader(GetString("Spells.Title"));
       foreach (var (guid, name) in Guids.Spells)
       {
         settings.AddToggle(
           Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
-            .WithLongDescription(GetString("Settings.EnableFeature")));
+            .WithLongDescription(GetString("EnableFeature")));
       }
 
       Menu.AddSettings(settings);
@@ -96,7 +97,7 @@ namespace CharacterOptionsPlus.Util
 
     private static LocalizedString GetString(string key)
     {
-      return LocalizationTool.GetString(key);
+      return LocalizationTool.GetString($"{RootStringKey}.{key}");
     }
 
     private static string GetKey(string partialKey)
