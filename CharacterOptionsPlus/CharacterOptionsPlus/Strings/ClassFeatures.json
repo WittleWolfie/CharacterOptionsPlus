@@ -8,6 +8,10 @@
     "Key": "ShadowDuplicate.Description",
     "enGB": "Once per day as a swift action when the rogue is hit, the rogue creates a single shadow duplicate, as per mirror image. The shadow duplicate lasts for a number of rounds equal to the rogue’s level, or until the shadow duplicate is dispelled or destroyed. This ability does not stack with the mirror image spell. The caster level for this ability is equal to the rogue’s level. A rogue can use this ability one additional time per day for every 5 rogue levels she has."
   },
+  {
+    "Key": "ShadowDuplicate.Description.Slayer",
+    "enGB": "Once per day as a swift action when the slayer is hit, the slayer creates a single shadow duplicate, as per mirror image. The shadow duplicate lasts for a number of rounds equal to the slayer’s level, or until the shadow duplicate is dispelled or destroyed. This ability does not stack with the mirror image spell. The caster level for this ability is equal to the slayer’s level. A slayer can use this ability one additional time per day for every 5 rogue levels she has."
+  },
 
   {
     "Key": "SlowingStrike.Name",

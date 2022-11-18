@@ -169,6 +169,8 @@
 
       <Entry Include="CharacterOptionsPlus.Archetypes.ArrowsongMinstrel/UnitPartMagus_Patch" />
 
+      <Entry Include="CharacterOptionsPlus.ClassFeatures.ShadowDuplicate/UnitPartMirrorImage_Patch" />
+
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartEscapeArtist/Buff_Patch" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/CharGenSpellsPhaseVM_Patch" />
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/LevelUpState_Patch" />
