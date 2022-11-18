@@ -51,15 +51,15 @@ namespace CharacterOptionsPlus.Util
       foreach (var (key, name, description) in BugFixes.Entries)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(key), defaultValue: true, GetString(name))
-            .WithLongDescription(GetString(description)));
+          Toggle.New(GetKey(key), defaultValue: true, GetString(name, usePrefix: false))
+            .WithLongDescription(GetString(description, usePrefix: false)));
       }
 
       settings.AddSubHeader(GetString("Archetypes.Title"));
       foreach (var (guid, name) in Guids.Archetypes)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -67,7 +67,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.ClassFeatures)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -75,7 +75,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.Feats)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -83,7 +83,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.Spells)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name))
+          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -95,9 +95,10 @@ namespace CharacterOptionsPlus.Util
       Logger.Log($"Default settings restored.");
     }
 
-    private static LocalizedString GetString(string key)
+    private static LocalizedString GetString(string key, bool usePrefix = true)
     {
-      return LocalizationTool.GetString($"{RootStringKey}.{key}");
+      var fullKey = usePrefix ? $"{RootStringKey}.{key}" : key;
+      return LocalizationTool.GetString(fullKey);
     }
 
     private static string GetKey(string partialKey)
