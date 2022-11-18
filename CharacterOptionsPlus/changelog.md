@@ -2,11 +2,22 @@
 
 * New Spells:
     * Consecrate / Desecrate
+    * Burning Disarm
+        * Characters automatically determine whether they want to drop their weapon based on int, wis, health, and their preference for martial combat vs. spells
+
+* New Class Features:
+    * Slowing Strike (Rogue Talent)
+    * Shadow Duplicate (Rogue Talent)
 
 * Updates:
-    * Russian localization for most content
+    * Russian localization for most content courtesy of Kurufinve
         * If you spot errors or want to help localize text, reach out to me
     * Ice Slick has a reasonable icon now...
+    * Multiple icons updated courtesy of Cyrix
+        * Furious Focus
+        * Break Free
+        * Burning Disarm
+        * Glorious Heat
 
 ## v0.6.0
 
