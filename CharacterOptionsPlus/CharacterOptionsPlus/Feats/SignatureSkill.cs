@@ -1473,7 +1473,6 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          // TODO: Replace w/ equivalent to CowerBuff
           _panicked ??= BuffRefs.EyebitePanickedBuff.Reference.Get();
           return _panicked;
         }
