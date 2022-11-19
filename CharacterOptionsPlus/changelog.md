@@ -1,3 +1,8 @@
+## v0.7.1
+
+* Updates:
+    * Burning Disarm now has max damage dice
+
 ## v0.7.0
 
 * New Spells:
