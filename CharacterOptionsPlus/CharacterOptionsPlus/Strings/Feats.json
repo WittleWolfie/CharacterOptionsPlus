@@ -18,6 +18,25 @@
     "Key": "DFT.Asmodeus.Description",
     "enGB": "Whenever you threaten a critical hit with a light mace or heavy mace on a foe, that foe becomes sickened for 1 round. If you confirm the critical hit, the sickened effect lasts for 2 rounds.\n\nAdvanced Prerequisites: Int 13; Combat Expertise; Improved Dirty Trick; BAB +10\n\nAdvanced Effect: You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed."
   },
+  {
+    "Key": "DFT.Asmodeus.Blind",
+    "ProcessTemplates": false,
+    "enGB": "Asmodeus's Mandate (Blind)"
+  },
+  {
+    "Key": "DFT.Asmodeus.Entangle",
+    "ProcessTemplates": false,
+    "enGB": "Asmodeus's Mandate (Entangle)"
+  },
+  {
+    "Key": "DFT.Asmodeus.Sicken",
+    "ProcessTemplates": false,
+    "enGB": "Asmodeus's Mandate (Sicken)"
+  },
+  {
+    "Key": "DFT.Asmodeus.Advanced.Description",
+    "enGB": "You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed."
+  },
 
   {
     "Key": "DraconicHeritage.Name",

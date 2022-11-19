@@ -1,8 +1,12 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
+using BlueprintCore.Utils.Assets;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -21,6 +25,7 @@ using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
+using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -31,9 +36,6 @@ namespace CharacterOptionsPlus.Feats
     internal const string FeatName = "DivineFightingTechnique";
     internal const string FeatDisplayName = "DivineFightingTechnique.Name";
     private const string FeatDescription = "DivineFightingTechnique.Description";
-
-    internal const string BuffName = "DivineFightingTechnique.Buff";
-    private const string BuffDescription = "DivineFightingTechnique.Buff.Description";
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "consecrate.png";
@@ -62,6 +64,12 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.New(FeatName, Guids.DivineFightingTechniqueFeat).Configure();
 
       FeatureConfigurator.New(AsmodeusName, Guids.AsmodeusTechnique).Configure();
+      BuffConfigurator.New(AsmodeusBlindBuff, Guids.AsmodeusBlindBuff).Configure();
+      ActivatableAbilityConfigurator.New(AsmodeusBlind, Guids.AsmodeusBlind).Configure();
+      BuffConfigurator.New(AsmodeusEntangleBuff, Guids.AsmodeusEntangleBuff).Configure();
+      ActivatableAbilityConfigurator.New(AsmodeusEntangle, Guids.AsmodeusEntangle).Configure();
+      BuffConfigurator.New(AsmodeusSickenBuff, Guids.AsmodeusSickenBuff).Configure();
+      ActivatableAbilityConfigurator.New(AsmodeusSicken, Guids.AsmodeusSicken).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -87,16 +95,86 @@ namespace CharacterOptionsPlus.Feats
     private const string AsmodeusDisplayName = "DFT.Asmodeus.Name";
     private const string AsmodeusDescription = "DFT.Asmodeus.Description";
 
-    // TODO: Add advanced implementation once Vek fixes https://github.com/Vek17/TabletopTweaks-Core/issues/16
+    private const string AsmodeusAdvanced = "DFT.Asmodeus.Advanced";
+    private const string AsmodeusAdvancedDescription = "DFT.Asmodeus.Advanced.Description";
+    private const string AsmodeusBlind = "DFT.Asmodeus.Blind";
+    private const string AsmodeusBlindBuff = "DFT.Asmodeus.Blind.Buff";
+    private const string AsmodeusEntangle = "DFT.Asmodeus.Entangle";
+    private const string AsmodeusEntangleBuff = "DFT.Asmodeus.Entangle.Buff";
+    private const string AsmodeusSicken = "DFT.Asmodeus.Sicken";
+    private const string AsmodeusSickenBuff = "DFT.Asmodeus.Sicken.Buff";
+
     private static BlueprintFeature ConfigureAsmodeus()
     {
+      // TODO: Add variant implementation once Vek fixes https://github.com/Vek17/TabletopTweaks-Core/issues/16
+      var blind =
+        CreateAdvancedToggle(
+          BuffRefs.BlindnessBuff.Reference.Get().Icon,
+          AsmodeusBlind,
+          Guids.AsmodeusBlind,
+          AsmodeusBlindBuff,
+          Guids.AsmodeusBlindBuff,
+          CombatManeuver.DirtyTrickBlind);
+      var entangle =
+        CreateAdvancedToggle(
+          BuffRefs.EntangledBuff.Reference.Get().Icon,
+          AsmodeusEntangle,
+          Guids.AsmodeusEntangle,
+          AsmodeusEntangleBuff,
+          Guids.AsmodeusEntangleBuff,
+          CombatManeuver.DirtyTrickEntangle);
+      var sicken =
+        CreateAdvancedToggle(
+          BuffRefs.Sickened.Reference.Get().Icon,
+          AsmodeusSicken,
+          Guids.AsmodeusSicken,
+          AsmodeusSickenBuff,
+          Guids.AsmodeusSickenBuff,
+          CombatManeuver.DirtyTrickSickened);
+
+      // TODO: Make I / II icons
+      FeatureConfigurator.New(AsmodeusAdvanced, Guids.AsmodeusAdvancedTechnique)
+        .SetDisplayName(AsmodeusDisplayName)
+        .SetDescription(AsmodeusDescription)
+        .SetIcon(FeatureRefs.AsmodeusFeature.Reference.Get().Icon)
+        .SetIsClassFeature()
+        .AddFacts(new() { blind, entangle, sicken })
+        .Configure();
+
       return FeatureConfigurator.New(AsmodeusName, Guids.AsmodeusTechnique)
         .SetDisplayName(AsmodeusDisplayName)
         .SetDescription(AsmodeusDescription)
         .SetIcon(FeatureRefs.AsmodeusFeature.Reference.Get().Icon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Critical)
         .AddComponent<AsmodeusCritical>()
+        .AddComponent<AsmodeusAdvancedTechnique>()
         .AddPrerequisiteAlignment(AlignmentMaskType.LawfulEvil)
+        .Configure();
+    }
+
+    private static BlueprintActivatableAbility CreateAdvancedToggle(
+      Asset<Sprite> icon,
+      string abilityName,
+      string abilityGuid,
+      string buffName,
+      string buffGuid,
+      CombatManeuver type)
+    {
+      var buff = BuffConfigurator.New(buffName, buffGuid)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddComponent(new AsmodeusTrick(ActionsBuilder.New().CombatManeuver(onSuccess: ActionsBuilder.New(), type)))
+        .Configure();
+
+      return ActivatableAbilityConfigurator.New(abilityName, abilityGuid)
+        .SetDisplayName(abilityName)
+        .SetDescription(AsmodeusAdvancedDescription)
+        .SetIcon(icon)
+        .SetBuff(buff)
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.Immediately)
+        .SetActivateWithUnitCommand(CommandType.Free)
         .Configure();
     }
 
@@ -104,12 +182,12 @@ namespace CharacterOptionsPlus.Feats
     private class AsmodeusAdvancedTechnique :
       UnitFactComponentDelegate<AsmodeusAdvancedTechnique.ComponentData>, IOwnerGainLevelHandler
     {
-      private static BlueprintActivatableAbility _advancedTechnique;
-      private static BlueprintActivatableAbility AdvancedTechnique
+      private static BlueprintFeature _advancedTechnique;
+      private static BlueprintFeature AdvancedTechnique
       {
         get
         {
-          _advancedTechnique ??= BlueprintTool.Get<BlueprintActivatableAbility>(Guids.AsmodeusAdvancedTechnique);
+          _advancedTechnique ??= BlueprintTool.Get<BlueprintFeature>(Guids.AsmodeusAdvancedTechnique);
           return _advancedTechnique;
         }
       }
