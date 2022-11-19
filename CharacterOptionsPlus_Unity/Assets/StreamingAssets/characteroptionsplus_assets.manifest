@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3262757896
+CRC: 1040098278
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b25d5525eb0e7c59d6ce4f99b62c6e4f
+    Hash: 21eee04dbe6ded65c09f5e716b31929b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -17,10 +17,12 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Icons/BreakFree.png
 - Assets/Icons/SuppressParalyze.png
+- Assets/Icons/AsmodeusAdvancedTechnique.png
 - Assets/Icons/GreaterSkaldVigor.png
 - Assets/Icons/EldritchHeritage.png
 - Assets/Icons/Desecrate.png
 - Assets/Icons/SkaldVigor.png
+- Assets/Icons/AsmodeusEntangle.png
 - Assets/Icons/PairedOpportunists.png
 - Assets/Icons/ArcaneArchery.png
 - Assets/Icons/Hurtful.png
@@ -29,10 +31,13 @@ Assets:
 - Assets/Icons/IceSlick.png
 - Assets/Icons/SignatureKnowledge.png
 - Assets/Icons/BaseMobility.png
+- Assets/Icons/AsmodeusSicken.png
 - Assets/Illustrations/wolfie.png
 - Assets/Icons/BurningDisarm.png
 - Assets/Icons/SignatureMobility.png
 - Assets/Icons/EldritchHeritageGreater.png
+- Assets/Icons/AsmodeusTechnique.png
 - Assets/Icons/GloriousHeat.png
+- Assets/Icons/AsmodeusBlind.png
 - Assets/Icons/Consecrate.png
 Dependencies: []
