@@ -41,7 +41,7 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "Desecrate.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "desecrate.png"; // todo: create icon
+    private const string IconName = IconPrefix + "desecrate.png";
 
     private const string AreaEffect = "Desecrate.AoE";
     private const string BuffName = "Desecrate.Buff";
