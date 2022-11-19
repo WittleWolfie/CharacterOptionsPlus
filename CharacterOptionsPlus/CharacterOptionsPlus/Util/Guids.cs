@@ -51,13 +51,6 @@ namespace CharacterOptionsPlus.Util
     internal const string ShadowDuplicateResource = "7f948006-fc71-4cfb-8ce1-e34a5f0e3d92";
     internal const string ShadowDuplicateHiddenBuff = "05ab8c51-cfa9-49bc-896a-95d8d5797ded";
 
-    // unused
-    internal const string ShadowDuplicateTalentSlayer = "96f784ce-7660-40d4-9cf3-29bc289a8be5";
-    internal const string ShadowDuplicateResourceSlayer = "833bfe20-0e00-435f-8cd5-10aeb46c59e0";
-    internal const string ShadowDuplicateAbilitySlayer = "a1c959a9-8389-4fca-b633-6c14bc863b20";
-    internal const string ShadowDuplicateHiddenBuffSlayer = "5071f5d4-46d5-4229-9774-739fef34cf52";
-    internal const string ShadowDuplicateBuff = "41e68502-7aac-4635-a66e-d0220619c759";
-
     internal const string SlowingStrikeTalent = "1fda2ef4-8e4f-4698-bca0-6af85d5e5307";
     internal const string SlowingStrikeBuff = "00650b0e-e4e4-478c-a03b-63d03d53a0ad";
 
@@ -71,6 +64,14 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Feats
+    internal const string DivineFightingTechniqueFeat = "96f784ce-7660-40d4-9cf3-29bc289a8be5";
+    internal const string AsmodeusTechnique = "2389fcf7-c0c8-47a1-8b4c-624834afff5d";
+    internal const string AsmodeusAdvancedTechnique = "833bfe20-0e00-435f-8cd5-10aeb46c59e0";
+    // unused
+    internal const string ShadowDuplicateAbilitySlayer = "a1c959a9-8389-4fca-b633-6c14bc863b20";
+    internal const string ShadowDuplicateHiddenBuffSlayer = "5071f5d4-46d5-4229-9774-739fef34cf52";
+    internal const string ShadowDuplicateBuff = "41e68502-7aac-4635-a66e-d0220619c759";
+
     internal const string EldritchHeritageFeat = "f9d9eb8b-01d9-4799-bb27-f5ad1a7f7e31";
     internal const string ImprovedEldritchHeritageFeat = "553ed7eb-e1f2-4ba2-a3cf-1c66e7c33bcd";
     internal const string GreaterEldritchHeritageFeat = "e29ab08b-0b87-432d-a773-f0d3a39aac5a";
@@ -135,6 +136,7 @@ namespace CharacterOptionsPlus.Util
     internal static readonly (string guid, string displayName)[] Feats =
       new (string, string)[]
       {
+        (DivineFightingTechniqueFeat, DivineFightingTechnique.FeatDisplayName),
         (EldritchHeritageFeat, EldritchHeritage.FeatDisplayName),
         (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),

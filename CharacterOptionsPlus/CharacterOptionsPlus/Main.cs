@@ -123,6 +123,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log("Configuring feats.");
 
+        DivineFightingTechnique.Configure();
         EldritchHeritage.Configure();
         FuriousFocus.Configure();
         GloriousHeat.Configure();

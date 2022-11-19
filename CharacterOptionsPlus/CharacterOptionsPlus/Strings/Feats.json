@@ -1,9 +1,29 @@
 [
   {
+    "Key": "DivineFightingTechnique.Name",
+    "ProcessTemplates": false,
+    "enGB": "Divine Fighting Technique"
+  },
+  {
+    "Key": "DivineFightingTechnique.Description",
+    "enGB": "Divine fighting techniques emulate the martial supremacy and approach to combat of certain gods, but do not generally require users’ interests and goals to be aligned with the techniques’ associated deities. Although each deity’s divine fighting technique is primarily preserved and passed on by her faithful, worship is not required to learn one.\n\nEach technique has an initial benefit as well as an advanced benefit available if you meet the prerequisites."
+  },
+
+  {
+    "Key": "DFT.Asmodeus.Name",
+    "ProcessTemplates": false,
+    "enGB": "Asmodeus's Mandate"
+  },
+  {
+    "Key": "DFT.Asmodeus.Description",
+    "enGB": "Whenever you threaten a critical hit with a light mace or heavy mace on a foe, that foe becomes sickened for 1 round. If you confirm the critical hit, the sickened effect lasts for 2 rounds.\n\nAdvanced Prerequisites: Int 13; Combat Expertise; Improved Dirty Trick; BAB +10\n\nAdvanced Effect: You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",
-    "ruRu": "Родословная дракона (Любая)",
+    "ruRu": "Родословная дракона (Любая)"
   },
   {
     "Key": "DraconicHeritage.Description",
