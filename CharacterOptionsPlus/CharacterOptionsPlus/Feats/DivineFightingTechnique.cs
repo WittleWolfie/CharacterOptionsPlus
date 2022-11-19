@@ -97,6 +97,7 @@ namespace CharacterOptionsPlus.Feats
 
     private const string AsmodeusAdvanced = "DFT.Asmodeus.Advanced";
     private const string AsmodeusAdvancedDescription = "DFT.Asmodeus.Advanced.Description";
+    private const string AsmodeusAdvancedToggle = "DFT.Asmodeus.Advanced.Toggle";
     private const string AsmodeusBlind = "DFT.Asmodeus.Blind";
     private const string AsmodeusBlindBuff = "DFT.Asmodeus.Blind.Buff";
     private const string AsmodeusEntangle = "DFT.Asmodeus.Entangle";
@@ -104,12 +105,17 @@ namespace CharacterOptionsPlus.Feats
     private const string AsmodeusSicken = "DFT.Asmodeus.Sicken";
     private const string AsmodeusSickenBuff = "DFT.Asmodeus.Sicken.Buff";
 
+    private const string AsmodeusIcon = IconPrefix + "asmodeustechnique.png";
+    private const string AsmodeusAdvancedIcon = IconPrefix + "asmodeusadvancedtechnique.png";
+    private const string BlindIcon = IconPrefix + "asmodeusblind.png";
+    private const string EntangleIcon = IconPrefix + "asmodeusentangle.png";
+    private const string SickenIcon = IconPrefix + "asmodeussicken.png";
+
     private static BlueprintFeature ConfigureAsmodeus()
     {
-      // TODO: Add variant implementation once Vek fixes https://github.com/Vek17/TabletopTweaks-Core/issues/16
       var blind =
         CreateAdvancedToggle(
-          BuffRefs.BlindnessBuff.Reference.Get().Icon,
+          BlindIcon,
           AsmodeusBlind,
           Guids.AsmodeusBlind,
           AsmodeusBlindBuff,
@@ -117,7 +123,7 @@ namespace CharacterOptionsPlus.Feats
           CombatManeuver.DirtyTrickBlind);
       var entangle =
         CreateAdvancedToggle(
-          BuffRefs.EntangledBuff.Reference.Get().Icon,
+          EntangleIcon,
           AsmodeusEntangle,
           Guids.AsmodeusEntangle,
           AsmodeusEntangleBuff,
@@ -125,26 +131,36 @@ namespace CharacterOptionsPlus.Feats
           CombatManeuver.DirtyTrickEntangle);
       var sicken =
         CreateAdvancedToggle(
-          BuffRefs.Sickened.Reference.Get().Icon,
+          SickenIcon,
           AsmodeusSicken,
           Guids.AsmodeusSicken,
           AsmodeusSickenBuff,
           Guids.AsmodeusSickenBuff,
           CombatManeuver.DirtyTrickSickened);
 
-      // TODO: Make I / II icons
+      var toggle = ActivatableAbilityConfigurator.New(AsmodeusAdvancedToggle, Guids.AsmodeusAdvancedToggle)
+        .SetDisplayName(AsmodeusDisplayName)
+        .SetDescription(AsmodeusAdvancedDescription)
+        .SetIcon(AsmodeusAdvancedIcon)
+        .SetDeactivateImmediately()
+        .SetActivationType(AbilityActivationType.Immediately)
+        .SetActivateWithUnitCommand(CommandType.Free)
+        .AddActivatableAbilityVariants(variants: new() { blind, entangle, sicken })
+        .AddActivationDisable()
+        .Configure();
+
       FeatureConfigurator.New(AsmodeusAdvanced, Guids.AsmodeusAdvancedTechnique)
         .SetDisplayName(AsmodeusDisplayName)
         .SetDescription(AsmodeusDescription)
-        .SetIcon(FeatureRefs.AsmodeusFeature.Reference.Get().Icon)
+        .SetIcon(AsmodeusAdvancedIcon)
         .SetIsClassFeature()
-        .AddFacts(new() { blind, entangle, sicken })
+        .AddFacts(new() { toggle, blind, entangle, sicken })
         .Configure();
 
       return FeatureConfigurator.New(AsmodeusName, Guids.AsmodeusTechnique)
         .SetDisplayName(AsmodeusDisplayName)
         .SetDescription(AsmodeusDescription)
-        .SetIcon(FeatureRefs.AsmodeusFeature.Reference.Get().Icon)
+        .SetIcon(AsmodeusIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Critical)
@@ -154,6 +170,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
     }
 
+    private const ActivatableAbilityGroup AsmodeusGroup = (ActivatableAbilityGroup)1050;
     private static BlueprintActivatableAbility CreateAdvancedToggle(
       Asset<Sprite> icon,
       string abilityName,
@@ -175,6 +192,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.Immediately)
         .SetActivateWithUnitCommand(CommandType.Free)
+        .SetGroup(AsmodeusGroup)
         .Configure();
     }
 

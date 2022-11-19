@@ -145,6 +145,7 @@ namespace CharacterOptionsPlus.Util
     #region Divine Fighting Technique
     internal const string AsmodeusTechnique = "2389fcf7-c0c8-47a1-8b4c-624834afff5d";
     internal const string AsmodeusAdvancedTechnique = "833bfe20-0e00-435f-8cd5-10aeb46c59e0";
+    internal const string AsmodeusAdvancedToggle = "e07d5bae-7ec4-4b1b-9a7f-479ae40847fc";
     internal const string AsmodeusBlind = "a1c959a9-8389-4fca-b633-6c14bc863b20";
     internal const string AsmodeusBlindBuff = "2e3f95b1-5edb-4836-a05a-6d7a4c754e83";
     internal const string AsmodeusEntangle = "5071f5d4-46d5-4229-9774-739fef34cf52";
