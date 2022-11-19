@@ -7,6 +7,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
+using CharacterOptionsPlus.MechanicsChanges;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -170,7 +171,6 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
     }
 
-    private const ActivatableAbilityGroup AsmodeusGroup = (ActivatableAbilityGroup)1050;
     private static BlueprintActivatableAbility CreateAdvancedToggle(
       Asset<Sprite> icon,
       string abilityName,
@@ -192,7 +192,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDeactivateImmediately()
         .SetActivationType(AbilityActivationType.Immediately)
         .SetActivateWithUnitCommand(CommandType.Free)
-        .SetGroup(AsmodeusGroup)
+        .SetGroup(ExpandedActivatableAbilityGroup.AsmodeusTechnique)
+        .SetHiddenInUI()
         .Configure();
     }
 
