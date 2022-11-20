@@ -11,12 +11,14 @@ using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.MechanicsChanges;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Designers;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Stats;
@@ -28,12 +30,15 @@ using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
@@ -141,8 +146,13 @@ namespace CharacterOptionsPlus.Feats
           if (Data.AppliedFact is not null)
             return;
 
-          if (!Conditions.Check())
-            return;
+          using (Context.GetDataScope(Owner))
+          {
+            if (!Conditions.Check())
+            {
+              return;
+            }
+          }
 
           var technique = AdvancedTechnique.Get();
           Logger.Log($"Applying Advanced Technique: {technique.name}");
@@ -511,38 +521,16 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(ErastilDescription)
         .SetIcon(ErastilIcon)
         .SetRange(AbilityRange.Weapon)
+        .SetType(AbilityType.Extraordinary)
+        .SetNeedEquipWeapons()
+        .SetActionType(CommandType.Standard)
         .AllowTargeting(enemies: true)
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
+        .SetAnimation(CastAnimationStyle.Special)
         .AddAbilityCasterHasWeaponWithRangeType(WeaponRangeType.Ranged)
         .AddAbilityCasterMainWeaponCheck(WeaponCategory.Longbow, WeaponCategory.Shortbow)
-        .AddAbilityDeliverAttackWithWeapon()
-        .AddAbilityEffectRunAction(
-          ActionsBuilder.New()
-            .ApplyBuff(distracted, duration, isNotDispelable: true)
-            .Conditional(
-              ConditionsBuilder.New().CasterHasFact(advancedTechnique),
-              ifTrue:
-                ActionsBuilder.New()
-                  .OnRandomTargetsAround(
-                    ActionsBuilder.New().ApplyBuff(advancedBuff, duration, isNotDispelable: true),
-                    numberOfTargets: 1,
-                    onEnemies: false,
-                    radius: 5.Feet())
-                  .OnRandomTargetsAround(
-                    ActionsBuilder.New()
-                      .Conditional(
-                        ConditionsBuilder.New().HasFact(advancedBuff),
-                        ifFalse: ActionsBuilder.New().ApplyBuff(buff, duration, isNotDispelable: true)),
-                    numberOfTargets: 9999,
-                    onEnemies: false,
-                    radius: 30.Feet()),
-              ifFalse:
-                ActionsBuilder.New()
-                  .OnRandomTargetsAround(
-                    ActionsBuilder.New().ApplyBuff(buff, duration, isNotDispelable: true),
-                    numberOfTargets: 1,
-                    onEnemies: false,
-                    radius: 5.Feet())))
+        .AddAbilityEffectRunActionOnClickedTarget(
+          ActionsBuilder.New().Add(new RangedAttackExtended(ActionsBuilder.New().Add<Distract>())))
         .Configure();
 
       return FeatureConfigurator.New(ErastilName, Guids.ErastilTechnique)
@@ -565,19 +553,100 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
     }
 
-    [TypeId("9c2dbfee-2aa0-4a84-8e65-eea8fbbc536b")]
-    private class FocusedAC : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateAC>
+    private static BlueprintBuff _distracted;
+    private static BlueprintBuff Distracted
     {
-      private static BlueprintBuff _distracted;
-      private static BlueprintBuff Distracted
+      get
       {
-        get
-        {
-          _distracted ??= BlueprintTool.Get<BlueprintBuff>(Guids.ErastilDistracted);
-          return _distracted;
-        }
+        _distracted ??= BlueprintTool.Get<BlueprintBuff>(Guids.ErastilDistracted);
+        return _distracted;
+      }
+    }
+
+    private static BlueprintBuff _focused;
+    private static BlueprintBuff Focused
+    {
+      get
+      {
+        _focused ??= BlueprintTool.Get<BlueprintBuff>(Guids.ErastilFocused);
+        return _focused;
+      }
+    }
+
+    private static BlueprintBuff _focusedAdvanced;
+    private static BlueprintBuff FocusedAdvanced
+    {
+      get
+      {
+        _focusedAdvanced ??= BlueprintTool.Get<BlueprintBuff>(Guids.ErastilFocusedAdvanced);
+        return _focusedAdvanced;
+      }
+    }
+
+    private static BlueprintFeature _erastilAdvancedTechnique;
+    private static BlueprintFeature ErastilAdvancedTechnique
+    {
+      get
+      {
+        _erastilAdvancedTechnique ??= BlueprintTool.Get<BlueprintFeature>(Guids.ErastilAdvancedTechnique);
+        return _erastilAdvancedTechnique;
+      }
+    }
+
+    [TypeId("6405060b-3cad-4a3e-99ff-00180fd5180e")]
+    private class Distract : ContextAction
+    {
+      public override string GetCaption()
+      {
+        return "Custom action for Erastil's Distracting Shot";
       }
 
+      public override void RunAction()
+      {
+        try
+        {
+          var target = Context.MainTarget?.Unit;
+          if (target is null)
+          {
+            Logger.Warning("No target");
+            return;
+          }
+
+          target.AddBuff(Distracted, Context, 1.Rounds().Seconds);
+
+          var adjacentAllies =
+            GameHelper.GetTargetsAround(target.Position, 5.Feet()).Where(unit => unit.IsAlly(Context.MaybeCaster));
+          var nearbyAllies =
+            GameHelper.GetTargetsAround(target.Position, 30.Feet()).Where(unit => unit.IsAlly(Context.MaybeCaster));
+          var hasAdvancedTechnique = Context.MaybeCaster.HasFact(ErastilAdvancedTechnique);
+
+          if (!adjacentAllies.Any() && (!hasAdvancedTechnique || !nearbyAllies.Any()))
+          {
+            Logger.NativeLog("No allies nearby");
+            return;
+          }
+
+          var buffTarget = adjacentAllies.FirstOrDefault();
+          if (buffTarget is not null)
+            buffTarget.AddBuff(Focused, Context, 1.Rounds().Seconds);
+
+          nearbyAllies = nearbyAllies.Except(unit => unit.Equals(buffTarget));
+          if (hasAdvancedTechnique && nearbyAllies.Any())
+          {
+            foreach (var ally in nearbyAllies)
+              ally.AddBuff(FocusedAdvanced, Context, 1.Rounds().Seconds);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Distract.RunAction", e);
+        }
+      }
+    }
+
+    [TypeId("9c2dbfee-2aa0-4a84-8e65-eea8fbbc536b")]
+    private class FocusedAC : UnitFactComponentDelegate, ITargetRulebookHandler<RuleCalculateAC>
+    {
       private readonly int Bonus;
 
       public FocusedAC()
@@ -600,7 +669,7 @@ namespace CharacterOptionsPlus.Feats
               || distracted.MaybeContext?.MaybeCaster is null)
             return;
 
-          Logger.NativeLog($"Granting {Owner.CharacterName} +{Bonus} AC against {evt.Initiator.CharacterName}");
+          Logger.NativeLog($"Granting {evt.Target.CharacterName} +{Bonus} AC against {evt.Initiator.CharacterName}");
           evt.AddModifier(Bonus, Fact, ModifierDescriptor.UntypedStackable);
         }
         catch (Exception e)
