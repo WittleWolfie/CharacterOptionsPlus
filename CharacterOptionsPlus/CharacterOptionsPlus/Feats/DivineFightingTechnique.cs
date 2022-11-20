@@ -50,7 +50,7 @@ namespace CharacterOptionsPlus.Feats
     private const string FeatDescription = "DivineFightingTechnique.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "consecrate.png";
+    private const string IconName = IconPrefix + "consecrate.png"; // TODO: Better icon
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
@@ -482,8 +482,9 @@ namespace CharacterOptionsPlus.Feats
     private const string ErastilFocused = "DFT.Erastil.Focused";
     private const string ErastilFocusedAdvanced = "DFT.Erastil.Focused.Advanced";
 
-    private const string ErastilIcon = IconPrefix + "gloriousheat.png";
-    private const string ErastilAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string ErastilIcon = IconPrefix + "erastiltechnique.png";
+    private const string ErastilAdvancedIcon = IconPrefix + "erastiladvancedtechnique.png";
+    private const string ErastilAbilityIcon = IconPrefix + "distractingshot.png";
 
     private static BlueprintFeature ConfigureErastil()
     {
@@ -495,7 +496,7 @@ namespace CharacterOptionsPlus.Feats
       var buff = BuffConfigurator.New(ErastilFocused, Guids.ErastilFocused)
         .SetDisplayName(ErastilDisplayName)
         .SetDescription(ErastilDescription)
-        .SetIcon(ErastilIcon)
+        .SetIcon(ErastilAbilityIcon)
         .AddNotDispelable()
         .AddComponent<FocusedAC>()
         .Configure();
@@ -503,7 +504,7 @@ namespace CharacterOptionsPlus.Feats
       var advancedBuff = BuffConfigurator.New(ErastilFocusedAdvanced, Guids.ErastilFocusedAdvanced)
         .SetDisplayName(ErastilDisplayName)
         .SetDescription(ErastilDescription)
-        .SetIcon(ErastilAdvancedIcon)
+        .SetIcon(ErastilAbilityIcon)
         .AddNotDispelable()
         .AddComponent(new FocusedAC(4))
         .Configure();
@@ -519,7 +520,7 @@ namespace CharacterOptionsPlus.Feats
       var ability = AbilityConfigurator.New(ErastilAbility, Guids.ErastilAbility)
         .SetDisplayName(ErastilDisplayName)
         .SetDescription(ErastilDescription)
-        .SetIcon(ErastilIcon)
+        .SetIcon(ErastilAbilityIcon)
         .SetRange(AbilityRange.Weapon)
         .SetType(AbilityType.Extraordinary)
         .SetNeedEquipWeapons()

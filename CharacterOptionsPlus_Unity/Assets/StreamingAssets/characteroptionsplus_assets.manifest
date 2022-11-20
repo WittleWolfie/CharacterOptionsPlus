@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1040098278
+CRC: 133646445
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 21eee04dbe6ded65c09f5e716b31929b
+    Hash: 4ecb69aec87c4c5b6d7282cb663b0f71
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -24,6 +24,7 @@ Assets:
 - Assets/Icons/SkaldVigor.png
 - Assets/Icons/AsmodeusEntangle.png
 - Assets/Icons/PairedOpportunists.png
+- Assets/Icons/ErastilTechnique.png
 - Assets/Icons/ArcaneArchery.png
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
@@ -33,8 +34,10 @@ Assets:
 - Assets/Icons/BaseMobility.png
 - Assets/Icons/AsmodeusSicken.png
 - Assets/Illustrations/wolfie.png
+- Assets/Icons/ErastilAdvancedTechnique.png
 - Assets/Icons/BurningDisarm.png
 - Assets/Icons/SignatureMobility.png
+- Assets/Icons/DistractingShot.png
 - Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/AsmodeusTechnique.png
 - Assets/Icons/GloriousHeat.png
