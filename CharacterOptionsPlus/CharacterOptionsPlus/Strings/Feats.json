@@ -39,6 +39,20 @@
   },
 
   {
+    "Key": "DFT.Erastil.Name",
+    "ProcessTemplates": false,
+    "enGB": "Erastil's Distracting Shot"
+  },
+  {
+    "Key": "DFT.Erastil.Description",
+    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +2 bonus to AC against the target for 1 round.\n\nAdvanced Prerequisites: Dex 17, Point-Blank Shot, Precise Shot, BAB +10\n\nThe AC bonus increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target."
+  },
+  {
+    "Key": "DFT.Erastil.Advanced.Description",
+    "enGB": "The AC bonus of Erastil's Distracting Shot increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",

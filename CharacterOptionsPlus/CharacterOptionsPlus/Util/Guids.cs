@@ -152,6 +152,13 @@ namespace CharacterOptionsPlus.Util
     internal const string AsmodeusEntangleBuff = "1ee58b95-afe9-4e1b-8d72-8b7cce119b22";
     internal const string AsmodeusSicken = "451b7770-6ce9-448a-82d9-45a61271e7a6";
     internal const string AsmodeusSickenBuff = "9c733126-3370-4501-b6a2-fdfc8d0de647";
+
+    internal const string ErastilTechnique = "072292be-e9e1-4364-8f69-3adc57c1e6be";
+    internal const string ErastilAdvancedTechnique = "d6d184d9-5d54-4372-8f09-879fb99e0f1d";
+    internal const string ErastilAbility = "2cb10b4f-9034-45c8-a914-f46167abc9b1";
+    internal const string ErastilDistracted = "6fb9eda4-2369-4d6e-836d-5fc3976e9221";
+    internal const string ErastilFocused = "37f95bcf-5759-41cc-8343-6b1f77422565";
+    internal const string ErastilFocusedAdvanced = "b8d4b4ef-2882-438f-bdbb-e366bbb6275a";
     #endregion
 
     #region Eldritch Heritage
