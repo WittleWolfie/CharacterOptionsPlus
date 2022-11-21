@@ -531,7 +531,7 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityCasterHasWeaponWithRangeType(WeaponRangeType.Ranged)
         .AddAbilityCasterMainWeaponCheck(WeaponCategory.Longbow, WeaponCategory.Shortbow)
         .AddAbilityEffectRunActionOnClickedTarget(
-          ActionsBuilder.New().Add(new RangedAttackExtended(ActionsBuilder.New().Add<Distract>())))
+          ActionsBuilder.New().Add<RangedAttackExtended>(a => a.OnHit = ActionsBuilder.New().Add<Distract>().Build()))
         .Configure();
 
       return FeatureConfigurator.New(ErastilName, Guids.ErastilTechnique)

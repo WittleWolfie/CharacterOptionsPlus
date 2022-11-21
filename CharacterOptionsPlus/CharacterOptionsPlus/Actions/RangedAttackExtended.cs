@@ -12,12 +12,7 @@ namespace CharacterOptionsPlus.Actions
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(RangedAttackExtended));
 
-    private readonly ActionList OnHit;
-
-    public RangedAttackExtended(ActionsBuilder onHit)
-    {
-      OnHit = onHit.Build();
-    }
+    internal ActionList OnHit;
 
     public override void RunAction()
     {
