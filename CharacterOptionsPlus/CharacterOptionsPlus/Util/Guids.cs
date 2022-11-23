@@ -159,6 +159,11 @@ namespace CharacterOptionsPlus.Util
     internal const string ErastilDistracted = "6fb9eda4-2369-4d6e-836d-5fc3976e9221";
     internal const string ErastilFocused = "37f95bcf-5759-41cc-8343-6b1f77422565";
     internal const string ErastilFocusedAdvanced = "b8d4b4ef-2882-438f-bdbb-e366bbb6275a";
+
+    internal const string GorumTechnique = "76e56fd3-fb80-41cf-96e8-b7861e334e30";
+    internal const string GorumAdvancedTechnique = "ce972a0c-d262-4f41-ae0b-33a7d0c02cc8";
+    internal const string GorumTechniqueBuff = "8a3f1314-79c1-4bd1-963c-ecd1a93dea3f";
+    internal const string GorumAdvancedTechniqueBuff = "e0c38513-045b-49df-b6cb-a3ae8bf93a43";
     #endregion
 
     #region Eldritch Heritage

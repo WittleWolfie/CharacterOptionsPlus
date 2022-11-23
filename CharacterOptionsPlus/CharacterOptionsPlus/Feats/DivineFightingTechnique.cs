@@ -27,6 +27,7 @@ using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
@@ -37,12 +38,14 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using UnityEngine;
+using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
+  // TODO: Recommendations
   internal class DivineFightingTechnique
   {
     internal const string FeatName = "DivineFightingTechnique";
@@ -89,6 +92,11 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(ErastilAdvanced, Guids.ErastilAdvancedTechnique).Configure();
       AbilityConfigurator.New(ErastilAbility, Guids.ErastilAbility).Configure();
       FeatureConfigurator.New(ErastilName, Guids.ErastilTechnique).Configure();
+
+      BuffConfigurator.New(GorumBuff, Guids.GorumTechniqueBuff).Configure();
+      BuffConfigurator.New(GorumAdvancedBuff, Guids.GorumAdvancedTechniqueBuff).Configure();
+      FeatureConfigurator.New(GorumAdvanced, Guids.GorumAdvancedTechnique).Configure();
+      FeatureConfigurator.New(GorumName, Guids.GorumTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -101,7 +109,8 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(IconName)
         .AddToAllFeatures(
           ConfigureAsmodeus(),
-          ConfigureErastil())
+          ConfigureErastil(),
+          ConfigureGorum())
         .Configure();
 
       // Add to the appropriate selections
@@ -680,6 +689,202 @@ namespace CharacterOptionsPlus.Feats
       }
 
       public void OnEventDidTrigger(RuleCalculateAC evt) { }
+    }
+    #endregion
+
+    #region Gorum
+    private const string GorumName = "DFT.Gorum";
+    private const string GorumDisplayName = "DFT.Gorum.Name";
+    private const string GorumDescription = "DFT.Gorum.Description";
+
+    private const string GorumAdvanced = "DFT.Gorum.Advanced";
+    private const string GorumAdvancedDescription = "DFT.Gorum.Advanced.Description";
+    private const string GorumBuff = "DFT.Gorum.Distracted";
+    private const string GorumAdvancedBuff = "DFT.Gorum.Focused.Advanced";
+
+    private const string GorumIcon = IconPrefix + "gloriousheat.png";
+    private const string GorumAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintBuff _vitalStrikeBuff;
+    private static BlueprintBuff VitalStrikeBuff
+    {
+      get
+      {
+        _vitalStrikeBuff = BlueprintTool.Get<BlueprintBuff>(Guids.GorumTechniqueBuff);
+        return _vitalStrikeBuff;
+      }
+    }
+
+    private static BlueprintFeature ConfigureGorum()
+    {
+      var buff = BuffConfigurator.New(GorumBuff, Guids.GorumTechniqueBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddNotDispelable()
+        .Configure();
+
+      var advancedBuff = BuffConfigurator.New(GorumAdvancedBuff, Guids.GorumAdvancedTechniqueBuff)
+        .SetDisplayName(GorumDisplayName)
+        .SetDescription(GorumDescription)
+        .SetIcon(GorumAdvancedIcon)
+        .AddNotDispelable()
+        .AddCondition(UnitCondition.SpellCastingIsVeryDifficult)
+        .Configure();
+
+      var applyAdvancedBuff = ActionsBuilder.New().ApplyBuff(advancedBuff, ContextDuration.Fixed(1));
+      var advancedTechnique = FeatureConfigurator.New(GorumAdvanced, Guids.GorumAdvancedTechnique)
+        .SetDisplayName(GorumDisplayName)
+        .SetDescription(GorumAdvancedDescription)
+        .SetIcon(GorumAdvancedIcon)
+        .SetIsClassFeature()
+        .AddAbilityUseTrigger(
+          ability: AbilityRefs.VitalStrikeAbility.ToString(), action: applyAdvancedBuff, actionsOnTarget: true)
+        .AddAbilityUseTrigger(
+          ability: AbilityRefs.VitalStrikeAbilityImproved.ToString(), action: applyAdvancedBuff, actionsOnTarget: true)
+        .AddAbilityUseTrigger(
+          ability: AbilityRefs.VitalStrikeAbilityGreater.ToString(), action: applyAdvancedBuff, actionsOnTarget: true)
+        .Configure();
+
+      var applyBuff = ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1));
+      return FeatureConfigurator.New(GorumName, Guids.GorumTechnique)
+        .SetDisplayName(GorumDisplayName)
+        .SetDescription(GorumDescription)
+        .SetIcon(GorumIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticNeutral)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.GorumAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .StatValue(n: 13, stat: StatType.Strength)
+              .HasFact(FeatureRefs.CleaveFeature.ToString())
+              .HasFact(FeatureRefs.VitalStrikeFeature.ToString())
+              .HasFact(FeatureRefs.PowerAttackFeature.ToString())))
+        .AddComponent<GorumsStrike>()
+        .AddAbilityUseTrigger(ability: AbilityRefs.VitalStrikeAbility.ToString(), action: applyBuff)
+        .AddAbilityUseTrigger(ability: AbilityRefs.VitalStrikeAbilityImproved.ToString(), action: applyBuff)
+        .AddAbilityUseTrigger(ability: AbilityRefs.VitalStrikeAbilityGreater.ToString(), action: applyBuff)
+        .Configure();
+    }
+
+    [TypeId("9a1c3f73-4805-4a67-93d1-6ae52cd69862")]
+    private class GorumsStrike : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeapon>
+    {
+      private static BlueprintFeature _vitalStrike;
+      private static BlueprintFeature VitalStrike
+      {
+        get
+        {
+          _vitalStrike = FeatureRefs.VitalStrikeFeature.Reference.Get();
+          return _vitalStrike;
+        }
+      }
+
+      private static BlueprintFeature _vitalStrikeImproved;
+      private static BlueprintFeature VitalStrikeImproved
+      {
+        get
+        {
+          _vitalStrikeImproved = FeatureRefs.VitalStrikeFeatureImproved.Reference.Get();
+          return _vitalStrikeImproved;
+        }
+      }
+
+      private static BlueprintFeature _vitalStrikeGreater;
+      private static BlueprintFeature VitalStrikeGreater
+      {
+        get
+        {
+          _vitalStrikeGreater = FeatureRefs.VitalStrikeFeatureGreater.Reference.Get();
+          return _vitalStrikeGreater;
+        }
+      }
+
+      private static BlueprintFeature _vitalStrikeMythic;
+      private static BlueprintFeature VitalStrikeMythic
+      {
+        get
+        {
+          _vitalStrikeMythic = FeatureRefs.VitalStrikeMythicFeat.Reference.Get();
+          return _vitalStrikeMythic;
+        }
+      }
+
+      private static BlueprintFeature _rowdy;
+      private static BlueprintFeature Rowdy
+      {
+        get
+        {
+          _rowdy = FeatureRefs.RowdyVitalDamage.Reference.Get();
+          return _rowdy;
+        }
+      }
+
+      private static readonly CustomDataKey HandlerKey = new("GorumsStrike.Handler");
+
+      public void OnEventAboutToTrigger(RuleAttackWithWeapon evt)
+      {
+        try
+        {
+          if (evt.Weapon.Blueprint.Category != WeaponCategory.Greatsword)
+            return;
+
+          if (evt.IsCharge && evt.IsFirstAttack)
+            HandleCharge(evt);
+          else if (evt.IsAttackOfOpportunity)
+            HandleAoO(evt);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("GorumsStrike.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleAttackWithWeapon evt)
+      {
+        try
+        {
+          if (evt.TryGetCustomData(HandlerKey, out ISubscriber handler))
+          {
+            Logger.NativeLog("Removing Vital Strike handler");
+            EventBus.Unsubscribe(handler);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("GorumsStrike.OnEventDidTrigger", e);
+        }
+      }
+
+      private void HandleCharge(RuleAttackWithWeapon evt)
+      {
+        if (Owner.HasFact(VitalStrike))
+          RegisterVitalStrike(evt);
+        else
+          evt.MeleeDamage?.DamageBundle?.First?.AddModifier(1, Fact);
+      }
+
+      private void HandleAoO(RuleAttackWithWeapon evt)
+      {
+        if (Owner.Buffs.GetBuff(VitalStrikeBuff) is not null)
+        {
+          RegisterVitalStrike(evt);
+          Owner.RemoveFact(VitalStrikeBuff);
+        }
+      }
+
+      private void RegisterVitalStrike(RuleAttackWithWeapon evt)
+      {
+        Logger.NativeLog("Adding Vital Strike handler");
+        var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
+        var handler =
+          new AbilityCustomVitalStrike.VitalStrike(
+            Owner, vitalStrikeMod, Owner.HasFact(VitalStrikeMythic), Owner.HasFact(Rowdy), Fact);
+        EventBus.Subscribe(handler);
+        evt.SetCustomData(HandlerKey, handler);
+      }
     }
     #endregion
   }
