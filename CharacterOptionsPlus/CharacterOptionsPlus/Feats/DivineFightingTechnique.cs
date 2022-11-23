@@ -912,10 +912,8 @@ namespace CharacterOptionsPlus.Feats
     private const string IomedaeInspire = "DFT.Iomedae.Inspire";
     private const string IomedaeQuickInspire = "DFT.Iomedae.Inspire.Quick";
 
-    private const string IomedaeIcon = IconPrefix + "gloriousheat.png";
-    private const string IomedaeAdvancedIcon = IconPrefix + "gloriousheat.png";
-    private const string IomedaeInspireIcon = IconPrefix + "gloriousheat.png";
-    private const string IomedaeQuickInspireIcon = IconPrefix + "gloriousheat.png";
+    private const string IomedaeIcon = IconPrefix + "iomedaetechnique.png";
+    private const string IomedaeAdvancedIcon = IconPrefix + "iomedaeadvancedtechnique.png";
 
     private static BlueprintFeature ConfigureIomedae()
     {
@@ -934,7 +932,7 @@ namespace CharacterOptionsPlus.Feats
       var inspire = AbilityConfigurator.New(IomedaeInspire, Guids.IomedaeInspireAbility)
         .SetDisplayName(IomedaeDisplayName)
         .SetDescription(IomedaeDescription)
-        .SetIcon(IomedaeInspireIcon)
+        .SetIcon(IomedaeIcon)
         .SetType(AbilityType.Physical)
         .SetRange(AbilityRange.Weapon)
         .SetNeedEquipWeapons()
@@ -950,7 +948,7 @@ namespace CharacterOptionsPlus.Feats
       var quickInspire = AbilityConfigurator.New(IomedaeQuickInspire, Guids.IomedaeQuickInspireAbility)
         .SetDisplayName(IomedaeDisplayName)
         .SetDescription(IomedaeAdvancedDescription)
-        .SetIcon(IomedaeQuickInspireIcon)
+        .SetIcon(IomedaeAdvancedIcon)
         .SetType(AbilityType.Physical)
         .SetRange(AbilityRange.Weapon)
         .SetNeedEquipWeapons()
