@@ -1090,8 +1090,8 @@ namespace CharacterOptionsPlus.Feats
     private const string IroriBuff = "DFT.Irori.Distracted";
     private const string IroriToggle = "DFT.Irori.Inspire";
 
-    private const string IroriIcon = IconPrefix + "gloriousheat.png";
-    private const string IroriAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string IroriIcon = IconPrefix + "iroritechnique.png";
+    private const string IroriAdvancedIcon = IconPrefix + "iroriadvancedtechnique.png";
 
     private const DamageCalculationType AverageDamage = (DamageCalculationType)192;
 

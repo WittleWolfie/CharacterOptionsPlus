@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2272578439
+CRC: 4173395640
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 72ad20646c72cffb0b2d4862089c9b28
+    Hash: ca24edc53cc416eda10545228ec7dd51
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -15,6 +15,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Icons/IroriTechnique.png
 - Assets/Icons/Consecrate.png
 - Assets/Icons/BreakFree.png
 - Assets/Icons/SuppressParalyze.png
@@ -22,9 +23,10 @@ Assets:
 - Assets/Icons/GreaterSkaldVigor.png
 - Assets/Icons/EldritchHeritage.png
 - Assets/Icons/IomedaeTechnique.png
+- Assets/Icons/IroriAdvancedTechnique.png
 - Assets/Icons/Desecrate.png
-- Assets/Icons/SkaldVigor.png
 - Assets/Icons/GorumTechnique.png
+- Assets/Icons/SkaldVigor.png
 - Assets/Icons/AsmodeusEntangle.png
 - Assets/Icons/DivineFightingTechnique.png
 - Assets/Icons/PairedOpportunists.png
