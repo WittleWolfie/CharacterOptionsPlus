@@ -62,7 +62,8 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName}");
 
       var buff = BuffConfigurator.New(BuffName, Guids.DazingAssaultBuff)
-        .SetFlags(BlueprintBuff.Flags.HiddenInUi)   
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddComponent<DazingAssaultComponent>()
         .Configure();
 
       var toggle = ActivatableAbilityConfigurator.New(AbilityName, Guids.DazingAssaultToggle)
