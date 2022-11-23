@@ -9,7 +9,7 @@ namespace CharacterOptionsPlus.Actions
 {
   internal class MeleeAttackExtended : ContextActionMeleeAttack
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(RangedAttackExtended));
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(MeleeAttackExtended));
 
     internal ActionList OnHit;
 
@@ -25,6 +25,7 @@ namespace CharacterOptionsPlus.Actions
           return;
         }
 
+        Logger.Log($"Result: {attack.AttackRoll.IsHit}");
         if (attack.AttackRoll.IsHit)
           OnHit.Run();
       }

@@ -34,7 +34,6 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
@@ -961,14 +960,7 @@ namespace CharacterOptionsPlus.Feats
         .SetActionType(CommandType.Standard)
         .AddAbilityEffectRunActionOnClickedTarget(
           action: ActionsBuilder.New()
-            .Add<MeleeAttackExtended>(
-              attack =>
-                attack.OnHit = ActionsBuilder.New()
-                  .OnRandomTargetsAround(
-                    ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1, rate: DurationRate.Minutes)),
-                    numberOfTargets: 999,
-                    radius: 120.Feet())
-                  .Build()))
+            .Add<MeleeAttackExtended>(attack => attack.OnHit = ActionsBuilder.New().Add<Inspire>().Build()))
         .Configure();
 
       FeatureConfigurator.New(IomedaeAdvanced, Guids.IomedaeAdvancedTechnique)
@@ -1035,6 +1027,47 @@ namespace CharacterOptionsPlus.Feats
         catch (Exception e)
         {
           Logger.LogException("InspiringCharge.OnEventAboutToTrigger", e);
+        }
+      }
+    }
+
+    [TypeId("3fc7e68a-f73d-4f3f-8d5b-be53a1ae9db9")]
+    private class Inspire : ContextAction
+    {
+      private static BlueprintBuff _inspireBuff;
+      private static BlueprintBuff InspireBuff
+      {
+        get
+        {
+          _inspireBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.IomedaeTechniqueBuff);
+          return _inspireBuff;
+        }
+      }
+
+      public override string GetCaption()
+      {
+        return "Custom action for Iomedae's Inspiring Sword";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          var caster = Context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning("No caster");
+            return;
+          }
+
+          var targets = GameHelper.GetTargetsAround(caster.Position, 120.Feet()).Where(unit => unit.IsAlly(caster));
+
+          foreach (var target in targets)
+            target.AddBuff(InspireBuff, Context, 1.Minutes());
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("Inspire.RunAction", e);
         }
       }
     }
