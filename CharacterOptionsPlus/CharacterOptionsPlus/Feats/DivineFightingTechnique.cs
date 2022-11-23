@@ -16,6 +16,7 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.MechanicsChanges;
 using CharacterOptionsPlus.Util;
+using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -27,7 +28,9 @@ using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
+using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
@@ -105,6 +108,11 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(IomedaeQuickInspire, Guids.IomedaeQuickInspireAbility).Configure();
       FeatureConfigurator.New(IomedaeAdvanced, Guids.IomedaeAdvancedTechnique).Configure();
       FeatureConfigurator.New(IomedaeName, Guids.IomedaeTechnique).Configure();
+
+      BuffConfigurator.New(IroriBuff, Guids.IroriTechniqueBuff).Configure();
+      AbilityConfigurator.New(IroriToggle, Guids.IroriTechniqueToggle).Configure();
+      FeatureConfigurator.New(IroriAdvanced, Guids.IroriAdvancedTechnique).Configure();
+      FeatureConfigurator.New(IroriName, Guids.IroriTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -119,7 +127,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureAsmodeus(),
           ConfigureErastil(),
           ConfigureGorum(),
-          ConfigureIomedae())
+          ConfigureIomedae(),
+          ConfigureIrori())
         .Configure();
 
       // Add to the appropriate selections
@@ -1067,6 +1076,154 @@ namespace CharacterOptionsPlus.Feats
         {
           Logger.LogException("Inspire.RunAction", e);
         }
+      }
+    }
+    #endregion
+
+    #region Irori
+    private const string IroriName = "DFT.Irori";
+    private const string IroriDisplayName = "DFT.Irori.Name";
+    private const string IroriDescription = "DFT.Irori.Description";
+
+    private const string IroriAdvanced = "DFT.Irori.Advanced";
+    private const string IroriAdvancedDescription = "DFT.Irori.Advanced.Description";
+    private const string IroriBuff = "DFT.Irori.Distracted";
+    private const string IroriToggle = "DFT.Irori.Inspire";
+
+    private const string IroriIcon = IconPrefix + "gloriousheat.png";
+    private const string IroriAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private const DamageCalculationType AverageDamage = (DamageCalculationType)192;
+
+    private static BlueprintFeature ConfigureIrori()
+    {
+      var buff = BuffConfigurator.New(IroriBuff, Guids.IroriTechniqueBuff)
+        .SetDisplayName(IroriDisplayName)
+        .SetDescription(IroriDescription)
+        .SetIcon(IroriIcon)
+        .AddNotDispelable()
+        .AddComponent<IrorisFist>()
+        .Configure();
+
+      var toggle = ActivatableAbilityConfigurator.New(IroriToggle, Guids.IroriTechniqueToggle)
+        .SetDisplayName(IroriDisplayName)
+        .SetDescription(IroriDescription)
+        .SetIcon(IroriIcon)
+        .SetBuff(buff)
+        .Configure();
+
+      FeatureConfigurator.New(IroriAdvanced, Guids.IroriAdvancedTechnique)
+        .SetDisplayName(IroriDisplayName)
+        .SetDescription(IroriAdvancedDescription)
+        .SetIcon(IroriAdvancedIcon)
+        .SetIsClassFeature()
+        .Configure();
+
+      return FeatureConfigurator.New(IroriName, Guids.IroriTechnique)
+        .SetDisplayName(IroriDisplayName)
+        .SetDescription(IroriDescription)
+        .SetIcon(IroriIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.UnarmedStrike))
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulNeutral)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.IroriAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .HasFact(FeatureRefs.CriticalFocus.ToString())
+              .Add<HasWeaponFocus>(c => c.Category = WeaponCategory.UnarmedStrike)))
+        .AddFacts(new() { toggle })
+        .Configure();
+    }
+
+    [TypeId("54d0ac2f-b470-4a04-a414-2fd87d31280f")]
+    private class IrorisFist :
+      UnitFactComponentDelegate,
+      IInitiatorRulebookHandler<RuleCalculateAttackBonusWithoutTarget>,
+      IInitiatorRulebookHandler<RuleCalculateDamage>
+    {
+      private static BlueprintFeature _advancedTechnique;
+      private static BlueprintFeature AdvancedTechnique
+      {
+        get
+        {
+          _advancedTechnique ??= BlueprintTool.Get<BlueprintFeature>(Guids.IroriAdvancedTechnique);
+          return _advancedTechnique;
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateDamage evt)
+      {
+        try
+        {
+          var damage = evt.DamageBundle.WeaponDamage;
+          if (damage is null)
+            return;
+
+          if (evt.DamageBundle.Weapon.Blueprint.Category != WeaponCategory.UnarmedStrike)
+            return;
+
+          if (evt.ParentRule.AttackRoll.IsCriticalConfirmed)
+            damage.CalculationType.Set(DamageCalculationType.Maximized, Fact);
+          else
+            damage.CalculationType.Set(AverageDamage, Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("IrorisFist.OnEventAboutToTrigger(Damage)", e);
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateAttackBonusWithoutTarget evt)
+      {
+        try
+        {
+          if (Owner.HasFact(AdvancedTechnique))
+            return;
+
+          evt.AddModifier(-2, Fact, ModifierDescriptor.UntypedStackable);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("IrorisFist.OnEventAboutToTrigger(Attack)", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateDamage evt) { }
+
+      public void OnEventDidTrigger(RuleCalculateAttackBonusWithoutTarget evt) { }
+    }
+
+    [HarmonyPatch(typeof(RuleCalculateDamage))]
+    static class RuleCalculateDamage_Patch
+    {
+      [HarmonyPatch(nameof(RuleCalculateDamage.Roll)), HarmonyPrefix]
+      static bool Roll(
+        DiceFormula damageFormula, int unitsCount, DamageCalculationType calculationType, ref int __result)
+      {
+        try
+        {
+          if (damageFormula == DiceFormula.Zero)
+          {
+            __result = 0;
+            return false;
+          }
+
+          if (calculationType == AverageDamage)
+          {
+            int perDie = (int)Math.Floor((damageFormula.Dice.Sides() + 1) / 2f);
+            __result = damageFormula.Rolls * perDie * unitsCount;
+            return false;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("RuleCalculateDamage_Patch.Roll", e);
+        }
+        return true;
       }
     }
     #endregion

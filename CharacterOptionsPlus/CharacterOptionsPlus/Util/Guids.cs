@@ -170,6 +170,11 @@ namespace CharacterOptionsPlus.Util
     internal const string IomedaeTechniqueBuff = "8e8f3b0c-f01b-4c01-8329-c448fd95cfe8";
     internal const string IomedaeInspireAbility = "0ffd236b-f887-4964-914a-4d57250dbe24";
     internal const string IomedaeQuickInspireAbility = "3bd567e3-8f3b-4535-abe1-ba63349f218e";
+
+    internal const string IroriTechnique = "25864b67-1266-4f08-bafd-c584c2eb1b4d";
+    internal const string IroriAdvancedTechnique = "0504f175-bef9-4c95-a59c-a2b6d39e3328";
+    internal const string IroriTechniqueToggle = "ed32bdeb-e1ab-487c-b4c0-9f7a61f28038";
+    internal const string IroriTechniqueBuff = "e6d2330e-fa36-4c0f-bd90-5ac7b0ba919a";
     #endregion
 
     #region Eldritch Heritage
