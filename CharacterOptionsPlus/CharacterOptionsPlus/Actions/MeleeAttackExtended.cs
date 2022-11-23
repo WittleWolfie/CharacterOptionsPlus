@@ -7,7 +7,7 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Actions
 {
-  internal class RangedAttackExtended : ContextActionRangedAttack
+  internal class MeleeAttackExtended : ContextActionMeleeAttack
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(RangedAttackExtended));
 
@@ -30,7 +30,7 @@ namespace CharacterOptionsPlus.Actions
       }
       catch (Exception e)
       {
-        Logger.LogException("RangedAttackExtended.RunAction", e);
+        Logger.LogException("MeleeAttackExtended.RunAction", e);
       }
     }
   }

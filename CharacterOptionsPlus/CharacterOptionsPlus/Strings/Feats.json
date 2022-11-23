@@ -67,6 +67,20 @@
   },
 
   {
+    "Key": "DFT.Iomedae.Name",
+    "ProcessTemplates": false,
+    "enGB": "Iomedae's Inspiring Sword"
+  },
+  {
+    "Key": "DFT.Iomedae.Description",
+    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 round + 1 round per 5 points of base attack bonus you have.\n\nAdvanced Prerequisites: Dazzling Display, Weapon Focus (Longsword), BAB +10\n\nAs a standard action while wielding a longsword you can make a single attack. If the attack hits, you grant all allies who can see you a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 minute. This effect also triggers after you hit a target with an attack while charging."
+  },
+  {
+    "Key": "DFT.Iomedae.Advanced.Description",
+    "enGB": "As a standard action while wielding a longsword you can make a single attack. If the attack hits, you grant all allies who can see you a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 minute. This effect also triggers after you hit a target with an attack while charging."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",

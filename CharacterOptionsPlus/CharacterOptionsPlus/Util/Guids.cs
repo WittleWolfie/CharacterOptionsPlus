@@ -164,6 +164,12 @@ namespace CharacterOptionsPlus.Util
     internal const string GorumAdvancedTechnique = "ce972a0c-d262-4f41-ae0b-33a7d0c02cc8";
     internal const string GorumTechniqueBuff = "8a3f1314-79c1-4bd1-963c-ecd1a93dea3f";
     internal const string GorumAdvancedTechniqueBuff = "e0c38513-045b-49df-b6cb-a3ae8bf93a43";
+
+    internal const string IomedaeTechnique = "edc643bd-d52b-4073-af42-a3199e864f04";
+    internal const string IomedaeAdvancedTechnique = "2f03af39-8c1d-4e23-bfa6-78860328432f";
+    internal const string IomedaeTechniqueBuff = "8e8f3b0c-f01b-4c01-8329-c448fd95cfe8";
+    internal const string IomedaeInspireAbility = "0ffd236b-f887-4964-914a-4d57250dbe24";
+    internal const string IomedaeQuickInspireAbility = "3bd567e3-8f3b-4535-abe1-ba63349f218e";
     #endregion
 
     #region Eldritch Heritage

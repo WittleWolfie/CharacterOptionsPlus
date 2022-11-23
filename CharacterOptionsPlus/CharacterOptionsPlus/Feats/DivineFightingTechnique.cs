@@ -18,6 +18,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Controllers;
 using Kingmaker.Designers;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
@@ -31,6 +32,7 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
@@ -532,7 +534,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(ErastilDescription)
         .SetIcon(ErastilAbilityIcon)
         .SetRange(AbilityRange.Weapon)
-        .SetType(AbilityType.Extraordinary)
+        .SetType(AbilityType.Physical)
         .SetNeedEquipWeapons()
         .SetActionType(CommandType.Standard)
         .AllowTargeting(enemies: true)
@@ -713,7 +715,7 @@ namespace CharacterOptionsPlus.Feats
     {
       get
       {
-        _vitalStrikeBuff = BlueprintTool.Get<BlueprintBuff>(Guids.GorumTechniqueBuff);
+        _vitalStrikeBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.GorumTechniqueBuff);
         return _vitalStrikeBuff;
       }
     }
@@ -782,7 +784,7 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          _vitalStrike = FeatureRefs.VitalStrikeFeature.Reference.Get();
+          _vitalStrike ??= FeatureRefs.VitalStrikeFeature.Reference.Get();
           return _vitalStrike;
         }
       }
@@ -792,7 +794,7 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          _vitalStrikeImproved = FeatureRefs.VitalStrikeFeatureImproved.Reference.Get();
+          _vitalStrikeImproved ??= FeatureRefs.VitalStrikeFeatureImproved.Reference.Get();
           return _vitalStrikeImproved;
         }
       }
@@ -802,7 +804,7 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          _vitalStrikeGreater = FeatureRefs.VitalStrikeFeatureGreater.Reference.Get();
+          _vitalStrikeGreater ??= FeatureRefs.VitalStrikeFeatureGreater.Reference.Get();
           return _vitalStrikeGreater;
         }
       }
@@ -812,7 +814,7 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          _vitalStrikeMythic = FeatureRefs.VitalStrikeMythicFeat.Reference.Get();
+          _vitalStrikeMythic ??= FeatureRefs.VitalStrikeMythicFeat.Reference.Get();
           return _vitalStrikeMythic;
         }
       }
@@ -822,7 +824,7 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          _rowdy = FeatureRefs.RowdyVitalDamage.Reference.Get();
+          _rowdy ??= FeatureRefs.RowdyVitalDamage.Reference.Get();
           return _rowdy;
         }
       }
@@ -889,6 +891,144 @@ namespace CharacterOptionsPlus.Feats
             Owner, vitalStrikeMod, Owner.HasFact(VitalStrikeMythic), Owner.HasFact(Rowdy), Fact);
         EventBus.Subscribe(handler);
         evt.SetCustomData(HandlerKey, handler);
+      }
+    }
+    #endregion
+
+    #region Iomedae
+    private const string IomedaeName = "DFT.Iomedae";
+    private const string IomedaeDisplayName = "DFT.Iomedae.Name";
+    private const string IomedaeDescription = "DFT.Iomedae.Description";
+
+    private const string IomedaeAdvanced = "DFT.Iomedae.Advanced";
+    private const string IomedaeAdvancedDescription = "DFT.Iomedae.Advanced.Description";
+    private const string IomedaeBuff = "DFT.Iomedae.Distracted";
+    private const string IomedaeInspire = "DFT.Iomedae.Inspire";
+    private const string IomedaeQuickInspire = "DFT.Iomedae.Inspire.Quick";
+
+    private const string IomedaeIcon = IconPrefix + "gloriousheat.png";
+    private const string IomedaeAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string IomedaeInspireIcon = IconPrefix + "gloriousheat.png";
+    private const string IomedaeQuickInspireIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureIomedae()
+    {
+      var buff = BuffConfigurator.New(IomedaeBuff, Guids.IomedaeTechniqueBuff)
+        .SetDisplayName(IomedaeDisplayName)
+        .SetDescription(IomedaeDescription)
+        .SetIcon(IomedaeIcon)
+        .AddNotDispelable()
+        .AddStatBonus(stat: StatType.AdditionalAttackBonus, descriptor: ModifierDescriptor.Sacred, value: 2)
+        .AddStatBonus(stat: StatType.SaveFortitude, descriptor: ModifierDescriptor.Sacred, value: 2)
+        .AddStatBonus(stat: StatType.SaveReflex, descriptor: ModifierDescriptor.Sacred, value: 2)
+        .AddStatBonus(stat: StatType.SaveWill, descriptor: ModifierDescriptor.Sacred, value: 2)
+        .AddBuffAllSkillsBonus(descriptor: ModifierDescriptor.Sacred, value: 2)
+        .Configure();
+
+      var inspire = AbilityConfigurator.New(IomedaeInspire, Guids.IomedaeInspireAbility)
+        .SetDisplayName(IomedaeDisplayName)
+        .SetDescription(IomedaeDescription)
+        .SetIcon(IomedaeInspireIcon)
+        .SetType(AbilityType.Physical)
+        .SetRange(AbilityRange.Weapon)
+        .SetNeedEquipWeapons()
+        .AddAbilityCasterMainWeaponCheck(WeaponCategory.Longsword)
+        .SetAnimation(CastAnimationStyle.EnchantWeapon)
+        .SetIsFullRoundAction()
+        .AddAbilityTargetsAround(targetType: TargetType.Ally, radius: 30.Feet())
+        .AddAbilityEffectRunAction(
+          ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank())))
+        .AddContextRankConfig(ContextRankConfigs.BaseAttack().WithStartPlusDivStepProgression(5))
+        .Configure();
+
+      var quickInspire = AbilityConfigurator.New(IomedaeQuickInspire, Guids.IomedaeQuickInspireAbility)
+        .SetDisplayName(IomedaeDisplayName)
+        .SetDescription(IomedaeAdvancedDescription)
+        .SetIcon(IomedaeQuickInspireIcon)
+        .SetType(AbilityType.Physical)
+        .SetRange(AbilityRange.Weapon)
+        .SetNeedEquipWeapons()
+        .AddAbilityCasterMainWeaponCheck(WeaponCategory.Longsword)
+        .AllowTargeting(enemies: true)
+        .SetAnimation(CastAnimationStyle.Special)
+        .SetActionType(CommandType.Standard)
+        .AddAbilityEffectRunActionOnClickedTarget(
+          action: ActionsBuilder.New()
+            .Add<MeleeAttackExtended>(
+              attack =>
+                attack.OnHit = ActionsBuilder.New()
+                  .OnRandomTargetsAround(
+                    ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1, rate: DurationRate.Minutes)),
+                    numberOfTargets: 999,
+                    radius: 120.Feet())
+                  .Build()))
+        .Configure();
+
+      FeatureConfigurator.New(IomedaeAdvanced, Guids.IomedaeAdvancedTechnique)
+        .SetDisplayName(IomedaeDisplayName)
+        .SetDescription(IomedaeAdvancedDescription)
+        .SetIcon(IomedaeAdvancedIcon)
+        .SetIsClassFeature()
+        .AddComponent<InspiringCharge>()
+        .AddFacts(new() { quickInspire })
+        .Configure();
+
+      return FeatureConfigurator.New(IomedaeName, Guids.IomedaeTechnique)
+        .SetDisplayName(IomedaeDisplayName)
+        .SetDescription(IomedaeDescription)
+        .SetIcon(IomedaeIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusLongsword.ToString())
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.IomedaeAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .HasFact(FeatureRefs.DazzlingDisplayFeature.ToString())
+              .HasFact(FeatureRefs.WeaponFocusLongsword.ToString())))
+        .AddFacts(new() { inspire })
+        .Configure();
+    }
+
+    [TypeId("075ea01f-a0d5-4951-8fd2-2a3276a8951e")]
+    private class InspiringCharge : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeapon>
+    {
+      private static BlueprintBuff _blessing;
+      private static BlueprintBuff Blessing
+      {
+        get
+        {
+          _blessing ??= BlueprintTool.Get<BlueprintBuff>(Guids.IomedaeTechniqueBuff);
+          return _blessing;
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleAttackWithWeapon evt) { }
+
+      public void OnEventDidTrigger(RuleAttackWithWeapon evt)
+      {
+        try
+        {
+          if (evt.Weapon.Blueprint.Category != WeaponCategory.Longsword || !evt.IsCharge)
+            return;
+
+          if (!evt.AttackRoll.IsHit)
+            return;
+
+          var targets = GameHelper.GetTargetsAround(Owner.Position, 120.Feet()).Where(unit => unit.IsAlly(Owner));
+          foreach (var target in targets)
+          {
+            Logger.NativeLog($"Applying {Blessing.name} to {target.CharacterName}");
+            target.AddBuff(Blessing, Context, 1.Minutes());
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("InspiringCharge.OnEventAboutToTrigger", e);
+        }
       }
     }
     #endregion
