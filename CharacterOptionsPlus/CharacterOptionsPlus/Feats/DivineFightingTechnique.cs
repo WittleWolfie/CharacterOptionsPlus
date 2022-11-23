@@ -1098,9 +1098,7 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureIrori()
     {
       var buff = BuffConfigurator.New(IroriBuff, Guids.IroriTechniqueBuff)
-        .SetDisplayName(IroriDisplayName)
-        .SetDescription(IroriDescription)
-        .SetIcon(IroriIcon)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .AddNotDispelable()
         .AddComponent<IrorisFist>()
         .Configure();
@@ -1166,7 +1164,7 @@ namespace CharacterOptionsPlus.Feats
           if (evt.DamageBundle.Weapon.Blueprint.Category != WeaponCategory.UnarmedStrike)
             return;
 
-          if (evt.ParentRule.AttackRoll.IsCriticalConfirmed)
+          if (evt.ParentRule.AttackRoll.IsCriticalConfirmed && Owner.HasFact(AdvancedTechnique))
             damage.CalculationType.Set(DamageCalculationType.Maximized, Fact);
           else
             damage.CalculationType.Set(AverageDamage, Fact);
