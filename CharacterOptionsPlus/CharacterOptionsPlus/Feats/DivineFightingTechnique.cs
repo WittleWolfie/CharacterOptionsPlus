@@ -45,7 +45,6 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
-  // TODO: Recommendations
   internal class DivineFightingTechnique
   {
     internal const string FeatName = "DivineFightingTechnique";
@@ -53,7 +52,7 @@ namespace CharacterOptionsPlus.Feats
     private const string FeatDescription = "DivineFightingTechnique.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "consecrate.png"; // TODO: Better icon
+    private const string IconName = IconPrefix + "divinefightingtechnique.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
@@ -270,6 +269,8 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(AsmodeusIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
+        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusHeavyMace.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusLightMace.ToString())
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Critical)
         .AddComponent<AsmodeusCritical>()
         .AddComponent<AsmodeusAdvancedTechnique>()
@@ -549,6 +550,8 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(ErastilIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
+        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusLongbow.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusShortbow.ToString())
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Ranged)
         .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
         .AddComponent(
@@ -702,8 +705,8 @@ namespace CharacterOptionsPlus.Feats
     private const string GorumBuff = "DFT.Gorum.Distracted";
     private const string GorumAdvancedBuff = "DFT.Gorum.Focused.Advanced";
 
-    private const string GorumIcon = IconPrefix + "gloriousheat.png";
-    private const string GorumAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string GorumIcon = IconPrefix + "gorumtechnique.png";
+    private const string GorumAdvancedIcon = IconPrefix + "gorumadvancedtechnique.png";
 
     private static BlueprintBuff _vitalStrikeBuff;
     private static BlueprintBuff VitalStrikeBuff
@@ -751,6 +754,8 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(GorumIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
+        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusGreatsword.ToString())
+        .AddRecommendationHasFeature(FeatureRefs.VitalStrikeFeature.ToString(), mandatory: true)
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
         .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticNeutral)
         .AddComponent(
