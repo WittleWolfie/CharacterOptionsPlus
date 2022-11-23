@@ -1,3 +1,13 @@
+## v0.8.0
+
+* New Feats:
+    * Divine Fighting Technique - Special combat techniques associated with a diety and their favored weapon
+        * Asmodeus, Erastil, Gorum, Iomedae, Irori, Lamashtu, Norgorber, Rovagug, Torag, Urgathoa
+    * Dazing Assault
+
+* Updates:
+    * Glorious Heat should properly be removed during respec
+
 ## v0.7.1
 
 * Updates:
