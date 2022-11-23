@@ -12,6 +12,8 @@ using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Actions;
+using CharacterOptionsPlus.Components;
+using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.MechanicsChanges;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
@@ -98,6 +100,12 @@ namespace CharacterOptionsPlus.Feats
       BuffConfigurator.New(GorumAdvancedBuff, Guids.GorumAdvancedTechniqueBuff).Configure();
       FeatureConfigurator.New(GorumAdvanced, Guids.GorumAdvancedTechnique).Configure();
       FeatureConfigurator.New(GorumName, Guids.GorumTechnique).Configure();
+
+      BuffConfigurator.New(IomedaeBuff, Guids.IomedaeTechniqueBuff).Configure();
+      AbilityConfigurator.New(IomedaeInspire, Guids.IomedaeInspireAbility).Configure();
+      AbilityConfigurator.New(IomedaeQuickInspire, Guids.IomedaeQuickInspireAbility).Configure();
+      FeatureConfigurator.New(IomedaeAdvanced, Guids.IomedaeAdvancedTechnique).Configure();
+      FeatureConfigurator.New(IomedaeName, Guids.IomedaeTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -111,7 +119,8 @@ namespace CharacterOptionsPlus.Feats
         .AddToAllFeatures(
           ConfigureAsmodeus(),
           ConfigureErastil(),
-          ConfigureGorum())
+          ConfigureGorum(),
+          ConfigureIomedae())
         .Configure();
 
       // Add to the appropriate selections
@@ -271,8 +280,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(AsmodeusIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
-        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusHeavyMace.ToString())
-        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusLightMace.ToString())
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.HeavyMace, WeaponCategory.LightMace))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Critical)
         .AddComponent<AsmodeusCritical>()
         .AddComponent<AsmodeusAdvancedTechnique>()
@@ -552,8 +560,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(ErastilIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
-        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusLongbow.ToString())
-        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusShortbow.ToString())
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Longbow, WeaponCategory.Shortbow))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Ranged)
         .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
         .AddComponent(
@@ -756,7 +763,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(GorumIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
-        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusGreatsword.ToString())
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Greatsword))
         .AddRecommendationHasFeature(FeatureRefs.VitalStrikeFeature.ToString(), mandatory: true)
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
         .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticNeutral)
@@ -979,7 +986,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIcon(IomedaeIcon)
         .SetIsClassFeature()
         .SetReapplyOnLevelUp()
-        .AddRecommendationHasFeature(FeatureRefs.WeaponFocusLongsword.ToString())
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Longsword))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
         .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
         .AddComponent(
@@ -988,7 +995,7 @@ namespace CharacterOptionsPlus.Feats
             ConditionsBuilder.New()
               .StatValue(n: 10, stat: StatType.BaseAttackBonus)
               .HasFact(FeatureRefs.DazzlingDisplayFeature.ToString())
-              .HasFact(FeatureRefs.WeaponFocusLongsword.ToString())))
+              .Add<HasWeaponFocus>(c => c.Category = WeaponCategory.Longsword)))
         .AddFacts(new() { inspire })
         .Configure();
     }
