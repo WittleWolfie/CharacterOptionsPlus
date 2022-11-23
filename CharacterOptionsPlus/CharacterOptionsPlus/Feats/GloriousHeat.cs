@@ -85,6 +85,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
+        .SetIsClassFeature()
         .AddRecommendationRequiresSpellbook()
         .AddFeatureTagsComponent(FeatureTag.Magic | FeatureTag.Defense)
         .AddPrerequisiteCasterType(isArcane: false)

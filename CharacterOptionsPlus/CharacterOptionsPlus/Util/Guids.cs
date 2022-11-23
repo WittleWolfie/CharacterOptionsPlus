@@ -65,6 +65,10 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Feats
+    internal const string DazingAssaultFeat = "98556744-6715-4654-8323-d0f823003ca1";
+    internal const string DazingAssaultToggle = "2a67d113-cc03-42ba-8141-15e359cc9e0f";
+    internal const string DazingAssaultBuff = "9da65905-1d5e-41c5-a85b-7e0117d66a08";
+
     internal const string DivineFightingTechniqueFeat = "96f784ce-7660-40d4-9cf3-29bc289a8be5";
 
     internal const string EldritchHeritageFeat = "f9d9eb8b-01d9-4799-bb27-f5ad1a7f7e31";
@@ -131,6 +135,7 @@ namespace CharacterOptionsPlus.Util
     internal static readonly (string guid, string displayName)[] Feats =
       new (string, string)[]
       {
+        (DazingAssaultFeat, DazingAssault.FeatDisplayName),
         (DivineFightingTechniqueFeat, DivineFightingTechnique.FeatDisplayName),
         (EldritchHeritageFeat, EldritchHeritage.FeatDisplayName),
         (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
