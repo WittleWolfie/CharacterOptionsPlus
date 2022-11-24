@@ -1714,7 +1714,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bab = Owner.Stats.GetStat(StatType.BaseAttackBonus);
-          int bonus = (int)(1 + bab / 4f);
+          int bonus = (int)(1 + Math.Floor(bab / 4f));
 
           Logger.NativeLog($"Reducing DR for {Owner.CharacterName} by {bonus}");
           evt.DamageBundle.WeaponDamage.ReductionPenalty.Add(
