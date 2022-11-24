@@ -1492,7 +1492,7 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureNorgorber()
     {
-      var selfBuff = BuffConfigurator.New(NorgorberBuff, Guids.NorgorberTechniqueSelfBuff)
+      var selfBuff = BuffConfigurator.New(NorgorberSelfBuff, Guids.NorgorberTechniqueSelfBuff)
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .AddFactContextActions(newRound: ActionsBuilder.New().Add<NorgorbersStealth>())
         .Configure();
