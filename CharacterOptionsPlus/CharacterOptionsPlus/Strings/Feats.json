@@ -115,7 +115,7 @@
   },
   {
     "Key": "DFT.Lamashtu.Advanced.Description",
-    "enGB": "You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
+    "enGB": "Whenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round."
   },
 
   {
