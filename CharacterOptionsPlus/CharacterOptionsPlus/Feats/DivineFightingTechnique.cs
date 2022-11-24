@@ -1653,8 +1653,8 @@ namespace CharacterOptionsPlus.Feats
     private const string RovagugAdvanced = "DFT.Rovagug.Advanced";
     private const string RovagugAdvancedDescription = "DFT.Rovagug.Advanced.Description";
 
-    private const string RovagugIcon = IconPrefix + "gloriousheat.png";
-    private const string RovagugAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string RovagugIcon = IconPrefix + "rovagugtechnique.png";
+    private const string RovagugAdvancedIcon = IconPrefix + "rovagugadvancedtechnique.png";
 
     private static BlueprintFeature ConfigureRovagug()
     {
