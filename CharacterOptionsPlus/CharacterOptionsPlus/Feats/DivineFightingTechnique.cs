@@ -1558,12 +1558,6 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          var target = Context.MainTarget.Unit;
-          if (target is null)
-          {
-            Logger.Warning("No valid target");
-            return;
-          }
 
           var caster = Context.MaybeCaster;
           if (caster is null)
@@ -1578,10 +1572,17 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          caster.SpendAction(CommandType.Swift, isFullRound: false, timeSinceCommandStart: 0f);
+          var target =
+            GameHelper.GetTargetsAround(caster.Position, 120.Feet())
+              .Where(unit => unit.IsEnemy(caster))
+              .FirstOrDefault();
+          if (target is null)
+            return;
 
           var dc = Rulebook.Trigger<RuleCalculateCMD>(new(caster, target, CombatManeuver.None)).Result;
+
           Logger.NativeLog($"{caster.CharacterName} is making a stealth check against {target.CharacterName}, DC {dc}");
+          caster.SpendAction(CommandType.Swift, isFullRound: false, timeSinceCommandStart: 0f);
           if (Rulebook.Trigger<RuleSkillCheck>(new(caster, StatType.SkillStealth, dc)).Success)
             target.AddBuff(Unaware, Context, 1.Rounds().Seconds);
         }
