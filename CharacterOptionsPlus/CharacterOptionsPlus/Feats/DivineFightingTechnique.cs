@@ -1580,8 +1580,9 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var dc = Rulebook.Trigger<RuleCalculateCMD>(new(caster, target, CombatManeuver.None)).Result;
-
+#if DEBUG
           Logger.NativeLog($"{caster.CharacterName} is making a stealth check against {target.CharacterName}, DC {dc}");
+#endif
           caster.SpendAction(CommandType.Swift, isFullRound: false, timeSinceCommandStart: 0f);
           if (Rulebook.Trigger<RuleSkillCheck>(new(caster, StatType.SkillStealth, dc)).Success)
             target.AddBuff(Unaware, Context, 1.Rounds().Seconds);
@@ -1635,6 +1636,6 @@ namespace CharacterOptionsPlus.Feats
 
       public void OnEventDidTrigger(RuleCalculateWeaponStats evt) { }
     }
-    #endregion
+#endregion
   }
 }
