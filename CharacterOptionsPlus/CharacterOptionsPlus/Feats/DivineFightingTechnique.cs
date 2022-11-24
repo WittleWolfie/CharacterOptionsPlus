@@ -1710,17 +1710,15 @@ namespace CharacterOptionsPlus.Feats
           if (weapon.Category != WeaponCategory.Greataxe && !weapon.Category.HasSubCategory(WeaponSubCategory.Natural))
             return;
 
-          var powerAttackModifier =
-            evt.m_ModifiableBonus?.Modifiers?
-              .Where(m => m.Fact?.Blueprint == PowerAttack)
-              .Select(m => (Modifier?)m) // Cast to avoid getting a default struct
-              .FirstOrDefault();
-          if (powerAttackModifier is null)
+          if (!Owner.HasFact(PowerAttack))
             return;
 
-          Logger.NativeLog($"Reducing DR for {Owner.CharacterName} by {powerAttackModifier}");
+          var bab = Owner.Stats.GetStat(StatType.BaseAttackBonus);
+          int bonus = (int)(1 + bab / 4f);
+
+          Logger.NativeLog($"Reducing DR for {Owner.CharacterName} by {bonus}");
           evt.DamageBundle.WeaponDamage.ReductionPenalty.Add(
-            new Modifier(-powerAttackModifier.Value.Value, Fact, ModifierDescriptor.UntypedStackable));
+            new Modifier(bonus, Fact, ModifierDescriptor.UntypedStackable));
         }
         catch (Exception e)
         {
