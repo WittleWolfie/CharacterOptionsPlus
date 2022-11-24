@@ -1804,7 +1804,7 @@ namespace CharacterOptionsPlus.Feats
             Guids.ToragAdvancedTechnique,
             ConditionsBuilder.New()
               .StatValue(n: 10, stat: StatType.BaseAttackBonus)
-              .HasFact(FeatureRefs.PowerAttackFeature.ToString())
+              .HasFact(FeatureRefs.VitalStrikeFeature.ToString())
               .Add<HasWeaponFocus>(c => c.Category = WeaponCategory.Warhammer)))
         .AddDerivativeStatBonus(
           baseStat: StatType.Wisdom,
