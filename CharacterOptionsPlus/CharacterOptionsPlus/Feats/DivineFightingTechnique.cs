@@ -1558,7 +1558,6 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-
           var caster = Context.MaybeCaster;
           if (caster is null)
           {
@@ -1601,10 +1600,10 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          if (evt.AttackWithWeapon is null)
+          if (evt.AttackWithWeapon is not null && !evt.AttackWithWeapon.IsFirstAttack)
             return;
 
-          if (!evt.AttackWithWeapon.IsFirstAttack)
+          if (evt.AttackWithWeapon is null && !evt.IsChargeWeapon)
             return;
 
           var weapon = evt.Weapon.Blueprint;
