@@ -14,7 +14,6 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.Utility;
 using System;
-using TabletopTweaks.Core.NewComponents.Prerequisites;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
@@ -29,7 +28,7 @@ namespace CharacterOptionsPlus.Feats
     internal const string AbilityName = "DazingAssault.Ability";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "dazingassault.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
