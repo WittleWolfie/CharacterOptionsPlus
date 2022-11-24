@@ -1487,8 +1487,8 @@ namespace CharacterOptionsPlus.Feats
     private const string NorgorberSelfBuff = "DFT.Norgorber.Buff.Self";
     private const string NorgorberBuff = "DFT.Norgorber.Buff";
 
-    private const string NorgorberIcon = IconPrefix + "gloriousheat.png";
-    private const string NorgorberAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string NorgorberIcon = IconPrefix + "norgorbertechnique.png";
+    private const string NorgorberAdvancedIcon = IconPrefix + "norgorberadvancedtechnique.png";
 
     private static BlueprintFeature ConfigureNorgorber()
     {
