@@ -1830,9 +1830,12 @@ namespace CharacterOptionsPlus.Feats
           if (!evt.IsAttackOfOpportunity)
             return;
 
-          if (Owner.CombatState.AttackOfOpportunityCount < Owner.CombatState.AttackOfOpportunityPerRound)
+          // Testing suggest that by the time this is reached the AOO count is already decremented.
+          var aooCount = Owner.CombatState.AttackOfOpportunityCount;
+          var aooPerRound = Owner.CombatState.AttackOfOpportunityPerRound;
+          if (aooCount < aooPerRound - 1)
           {
-            Logger.NativeLog($"Not the first AOO this round");
+            Logger.NativeLog($"Not the first AOO this round: {aooCount} / {aooPerRound}");
             return;
           }
 
