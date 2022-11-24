@@ -25,19 +25,24 @@ using Kingmaker.Controllers;
 using Kingmaker.Designers;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
+using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
+using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
@@ -1248,12 +1253,15 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureLamashtu()
     {
-      // TODO: Basically copy bleed1d4buff but use a shared value for damage
       var buff = BuffConfigurator.New(LamashtuBuff, Guids.LamashtuTechniqueBuff)
+        .CopyFrom(BuffRefs.Bleed1d4Buff, c => c is not AddFactContextActions)
         .SetDisplayName(LamashtuDisplayName)
         .SetDescription(LamashtuDescription)
         .SetIcon(LamashtuIcon)
-        .AddNotDispelable()
+        .SetStacking(StackingType.Ignore)
+        .AddFactContextActions(
+          newRound: ActionsBuilder.New()
+            .DealDamagePreRolled(DamageTypes.Physical(form: PhysicalDamageForm.Slashing), AbilitySharedValue.Damage))
         .Configure();
 
       var immunityBuff = BuffConfigurator.New(LamashtuImmunityBuff, Guids.LamashtuTechniqueImmunityBuff)
@@ -1307,6 +1315,16 @@ namespace CharacterOptionsPlus.Feats
     [TypeId("2f11e903-f246-4db2-8a65-a41412d03273")]
     private class LamashtusCarving : ContextActionMeleeAttack
     {
+      private static BlueprintBuff _bleed;
+      private static BlueprintBuff Bleed
+      {
+        get
+        {
+          _bleed ??= BlueprintTool.Get<BlueprintBuff>(Guids.LamashtuTechniqueBuff);
+          return _bleed;
+        }
+      }
+
       public override string GetCaption()
       {
         return "Custom action for Lamashtu's Carving bleed effect";
@@ -1314,14 +1332,81 @@ namespace CharacterOptionsPlus.Feats
 
       public override void RunAction()
       {
+        IRulebookHandler<RuleCalculateDamage> bleedHandler = null;
         try
         {
-          // TODO: Melee Attack and use the trick Vital Strike uses to alter the damage and save the static portion
-          // to a shared value; then apply the buff
+          var target = Context.MainTarget.Unit;
+          if (target is null)
+          {
+            Logger.Warning("No valid target");
+            return;
+          }
+
+          var caster = Context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning("No caster");
+            return;
+          }
+
+          bleedHandler = new LamashtusBleed(caster, Context);
+          EventBus.Subscribe(bleedHandler);
+
+          var attack =
+            Rulebook.Trigger<RuleAttackWithWeapon>(
+              new(caster, target, caster.GetFirstWeapon(), attackBonusPenalty: 0));
+
+          if (attack.AttackRoll.IsHit)
+            target.AddBuff(Bleed, Context);
         }
         catch (Exception e)
         {
           Logger.LogException("LamashtusCarving.RunAction", e);
+        }
+        finally
+        {
+          if (bleedHandler is not null)
+            EventBus.Unsubscribe(bleedHandler);
+        }
+      }
+
+      private class LamashtusBleed : IInitiatorRulebookHandler<RuleCalculateDamage>
+      {
+        private readonly UnitEntityData Unit;
+        private readonly MechanicsContext Context;
+
+        public LamashtusBleed(UnitEntityData unit, MechanicsContext context)
+        {
+          Unit = unit;
+          Context = context;
+        }
+
+        public UnitEntityData GetSubscribingUnit()
+        {
+          return Unit;
+        }
+
+        public void OnEventAboutToTrigger(RuleCalculateDamage evt) { }
+
+        public void OnEventDidTrigger(RuleCalculateDamage evt)
+        {
+          try
+          {
+            int bleed = 0;
+            foreach (var damage in evt.DamageBundle)
+            {
+              bleed += damage.TotalBonus;
+              damage.Bonus = 0;
+              damage.BonusTargetRelated = 0;
+            }
+
+            Logger.NativeLog($"Setting bleed damage to {bleed}");
+            Context[AbilitySharedValue.Damage] = bleed;
+          }
+          catch (Exception e)
+          {
+            Logger.LogException("LamashtusBleed.OnEventDidTrigger", e);
+          }
         }
       }
     }
