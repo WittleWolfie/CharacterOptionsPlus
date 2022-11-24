@@ -20,6 +20,7 @@ using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Controllers;
 using Kingmaker.Designers;
@@ -1414,13 +1415,47 @@ namespace CharacterOptionsPlus.Feats
     [TypeId("c6db8fd4-3374-47c7-8ac8-dbdd4bf3e3a3")]
     private class LamashtusStaggeringSlice : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeapon>
     {
+      private static BlueprintBuff _immunity;
+      private static BlueprintBuff Immunity
+      {
+        get
+        {
+          _immunity ??= BlueprintTool.Get<BlueprintBuff>(Guids.LamashtuTechniqueImmunityBuff);
+          return _immunity;
+        }
+      }
+
       public void OnEventAboutToTrigger(RuleAttackWithWeapon evt) { }
 
       public void OnEventDidTrigger(RuleAttackWithWeapon evt)
       {
         try
         {
-          // TODO: If it hit a bleeding creature, fort save or staggered and handle immunity buff
+          if (evt.Weapon.Blueprint.Category != WeaponCategory.Falchion
+              && evt.Weapon.Blueprint.Category != WeaponCategory.Kukri)
+            return;
+
+          var target = evt.Target;
+          if (target.HasFact(Immunity))
+          {
+            Logger.NativeLog($"{target.CharacterName} is immune");
+            return;
+          }
+
+          foreach (var buff in target.Buffs)
+          {
+            if (buff.Blueprint.SpellDescriptor.HasFlag(SpellDescriptor.Bleed))
+            {
+              var dc = 10 + Owner.Stats.GetStat(StatType.BaseAttackBonus);
+              Logger.NativeLog($"Triggering saving throw for {target.CharacterName} with DC {dc}");
+              var savingThrow = Rulebook.Trigger<RuleSavingThrow>(new(target, SavingThrowType.Fortitude, dc));
+              if (savingThrow.IsPassed)
+                target.AddBuff(Immunity, Context, 1.Rounds().Seconds);
+              else
+                target.AddBuff(BuffRefs.Staggered.Reference.Get(), Context, 1.Rounds().Seconds);
+              break;
+            }
+          }
         }
         catch (Exception e)
         {
