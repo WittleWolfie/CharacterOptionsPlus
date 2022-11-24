@@ -1431,6 +1431,9 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
+          if (!evt.AttackRoll.IsHit)
+            return;
+
           if (evt.Weapon.Blueprint.Category != WeaponCategory.Falchion
               && evt.Weapon.Blueprint.Category != WeaponCategory.Kukri)
             return;
