@@ -189,7 +189,7 @@ namespace CharacterOptionsPlus.Util
 
     internal const string NorgorberTechnique = "6546d666-23ad-457e-a90a-38a176e2df89";
     internal const string NorgorberAdvancedTechnique = "f356e5cf-c180-4191-879e-e792fcf8c374";
-    internal const string NorgorberTechniqueToggle = "f3e3c9a9-0333-4e44-948e-561c8cdf1f6d";
+    internal const string NorgorberTechniqueToggle = "24d670da-07fc-4a79-bd44-11c8a4728804";
     internal const string NorgorberTechniqueSelfBuff = "7295c09e-a631-4213-87b3-040f55339341";
     internal const string NorgorberTechniqueBuff = "b11516b2-20c7-4139-a71e-b9faf3012ffb";
     #endregion
