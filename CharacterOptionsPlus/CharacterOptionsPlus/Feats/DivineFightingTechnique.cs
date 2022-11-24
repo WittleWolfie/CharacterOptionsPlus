@@ -58,7 +58,6 @@ namespace CharacterOptionsPlus.Feats
     private const string FeatDescription = "DivineFightingTechnique.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "divinefightingtechnique.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
 
@@ -113,6 +112,12 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(IroriToggle, Guids.IroriTechniqueToggle).Configure();
       FeatureConfigurator.New(IroriAdvanced, Guids.IroriAdvancedTechnique).Configure();
       FeatureConfigurator.New(IroriName, Guids.IroriTechnique).Configure();
+
+      BuffConfigurator.New(LamashtuBuff, Guids.LamashtuTechniqueBuff).Configure();
+      BuffConfigurator.New(LamashtuImmunityBuff, Guids.LamashtuTechniqueImmunityBuff).Configure();
+      AbilityConfigurator.New(LamashtuAbility, Guids.LamashtuTechniqueAbility).Configure();
+      FeatureConfigurator.New(LamashtuAdvanced, Guids.LamashtuAdvancedTechnique).Configure();
+      FeatureConfigurator.New(LamashtuName, Guids.LamashtuTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -122,13 +127,14 @@ namespace CharacterOptionsPlus.Feats
       var selection = FeatureSelectionConfigurator.New(FeatName, Guids.DivineFightingTechniqueFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
-        .SetIcon(IconName)
+        .SetIcon(FeatureRefs.SimpleWeaponProficiency.Reference.Get().Icon)
         .AddToAllFeatures(
           ConfigureAsmodeus(),
           ConfigureErastil(),
           ConfigureGorum(),
           ConfigureIomedae(),
-          ConfigureIrori())
+          ConfigureIrori(),
+          ConfigureLamashtu())
         .Configure();
 
       // Add to the appropriate selections
@@ -1087,8 +1093,8 @@ namespace CharacterOptionsPlus.Feats
 
     private const string IroriAdvanced = "DFT.Irori.Advanced";
     private const string IroriAdvancedDescription = "DFT.Irori.Advanced.Description";
-    private const string IroriBuff = "DFT.Irori.Distracted";
-    private const string IroriToggle = "DFT.Irori.Inspire";
+    private const string IroriBuff = "DFT.Irori.Buff";
+    private const string IroriToggle = "DFT.Irori.Toggle";
 
     private const string IroriIcon = IconPrefix + "iroritechnique.png";
     private const string IroriAdvancedIcon = IconPrefix + "iroriadvancedtechnique.png";
@@ -1222,6 +1228,119 @@ namespace CharacterOptionsPlus.Feats
           Logger.LogException("RuleCalculateDamage_Patch.Roll", e);
         }
         return true;
+      }
+    }
+    #endregion
+
+    #region Lamashtu
+    private const string LamashtuName = "DFT.Lamashtu";
+    private const string LamashtuDisplayName = "DFT.Lamashtu.Name";
+    private const string LamashtuDescription = "DFT.Lamashtu.Description";
+
+    private const string LamashtuAdvanced = "DFT.Lamashtu.Advanced";
+    private const string LamashtuAdvancedDescription = "DFT.Lamashtu.Advanced.Description";
+    private const string LamashtuBuff = "DFT.Lamashtu.Buff";
+    private const string LamashtuImmunityBuff = "DFT.Lamashtu.Immunity.Buff";
+    private const string LamashtuAbility = "DFT.Lamashtu.Ability";
+
+    private const string LamashtuIcon = IconPrefix + "gloriousheat.png";
+    private const string LamashtuAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureLamashtu()
+    {
+      // TODO: Basically copy bleed1d4buff but use a shared value for damage
+      var buff = BuffConfigurator.New(LamashtuBuff, Guids.LamashtuTechniqueBuff)
+        .SetDisplayName(LamashtuDisplayName)
+        .SetDescription(LamashtuDescription)
+        .SetIcon(LamashtuIcon)
+        .AddNotDispelable()
+        .Configure();
+
+      var immunityBuff = BuffConfigurator.New(LamashtuImmunityBuff, Guids.LamashtuTechniqueImmunityBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddNotDispelable()
+        .Configure();
+
+      var ability = AbilityConfigurator.New(LamashtuAbility, Guids.LamashtuTechniqueAbility)
+        .SetDisplayName(LamashtuDisplayName)
+        .SetDescription(LamashtuDescription)
+        .SetIcon(LamashtuIcon)
+        .AllowTargeting(enemies: true)
+        .SetType(AbilityType.Physical)
+        .SetNeedEquipWeapons()
+        .SetRange(AbilityRange.Weapon)
+        .SetActionType(CommandType.Standard)
+        .SetAnimation(CastAnimationStyle.Special)
+        .AddAbilityCasterMainWeaponCheck(WeaponCategory.Falchion, WeaponCategory.Kukri)
+        .AddAbilityEffectRunAction(ActionsBuilder.New().Add<LamashtusCarving>())
+        .Configure();
+
+      FeatureConfigurator.New(LamashtuAdvanced, Guids.LamashtuAdvancedTechnique)
+        .SetDisplayName(LamashtuDisplayName)
+        .SetDescription(LamashtuAdvancedDescription)
+        .SetIcon(LamashtuAdvancedIcon)
+        .SetIsClassFeature()
+        .AddComponent<LamashtusStaggeringSlice>()
+        .Configure();
+
+      return FeatureConfigurator.New(LamashtuName, Guids.LamashtuTechnique)
+        .SetDisplayName(LamashtuDisplayName)
+        .SetDescription(LamashtuDescription)
+        .SetIcon(LamashtuIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Falchion, WeaponCategory.Kukri))
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticEvil)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.LamashtuAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .StatValue(n: 13, stat: StatType.Strength)
+              .HasFact(Guids.DazingAssaultFeat)
+              .HasFact(FeatureRefs.PowerAttackFeature.ToString())))
+        .AddFacts(new() { ability })
+        .Configure();
+    }
+
+    [TypeId("2f11e903-f246-4db2-8a65-a41412d03273")]
+    private class LamashtusCarving : ContextActionMeleeAttack
+    {
+      public override string GetCaption()
+      {
+        return "Custom action for Lamashtu's Carving bleed effect";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          // TODO: Melee Attack and use the trick Vital Strike uses to alter the damage and save the static portion
+          // to a shared value; then apply the buff
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("LamashtusCarving.RunAction", e);
+        }
+      }
+    }
+
+    [TypeId("c6db8fd4-3374-47c7-8ac8-dbdd4bf3e3a3")]
+    private class LamashtusStaggeringSlice : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeapon>
+    {
+      public void OnEventAboutToTrigger(RuleAttackWithWeapon evt) { }
+
+      public void OnEventDidTrigger(RuleAttackWithWeapon evt)
+      {
+        try
+        {
+          // TODO: If it hit a bleeding creature, fort save or staggered and handle immunity buff
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("LamashtusDaze.OnEventDidTrigger", e);
+        }
       }
     }
     #endregion

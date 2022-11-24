@@ -180,6 +180,12 @@ namespace CharacterOptionsPlus.Util
     internal const string IroriAdvancedTechnique = "0504f175-bef9-4c95-a59c-a2b6d39e3328";
     internal const string IroriTechniqueToggle = "ed32bdeb-e1ab-487c-b4c0-9f7a61f28038";
     internal const string IroriTechniqueBuff = "e6d2330e-fa36-4c0f-bd90-5ac7b0ba919a";
+
+    internal const string LamashtuTechnique = "72337519-24f4-49ee-8f21-76e1fd4c34b4";
+    internal const string LamashtuAdvancedTechnique = "9e894abe-64a5-4520-8a08-5ebc810cf51e";
+    internal const string LamashtuTechniqueAbility = "8f3930a3-dcf7-45c9-b875-0cd5840f513e";
+    internal const string LamashtuTechniqueBuff = "0609e814-53f0-448d-a2b8-f50f36eaf1a8";
+    internal const string LamashtuTechniqueImmunityBuff = "10f3d18c-a7c4-4e0a-9e76-5524fa23b4d0";
     #endregion
 
     #region Eldritch Heritage

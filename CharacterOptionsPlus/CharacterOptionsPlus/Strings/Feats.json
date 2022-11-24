@@ -105,6 +105,20 @@
   },
 
   {
+    "Key": "DFT.Lamashtu.Name",
+    "ProcessTemplates": false,
+    "enGB": "Lamashtu's Carving"
+  },
+  {
+    "Key": "DFT.Lamashtu.Description",
+    "enGB": "As a standard action, you can make a single attack with a falchion or a kukri in order to deal bleed damage to the target. When you make this attack, you do not apply your ability modifier (normally Strength, but potentially other modifiers) to the hit point damage dealt by your attack—instead, add an amount of bleed damage equal to this modifier. Bleed damage from this benefit doesn’t stack with itself.\n\nAdvanced Prerequisites: Strength 13, Dazing Assault, Power Attack, BAB +10\n\nWhenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round."
+  },
+  {
+    "Key": "DFT.Lamashtu.Advanced.Description",
+    "enGB": "You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",
