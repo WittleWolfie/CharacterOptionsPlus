@@ -147,6 +147,20 @@
   },
 
   {
+    "Key": "DFT.Torag.Name",
+    "ProcessTemplates": false,
+    "enGB": "Torag's Patient Strikes"
+  },
+  {
+    "Key": "DFT.Torag.Description",
+    "enGB": "Whenever you wield a warhammer, add your Wisdom bonus to the total number of attacks of opportunity that you can make per round. These additional attacks of opportunity don’t stack with those granted by Combat Reflexes, but this benefit counts as Combat Reflexes for the purpose of satisfying feat prerequisites and prestige class requirements. In addition, you can make attacks of opportunity while you’re flat-footed.\n\nAdvanced Prerequisites: Vital Strike, Weapon Focus (Warhammer), BAB +10\n\nOn your first opportunity attack each round with a warhammer, you can apply the effects of your Vital Strike feat. You can apply the Improved Vital Strike or Greater Vital Strike feat instead if you have either of those feats. If you confirm a critical hit with the attack, you can attempt a trip combat maneuver check against the target as a free action—this combat maneuver does not provoke an attack of opportunity."
+  },
+  {
+    "Key": "DFT.Torag.Advanced.Description",
+    "enGB": "On your first opportunity attack each round with a warhammer, you can apply the effects of your Vital Strike feat. You can apply the Improved Vital Strike or Greater Vital Strike feat instead if you have either of those feats. If you confirm a critical hit with the attack, you can attempt a trip combat maneuver check against the target as a free action—this combat maneuver does not provoke an attack of opportunity."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",

@@ -24,8 +24,6 @@ using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Controllers;
 using Kingmaker.Designers;
-using Kingmaker.Designers.Mechanics.Facts;
-using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
@@ -43,7 +41,6 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.Class.LevelUp;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
@@ -51,9 +48,7 @@ using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using TabletopTweaks.Core.Utilities;
 using UnityEngine;
 using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
@@ -138,6 +133,9 @@ namespace CharacterOptionsPlus.Feats
 
       FeatureConfigurator.New(RovagugAdvanced, Guids.RovagugAdvancedTechnique).Configure();
       FeatureConfigurator.New(RovagugName, Guids.RovagugTechnique).Configure();
+
+      FeatureConfigurator.New(ToragAdvanced, Guids.ToragAdvancedTechnique).Configure();
+      FeatureConfigurator.New(ToragName, Guids.ToragTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -156,7 +154,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureIrori(),
           ConfigureLamashtu(),
           ConfigureNorgorber(),
-          ConfigureRovagug())
+          ConfigureRovagug(),
+          ConfigureTorag())
         .Configure();
 
       // Add to the appropriate selections
@@ -240,6 +239,57 @@ namespace CharacterOptionsPlus.Feats
       {
         [JsonProperty]
         public EntityFact AppliedFact;
+      }
+    }
+
+
+    private static BlueprintFeature _vitalStrike;
+    private static BlueprintFeature VitalStrike
+    {
+      get
+      {
+        _vitalStrike ??= FeatureRefs.VitalStrikeFeature.Reference.Get();
+        return _vitalStrike;
+      }
+    }
+
+    private static BlueprintFeature _vitalStrikeImproved;
+    private static BlueprintFeature VitalStrikeImproved
+    {
+      get
+      {
+        _vitalStrikeImproved ??= FeatureRefs.VitalStrikeFeatureImproved.Reference.Get();
+        return _vitalStrikeImproved;
+      }
+    }
+
+    private static BlueprintFeature _vitalStrikeGreater;
+    private static BlueprintFeature VitalStrikeGreater
+    {
+      get
+      {
+        _vitalStrikeGreater ??= FeatureRefs.VitalStrikeFeatureGreater.Reference.Get();
+        return _vitalStrikeGreater;
+      }
+    }
+
+    private static BlueprintFeature _vitalStrikeMythic;
+    private static BlueprintFeature VitalStrikeMythic
+    {
+      get
+      {
+        _vitalStrikeMythic ??= FeatureRefs.VitalStrikeMythicFeat.Reference.Get();
+        return _vitalStrikeMythic;
+      }
+    }
+
+    private static BlueprintFeature _rowdy;
+    private static BlueprintFeature Rowdy
+    {
+      get
+      {
+        _rowdy ??= FeatureRefs.RowdyVitalDamage.Reference.Get();
+        return _rowdy;
       }
     }
 
@@ -822,56 +872,6 @@ namespace CharacterOptionsPlus.Feats
     [TypeId("9a1c3f73-4805-4a67-93d1-6ae52cd69862")]
     private class GorumsStrike : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeapon>
     {
-      private static BlueprintFeature _vitalStrike;
-      private static BlueprintFeature VitalStrike
-      {
-        get
-        {
-          _vitalStrike ??= FeatureRefs.VitalStrikeFeature.Reference.Get();
-          return _vitalStrike;
-        }
-      }
-
-      private static BlueprintFeature _vitalStrikeImproved;
-      private static BlueprintFeature VitalStrikeImproved
-      {
-        get
-        {
-          _vitalStrikeImproved ??= FeatureRefs.VitalStrikeFeatureImproved.Reference.Get();
-          return _vitalStrikeImproved;
-        }
-      }
-
-      private static BlueprintFeature _vitalStrikeGreater;
-      private static BlueprintFeature VitalStrikeGreater
-      {
-        get
-        {
-          _vitalStrikeGreater ??= FeatureRefs.VitalStrikeFeatureGreater.Reference.Get();
-          return _vitalStrikeGreater;
-        }
-      }
-
-      private static BlueprintFeature _vitalStrikeMythic;
-      private static BlueprintFeature VitalStrikeMythic
-      {
-        get
-        {
-          _vitalStrikeMythic ??= FeatureRefs.VitalStrikeMythicFeat.Reference.Get();
-          return _vitalStrikeMythic;
-        }
-      }
-
-      private static BlueprintFeature _rowdy;
-      private static BlueprintFeature Rowdy
-      {
-        get
-        {
-          _rowdy ??= FeatureRefs.RowdyVitalDamage.Reference.Get();
-          return _rowdy;
-        }
-      }
-
       private static readonly CustomDataKey HandlerKey = new("GorumsStrike.Handler");
 
       public void OnEventAboutToTrigger(RuleAttackWithWeapon evt)
@@ -1764,6 +1764,111 @@ namespace CharacterOptionsPlus.Feats
         {
           Logger.LogException("RovagugsThunder.OnEventDidTrigger", e);
         }
+      }
+    }
+    #endregion
+
+    #region Torag
+    private const string ToragName = "DFT.Torag";
+    private const string ToragDisplayName = "DFT.Torag.Name";
+    private const string ToragDescription = "DFT.Torag.Description";
+
+    private const string ToragAdvanced = "DFT.Torag.Advanced";
+    private const string ToragAdvancedDescription = "DFT.Torag.Advanced.Description";
+
+    private const string ToragIcon = IconPrefix + "gloriousheat.png";
+    private const string ToragAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureTorag()
+    {
+      FeatureConfigurator.New(ToragAdvanced, Guids.ToragAdvancedTechnique)
+        .SetDisplayName(ToragDisplayName)
+        .SetDescription(ToragAdvancedDescription)
+        .SetIcon(ToragAdvancedIcon)
+        .SetIsClassFeature()
+        .AddComponent<ToragsTrip>()
+        .Configure();
+
+      return FeatureConfigurator.New(ToragName, Guids.ToragTechnique)
+        .SetDisplayName(ToragDisplayName)
+        .SetDescription(ToragDescription)
+        .SetIcon(ToragIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddRecommendationStatMiminum(stat: StatType.Wisdom, minimalValue: 14)
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Warhammer))
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.ToragAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .HasFact(FeatureRefs.PowerAttackFeature.ToString())
+              .Add<HasWeaponFocus>(c => c.Category = WeaponCategory.Warhammer)))
+        .AddDerivativeStatBonus(
+          baseStat: StatType.Wisdom,
+          derivativeStat: StatType.AttackOfOpportunityCount,
+          descriptor: ModifierDescriptor.Feat)
+        .AddRecalculateOnStatChange(stat: StatType.Wisdom)
+        .AddCondition(condition: UnitCondition.AttackOfOpportunityBeforeInitiative)
+        .Configure();
+    }
+
+    [TypeId("95d246a7-9551-47ef-b844-fe260c040299")]
+    private class ToragsTrip : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeapon>
+    {
+      private static readonly CustomDataKey HandlerKey = new("ToragsTrip.Handler");
+
+      public void OnEventAboutToTrigger(RuleAttackWithWeapon evt)
+      {
+        try
+        {
+          if (evt.Weapon.Blueprint.Category != WeaponCategory.Greatsword)
+            return;
+
+          if (!evt.IsAttackOfOpportunity)
+            return;
+
+          if (Owner.CombatState.AttackOfOpportunityCount < Owner.CombatState.AttackOfOpportunityPerRound)
+          {
+            Logger.NativeLog($"Not the first AOO this round");
+            return;
+          }
+
+          RegisterVitalStrike(evt);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("ToragsTrip.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleAttackWithWeapon evt)
+      {
+        try
+        {
+          if (evt.TryGetCustomData(HandlerKey, out ISubscriber handler))
+          {
+            Logger.NativeLog("Removing Vital Strike handler");
+            EventBus.Unsubscribe(handler);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("ToragsTrip.OnEventDidTrigger", e);
+        }
+      }
+
+      private void RegisterVitalStrike(RuleAttackWithWeapon evt)
+      {
+        Logger.NativeLog("Adding Vital Strike handler");
+        var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
+        var handler =
+          new AbilityCustomVitalStrike.VitalStrike(
+            Owner, vitalStrikeMod, Owner.HasFact(VitalStrikeMythic), Owner.HasFact(Rowdy), Fact);
+        EventBus.Subscribe(handler);
+        evt.SetCustomData(HandlerKey, handler);
       }
     }
     #endregion

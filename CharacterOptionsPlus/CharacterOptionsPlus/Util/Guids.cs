@@ -195,6 +195,9 @@ namespace CharacterOptionsPlus.Util
 
     internal const string RovagugTechnique = "a8f30595-08ee-42e4-ac54-bef8fd5cc396";
     internal const string RovagugAdvancedTechnique = "7593c79c-9e42-49df-a5df-a0fe36c234d1";
+
+    internal const string ToragTechnique = "71f98f2c-9df1-4627-9714-d8cc426ecb43";
+    internal const string ToragAdvancedTechnique = "a27514f6-cd73-4905-af35-ccabb1b676b8";
     #endregion
 
     #region Eldritch Heritage
