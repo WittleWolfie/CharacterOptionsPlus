@@ -192,6 +192,9 @@ namespace CharacterOptionsPlus.Util
     internal const string NorgorberTechniqueToggle = "24d670da-07fc-4a79-bd44-11c8a4728804";
     internal const string NorgorberTechniqueSelfBuff = "7295c09e-a631-4213-87b3-040f55339341";
     internal const string NorgorberTechniqueBuff = "b11516b2-20c7-4139-a71e-b9faf3012ffb";
+
+    internal const string RovagugTechnique = "a8f30595-08ee-42e4-ac54-bef8fd5cc396";
+    internal const string RovagugAdvancedTechnique = "7593c79c-9e42-49df-a5df-a0fe36c234d1";
     #endregion
 
     #region Eldritch Heritage

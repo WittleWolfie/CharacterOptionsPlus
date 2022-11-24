@@ -24,6 +24,8 @@ using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Controllers;
 using Kingmaker.Designers;
+using Kingmaker.Designers.Mechanics.Facts;
+using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
@@ -41,6 +43,7 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Class.LevelUp;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
@@ -48,7 +51,9 @@ using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using TabletopTweaks.Core.Utilities;
 using UnityEngine;
 using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
@@ -130,6 +135,9 @@ namespace CharacterOptionsPlus.Feats
       ActivatableAbilityConfigurator.New(NorgorberToggle, Guids.NorgorberTechniqueToggle).Configure();
       FeatureConfigurator.New(NorgorberAdvanced, Guids.NorgorberAdvancedTechnique).Configure();
       FeatureConfigurator.New(NorgorberName, Guids.NorgorberTechnique).Configure();
+
+      FeatureConfigurator.New(RovagugAdvanced, Guids.RovagugAdvancedTechnique).Configure();
+      FeatureConfigurator.New(RovagugName, Guids.RovagugTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -147,7 +155,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureIomedae(),
           ConfigureIrori(),
           ConfigureLamashtu(),
-          ConfigureNorgorber())
+          ConfigureNorgorber(),
+          ConfigureRovagug())
         .Configure();
 
       // Add to the appropriate selections
@@ -1548,7 +1557,6 @@ namespace CharacterOptionsPlus.Feats
     [TypeId("05cee077-0dda-4a71-800c-2597df2d0822")]
     private class NorgorbersStealth : ContextAction
     {
-
       public override string GetCaption()
       {
         return "Custom action for Norgorber's Silent Shiv advanced effect";
@@ -1635,6 +1643,131 @@ namespace CharacterOptionsPlus.Feats
 
       public void OnEventDidTrigger(RuleCalculateWeaponStats evt) { }
     }
-#endregion
+    #endregion
+
+    #region Rovagug
+    private const string RovagugName = "DFT.Rovagug";
+    private const string RovagugDisplayName = "DFT.Rovagug.Name";
+    private const string RovagugDescription = "DFT.Rovagug.Description";
+
+    private const string RovagugAdvanced = "DFT.Rovagug.Advanced";
+    private const string RovagugAdvancedDescription = "DFT.Rovagug.Advanced.Description";
+
+    private const string RovagugIcon = IconPrefix + "gloriousheat.png";
+    private const string RovagugAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureRovagug()
+    {
+      FeatureConfigurator.New(RovagugAdvanced, Guids.RovagugAdvancedTechnique)
+        .SetDisplayName(RovagugDisplayName)
+        .SetDescription(RovagugAdvancedDescription)
+        .SetIcon(RovagugAdvancedIcon)
+        .SetIsClassFeature()
+        .AddComponent<RovagugsSmash>()
+        .Configure();
+
+      return FeatureConfigurator.New(RovagugName, Guids.RovagugTechnique)
+        .SetDisplayName(RovagugDisplayName)
+        .SetDescription(RovagugDescription)
+        .SetIcon(RovagugIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddRecommendationWeaponSubcategoryFocus(WeaponSubCategory.Natural)
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Greataxe))
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Skills | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticEvil)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.RovagugAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .HasFact(FeatureRefs.PowerAttackFeature.ToString())))
+        .AddComponent<RovagugsThunder>()
+        .Configure();
+    }
+
+    [TypeId("4e0d37de-2577-4ae2-92c2-903c8fdc3c72")]
+    private class RovagugsSmash : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateDamage>
+    {
+      private static BlueprintBuff _powerAttack;
+      private static BlueprintBuff PowerAttack
+      {
+        get
+        {
+          _powerAttack ??= BuffRefs.PowerAttackBuff.Reference.Get();
+          return _powerAttack;
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateDamage evt)
+      {
+        try
+        {
+          var weapon = evt.DamageBundle.Weapon?.Blueprint;
+          if (weapon is null || evt.DamageBundle.WeaponDamage is null)
+            return;
+
+          if (weapon.Category != WeaponCategory.Greataxe && !weapon.Category.HasSubCategory(WeaponSubCategory.Natural))
+            return;
+
+          var powerAttackModifier =
+            evt.m_ModifiableBonus?.Modifiers?
+              .Where(m => m.Fact?.Blueprint == PowerAttack)
+              .Select(m => (Modifier?)m) // Cast to avoid getting a default struct
+              .FirstOrDefault();
+          if (powerAttackModifier is null)
+            return;
+
+          Logger.NativeLog($"Reducing DR for {Owner.CharacterName} by {powerAttackModifier}");
+          evt.DamageBundle.WeaponDamage.ReductionPenalty.Add(
+            new Modifier(-powerAttackModifier.Value.Value, Fact, ModifierDescriptor.UntypedStackable));
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("RovagugsSmash.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateDamage evt) { }
+    }
+
+    [TypeId("8cc21aa2-fb78-438a-a6c7-f36e93782ef8")]
+    private class RovagugsThunder : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCombatManeuver>
+    {
+      public void OnEventAboutToTrigger(RuleCombatManeuver evt) { }
+
+      public void OnEventDidTrigger(RuleCombatManeuver evt)
+      {
+        try
+        {
+          if (evt.Type != CombatManeuver.DirtyTrickEntangle
+              && evt.Type != CombatManeuver.DirtyTrickBlind
+              && evt.Type != CombatManeuver.DirtyTrickSickened)
+            return;
+
+          if (!evt.Success)
+            return;
+
+          var target = evt.Target;
+          if (target is null)
+          {
+            Logger.Warning("No target");
+            return;
+          }
+
+          var charisma = Owner.Stats.GetStat<ModifiableValueAttributeStat>(StatType.Charisma);
+          var damage =
+            DamageTypes.Physical()
+              .GetDamageDescriptor(new DiceFormula(rollsCount: 1, diceType: DiceType.D6), charisma.Bonus)
+              .CreateDamage();
+          Rulebook.Trigger(new RuleDealDamage(Owner, target, new DamageBundle(damage)));
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("RovagugsThunder.OnEventDidTrigger", e);
+        }
+      }
+    }
+    #endregion
   }
 }

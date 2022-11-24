@@ -133,6 +133,20 @@
   },
 
   {
+    "Key": "DFT.Rovagug.Name",
+    "ProcessTemplates": false,
+    "enGB": "Rovagug's Thunder"
+  },
+  {
+    "Key": "DFT.Rovagug.Description",
+    "enGB": "Whenever you succeed at a dirty trick combat maneuver check against an opponent, you deal an amount of damage equal to 1d6 + your Charisma modifier.\n\nAdvanced Prerequisites: Power Attack, BAB +10\n\nAnytime you use Power Attack with a great axe or a natural attack, you ignore an amount of the target’s hardness or damage reduction equal to the penalty Power Attack imparts to your attack roll. This benefit stacks with Penetrating Strike and Greater Penetrating Strike."
+  },
+  {
+    "Key": "DFT.Rovagug.Advanced.Description",
+    "enGB": "Anytime you use Power Attack with a great axe or a natural attack, you ignore an amount of the target’s hardness or damage reduction equal to the penalty Power Attack imparts to your attack roll. This benefit stacks with Penetrating Strike and Greater Penetrating Strike."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",
