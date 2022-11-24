@@ -1824,7 +1824,7 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          if (evt.Weapon.Blueprint.Category != WeaponCategory.Greatsword)
+          if (evt.Weapon.Blueprint.Category != WeaponCategory.Warhammer)
             return;
 
           if (!evt.IsAttackOfOpportunity)
@@ -1852,6 +1852,11 @@ namespace CharacterOptionsPlus.Feats
           {
             Logger.NativeLog("Removing Vital Strike handler");
             EventBus.Unsubscribe(handler);
+
+            if (!evt.AttackRoll.IsCriticalConfirmed)
+              return;
+
+            Rulebook.Trigger<RuleCombatManeuver>(new(Owner, evt.Target, CombatManeuver.Trip));
           }
         }
         catch (Exception e)
