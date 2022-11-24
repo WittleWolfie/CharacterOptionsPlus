@@ -119,6 +119,20 @@
   },
 
   {
+    "Key": "DFT.Norgorber.Name",
+    "ProcessTemplates": false,
+    "enGB": "Norgorber's Silent Shiv"
+  },
+  {
+    "Key": "DFT.Norgorber.Description",
+    "enGB": "Whenever you attack an opponent that is completely unaware of your presence (such as when you are using the Stealth skill or invisible), your attack deals damage as if you were one size category larger. This benefit applies only to the first attack that you make against the target, and only with attacks made with light or one-handed weapons.\n\nAdvanced Prerequisites: Stealth 10 Ranks\n\nAt the start of each round, choose one opponent that you can see and attempt a Stealth check as a swift action. If the result of your check exceeds the target’s CMD, treat the target as if it were completely unaware of your presence for the purpose of the initial benefit of this divine fighting technique for 1 round."
+  },
+  {
+    "Key": "DFT.Norgorber.Advanced.Description",
+    "enGB": "At the start of each round, you may attempt a Stealth check against the nearest enemy as a swift action. If the result of your check exceeds the target’s CMD, treat the target as if it were completely unaware of your presence for the purpose of the initial benefit of this divine fighting technique for 1 round."
+  },
+
+  {
     "Key": "DraconicHeritage.Name",
     "ProcessTemplates": false,
     "enGB": "Draconic Heritage (Any)",

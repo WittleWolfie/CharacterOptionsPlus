@@ -1467,5 +1467,159 @@ namespace CharacterOptionsPlus.Feats
       }
     }
     #endregion
+
+    #region Norgorber
+    private const string NorgorberName = "DFT.Norgorber";
+    private const string NorgorberDisplayName = "DFT.Norgorber.Name";
+    private const string NorgorberDescription = "DFT.Norgorber.Description";
+
+    private const string NorgorberAdvanced = "DFT.Norgorber.Advanced";
+    private const string NorgorberAdvancedDescription = "DFT.Norgorber.Advanced.Description";
+
+    private const string NorgorberToggle = "DFT.Norgorber.Toggle";
+    private const string NorgorberSelfBuff = "DFT.Norgorber.Buff.Self";
+    private const string NorgorberBuff = "DFT.Norgorber.Buff";
+
+    private const string NorgorberIcon = IconPrefix + "gloriousheat.png";
+    private const string NorgorberAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureNorgorber()
+    {
+      var selfBuff = BuffConfigurator.New(NorgorberBuff, Guids.NorgorberTechniqueSelfBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddFactContextActions(newRound: ActionsBuilder.New().Add<NorgorbersStealth>())
+        .Configure();
+
+      var buff = BuffConfigurator.New(NorgorberBuff, Guids.NorgorberTechniqueBuff)
+        .SetDisplayName(NorgorberDisplayName)
+        .SetDescription(NorgorberAdvancedDescription)
+        .SetIcon(NorgorberAdvancedIcon)
+        .AddNotDispelable()
+        .Configure();
+
+      var toggle = ActivatableAbilityConfigurator.New(NorgorberToggle, Guids.NorgorberTechniqueToggle)
+        .SetDisplayName(NorgorberDisplayName)
+        .SetDescription(NorgorberAdvancedDescription)
+        .SetIcon(NorgorberAdvancedIcon)
+        .SetBuff(selfBuff)
+        .Configure();
+
+      FeatureConfigurator.New(NorgorberAdvanced, Guids.NorgorberAdvancedTechnique)
+        .SetDisplayName(NorgorberDisplayName)
+        .SetDescription(NorgorberAdvancedDescription)
+        .SetIcon(NorgorberAdvancedIcon)
+        .SetIsClassFeature()
+        .AddFacts(new() { toggle })
+        .Configure();
+
+      return FeatureConfigurator.New(NorgorberName, Guids.NorgorberTechnique)
+        .SetDisplayName(NorgorberDisplayName)
+        .SetDescription(NorgorberDescription)
+        .SetIcon(NorgorberIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddRecommendationWeaponSubcategoryFocus(WeaponSubCategory.Light)
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Skills)
+        .AddPrerequisiteAlignment(AlignmentMaskType.NeutralEvil)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.NorgorberAdvancedTechnique, ConditionsBuilder.New().StatValue(n: 10, stat: StatType.SkillStealth)))
+        .AddComponent<NorgorbersHeavyShiv>()
+        .Configure();
+    }
+
+    private static BlueprintBuff _unaware;
+    private static BlueprintBuff Unaware
+    {
+      get
+      {
+        _unaware ??= BlueprintTool.Get<BlueprintBuff>(Guids.NorgorberTechniqueBuff);
+        return _unaware;
+      }
+    }
+
+    [TypeId("05cee077-0dda-4a71-800c-2597df2d0822")]
+    private class NorgorbersStealth : ContextAction
+    {
+
+      public override string GetCaption()
+      {
+        return "Custom action for Norgorber's Silent Shiv advanced effect";
+      }
+
+      public override void RunAction()
+      {
+        try
+        {
+          var target = Context.MainTarget.Unit;
+          if (target is null)
+          {
+            Logger.Warning("No valid target");
+            return;
+          }
+
+          var caster = Context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning("No caster");
+            return;
+          }
+
+          if (!caster.HasSwiftAction())
+          {
+            Logger.Warning("No swift action available");
+            return;
+          }
+
+          caster.SpendAction(CommandType.Swift, isFullRound: false, timeSinceCommandStart: 0f);
+
+          var dc = Rulebook.Trigger<RuleCalculateCMD>(new(caster, target, CombatManeuver.None)).Result;
+          Logger.NativeLog($"{caster.CharacterName} is making a stealth check against {target.CharacterName}, DC {dc}");
+          if (Rulebook.Trigger<RuleSkillCheck>(new(caster, StatType.SkillStealth, dc)).Success)
+            target.AddBuff(Unaware, Context, 1.Rounds().Seconds);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("NorgorbersStealth.RunAction", e);
+        }
+      }
+    }
+
+    [TypeId("d1d19b7a-6b62-4db0-987d-b78a9163aeee")]
+    private class NorgorbersHeavyShiv : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleCalculateWeaponStats>
+    {
+      public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt)
+      {
+        try
+        {
+          if (!evt.AttackWithWeapon.IsFirstAttack)
+            return;
+
+          var weapon = evt.Weapon.Blueprint;
+          if (weapon.IsTwoHanded && !weapon.Category.HasSubCategory(WeaponSubCategory.Light))
+            return;
+
+          var target = evt.GetRuleTarget();
+          if (target is null)
+          {
+            Logger.Warning("No target");
+            return;
+          }
+
+          var targetBuff = target.Buffs.GetBuff(Unaware);
+          if (target.Memory.ContainsVisible(Owner) && (targetBuff is null || targetBuff.Context.MaybeCaster != Owner))
+            return;
+
+          evt.IncreaseWeaponSize(1);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("NorgorbersHeavyShiv.OnEventDidTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateWeaponStats evt) { }
+    }
+    #endregion
   }
 }

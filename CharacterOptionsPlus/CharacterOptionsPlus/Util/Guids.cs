@@ -186,6 +186,12 @@ namespace CharacterOptionsPlus.Util
     internal const string LamashtuTechniqueAbility = "8f3930a3-dcf7-45c9-b875-0cd5840f513e";
     internal const string LamashtuTechniqueBuff = "0609e814-53f0-448d-a2b8-f50f36eaf1a8";
     internal const string LamashtuTechniqueImmunityBuff = "10f3d18c-a7c4-4e0a-9e76-5524fa23b4d0";
+
+    internal const string NorgorberTechnique = "6546d666-23ad-457e-a90a-38a176e2df89";
+    internal const string NorgorberAdvancedTechnique = "f356e5cf-c180-4191-879e-e792fcf8c374";
+    internal const string NorgorberTechniqueToggle = "f3e3c9a9-0333-4e44-948e-561c8cdf1f6d";
+    internal const string NorgorberTechniqueSelfBuff = "7295c09e-a631-4213-87b3-040f55339341";
+    internal const string NorgorberTechniqueBuff = "b11516b2-20c7-4139-a71e-b9faf3012ffb";
     #endregion
 
     #region Eldritch Heritage
