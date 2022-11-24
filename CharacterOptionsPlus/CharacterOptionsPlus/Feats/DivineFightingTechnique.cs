@@ -1599,6 +1599,9 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
+          if (evt.AttackWithWeapon is null)
+            return;
+
           if (!evt.AttackWithWeapon.IsFirstAttack)
             return;
 
@@ -1606,7 +1609,7 @@ namespace CharacterOptionsPlus.Feats
           if (weapon.IsTwoHanded && !weapon.Category.HasSubCategory(WeaponSubCategory.Light))
             return;
 
-          var target = evt.GetRuleTarget();
+          var target = evt.AttackWithWeapon.Target;
           if (target is null)
           {
             Logger.Warning("No target");
@@ -1615,8 +1618,12 @@ namespace CharacterOptionsPlus.Feats
 
           var targetBuff = target.Buffs.GetBuff(Unaware);
           if (target.Memory.ContainsVisible(Owner) && (targetBuff is null || targetBuff.Context.MaybeCaster != Owner))
+          {
+            Logger.NativeLog($"{target.CharacterName} is aware of {Owner.CharacterName}");
             return;
+          }
 
+          Logger.NativeLog("Increasing weapon size.");
           evt.IncreaseWeaponSize(1);
         }
         catch (Exception e)
