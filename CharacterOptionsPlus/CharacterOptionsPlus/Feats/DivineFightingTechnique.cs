@@ -1249,8 +1249,8 @@ namespace CharacterOptionsPlus.Feats
     private const string LamashtuImmunityBuff = "DFT.Lamashtu.Immunity.Buff";
     private const string LamashtuAbility = "DFT.Lamashtu.Ability";
 
-    private const string LamashtuIcon = IconPrefix + "gloriousheat.png";
-    private const string LamashtuAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string LamashtuIcon = IconPrefix + "lamashtutechnique.png";
+    private const string LamashtuAdvancedIcon = IconPrefix + "lamashtuadvancedtechnique.png";
 
     private static BlueprintFeature ConfigureLamashtu()
     {

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 481326104
+CRC: 959060092
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3968bb7caf235ac6e3f9972bc54a81b4
+    Hash: 2f6f83fe881c2f9b91536357a7ed8cfa
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -22,16 +22,18 @@ Assets:
 - Assets/Icons/SuppressParalyze.png
 - Assets/Icons/AsmodeusAdvancedTechnique.png
 - Assets/Icons/GreaterSkaldVigor.png
+- Assets/Icons/LamashtuAdvancedTechnique.png
 - Assets/Icons/EldritchHeritage.png
 - Assets/Icons/IomedaeTechnique.png
-- Assets/Icons/IroriAdvancedTechnique.png
+- Assets/Icons/LamashtuTechnique.png
 - Assets/Icons/Desecrate.png
+- Assets/Icons/IroriAdvancedTechnique.png
 - Assets/Icons/GorumTechnique.png
-- Assets/Icons/SkaldVigor.png
 - Assets/Icons/AsmodeusEntangle.png
 - Assets/Icons/DivineFightingTechnique.png
 - Assets/Icons/PairedOpportunists.png
 - Assets/Icons/ErastilTechnique.png
+- Assets/Icons/SkaldVigor.png
 - Assets/Icons/ArcaneArchery.png
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
