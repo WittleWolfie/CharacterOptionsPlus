@@ -124,6 +124,12 @@ namespace CharacterOptionsPlus.Feats
       AbilityConfigurator.New(LamashtuAbility, Guids.LamashtuTechniqueAbility).Configure();
       FeatureConfigurator.New(LamashtuAdvanced, Guids.LamashtuAdvancedTechnique).Configure();
       FeatureConfigurator.New(LamashtuName, Guids.LamashtuTechnique).Configure();
+
+      BuffConfigurator.New(NorgorberSelfBuff, Guids.NorgorberTechniqueSelfBuff).Configure();
+      BuffConfigurator.New(NorgorberBuff, Guids.NorgorberTechniqueBuff).Configure();
+      ActivatableAbilityConfigurator.New(NorgorberToggle, Guids.NorgorberTechniqueToggle).Configure();
+      FeatureConfigurator.New(NorgorberAdvanced, Guids.NorgorberAdvancedTechnique).Configure();
+      FeatureConfigurator.New(NorgorberName, Guids.NorgorberTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -140,7 +146,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureGorum(),
           ConfigureIomedae(),
           ConfigureIrori(),
-          ConfigureLamashtu())
+          ConfigureLamashtu(),
+          ConfigureNorgorber())
         .Configure();
 
       // Add to the appropriate selections
