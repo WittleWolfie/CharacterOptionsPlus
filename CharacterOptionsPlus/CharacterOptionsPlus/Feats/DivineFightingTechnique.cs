@@ -1386,6 +1386,7 @@ namespace CharacterOptionsPlus.Feats
     private const string LamashtuBuff = "DFT.Lamashtu.Buff";
     private const string LamashtuImmunityBuff = "DFT.Lamashtu.Immunity.Buff";
     private const string LamashtuAbility = "DFT.Lamashtu.Ability";
+    private const string LamashtuAbilityDescription = "DFT.Lamashtu.Ability.Description";
 
     private const string LamashtuIcon = IconPrefix + "lamashtutechnique.png";
     private const string LamashtuAdvancedIcon = IconPrefix + "lamashtuadvancedtechnique.png";
@@ -1395,7 +1396,7 @@ namespace CharacterOptionsPlus.Feats
       var buff = BuffConfigurator.New(LamashtuBuff, Guids.LamashtuTechniqueBuff)
         .CopyFrom(BuffRefs.Bleed1d4Buff, c => c is not AddFactContextActions)
         .SetDisplayName(LamashtuDisplayName)
-        .SetDescription(LamashtuDescription)
+        .SetDescription(LamashtuAbilityDescription)
         .SetIcon(LamashtuIcon)
         .SetStacking(StackingType.Ignore)
         .AddFactContextActions(
@@ -1410,7 +1411,7 @@ namespace CharacterOptionsPlus.Feats
 
       var ability = AbilityConfigurator.New(LamashtuAbility, Guids.LamashtuTechniqueAbility)
         .SetDisplayName(LamashtuDisplayName)
-        .SetDescription(LamashtuDescription)
+        .SetDescription(LamashtuAbilityDescription)
         .SetIcon(LamashtuIcon)
         .AllowTargeting(enemies: true)
         .SetType(AbilityType.Physical)

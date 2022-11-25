@@ -178,6 +178,10 @@
     "Key": "DFT.Lamashtu.Advanced.Description",
     "enGB": "Whenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round."
   },
+  {
+    "Key": "DFT.Lamashtu.Ability.Description",
+    "enGB": "As a standard action, you can make a single attack with a falchion or a kukri in order to deal bleed damage to the target. When you make this attack, you do not apply your ability modifier (normally Strength, but potentially other modifiers) to the hit point damage dealt by your attack—instead, add an amount of bleed damage equal to this modifier. Bleed damage from this benefit doesn’t stack with itself."
+  },
 
   {
     "Key": "DFT.Norgorber.Name",
