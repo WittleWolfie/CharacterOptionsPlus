@@ -35,6 +35,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * Witch
         * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
 * Feats
+    * [Dazing Assault](https://www.d20pfsrd.com/feats/combat-feats/dazing-assault-combat/)
+    * [Divine Fighting Technique](https://www.aonprd.com/FeatDisplay.aspx?ItemName=Divine%20Fighting%20Technique)
+        * Asmodeus, Erastil, Gorum, Iomedae, Irori, Lamashtu, Norgorber, Rovagug, Torag, Urgathoa
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
         * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
         * Supports Aberrant and Destined bloodlines from TTT-Base
@@ -65,9 +68,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Class Features
     * Slayer
         * [Evasion](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/rogue-adv-talents-master-tricks/)
-
-* Feats
-    * [Divine Fighting Technique (Urgathoa)](https://www.d20pfsrd.com/feats/combat-feats/divine-fighting-technique-combat/)
 
 * Spells
     * [Cone of Cold](https://www.d20pfsrd.com/magic/all-spells/c/cone-of-cold/)
