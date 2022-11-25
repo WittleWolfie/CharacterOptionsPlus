@@ -170,6 +170,9 @@
       <Entry Include="CharacterOptionsPlus.Archetypes.ArrowsongMinstrel/UnitPartMagus_Patch" />
 
       <Entry Include="CharacterOptionsPlus.ClassFeatures.ShadowDuplicate/UnitPartMirrorImage_Patch" />
+
+      <Entry Include="CharacterOptionsPlus.Components.QualifyForPrerequisiteFeature/PrerequisiteFeature_Patch" />
+      <Entry Include="CharacterOptionsPlus.Components.QualifyForPrerequisiteFeature/PrerequisiteFeaturesFromList_Patch" />
       
       <Entry Include="CharacterOptionsPlus.MechanicsChanges.ExpandedActivatableAbilityGroup/UnitPartActivatableAbility_Patch" />
 
