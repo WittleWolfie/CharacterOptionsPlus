@@ -321,7 +321,7 @@ namespace CharacterOptionsPlus.Feats
     private const string AbadarAdvancedName = "DFT.Abadar.Advanced.Name";
     private const string AbadarAdvancedDescription = "DFT.Abadar.Advanced.Description";
     private const string AbadarDisarm = "DFT.Abadar.Disarm";
-    private const string AbadarDisarmName = "DFT.Abadar.Disarm.Description";
+    private const string AbadarDisarmName = "DFT.Abadar.Disarm.Name";
     private const string AbadarDisarmDescription = "DFT.Abadar.Disarm.Description";
     private const string AbadarEntangle = "DFT.Abadar.Entangle";
 

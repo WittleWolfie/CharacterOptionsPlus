@@ -4,7 +4,9 @@
     * Abadar's Divine Fighting Technique
 
 * Updates
-    * Improved text templating on Divine Fighting Technique to clarify Advanced Effects
+    * Improved text templating on Divine Fighting Technique
+        * Clarify Advanced Effects on initial feat
+        * Remove Advanced text from abilities and buffs granted by the initial benefit
     * Torag's Divine Fighting Technique qualifies as Combat Reflexes for prerequisites
 
 ## v0.8.0
