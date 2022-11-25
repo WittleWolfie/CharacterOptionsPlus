@@ -1,7 +1,9 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.BasicEx;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
@@ -48,9 +50,11 @@ using Kingmaker.UnitLogic.Mechanics.ContextData;
 using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Kingmaker.RuleSystem.RulebookEvent;
+using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static UnityModManagerNet.UnityModManager.ModEntry;
@@ -136,6 +140,16 @@ namespace CharacterOptionsPlus.Feats
 
       FeatureConfigurator.New(ToragAdvanced, Guids.ToragAdvancedTechnique).Configure();
       FeatureConfigurator.New(ToragName, Guids.ToragTechnique).Configure();
+
+      BuffConfigurator.New(UrgathoaBuff, Guids.UrgathoaTechniqueBuff).Configure();
+      BuffConfigurator.New(UrgathoaLifeBuff, Guids.UrgathoaTechniqueLifeBuff).Configure();
+      AbilityResourceConfigurator.New(UrgathoaResource, Guids.UrgathoaTechniqueResource).Configure();
+      ActivatableAbilityConfigurator.New(UrgathoaToggle, Guids.UrgathoaTechniqueToggle).Configure();
+      BuffConfigurator.New(UrgathoaAdvancedBuff, Guids.UrgathoaAdvancedTechniqueBuff).Configure();
+      AbilityResourceConfigurator.New(UrgathoaAdvancedResource, Guids.UrgathoaAdvancedTechniqueResource).Configure();
+      ActivatableAbilityConfigurator.New(UrgathoaAdvancedToggle, Guids.UrgathoaAdvancedTechniqueToggle).Configure();
+      FeatureConfigurator.New(UrgathoaAdvanced, Guids.UrgathoaAdvancedTechnique).Configure();
+      FeatureConfigurator.New(UrgathoaName, Guids.UrgathoaTechnique).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -155,7 +169,8 @@ namespace CharacterOptionsPlus.Feats
           ConfigureLamashtu(),
           ConfigureNorgorber(),
           ConfigureRovagug(),
-          ConfigureTorag())
+          ConfigureTorag(),
+          ConfigureUrgathoa())
         .Configure();
 
       // Add to the appropriate selections
@@ -1879,6 +1894,238 @@ namespace CharacterOptionsPlus.Feats
             Owner, vitalStrikeMod, Owner.HasFact(VitalStrikeMythic), Owner.HasFact(Rowdy), Fact);
         EventBus.Subscribe(handler);
         evt.SetCustomData(HandlerKey, handler);
+      }
+    }
+    #endregion
+
+    #region Urgathoa
+    private const string UrgathoaName = "DFT.Urgathoa";
+    private const string UrgathoaDisplayName = "DFT.Urgathoa.Name";
+    private const string UrgathoaDescription = "DFT.Urgathoa.Description";
+
+    private const string UrgathoaAdvanced = "DFT.Urgathoa.Advanced";
+    private const string UrgathoaAdvancedName = "DFT.Urgathoa.Advanced.Name";
+    private const string UrgathoaAdvancedDescription = "DFT.Urgathoa.Advanced.Description";
+
+    private const string UrgathoaBuff = "DFT.Urgathoa.Buff";
+    private const string UrgathoaLifeBuff = "DFT.Urgathoa.Life.Buff";
+    private const string UrgathoaToggle = "DFT.Urgathoa.Toggle";
+    private const string UrgathoaResource = "DFT.Urgathoa.Resource";
+
+    private const string UrgathoaAdvancedBuff = "DFT.Urgathoa.Advanced.Buff";
+    private const string UrgathoaAdvancedToggle = "DFT.Urgathoa.Advanced.Toggle";
+    private const string UrgathoaAdvancedResource = "DFT.Urgathoa.Advanced.Resource";
+
+    private const string UrgathoaIcon = IconPrefix + "gloriousheat.png";
+    private const string UrgathoaAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureUrgathoa()
+    {
+      var resource = AbilityResourceConfigurator.New(UrgathoaResource, Guids.UrgathoaTechniqueResource)
+        .SetIcon(UrgathoaIcon)
+        .SetMaxAmount(ResourceAmountBuilder.New(0).IncreaseByStat(StatType.Wisdom))
+        .Configure();
+      var advancedResource =
+        AbilityResourceConfigurator.New(UrgathoaAdvancedResource, Guids.UrgathoaAdvancedTechniqueResource)
+          .CopyFrom(resource)
+          .Configure();
+
+      var lifeBuff = BuffConfigurator.New(UrgathoaLifeBuff, Guids.UrgathoaTechniqueLifeBuff)
+        .SetDisplayName(UrgathoaDisplayName)
+        .SetDescription(UrgathoaDescription)
+        .SetIcon(UrgathoaIcon)
+        .AddNotDispelable()
+        .AddTemporaryHitPointsFromAbilityValue(
+          value: ContextValues.Shared(AbilitySharedValue.Heal), removeWhenHitPointsEnd: true)
+        .AddSpellDescriptorComponent(SpellDescriptor.TemporaryHP)
+        .Configure();
+
+      var buff = BuffConfigurator.New(UrgathoaBuff, Guids.UrgathoaTechniqueBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddNotDispelable()
+        .AddComponent<UrgathoasConsume>()
+        .Configure();
+      var advancedBuff = BuffConfigurator.New(UrgathoaAdvancedBuff, Guids.UrgathoaAdvancedTechniqueBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .AddNotDispelable()
+        .AddComponent<UrgathoasContagion>()
+        .Configure();
+
+      var toggle = ActivatableAbilityConfigurator.New(UrgathoaToggle, Guids.UrgathoaTechniqueToggle)
+        .SetDisplayName(UrgathoaDisplayName)
+        .SetDescription(UrgathoaDescription)
+        .SetIcon(UrgathoaIcon)
+        .SetBuff(buff)
+        .AddActivatableAbilityResourceLogic(
+          spendType: ResourceSpendType.Never,
+          requiredResource: resource)
+        .Configure();
+      
+      var advancedToggle =
+        ActivatableAbilityConfigurator.New(UrgathoaAdvancedToggle, Guids.UrgathoaAdvancedTechniqueToggle)
+          .SetDisplayName(UrgathoaAdvancedName)
+          .SetDescription(UrgathoaAdvancedDescription)
+          .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
+          .SetBuff(advancedBuff)
+          .AddActivatableAbilityResourceLogic(
+            spendType: ResourceSpendType.Never,
+            requiredResource: advancedResource)
+          .Configure();
+
+      FeatureConfigurator.New(UrgathoaAdvanced, Guids.UrgathoaAdvancedTechnique)
+        .SetDisplayName(UrgathoaAdvancedName)
+        .SetDescription(UrgathoaAdvancedDescription)
+        .SetIcon(UrgathoaAdvancedIcon)
+        .SetIsClassFeature()
+        .AddFacts(new() { advancedToggle })
+        .Configure();
+
+      return FeatureConfigurator.New(UrgathoaName, Guids.UrgathoaTechnique)
+        .SetDisplayName(UrgathoaDisplayName)
+        .SetDescription(UrgathoaDescription)
+        .SetIcon(UrgathoaIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddRecommendationStatMiminum(stat: StatType.Wisdom, minimalValue: 14)
+        .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Scythe))
+        .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
+        .AddPrerequisiteAlignment(AlignmentMaskType.NeutralEvil)
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.UrgathoaAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 7, stat: StatType.BaseAttackBonus)
+              .StatValue(n: 10, stat: StatType.SkillLoreReligion)))
+        .AddAbilityResources(resource: resource, restoreAmount: true)
+        .AddFacts(new() { toggle })
+        .Configure();
+    }
+
+    [TypeId("57e11b34-efb5-40a1-b0e8-b79d6bbc5e1c")]
+    private class UrgathoasContagion : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeaponResolve>
+    {
+      private static BlueprintAbilityResource _resource;
+      private static BlueprintAbilityResource Resource
+      {
+        get
+        {
+          _resource ??= BlueprintTool.Get<BlueprintAbilityResource>(Guids.UrgathoaAdvancedTechniqueResource);
+          return _resource;
+        }
+      }
+
+      private static readonly List<BlueprintReference<BlueprintBuff>> Contagions =
+        new()
+        {
+          BuffRefs.ContagionBlindingSicknessBuff.Reference,
+          BuffRefs.ContagionBubonicPlagueBuff.Reference,
+          BuffRefs.ContagionCackleFeverBuff.Reference,
+          BuffRefs.ContagionMindFireBuff.Reference,
+          BuffRefs.ContagionShakesBuff.Reference,
+        };
+
+      public void OnEventAboutToTrigger(RuleAttackWithWeaponResolve evt) { }
+
+      public void OnEventDidTrigger(RuleAttackWithWeaponResolve evt)
+      {
+        try
+        {
+          var target = evt.Target;
+          if (target is null)
+          {
+            Logger.Warning("No target");
+            return;
+          }
+
+          if (evt.AttackWithWeapon.Weapon.Blueprint.Category != WeaponCategory.Scythe)
+            return;
+
+          if (!evt.AttackWithWeapon.AttackRoll.IsHit)
+            return;
+
+          var contagion = Contagions.Random().Get();
+          var wisdom = Owner.Stats.GetStat(StatType.Wisdom) as ModifiableValueAttributeStat;
+          var dc = 10 + Owner.Progression.CharacterLevel / 2 + wisdom.Bonus;
+
+          Logger.Log($"Attempting to infect {evt.Target.CharacterName} with {contagion.name}, DC {dc}");
+          Owner.Resources.Spend(Resource, 1);
+          if (!Rulebook.Trigger<RuleSavingThrow>(new(target, SavingThrowType.Fortitude, dc)).IsPassed)
+          {
+            var cl = Owner.Progression.CharacterLevel;
+            AbilityParams abilityParams =
+              new()
+              {
+                SpellSource = SpellSource.Divine,
+                CasterLevel = cl,
+                SpellLevel = cl / 2,
+                DC = dc,
+              };
+            target.AddBuff(contagion, Owner, abilityParams: abilityParams);
+          }
+          Owner.RemoveFact(Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UrgathoasConsume.OnEventDidTrigger", e);
+        }
+      }
+    }
+
+    [TypeId("8d5ac3ab-9497-4ec1-8f62-353e947a9c45")]
+    private class UrgathoasConsume : UnitFactComponentDelegate, IInitiatorRulebookHandler<RuleAttackWithWeaponResolve>
+    {
+      private static BlueprintBuff _lifeBuff;
+      private static BlueprintBuff LifeBuff
+      {
+        get
+        {
+          _lifeBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.UrgathoaTechniqueLifeBuff);
+          return _lifeBuff;
+        }
+      }
+
+      private static BlueprintAbilityResource _resource;
+      private static BlueprintAbilityResource Resource
+      {
+        get
+        {
+          _resource ??= BlueprintTool.Get<BlueprintAbilityResource>(Guids.UrgathoaTechniqueResource);
+          return _resource;
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleAttackWithWeaponResolve evt) { }
+
+      public void OnEventDidTrigger(RuleAttackWithWeaponResolve evt)
+      {
+        try
+        {
+          if (evt.Target is null)
+          {
+            Logger.Warning("No target");
+            return;
+          }
+
+          if (evt.AttackWithWeapon.Weapon.Blueprint.Category != WeaponCategory.Scythe)
+            return;
+
+          if (!evt.AttackWithWeapon.AttackRoll.IsHit)
+            return;
+
+          var damage = evt.Damage.Result;
+          if (evt.Damage.Result < 1)
+            return;
+
+          Logger.Log($"{Owner.CharacterName} drained {damage} HP from {evt.Target.CharacterName}");
+          Owner.Resources.Spend(Resource, 1);
+          Context[AbilitySharedValue.Heal] = damage;
+          Owner.AddBuff(LifeBuff, Context, 1.Minutes());
+          Owner.RemoveFact(Fact);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UrgathoasConsume.OnEventDidTrigger", e);
+        }
       }
     }
     #endregion
