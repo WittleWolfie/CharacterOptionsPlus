@@ -1859,7 +1859,9 @@ namespace CharacterOptionsPlus.Feats
             if (!evt.AttackRoll.IsCriticalConfirmed)
               return;
 
-            Rulebook.Trigger<RuleCombatManeuver>(new(Owner, evt.Target, CombatManeuver.Trip));
+            // For some reason trip maneuver doesn't work with the AOO timing, so directly add the buff.
+            if (Rulebook.Trigger<RuleCombatManeuver>(new(Owner, evt.Target, CombatManeuver.Trip)).Success)
+              evt.Target.AddBuff(BuffRefs.ProneBuff.Reference.Get(), Context);
           }
         }
         catch (Exception e)
