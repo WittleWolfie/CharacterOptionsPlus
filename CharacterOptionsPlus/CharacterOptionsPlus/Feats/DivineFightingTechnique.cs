@@ -1826,6 +1826,8 @@ namespace CharacterOptionsPlus.Feats
           descriptor: ModifierDescriptor.Feat)
         .AddRecalculateOnStatChange(stat: StatType.Wisdom)
         .AddCondition(condition: UnitCondition.AttackOfOpportunityBeforeInitiative)
+        .AddComponent(
+          new QualifyForPrerequisiteFeature(FeatureRefs.CombatReflexes.Cast<BlueprintFeatureReference>().Reference))
         .Configure();
     }
 
