@@ -1776,8 +1776,8 @@ namespace CharacterOptionsPlus.Feats
     private const string ToragAdvanced = "DFT.Torag.Advanced";
     private const string ToragAdvancedDescription = "DFT.Torag.Advanced.Description";
 
-    private const string ToragIcon = IconPrefix + "gloriousheat.png";
-    private const string ToragAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string ToragIcon = IconPrefix + "toragtechnique.png";
+    private const string ToragAdvancedIcon = IconPrefix + "toragadvancedtechnique.png";
 
     private static BlueprintFeature ConfigureTorag()
     {

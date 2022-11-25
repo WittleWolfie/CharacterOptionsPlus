@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1308760419
+CRC: 4269525355
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7dc52a17de52f5e1eb3f11f7828a5261
+    Hash: 30bb78af7c2cd1288fdc13ad18f6c1e5
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -17,44 +17,46 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Icons/IroriTechnique.png
 - Assets/Icons/NorgorberAdvancedTechnique.png
+- Assets/Icons/EldritchHeritage.png
+- Assets/Icons/Desecrate.png
+- Assets/Icons/GorumTechnique.png
+- Assets/Icons/DivineFightingTechnique.png
+- Assets/Icons/PairedOpportunists.png
+- Assets/Icons/ErastilTechnique.png
+- Assets/Icons/RovagugTechnique.png
+- Assets/Icons/EldritchHeritageImproved.png
+- Assets/Icons/IceSlick.png
+- Assets/Icons/BaseMobility.png
+- Assets/Icons/NorgorberTechnique.png
+- Assets/Icons/AsmodeusSicken.png
+- Assets/Icons/GorumAdvancedTechnique.png
+- Assets/Icons/ErastilAdvancedTechnique.png
+- Assets/Icons/SignatureMobility.png
+- Assets/Icons/EldritchHeritageGreater.png
+- Assets/Icons/GloriousHeat.png
+- Assets/Icons/Consecrate.png
+- Assets/Icons/IomedaeAdvancedTechnique.png
+- Assets/Icons/AsmodeusBlind.png
 - Assets/Icons/BreakFree.png
 - Assets/Icons/DazingAssault.png
-- Assets/Icons/Consecrate.png
 - Assets/Icons/SuppressParalyze.png
 - Assets/Icons/AsmodeusAdvancedTechnique.png
 - Assets/Icons/GreaterSkaldVigor.png
 - Assets/Icons/LamashtuAdvancedTechnique.png
-- Assets/Icons/IomedaeAdvancedTechnique.png
-- Assets/Icons/EldritchHeritage.png
 - Assets/Icons/IomedaeTechnique.png
+- Assets/Icons/ToragAdvancedTechnique.png
 - Assets/Icons/LamashtuTechnique.png
-- Assets/Icons/Desecrate.png
 - Assets/Icons/IroriAdvancedTechnique.png
-- Assets/Icons/GorumTechnique.png
-- Assets/Icons/AsmodeusEntangle.png
-- Assets/Icons/DivineFightingTechnique.png
-- Assets/Icons/PairedOpportunists.png
-- Assets/Icons/ErastilTechnique.png
 - Assets/Icons/SkaldVigor.png
-- Assets/Icons/RovagugTechnique.png
+- Assets/Icons/AsmodeusEntangle.png
+- Assets/Icons/ToragTechnique.png
 - Assets/Icons/ArcaneArchery.png
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
-- Assets/Icons/EldritchHeritageImproved.png
-- Assets/Icons/IceSlick.png
 - Assets/Icons/SignatureKnowledge.png
-- Assets/Icons/BaseMobility.png
-- Assets/Icons/NorgorberTechnique.png
-- Assets/Icons/AsmodeusSicken.png
 - Assets/Illustrations/wolfie.png
-- Assets/Icons/ErastilAdvancedTechnique.png
 - Assets/Icons/BurningDisarm.png
-- Assets/Icons/GorumAdvancedTechnique.png
-- Assets/Icons/SignatureMobility.png
 - Assets/Icons/DistractingShot.png
-- Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/AsmodeusTechnique.png
-- Assets/Icons/GloriousHeat.png
 - Assets/Icons/RovagugAdvancedTechnique.png
-- Assets/Icons/AsmodeusBlind.png
 Dependencies: []
