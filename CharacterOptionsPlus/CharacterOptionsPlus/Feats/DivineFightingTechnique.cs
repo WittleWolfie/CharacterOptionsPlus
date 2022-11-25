@@ -385,7 +385,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Critical)
         .AddComponent<AsmodeusCritical>()
         .AddComponent<AsmodeusAdvancedTechnique>()
-        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulEvil)
+        .AddPrerequisiteFeature(FeatureRefs.AsmodeusFeature.ToString())
         .Configure();
     }
 
@@ -663,7 +663,7 @@ namespace CharacterOptionsPlus.Feats
         .SetReapplyOnLevelUp()
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Longbow, WeaponCategory.Shortbow))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Ranged)
-        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
+        .AddPrerequisiteFeature(FeatureRefs.ErastilFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.ErastilAdvancedTechnique,
@@ -867,7 +867,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Greatsword))
         .AddRecommendationHasFeature(FeatureRefs.VitalStrikeFeature.ToString(), mandatory: true)
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticNeutral)
+        .AddPrerequisiteFeature(FeatureRefs.GorumFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.GorumAdvancedTechnique,
@@ -1030,7 +1030,7 @@ namespace CharacterOptionsPlus.Feats
         .SetReapplyOnLevelUp()
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Longsword))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
+        .AddPrerequisiteFeature(FeatureRefs.IomedaeFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.IomedaeAdvancedTechnique,
@@ -1168,7 +1168,7 @@ namespace CharacterOptionsPlus.Feats
         .SetReapplyOnLevelUp()
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.UnarmedStrike))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulNeutral)
+        .AddPrerequisiteFeature(FeatureRefs.IroriFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.IroriAdvancedTechnique,
@@ -1331,7 +1331,7 @@ namespace CharacterOptionsPlus.Feats
         .SetReapplyOnLevelUp()
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Falchion, WeaponCategory.Kukri))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticEvil)
+        .AddPrerequisiteFeature(FeatureRefs.LamashtuFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.LamashtuAdvancedTechnique,
@@ -1551,7 +1551,7 @@ namespace CharacterOptionsPlus.Feats
         .SetReapplyOnLevelUp()
         .AddRecommendationWeaponSubcategoryFocus(WeaponSubCategory.Light)
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Skills)
-        .AddPrerequisiteAlignment(AlignmentMaskType.NeutralEvil)
+        .AddPrerequisiteFeature(FeatureRefs.NorgorberFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.NorgorberAdvancedTechnique, ConditionsBuilder.New().StatValue(n: 10, stat: StatType.SkillStealth)))
@@ -1690,7 +1690,7 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationWeaponSubcategoryFocus(WeaponSubCategory.Natural)
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Greataxe))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Skills | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.ChaoticEvil)
+        .AddPrerequisiteFeature(FeatureRefs.RovagugFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.RovagugAdvancedTechnique,
@@ -1813,7 +1813,7 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationStatMiminum(stat: StatType.Wisdom, minimalValue: 14)
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Warhammer))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.LawfulGood)
+        .AddPrerequisiteFeature(FeatureRefs.ToragFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.ToragAdvancedTechnique,
@@ -1990,7 +1990,7 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationStatMiminum(stat: StatType.Wisdom, minimalValue: 14)
         .AddComponent(new RecommendationWeaponFocus(WeaponCategory.Scythe))
         .AddFeatureTagsComponent(FeatureTag.Attack | FeatureTag.Melee)
-        .AddPrerequisiteAlignment(AlignmentMaskType.NeutralEvil)
+        .AddPrerequisiteFeature(FeatureRefs.UrgathoaFeature.ToString())
         .AddComponent(
           new AdvancedTechniqueGrant(
             Guids.UrgathoaAdvancedTechnique,
