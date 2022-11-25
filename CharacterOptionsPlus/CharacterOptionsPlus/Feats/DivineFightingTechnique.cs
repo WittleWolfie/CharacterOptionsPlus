@@ -1065,7 +1065,9 @@ namespace CharacterOptionsPlus.Feats
     private const string IomedaeAdvanced = "DFT.Iomedae.Advanced";
     private const string IomedaeAdvancedDescription = "DFT.Iomedae.Advanced.Description";
     private const string IomedaeBuff = "DFT.Iomedae.Distracted";
+    private const string IomedaeBuffDescription = "DFT.Iomedae.Buff.Description";
     private const string IomedaeInspire = "DFT.Iomedae.Inspire";
+    private const string IomedaeInspireDescription = "DFT.Iomedae.Ability.Description";
     private const string IomedaeQuickInspire = "DFT.Iomedae.Inspire.Quick";
 
     private const string IomedaeIcon = IconPrefix + "iomedaetechnique.png";
@@ -1075,7 +1077,7 @@ namespace CharacterOptionsPlus.Feats
     {
       var buff = BuffConfigurator.New(IomedaeBuff, Guids.IomedaeTechniqueBuff)
         .SetDisplayName(IomedaeDisplayName)
-        .SetDescription(IomedaeDescription)
+        .SetDescription(IomedaeBuffDescription)
         .SetIcon(IomedaeIcon)
         .AddNotDispelable()
         .AddStatBonus(stat: StatType.AdditionalAttackBonus, descriptor: ModifierDescriptor.Sacred, value: 2)
@@ -1087,7 +1089,7 @@ namespace CharacterOptionsPlus.Feats
 
       var inspire = AbilityConfigurator.New(IomedaeInspire, Guids.IomedaeInspireAbility)
         .SetDisplayName(IomedaeDisplayName)
-        .SetDescription(IomedaeDescription)
+        .SetDescription(IomedaeInspireDescription)
         .SetIcon(IomedaeIcon)
         .SetType(AbilityType.Physical)
         .SetRange(AbilityRange.Weapon)
