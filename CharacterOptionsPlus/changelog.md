@@ -1,3 +1,11 @@
+## v0.8.1
+
+* New Feats:
+    * Abadar's Divine Fighting Technique
+
+* Updates
+    * Improved text templating on Divine Fighting Technique to clarify Advanced Effects
+
 ## v0.8.0
 
 * New Feats:
