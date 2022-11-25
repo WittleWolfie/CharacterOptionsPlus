@@ -32,7 +32,7 @@ namespace CharacterOptionsPlus.Components
     [HarmonyPatch(typeof(PrerequisiteFeature))]
     static class PrerequisiteFeature_Patch
     {
-      [HarmonyPatch(nameof(PrerequisiteFeature.ConsiderFulfilled)), HarmonyPostfix]
+      [HarmonyPatch(nameof(PrerequisiteFeature.ConsiderFulfilled)), HarmonyPrefix]
       static bool ConsiderFulfilled(PrerequisiteFeature __instance, UnitDescriptor unit, ref bool __result)
       {
         try
@@ -58,7 +58,7 @@ namespace CharacterOptionsPlus.Components
     [HarmonyPatch(typeof(PrerequisiteFeaturesFromList))]
     static class PrerequisiteFeaturesFromList_Patch
     {
-      [HarmonyPatch(nameof(PrerequisiteFeaturesFromList.ConsiderFulfilled)), HarmonyPostfix]
+      [HarmonyPatch(nameof(PrerequisiteFeaturesFromList.ConsiderFulfilled)), HarmonyPrefix]
       static bool ConsiderFulfilled(
         PrerequisiteFeaturesFromList __instance,
         FeatureSelectionState selectionState,
