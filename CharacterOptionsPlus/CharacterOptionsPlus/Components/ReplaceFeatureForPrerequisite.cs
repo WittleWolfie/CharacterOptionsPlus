@@ -41,7 +41,7 @@ namespace CharacterOptionsPlus.Components
           {
             if (__instance.Feature == replacement.Feature.Get())
             {
-              Logger.NativeLog($"Qualifying {replacement.Fact.Name} in place of {__instance.Feature.name}");
+              Logger.NativeLog($"Qualifying for {__instance.Feature.name} using replacement");
               __result = true;
               return false;
             }
@@ -74,7 +74,7 @@ namespace CharacterOptionsPlus.Components
             var feature = replacement.Feature.Get();
             if (__instance.Features.Contains(feature))
             {
-              Logger.NativeLog($"Qualifying {replacement.Fact.Name} in place of {feature.name} in list");
+              Logger.NativeLog($"Qualifying for {feature.name} in list using replacement");
               replacementCount++;
             }
           }
