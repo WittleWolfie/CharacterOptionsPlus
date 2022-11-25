@@ -199,15 +199,15 @@ namespace CharacterOptionsPlus.Util
     internal const string ToragTechnique = "71f98f2c-9df1-4627-9714-d8cc426ecb43";
     internal const string ToragAdvancedTechnique = "a27514f6-cd73-4905-af35-ccabb1b676b8";
 
-    internal const string UrgathoaTechnique = "f2de6a4b-65a6-4351-b9b4-330f74ab2511";
+    internal const string UrgathoaTechnique =         "f2de6a4b-65a6-4351-b9b4-330f74ab2511";
     internal const string UrgathoaAdvancedTechnique = "f118d4e3-4111-4f94-8c2e-6fcc81cc310c";
-    internal const string UrgathoaTechniqueToggle = "183809ac-4480-4959-bbce-d43269fd4e0e";
-    internal const string UrgathoaTechniqueBuff = "40729a22-35b7-47a7-80a9-4b8288365d1f";
+    internal const string UrgathoaTechniqueToggle =   "183809ac-4480-4959-bbce-d43269fd4e0e";
+    internal const string UrgathoaTechniqueBuff =     "40729a22-35b7-47a7-80a9-4b8288365d1f";
     internal const string UrgathoaTechniqueResource = "104e8d24-f47d-492f-b5b0-3a6f336ad35c";
     internal const string UrgathoaTechniqueLifeBuff = "1b39f151-2e24-4a8d-8251-5762c1394026";
-    internal const string UrgathoaAdvancedTechniqueToggle = "9e69d470-2e63-4b1d-90ce-84d943a92385";
-    internal const string UrgathoaAdvancedTechniqueBuff = "228118fa-bd2e-45f4-b71f-abc7126411cc";
-    internal const string UrgathoaAdvancedTechniqueResource = "455b1c85-85d7-4bf9-aa4b-c694d6daae010";
+    internal const string UrgathoaAdvancedTechniqueToggle =   "9e69d470-2e63-4b1d-90ce-84d943a92385";
+    internal const string UrgathoaAdvancedTechniqueBuff =     "228118fa-bd2e-45f4-b71f-abc7126411cc";
+    internal const string UrgathoaAdvancedTechniqueResource = "3839fdd0-6410-482e-bcaa-0269d399d8fd";
     #endregion
 
     #region Eldritch Heritage

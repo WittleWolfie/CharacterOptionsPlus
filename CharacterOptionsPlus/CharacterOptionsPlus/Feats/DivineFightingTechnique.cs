@@ -1977,6 +1977,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(UrgathoaAdvancedDescription)
         .SetIcon(UrgathoaAdvancedIcon)
         .SetIsClassFeature()
+        .AddAbilityResources(resource: advancedResource, restoreAmount: true)
         .AddFacts(new() { advancedToggle })
         .Configure();
 
