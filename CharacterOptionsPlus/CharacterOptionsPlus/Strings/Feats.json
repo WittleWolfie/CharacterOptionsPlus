@@ -29,8 +29,23 @@
     "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.\n\nAdvanced Prerequisites: Rapid Shot, BAB +10\n\nAdvanced Effect: While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB."
   },
   {
+    "Key": "DFT.Abadar.Advanced.Name",
+    "ProcessTemplates": false,
+    "enGB": "Abadar's Entangling Shot"
+  },
+  {
     "Key": "DFT.Abadar.Advanced.Description",
     "enGB": "While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB."
+  },
+  {
+    "Key": "DFT.Abadar.Disarm.Name",
+    "ProcessTemplates": false,
+    "enGB": "Abadar's Disarming Shot"
+  },
+  {
+    "Key": "DFT.Abadar.Disarm.Description",
+    "ProcessTemplates": false,
+    "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB."
   },
 
   {

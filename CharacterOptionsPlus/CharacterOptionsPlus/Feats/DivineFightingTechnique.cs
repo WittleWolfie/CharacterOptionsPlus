@@ -318,8 +318,11 @@ namespace CharacterOptionsPlus.Feats
     private const string AbadarDescription = "DFT.Abadar.Description";
 
     private const string AbadarAdvanced = "DFT.Abadar.Advanced";
+    private const string AbadarAdvancedName = "DFT.Abadar.Advanced.Name";
     private const string AbadarAdvancedDescription = "DFT.Abadar.Advanced.Description";
     private const string AbadarDisarm = "DFT.Abadar.Disarm";
+    private const string AbadarDisarmName = "DFT.Abadar.Disarm.Description";
+    private const string AbadarDisarmDescription = "DFT.Abadar.Disarm.Description";
     private const string AbadarEntangle = "DFT.Abadar.Entangle";
 
     private const string AbadarIcon = IconPrefix + "abadartechnique.png";
@@ -328,8 +331,8 @@ namespace CharacterOptionsPlus.Feats
     private static BlueprintFeature ConfigureAbadar()
     {
       var disarm = AbilityConfigurator.New(AbadarDisarm, Guids.AbadarTechniqueAbility)
-        .SetDisplayName(AbadarDisplayName)
-        .SetDescription(AbadarDescription)
+        .SetDisplayName(AbadarDisarmName)
+        .SetDescription(AbadarDisarmDescription)
         .SetIcon(AbilityRefs.DisarmAction.Reference.Get().Icon)
         .SetType(AbilityType.Physical)
         .SetRange(AbilityRange.Weapon)
@@ -350,7 +353,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       var entangle = AbilityConfigurator.New(AbadarEntangle, Guids.AbadarAdvancedTechniqueAbility)
-        .SetDisplayName(AbadarDisplayName)
+        .SetDisplayName(AbadarAdvancedName)
         .SetDescription(AbadarAdvancedDescription)
         .SetIcon(AbilityRefs.DirtyTrickEntangleAction.Reference.Get().Icon)
         .SetType(AbilityType.Physical)
