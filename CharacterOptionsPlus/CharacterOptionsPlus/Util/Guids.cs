@@ -393,7 +393,7 @@ namespace CharacterOptionsPlus.Util
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
     internal const string TouchOfBlindnessSpell = "6177af1b-a096-4f58-a0a0-c02778e95483";
-    internal const string TouchOfBlindnessBuff = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
+    internal const string TouchOfBlindnessEffect = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
 
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]

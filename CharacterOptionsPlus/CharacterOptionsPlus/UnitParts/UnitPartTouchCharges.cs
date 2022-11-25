@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using TabletopTweaks.Core.UMMTools.Utility;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
@@ -43,6 +42,7 @@ namespace CharacterOptionsPlus.UnitParts
 
       private static void ConsumeCharge(UnitEntityData caster)
       {
+        Logger.Log("MADE IT BITCH");
         var charges = caster.Get<UnitPartTouchCharges>();
         if (charges is null)
         {
@@ -76,8 +76,8 @@ namespace CharacterOptionsPlus.UnitParts
           if (removalIndex < 0)
             throw new InvalidOperationException("Unable to find touch part removal.");
 
-          code.Replace(
-            removalIndex, CodeInstruction.Call(typeof(TouchSpellsController_Patch), nameof(ConsumeCharge)));
+          code.RemoveAt(removalIndex);
+          code.Insert(removalIndex, CodeInstruction.Call(typeof(TouchSpellsController_Patch), nameof(ConsumeCharge)));
           return code;
         }
         catch (Exception e)
@@ -86,45 +86,46 @@ namespace CharacterOptionsPlus.UnitParts
         }
         return instructions;
       }
+    }
 
-      [HarmonyPatch(typeof(UnitPartTouch))]
-      static class UnitPartTouch_Patch
+    [HarmonyPatch(typeof(UnitPartTouch))]
+    static class UnitPartTouch_Patch
+    {
+      [HarmonyPatch(nameof(UnitPartTouch.Init)), HarmonyPostfix]
+      static void Init(BlueprintAbility ability, AbilityExecutionContext context)
       {
-        [HarmonyPatch(nameof(UnitPartTouch.Init)), HarmonyPostfix]
-        static void Init(BlueprintAbility ability, AbilityExecutionContext context)
+        try
         {
-          try
-          {
-            var caster = context.MaybeCaster;
-            if (caster is null)
-              return;
+          var caster = context.MaybeCaster;
+          if (caster is null)
+            return;
 
-            var touchCharges = ability.GetComponent<TouchCharges>();
-            if (touchCharges is null)
-              return;
+          var touchCharges = ability.GetComponent<TouchCharges>();
+          if (touchCharges is null)
+            return;
 
-            var count = touchCharges.GetChargeCount(context);
-            var charges = caster.Ensure<UnitPartTouchCharges>();
-            charges.Init(count);
-            Logger.Log($"Added {count} touch charges for {caster.CharacterName}");
-          }
-          catch (Exception e)
-          {
-            Logger.LogException("UnitPartTouch_Patch.Init", e);
-          }
+          var count = touchCharges.GetChargeCount(context);
+          var charges = caster.Ensure<UnitPartTouchCharges>();
+          charges.Init(count);
+          Logger.Log($"Added {count} touch charges for {caster.CharacterName}");
         }
-
-        [HarmonyPatch(nameof(UnitPartTouch.OnDispose)), HarmonyPostfix]
-        static void OnDispose(UnitPartTouch __instance)
+        catch (Exception e)
         {
-          try
-          {
-            __instance.Owner.Remove<UnitPartTouchCharges>();
-          }
-          catch (Exception e)
-          {
-            Logger.LogException("UnitPartTouch_Patch.OnDispose", e);
-          }
+          Logger.LogException("UnitPartTouch_Patch.Init", e);
+        }
+      }
+
+      [HarmonyPatch(nameof(UnitPartTouch.OnDispose)), HarmonyPostfix]
+      static void OnDispose(UnitPartTouch __instance)
+      {
+        try
+        {
+          Logger.Log("DISPOSIN");
+          __instance.Owner.Remove<UnitPartTouchCharges>();
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UnitPartTouch_Patch.OnDispose", e);
         }
       }
     }

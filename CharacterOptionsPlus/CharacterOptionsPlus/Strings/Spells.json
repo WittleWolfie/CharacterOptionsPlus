@@ -30,6 +30,7 @@
   },
   {
     "Key": "DeliverTouch.Unavailable.Description",
+    "ProcessTemplates": false,
     "enGB": "No touch spell is currently stored"
   },
 
