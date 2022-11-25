@@ -2020,6 +2020,7 @@ namespace CharacterOptionsPlus.Feats
     private const string UrgathoaBuff = "DFT.Urgathoa.Buff";
     private const string UrgathoaLifeBuff = "DFT.Urgathoa.Life.Buff";
     private const string UrgathoaToggle = "DFT.Urgathoa.Toggle";
+    private const string UrgathoaToggleDescription = "DFT.Urgathoa.Ability.Description";
     private const string UrgathoaResource = "DFT.Urgathoa.Resource";
 
     private const string UrgathoaAdvancedBuff = "DFT.Urgathoa.Advanced.Buff";
@@ -2042,7 +2043,7 @@ namespace CharacterOptionsPlus.Feats
 
       var lifeBuff = BuffConfigurator.New(UrgathoaLifeBuff, Guids.UrgathoaTechniqueLifeBuff)
         .SetDisplayName(UrgathoaDisplayName)
-        .SetDescription(UrgathoaDescription)
+        .SetDescription(UrgathoaToggleDescription)
         .SetIcon(UrgathoaIcon)
         .AddNotDispelable()
         .AddTemporaryHitPointsFromAbilityValue(
@@ -2063,7 +2064,7 @@ namespace CharacterOptionsPlus.Feats
 
       var toggle = ActivatableAbilityConfigurator.New(UrgathoaToggle, Guids.UrgathoaTechniqueToggle)
         .SetDisplayName(UrgathoaDisplayName)
-        .SetDescription(UrgathoaDescription)
+        .SetDescription(UrgathoaToggleDescription)
         .SetIcon(UrgathoaIcon)
         .SetBuff(buff)
         .AddActivatableAbilityResourceLogic(

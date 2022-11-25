@@ -242,6 +242,10 @@
     "Key": "DFT.Urgathoa.Advanced.Description",
     "enGB": "A number of times per day equal to your Wisdom bonus, you can cast Contagion as a swift action after making a successful melee attack with a scythe. The caster level is equal to your character level and the DC is 10 + half your character level + your Wisdom modifier. The disease inflicted is selected randomly."
   },
+  {
+    "Key": "DFT.Urgathoa.Ability.Description",
+    "enGB": "A number of times per day equal to your Wisdom bonus, you can feast upon the life essence of a creature that you hit with a scythe. Activating this ability is a swift action. When you do so, you gain a number of temporary hit points equal to the damage you dealt with the scythe attack. These temporary hit points last for 1 minute and don’t stack."
+  },
 
   {
     "Key": "DraconicHeritage.Name",
