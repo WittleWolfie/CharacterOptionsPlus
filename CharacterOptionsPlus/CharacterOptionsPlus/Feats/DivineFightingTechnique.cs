@@ -1238,6 +1238,7 @@ namespace CharacterOptionsPlus.Feats
     private const string IroriAdvancedDescription = "DFT.Irori.Advanced.Description";
     private const string IroriBuff = "DFT.Irori.Buff";
     private const string IroriToggle = "DFT.Irori.Toggle";
+    private const string IroriToggleDescription = "DFT.Irori.Ability.Description";
 
     private const string IroriIcon = IconPrefix + "iroritechnique.png";
     private const string IroriAdvancedIcon = IconPrefix + "iroriadvancedtechnique.png";
@@ -1254,7 +1255,7 @@ namespace CharacterOptionsPlus.Feats
 
       var toggle = ActivatableAbilityConfigurator.New(IroriToggle, Guids.IroriTechniqueToggle)
         .SetDisplayName(IroriDisplayName)
-        .SetDescription(IroriDescription)
+        .SetDescription(IroriToggleDescription)
         .SetIcon(IroriIcon)
         .SetBuff(buff)
         .Configure();

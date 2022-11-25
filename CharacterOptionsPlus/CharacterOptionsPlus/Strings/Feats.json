@@ -160,6 +160,10 @@
     "Key": "DFT.Irori.Advanced.Description",
     "enGB": "You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
   },
+  {
+    "Key": "DFT.Irori.Ability.Description",
+    "enGB": "You can take a –2 penalty on all attack rolls made with your unarmed strikes in order to deal the average amount of damage with each successful attack instead of rolling your weapon damage. For instance, if your unarmed strike would normally deal 1d4 points of weapon damage, you instead deal 2 points of weapon damage. Apply bonuses, modifiers, and additional damage dice to this result as if you had rolled your damage normally.\n\nAdvanced Effect: You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
+  },
 
   {
     "Key": "DFT.Lamashtu.Name",
