@@ -322,8 +322,8 @@ namespace CharacterOptionsPlus.Feats
     private const string AbadarDisarm = "DFT.Abadar.Disarm";
     private const string AbadarEntangle = "DFT.Abadar.Entangle";
 
-    private const string AbadarIcon = IconPrefix + "gloriousheat.png";
-    private const string AbadarAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string AbadarIcon = IconPrefix + "abadartechnique.png";
+    private const string AbadarAdvancedIcon = IconPrefix + "abadaradvancedtechnique.png";
 
     private static BlueprintFeature ConfigureAbadar()
     {
