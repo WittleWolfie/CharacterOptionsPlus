@@ -41,7 +41,6 @@ using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
-using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
@@ -91,6 +90,11 @@ namespace CharacterOptionsPlus.Feats
       Logger.Log($"Configuring {FeatName} (disabled)");
 
       FeatureSelectionConfigurator.New(FeatName, Guids.DivineFightingTechniqueFeat).Configure();
+
+      AbilityConfigurator.New(AbadarDisarm, Guids.AbadarTechniqueAbility).Configure();
+      AbilityConfigurator.New(AbadarEntangle, Guids.AbadarAdvancedTechniqueAbility).Configure();
+      FeatureConfigurator.New(AbadarAdvanced, Guids.AbadarAdvancedTechnique).Configure();
+      FeatureConfigurator.New(AbadarName, Guids.AbadarTechnique).Configure();
 
       FeatureConfigurator.New(AsmodeusName, Guids.AsmodeusTechnique).Configure();
       BuffConfigurator.New(AsmodeusBlindBuff, Guids.AsmodeusBlindBuff).Configure();
@@ -161,6 +165,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDescription(FeatDescription)
         .SetIcon(FeatureRefs.SimpleWeaponProficiency.Reference.Get().Icon)
         .AddToAllFeatures(
+          ConfigureAbadar(),
           ConfigureAsmodeus(),
           ConfigureErastil(),
           ConfigureGorum(),
@@ -306,6 +311,99 @@ namespace CharacterOptionsPlus.Feats
         return _rowdy;
       }
     }
+
+    #region Abadar
+    private const string AbadarName = "DFT.Abadar";
+    private const string AbadarDisplayName = "DFT.Abadar.Name";
+    private const string AbadarDescription = "DFT.Abadar.Description";
+
+    private const string AbadarAdvanced = "DFT.Abadar.Advanced";
+    private const string AbadarAdvancedDescription = "DFT.Abadar.Advanced.Description";
+    private const string AbadarDisarm = "DFT.Abadar.Disarm";
+    private const string AbadarEntangle = "DFT.Abadar.Entangle";
+
+    private const string AbadarIcon = IconPrefix + "gloriousheat.png";
+    private const string AbadarAdvancedIcon = IconPrefix + "gloriousheat.png";
+
+    private static BlueprintFeature ConfigureAbadar()
+    {
+      var disarm = AbilityConfigurator.New(AbadarDisarm, Guids.AbadarTechniqueAbility)
+        .SetDisplayName(AbadarDisplayName)
+        .SetDescription(AbadarDescription)
+        .SetIcon(AbilityRefs.DisarmAction.Reference.Get().Icon)
+        .SetType(AbilityType.Physical)
+        .SetRange(AbilityRange.Weapon)
+        .SetNeedEquipWeapons()
+        .AddAbilityCasterMainWeaponCheck(
+            WeaponCategory.HandCrossbow,
+            WeaponCategory.HeavyCrossbow,
+            WeaponCategory.HeavyRepeatingCrossbow,
+            WeaponCategory.LightCrossbow,
+            WeaponCategory.LightRepeatingCrossbow)
+        .AddComponent<AbilityTargetHasWeaponEquipped>()
+        .SetAnimation(CastAnimationStyle.Special)
+        .SetActionType(CommandType.Standard)
+        .AllowTargeting(enemies: true)
+        .AddAbilityEffectRunActionOnClickedTarget(
+          ActionsBuilder.New()
+            .CombatManeuver(onSuccess: ActionsBuilder.New(), CombatManeuver.Disarm, newStat: StatType.Dexterity))
+        .Configure();
+
+      var entangle = AbilityConfigurator.New(AbadarEntangle, Guids.AbadarAdvancedTechniqueAbility)
+        .SetDisplayName(AbadarDisplayName)
+        .SetDescription(AbadarAdvancedDescription)
+        .SetIcon(AbilityRefs.DirtyTrickEntangleAction.Reference.Get().Icon)
+        .SetType(AbilityType.Physical)
+        .SetRange(AbilityRange.Weapon)
+        .SetNeedEquipWeapons()
+        .AddAbilityCasterMainWeaponCheck(
+            WeaponCategory.HandCrossbow,
+            WeaponCategory.HeavyCrossbow,
+            WeaponCategory.HeavyRepeatingCrossbow,
+            WeaponCategory.LightCrossbow,
+            WeaponCategory.LightRepeatingCrossbow)
+        .SetAnimation(CastAnimationStyle.Special)
+        .SetActionType(CommandType.Standard)
+        .AllowTargeting(enemies: true)
+        .AddAbilityEffectRunActionOnClickedTarget(
+          ActionsBuilder.New()
+            .CombatManeuver(
+              onSuccess: ActionsBuilder.New(), CombatManeuver.DirtyTrickEntangle, newStat: StatType.Dexterity))
+        .Configure();
+
+      FeatureConfigurator.New(AbadarAdvanced, Guids.AbadarAdvancedTechnique)
+        .SetDisplayName(AbadarDisplayName)
+        .SetDescription(AbadarAdvancedDescription)
+        .SetIcon(AbadarAdvancedIcon)
+        .SetIsClassFeature()
+        .AddFacts(new() { entangle })
+        .Configure();
+
+      return FeatureConfigurator.New(AbadarName, Guids.AbadarTechnique)
+        .SetDisplayName(AbadarDisplayName)
+        .SetDescription(AbadarDescription)
+        .SetIcon(AbadarIcon)
+        .SetIsClassFeature()
+        .SetReapplyOnLevelUp()
+        .AddComponent(
+          new RecommendationWeaponFocus(
+            WeaponCategory.HandCrossbow,
+            WeaponCategory.HeavyCrossbow,
+            WeaponCategory.HeavyRepeatingCrossbow,
+            WeaponCategory.LightCrossbow,
+            WeaponCategory.LightRepeatingCrossbow))
+        .AddFeatureTagsComponent(FeatureTag.Ranged | FeatureTag.CombatManeuver)
+        .AddPrerequisiteFeature(FeatureRefs.AbadarFeature.ToString())
+        .AddComponent(
+          new AdvancedTechniqueGrant(
+            Guids.AbadarAdvancedTechnique,
+            ConditionsBuilder.New()
+              .StatValue(n: 10, stat: StatType.BaseAttackBonus)
+              .HasFact(FeatureRefs.RapidShotFeature.ToString())))
+        .AddFacts(new() { disarm })
+        .Configure();
+    }
+    #endregion
 
     #region Asmodeus
     private const string AsmodeusName = "DFT.Asmodeus";

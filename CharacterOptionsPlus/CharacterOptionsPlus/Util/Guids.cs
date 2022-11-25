@@ -148,6 +148,11 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Divine Fighting Technique
+    internal const string AbadarTechnique = "5e76b6e8-6acf-49ab-9193-6762b27ae20f";
+    internal const string AbadarAdvancedTechnique = "b205b319-71f2-4cdb-9c3a-d9b7b2ada7cf";
+    internal const string AbadarTechniqueAbility = "33523593-e0f8-4bb2-a6d9-d598806a96d2";
+    internal const string AbadarAdvancedTechniqueAbility = "5d19da09-2d3e-4031-a744-fb3f443129c6";
+
     internal const string AsmodeusTechnique = "2389fcf7-c0c8-47a1-8b4c-624834afff5d";
     internal const string AsmodeusAdvancedTechnique = "833bfe20-0e00-435f-8cd5-10aeb46c59e0";
     internal const string AsmodeusAdvancedToggle = "e07d5bae-7ec4-4b1b-9a7f-479ae40847fc";
