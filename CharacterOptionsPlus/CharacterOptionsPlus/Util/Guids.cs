@@ -382,6 +382,8 @@ namespace CharacterOptionsPlus.Util
     internal const string ConsecrateAoE = "ba25ca0e-e0e7-4199-967d-b79cfae32318";
     internal const string ConsecrateBuff = "ab7079a6-6bff-427e-8257-1f2457c04c14";
 
+    internal const string DeliverTouchSpell = "cdf32d4e-11aa-4268-be8d-84d4913b7020";
+
     internal const string DesecrateSpell = "ba47baf2-982a-4c4c-82fc-af65dab915af";
     internal const string DesecrateAoE = "372f94fb-0a45-4813-8e85-46783792ec3d";
     internal const string DesecrateBuff = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
@@ -390,13 +392,18 @@ namespace CharacterOptionsPlus.Util
     internal const string IceSlickAoE = "b94a289c-49c2-4754-83a5-e171ad39fba6";
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
+    internal const string TouchOfBlindnessSpell = "6177af1b-a096-4f58-a0a0-c02778e95483";
+    internal const string TouchOfBlindnessBuff = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
+
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]
       {
         (BurningDisarmSpell, BurningDisarm.DisplayName),
         (ConsecrateSpell, Consecrate.DisplayName),
+        (DeliverTouchSpell, DeliverTouch.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
+        (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
       };
     #endregion
 

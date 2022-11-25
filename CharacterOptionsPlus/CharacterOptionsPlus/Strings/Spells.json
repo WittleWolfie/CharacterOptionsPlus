@@ -20,6 +20,20 @@
   },
 
   {
+    "Key": "DeliverTouch.Name",
+    "ProcessTemplates": false,
+    "enGB": "Deliver Touch Spell"
+  },
+  {
+    "Key": "DeliverTouch.Description",
+    "enGB": "Make a touch attack to deliver a stored touch spell."
+  },
+  {
+    "Key": "DeliverTouch.Unavailable.Description",
+    "enGB": "No touch spell is currently stored"
+  },
+
+  {
     "Key": "Desecrate.Name",
     "ProcessTemplates": false,
     "enGB": "Desecrate"
@@ -39,5 +53,15 @@
     "Key": "IceSlick.Description",
     "enGB": "Any creature in the area when the spell is cast takes 1d6 points of cold damage + 1 point per caster level (maximum +10) and falls prone; creatures that succeed at a Reflex save take half damage and don’t fall prone. Every round any creature in the area must make a successful Reflex save or fall prone.",
     "ruRU": "Когда заклинание сотворено, любое существо, находящееся в это время в области действия, получает урон холодом в размере 1d6 + 1 за каждый Уровень Заклинателя (до максимума в +10) и падает навзничь; существа, успешно совершившие спасбросок Реакции получают только половину урона и не падают. Существа, находящиеся в области действия, должны совершать спасбросок Реакции каждый раунд, чтобы не упасть, поскользнувшись."
+  },
+
+  {
+    "Key": "TouchOfBlindness.Name",
+    "ProcessTemplates": false,
+    "enGB": "Touch of Blindness"
+  },
+  {
+    "Key": "TouchOfBlindness.Description",
+    "enGB": "A touch from your hand, which is engulfed in darkness, disrupts a creature’s vision by coating its eyes in supernatural darkness. Each touch causes the target to become blinded for 1 round unless it makes a successful Fortitude saving throw. You can use this melee touch attack up to one time per caster level."
   }
 ]

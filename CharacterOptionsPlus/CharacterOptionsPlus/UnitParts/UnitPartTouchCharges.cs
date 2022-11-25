@@ -103,7 +103,7 @@ namespace CharacterOptionsPlus.UnitParts
             if (touchCharges is null)
               return;
 
-            var count = touchCharges.GetChargeCount();
+            var count = touchCharges.GetChargeCount(context);
             var charges = caster.Ensure<UnitPartTouchCharges>();
             charges.Init(count);
             Logger.Log($"Added {count} touch charges for {caster.CharacterName}");
@@ -141,9 +141,9 @@ namespace CharacterOptionsPlus.UnitParts
       Charges = charges;
     }
 
-    internal int GetChargeCount()
+    internal int GetChargeCount(MechanicsContext context)
     {
-      return Charges.Calculate(Context);
+      return Charges.Calculate(context);
     }
   }
 }

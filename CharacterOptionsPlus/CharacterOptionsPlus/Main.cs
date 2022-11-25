@@ -147,8 +147,10 @@ namespace CharacterOptionsPlus
 
         BurningDisarm.Configure();
         Consecrate.Configure();
+        DeliverTouch.Configure();
         Desecrate.Configure();
         IceSlick.Configure();
+        TouchOfBlindness.Configure();
       }
     }
   }
