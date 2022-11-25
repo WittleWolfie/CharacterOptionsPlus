@@ -90,6 +90,26 @@
     "Key": "DFT.Erastil.Advanced.Description",
     "enGB": "The AC bonus of Erastil's Distracting Shot increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target."
   },
+  {
+    "Key": "DFT.Erastil.Focused.Name",
+    "ProcessTemplates": false,
+    "enGB": "Erastil's Focus"
+  },
+  {
+    "Key": "DFT.Erastil.Focused.Description",
+    "ProcessTemplates": false,
+    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +2 bonus to AC against the target for 1 round."
+  },
+  {
+    "Key": "DFT.Erastil.Focused.Advanced.Name",
+    "ProcessTemplates": false,
+    "enGB": "Erastil's Hyperfocus"
+  },
+  {
+    "Key": "DFT.Erastil.Focused.Advanced.Description",
+    "ProcessTemplates": false,
+    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +4 bonus to AC against the target for 1 round."
+  },
 
   {
     "Key": "DFT.Gorum.Name",

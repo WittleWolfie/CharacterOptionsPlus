@@ -701,7 +701,11 @@ namespace CharacterOptionsPlus.Feats
     private const string ErastilAbility = "DFT.Erastil.Ability";
     private const string ErastilDistracted = "DFT.Erastil.Distracted";
     private const string ErastilFocused = "DFT.Erastil.Focused";
+    private const string ErastilFocusedName = "DFT.Erastil.Focused.Name";
+    private const string ErastilFocusedDescription = "DFT.Erastil.Focused.Description";
     private const string ErastilFocusedAdvanced = "DFT.Erastil.Focused.Advanced";
+    private const string ErastilFocusedAdvancedName = "DFT.Erastil.Focused.Advanced.Name";
+    private const string ErastilFocusedAdvancedDescription = "DFT.Erastil.Focused.Advanced.Description";
 
     private const string ErastilIcon = IconPrefix + "erastiltechnique.png";
     private const string ErastilAdvancedIcon = IconPrefix + "erastiladvancedtechnique.png";
@@ -715,16 +719,16 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       var buff = BuffConfigurator.New(ErastilFocused, Guids.ErastilFocused)
-        .SetDisplayName(ErastilDisplayName)
-        .SetDescription(ErastilDescription)
+        .SetDisplayName(ErastilFocusedName)
+        .SetDescription(ErastilFocusedDescription)
         .SetIcon(ErastilAbilityIcon)
         .AddNotDispelable()
         .AddComponent<FocusedAC>()
         .Configure();
 
       var advancedBuff = BuffConfigurator.New(ErastilFocusedAdvanced, Guids.ErastilFocusedAdvanced)
-        .SetDisplayName(ErastilDisplayName)
-        .SetDescription(ErastilDescription)
+        .SetDisplayName(ErastilFocusedAdvancedName)
+        .SetDescription(ErastilFocusedAdvancedDescription)
         .SetIcon(ErastilAbilityIcon)
         .AddNotDispelable()
         .AddComponent(new FocusedAC(4))
@@ -937,7 +941,7 @@ namespace CharacterOptionsPlus.Feats
 
       var advancedBuff = BuffConfigurator.New(GorumAdvancedBuff, Guids.GorumAdvancedTechniqueBuff)
         .SetDisplayName(GorumDisplayName)
-        .SetDescription(GorumDescription)
+        .SetDescription(GorumAdvancedDescription)
         .SetIcon(GorumAdvancedIcon)
         .AddNotDispelable()
         .AddCondition(UnitCondition.SpellCastingIsVeryDifficult)
