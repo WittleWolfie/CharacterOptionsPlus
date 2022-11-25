@@ -77,7 +77,7 @@ namespace CharacterOptionsPlus.UnitParts
             throw new InvalidOperationException("Unable to find touch part removal.");
 
           code.Replace(
-            removalIndex, CodeInstruction.Call(typeof(TouchSpellsController_Patch), nameof(RemoveUnitPart)));
+            removalIndex, CodeInstruction.Call(typeof(TouchSpellsController_Patch), nameof(ConsumeCharge)));
           return code;
         }
         catch (Exception e)
