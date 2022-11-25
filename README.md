@@ -72,7 +72,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Spells
     * [Cone of Cold](https://www.d20pfsrd.com/magic/all-spells/c/cone-of-cold/)
         * Replace Icy Prison in Winter Patron bonus spells
-    * [Deadly Juggernaut](https://www.d20pfsrd.com/magic/all-spells/d/deadly-juggernaut/)  (Maybe, already in another mod)
     * [Dimensional Blade](https://www.d20pfsrd.com/magic/all-spells/d/dimensional-blade/)
     * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
     * [Freezing Sphere](https://www.d20pfsrd.com/magic/all-spells/f/freezing-sphere/)
@@ -80,17 +79,16 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Ice Spears](https://www.d20pfsrd.com/magic/all-spells/i/ice-spears/)
     * [Implosion](https://www.d20pfsrd.com/magic/all-spells/i/implosion/)
     * [Infernal Healing](https://www.d20pfsrd.com/magic/all-spells/i/infernal-healing/)
-    * [Inflict Pain](https://www.d20pfsrd.com/magic/all-spells/i/inflict-pain/)
     * [Invisibility Purge](https://www.d20pfsrd.com/magic/all-spells/i/invisibility-purge/)
     * [Ironskin](https://www.d20pfsrd.com/magic/all-spells/i/ironskin/)
     * [Judgement Light](https://www.d20pfsrd.com/magic/all-spells/j/judgment-light/)
-    * [Keen Edge](https://www.d20pfsrd.com/magic/all-spells/k/keen-edge/) (Maybe, already in another mod)
+    * [Keen Edge](https://www.d20pfsrd.com/magic/all-spells/k/keen-edge/)
     * [Nine Lives](https://www.d20pfsrd.com/magic/all-spells/n/nine-lives/)
     * [Screaming Flames](https://www.d20pfsrd.com/magic/all-spells/s/screaming-flames/)
     * [Shield of Fortification](https://www.d20pfsrd.com/magic/all-spells/s/shield-of-fortification/)
     * [Stricken Heart](https://www.d20pfsrd.com/magic/all-spells/s/stricken-heart/)
     * [Wall of Ice](https://www.d20pfsrd.com/magic/all-spells/w/wall-of-ice/)
-    * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/) (Maybe, already in another mod)
+    * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
 
 ### Reporting Problems
 
