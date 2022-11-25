@@ -5,6 +5,7 @@
 
 * Updates
     * Improved text templating on Divine Fighting Technique to clarify Advanced Effects
+    * Torag's Divine Fighting Technique qualifies as Combat Reflexes for prerequisites
 
 ## v0.8.0
 
