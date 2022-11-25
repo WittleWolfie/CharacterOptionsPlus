@@ -257,7 +257,6 @@ namespace CharacterOptionsPlus.Feats
       }
     }
 
-
     private static BlueprintFeature _vitalStrike;
     private static BlueprintFeature VitalStrike
     {
