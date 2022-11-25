@@ -1916,8 +1916,8 @@ namespace CharacterOptionsPlus.Feats
     private const string UrgathoaAdvancedToggle = "DFT.Urgathoa.Advanced.Toggle";
     private const string UrgathoaAdvancedResource = "DFT.Urgathoa.Advanced.Resource";
 
-    private const string UrgathoaIcon = IconPrefix + "gloriousheat.png";
-    private const string UrgathoaAdvancedIcon = IconPrefix + "gloriousheat.png";
+    private const string UrgathoaIcon = IconPrefix + "urgathoatechnique.png";
+    private const string UrgathoaAdvancedIcon = IconPrefix + "urgathoaadvancedtechnique.png";
 
     private static BlueprintFeature ConfigureUrgathoa()
     {
