@@ -37,7 +37,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Feats
     * [Dazing Assault](https://www.d20pfsrd.com/feats/combat-feats/dazing-assault-combat/)
     * [Divine Fighting Technique](https://www.aonprd.com/FeatDisplay.aspx?ItemName=Divine%20Fighting%20Technique)
-        * Asmodeus, Erastil, Gorum, Iomedae, Irori, Lamashtu, Norgorber, Rovagug, Torag, Urgathoa
+        * Abadar, Asmodeus, Erastil, Gorum, Iomedae, Irori, Lamashtu, Norgorber, Rovagug, Torag, Urgathoa
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
         * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
         * Supports Aberrant and Destined bloodlines from TTT-Base
