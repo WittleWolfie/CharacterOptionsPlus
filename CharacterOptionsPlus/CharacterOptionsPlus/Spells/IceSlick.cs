@@ -120,6 +120,7 @@ namespace CharacterOptionsPlus.Spells
         .SetEffectOnAlly(AbilityEffectOnUnit.Harmful)
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Point)
+        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetAvailableMetamagic(
           Metamagic.Quicken,
           Metamagic.Extend,

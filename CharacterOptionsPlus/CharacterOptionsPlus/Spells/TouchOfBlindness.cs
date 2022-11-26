@@ -54,7 +54,6 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
-      // TODO: Duration text
       var icon = AbilityRefs.Blindness.Reference.Get().Icon;
       var effectAbility = AbilityConfigurator.NewSpell(
           EffectName, Guids.TouchOfBlindnessEffect, SpellSchool.Necromancy, canSpecialize: false)
@@ -74,6 +73,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Reach,
           (Metamagic)CustomMetamagic.Piercing)
+        .SetLocalizedDuration(Duration.OneRound)
         .AddComponent(new TouchCharges(ContextValues.Rank()))
         .AddAbilityDeliverTouch(touchWeapon: ItemWeaponRefs.TouchItem.ToString())
         .AddAbilityEffectRunAction(
