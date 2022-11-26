@@ -149,6 +149,7 @@ namespace CharacterOptionsPlus
         Consecrate.Configure();
         Desecrate.Configure();
         IceSlick.Configure();
+        ShadowTrap.Configure();
         TouchOfBlindness.Configure();
       }
     }

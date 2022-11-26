@@ -390,6 +390,9 @@ namespace CharacterOptionsPlus.Util
     internal const string IceSlickAoE = "b94a289c-49c2-4754-83a5-e171ad39fba6";
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
+    internal const string ShadowTrapSpell = "a3a7e60e-7866-46c4-99b8-ad685e625c06";
+    internal const string ShadowTrapBuff = "09062a14-4a01-41dc-8408-abb0cd38da69";
+
     internal const string TouchOfBlindnessSpell = "6177af1b-a096-4f58-a0a0-c02778e95483";
     internal const string TouchOfBlindnessEffect = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
 
@@ -400,6 +403,7 @@ namespace CharacterOptionsPlus.Util
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
+        (ShadowTrapSpell, ShadowTrap.DisplayName),
         (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
       };
     #endregion
