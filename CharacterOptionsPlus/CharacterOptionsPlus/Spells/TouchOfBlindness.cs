@@ -54,6 +54,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      // TODO: Duration text
       var icon = AbilityRefs.Blindness.Reference.Get().Icon;
       var effectAbility = AbilityConfigurator.NewSpell(
           EffectName, Guids.TouchOfBlindnessEffect, SpellSchool.Necromancy, canSpecialize: false)
