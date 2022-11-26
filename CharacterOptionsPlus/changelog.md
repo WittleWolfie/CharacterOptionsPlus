@@ -1,3 +1,12 @@
+## v0.9.0
+
+* New Spells:
+    * Touch of Blindness - Includes support for multiple touch charges
+    * Shadow Trap
+
+* Updates
+    * Added Localized Duration to some spells
+
 ## v0.8.1
 
 * New Feats:
