@@ -42,7 +42,6 @@ namespace CharacterOptionsPlus.UnitParts
 
       private static void ConsumeCharge(UnitEntityData caster)
       {
-        Logger.Log("MADE IT BITCH");
         var charges = caster.Get<UnitPartTouchCharges>();
         if (charges is null)
         {
@@ -53,7 +52,9 @@ namespace CharacterOptionsPlus.UnitParts
         Logger.Log($"Consuming touch charge on {caster.CharacterName}");
         charges.UseCharge();
         if (!charges.HasCharge())
+        {
           caster.Remove<UnitPartTouch>();
+        }
       }
 
       [HarmonyPatch(nameof(TouchSpellsController.OnAbilityEffectApplied)), HarmonyTranspiler]
@@ -120,7 +121,6 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.Log("DISPOSIN");
           __instance.Owner.Remove<UnitPartTouchCharges>();
         }
         catch (Exception e)
@@ -129,22 +129,22 @@ namespace CharacterOptionsPlus.UnitParts
         }
       }
     }
-  }
 
-  [AllowedOn(typeof(BlueprintAbility))]
-  [TypeId("10e90122-6ef9-4967-a284-259aed042cd7")]
-  internal class TouchCharges : UnitFactComponentDelegate
-  {
-    private readonly ContextValue Charges;
-
-    internal TouchCharges(ContextValue charges)
+    [AllowedOn(typeof(BlueprintAbility))]
+    [TypeId("10e90122-6ef9-4967-a284-259aed042cd7")]
+    internal class TouchCharges : UnitFactComponentDelegate
     {
-      Charges = charges;
-    }
+      private readonly ContextValue Charges;
 
-    internal int GetChargeCount(MechanicsContext context)
-    {
-      return Charges.Calculate(context);
+      internal TouchCharges(ContextValue charges)
+      {
+        Charges = charges;
+      }
+
+      internal int GetChargeCount(MechanicsContext context)
+      {
+        return Charges.Calculate(context);
+      }
     }
   }
 }
