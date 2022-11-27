@@ -1,5 +1,11 @@
 ﻿[
   {
+    "Key": "AbilityCasterHasWeaponSubcategory.Restriction",
+    "ProcessTemplates": false,
+    "enGB": "Requires an equipped weapon: {0}"
+  },
+
+  {
     "Key": "AbilityTargetHasWeaponEquipped.Restriction",
     "ProcessTemplates": false,
     "enGB": "Target has no weapon equipped"

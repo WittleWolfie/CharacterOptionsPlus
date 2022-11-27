@@ -376,33 +376,35 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Spells
-    internal const string BladedDashSpell = "4b1d7167-c4dc-4eda-b48b-af4dd5c00473";
+    internal const string BladedDashSpell =        "4b1d7167-c4dc-4eda-b48b-af4dd5c00473";
     internal const string BladedDashGreaterSpell = "cc5b9eba-b761-42d4-8566-5e5c7a420f18";
+    internal const string BladedDashBuff =         "8425b8d0-ecbc-4905-bcba-e3890ed519a5";
 
     internal const string BurningDisarmSpell = "4445e61d-3dff-4985-9eb5-37169a0e85bc";
 
     internal const string ConsecrateSpell = "5bc013d5-d014-4502-af6a-e14141d6c35e";
-    internal const string ConsecrateAoE = "ba25ca0e-e0e7-4199-967d-b79cfae32318";
-    internal const string ConsecrateBuff = "ab7079a6-6bff-427e-8257-1f2457c04c14";
+    internal const string ConsecrateAoE =   "ba25ca0e-e0e7-4199-967d-b79cfae32318";
+    internal const string ConsecrateBuff =  "ab7079a6-6bff-427e-8257-1f2457c04c14";
 
     internal const string DesecrateSpell = "ba47baf2-982a-4c4c-82fc-af65dab915af";
-    internal const string DesecrateAoE = "372f94fb-0a45-4813-8e85-46783792ec3d";
-    internal const string DesecrateBuff = "6bf4c34c-8e54-448f-8921-11f93f21aac7";
+    internal const string DesecrateAoE =   "372f94fb-0a45-4813-8e85-46783792ec3d";
+    internal const string DesecrateBuff =  "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
-    internal const string IceSlickSpell = "ff0cd827-3f35-4ed7-a811-18cd716124ed";
-    internal const string IceSlickAoE = "b94a289c-49c2-4754-83a5-e171ad39fba6";
+    internal const string IceSlickSpell =   "ff0cd827-3f35-4ed7-a811-18cd716124ed";
+    internal const string IceSlickAoE =     "b94a289c-49c2-4754-83a5-e171ad39fba6";
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
-    internal const string ShadowTrapSpell = "a3a7e60e-7866-46c4-99b8-ad685e625c06";
-    internal const string ShadowTrapBuff = "09062a14-4a01-41dc-8408-abb0cd38da69";
+    internal const string ShadowTrapSpell =     "a3a7e60e-7866-46c4-99b8-ad685e625c06";
+    internal const string ShadowTrapBuff =      "09062a14-4a01-41dc-8408-abb0cd38da69";
     internal const string ShadowTrapDelayBuff = "46f235b2-95b1-425e-ae14-8dd54173b039";
 
-    internal const string TouchOfBlindnessSpell = "6177af1b-a096-4f58-a0a0-c02778e95483";
+    internal const string TouchOfBlindnessSpell =  "6177af1b-a096-4f58-a0a0-c02778e95483";
     internal const string TouchOfBlindnessEffect = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
 
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]
       {
+        (BladedDashSpell, BladedDash.DisplayName),
         (BurningDisarmSpell, BurningDisarm.DisplayName),
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),

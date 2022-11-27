@@ -1,4 +1,6 @@
-﻿using CharacterOptionsPlus.Util;
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Utils;
+using CharacterOptionsPlus.Util;
 using Kingmaker.ElementsSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic.Mechanics.Actions;
@@ -11,7 +13,7 @@ namespace CharacterOptionsPlus.Actions
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(MeleeAttackExtended));
 
-    internal ActionList OnHit;
+    internal ActionList OnHit = Constants.Empty.Actions;
 
     public override void RunAction()
     {

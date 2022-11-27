@@ -6,7 +6,7 @@
   },
   {
     "Key": "BladedDash.Description",
-    "enGB": "FIXME you cast this spell, you immediately move up to 30 feet in a straight line in any direction. This movement does not provoke attacks of opportunity. At the end of your movement you make a single attack against a target in range. You gain a circumstance bonus on your attack roll equal to your Intelligence or Charisma modifier, whichever is higher."
+    "enGB": "When you cast this spell, you immediately move to any one target within 30 feet, and make a single melee attack against it at your base attack bonus. You gain a circumstance bonus on your attack roll equal to your Intelligence or Charisma modifier, whichever is higher."
   },
   {
     "Key": "BladedDash.Greater.Name",
@@ -15,7 +15,7 @@
   },
   {
     "Key": "BladedDash.Greater.Description",
-    "enGB": "When you cast this spell, you immediately move up to 30 feet in a straight line in any direction. This movement does not provoke attacks of opportunity. You make a single melee attack at your highest base attack bonus against every target you pass during this movement. You gain a circumstance bonus on your attack roll equal to your Intelligence or Charisma modifier, whichever is higher."
+    "enGB": "When you cast this spell, you immediately move in a straight line to any one target within 30 feet. You make a single melee attack against at your base attack bonus against every creature you pass. You gain a circumstance bonus on your attack rolls equal to your Intelligence or Charisma modifier, whichever is higher."
   },
 
   {

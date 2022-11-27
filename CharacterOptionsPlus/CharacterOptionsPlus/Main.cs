@@ -145,6 +145,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log("Configuring spells.");
 
+        BladedDash.Configure();
         BurningDisarm.Configure();
         Consecrate.Configure();
         Desecrate.Configure();
