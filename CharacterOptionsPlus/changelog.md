@@ -8,6 +8,8 @@
 
 * Updates
     * Added Localized Duration to some spells
+    * Divine Fighting Techniques granting Vital Strike effects do not multiply on crits
+        * This is a base game bug that is fixed if you're using TTT-Base
 
 ## v0.8.1
 
