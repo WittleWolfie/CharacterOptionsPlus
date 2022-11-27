@@ -57,6 +57,16 @@
   },
 
   {
+    "Key": "ShadowTrap.Name",
+    "ProcessTemplates": false,
+    "enGB": "Shadow Trap"
+  },
+  {
+    "Key": "ShadowTrap.Description",
+    "enGB": "You pin the target’s shadow to its current location, causing the target to become entangled and preventing it from moving, as if its shadow were anchored to the terrain. 1 round after casting, the target receives a new saving throw to end the effect at the start of each turn."
+  },
+
+  {
     "Key": "TouchOfBlindness.Name",
     "ProcessTemplates": false,
     "enGB": "Touch of Blindness"
