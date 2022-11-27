@@ -118,7 +118,7 @@
   },
   {
     "Key": "DFT.Gorum.Description",
-    "enGB": "If you have the Vital Strike feat, you apply its effect to attacks you make with a greatsword at the end of a charge. If you don't have the Vital Strike feat, your attacks deal 1 additional point of damage instead. When you use Vital Strike with a greatsword, your next attack of opportunity before the start of your next applies its effect.\n\nAdvanced Prerequisites: Str 13, Cleave, Power Attack, Vital Strike, BAB +10\n\nAdvanced Effect: When you use Vital Strike, Improved Vital Strike, or Greater Vital Strike with a greatsword, the target must pass a concentration check to cast spells for 1 round. The DC of the concentration check is 10 + Spell Level + 1/2 the damage you dealt."
+    "enGB": "If you have the Vital Strike feat, you apply its effect to attacks you make with a greatsword at the end of a charge. If you don't have the Vital Strike feat, your attacks deal 1 additional point of damage instead. When you use Vital Strike with a greatsword, your next attack of opportunity before the start of your next turn applies Vital Strike.\n\nAdvanced Prerequisites: Str 13, Cleave, Power Attack, Vital Strike, BAB +10\n\nAdvanced Effect: When you use Vital Strike, Improved Vital Strike, or Greater Vital Strike with a greatsword, the target must pass a concentration check to cast spells for 1 round. The DC of the concentration check is 10 + Spell Level + 1/2 the damage you dealt."
   },
   {
     "Key": "DFT.Gorum.Advanced.Description",
