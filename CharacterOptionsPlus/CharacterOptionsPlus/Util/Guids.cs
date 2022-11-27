@@ -376,6 +376,9 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Spells
+    internal const string BladedDashSpell = "4b1d7167-c4dc-4eda-b48b-af4dd5c00473";
+    internal const string BladedDashGreaterSpell = "cc5b9eba-b761-42d4-8566-5e5c7a420f18";
+
     internal const string BurningDisarmSpell = "4445e61d-3dff-4985-9eb5-37169a0e85bc";
 
     internal const string ConsecrateSpell = "5bc013d5-d014-4502-af6a-e14141d6c35e";

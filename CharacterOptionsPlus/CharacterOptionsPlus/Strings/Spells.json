@@ -1,5 +1,24 @@
 ﻿[
   {
+    "Key": "BladedDash.Name",
+    "ProcessTemplates": false,
+    "enGB": "Bladed Dash"
+  },
+  {
+    "Key": "BladedDash.Description",
+    "enGB": "FIXME you cast this spell, you immediately move up to 30 feet in a straight line in any direction. This movement does not provoke attacks of opportunity. At the end of your movement you make a single attack against a target in range. You gain a circumstance bonus on your attack roll equal to your Intelligence or Charisma modifier, whichever is higher."
+  },
+  {
+    "Key": "BladedDash.Greater.Name",
+    "ProcessTemplates": false,
+    "enGB": "Bladed Dash, Greater"
+  },
+  {
+    "Key": "BladedDash.Greater.Description",
+    "enGB": "When you cast this spell, you immediately move up to 30 feet in a straight line in any direction. This movement does not provoke attacks of opportunity. You make a single melee attack at your highest base attack bonus against every target you pass during this movement. You gain a circumstance bonus on your attack roll equal to your Intelligence or Charisma modifier, whichever is higher."
+  },
+
+  {
     "Key": "BurningDisarm.Name",
     "ProcessTemplates": false,
     "enGB": "Burning Disarm"
