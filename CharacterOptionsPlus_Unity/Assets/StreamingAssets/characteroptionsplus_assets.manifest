@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1275424454
+CRC: 1456250690
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a22ea6b8073b259dd690992690f8862c
+    Hash: 0b951b5610979a9f32346d5b29be620b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -27,6 +27,7 @@ Assets:
 - Assets/Icons/EldritchHeritageImproved.png
 - Assets/Icons/IceSlick.png
 - Assets/Icons/UrgathoaTechnique.png
+- Assets/Icons/ShadowTrap.png
 - Assets/Icons/BaseMobility.png
 - Assets/Icons/NorgorberTechnique.png
 - Assets/Icons/AsmodeusSicken.png

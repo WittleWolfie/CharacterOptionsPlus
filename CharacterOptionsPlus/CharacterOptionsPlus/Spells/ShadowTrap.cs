@@ -34,7 +34,7 @@ namespace CharacterOptionsPlus.Spells
     private const string DelayBuffName = "ShadowTrap.Delay.Buff";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "shadowtrap.png";
 
     // Some shadow demon effect
     private const string BuffEffect = "a2d55bc9-793f-4dc3-a948-6b35abb6fe36";
