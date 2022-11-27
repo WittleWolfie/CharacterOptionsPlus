@@ -82,7 +82,7 @@ namespace CharacterOptionsPlus.Spells
               SavingThrowType.Fortitude,
               onResult: ActionsBuilder.New()
                 .ConditionalSaved(
-                  succeed: ActionsBuilder.New()
+                  failed: ActionsBuilder.New()
                     .ApplyBuff(BuffRefs.BlindnessBuff.ToString(), ContextDuration.Fixed(1)))))
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .Configure();
