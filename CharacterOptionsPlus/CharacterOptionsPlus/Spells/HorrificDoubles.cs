@@ -44,9 +44,6 @@ namespace CharacterOptionsPlus.Spells
     private const string ShakenImmunityName = "HorrificDoubles.Shaken.Immunity";
     private const string ShakenDescription = "HorrificDoubles.Shaken.Description";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -78,10 +75,12 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var icon = AbilityRefs.Lich1FalseGraceAbility.Reference.Get().Icon;
       var shaken = BuffConfigurator.New(ShakenName, Guids.HorrificDoublesShaken)
         .CopyFrom(BuffRefs.Shaken)
         .SetDisplayName(DisplayName)
         .SetDescription(ShakenDescription)
+        .SetIcon(icon)
         .AddSpellDescriptorComponent(SpellDescriptor.MindAffecting)
         .AddComponent<HorrifiedComponent>()
         .Configure();
@@ -94,7 +93,7 @@ namespace CharacterOptionsPlus.Spells
         .CopyFrom(BuffRefs.MirrorImageBuff, c => true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icon)
         .AddComponent<HorrificDoublesComponent>()
         .Configure();
 
@@ -106,7 +105,7 @@ namespace CharacterOptionsPlus.Spells
           SpellDescriptor.MindAffecting)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icon)
         .SetRange(AbilityRange.Personal)
         .SetSpellResistance()
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
