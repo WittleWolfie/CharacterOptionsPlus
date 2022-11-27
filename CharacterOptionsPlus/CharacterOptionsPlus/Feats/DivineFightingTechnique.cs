@@ -1049,7 +1049,7 @@ namespace CharacterOptionsPlus.Feats
         Logger.NativeLog("Adding Vital Strike handler");
         var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
         var handler =
-          new AbilityCustomVitalStrike.VitalStrike(
+          new VitalStrikeEventHandler(
             Owner, vitalStrikeMod, Owner.HasFact(VitalStrikeMythic), Owner.HasFact(Rowdy), Fact);
         EventBus.Subscribe(handler);
         evt.SetCustomData(HandlerKey, handler);
@@ -2000,7 +2000,7 @@ namespace CharacterOptionsPlus.Feats
         Logger.NativeLog("Adding Vital Strike handler");
         var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
         var handler =
-          new AbilityCustomVitalStrike.VitalStrike(
+          new VitalStrikeEventHandler(
             Owner, vitalStrikeMod, Owner.HasFact(VitalStrikeMythic), Owner.HasFact(Rowdy), Fact);
         EventBus.Subscribe(handler);
         evt.SetCustomData(HandlerKey, handler);
