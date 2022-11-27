@@ -40,8 +40,8 @@ namespace CharacterOptionsPlus.Spells
     private const string BuffName = "BladedDash.Buff";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
-    private const string IconNameGreater = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "bladeddash.png";
+    private const string IconNameGreater = IconPrefix + "bladeddashgreater.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 

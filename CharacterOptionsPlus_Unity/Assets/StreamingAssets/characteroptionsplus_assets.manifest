@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1456250690
+CRC: 3730912689
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0b951b5610979a9f32346d5b29be620b
+    Hash: cffd1a8451f0d83a559d35434355952f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -18,6 +18,7 @@ Assets:
 - Assets/Icons/IroriTechnique.png
 - Assets/Icons/NorgorberAdvancedTechnique.png
 - Assets/Icons/EldritchHeritage.png
+- Assets/Icons/BladedDashGreater.png
 - Assets/Icons/Desecrate.png
 - Assets/Icons/GorumTechnique.png
 - Assets/Icons/DivineFightingTechnique.png
@@ -39,6 +40,7 @@ Assets:
 - Assets/Icons/GloriousHeat.png
 - Assets/Icons/Consecrate.png
 - Assets/Icons/IomedaeAdvancedTechnique.png
+- Assets/Icons/BladedDash.png
 - Assets/Icons/AsmodeusBlind.png
 - Assets/Icons/BreakFree.png
 - Assets/Icons/DazingAssault.png
