@@ -87,7 +87,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Screaming Flames](https://www.d20pfsrd.com/magic/all-spells/s/screaming-flames/)
     * [Shield of Fortification](https://www.d20pfsrd.com/magic/all-spells/s/shield-of-fortification/)
     * [Stricken Heart](https://www.d20pfsrd.com/magic/all-spells/s/stricken-heart/)
-    * [Wall of Ice](https://www.d20pfsrd.com/magic/all-spells/w/wall-of-ice/)
     * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
 
 ### Reporting Problems
