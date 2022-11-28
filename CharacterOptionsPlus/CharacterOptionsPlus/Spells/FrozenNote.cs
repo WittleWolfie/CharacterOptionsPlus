@@ -9,14 +9,13 @@ using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
-using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem.Rules.Damage;
-using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Commands.Base;
 using Kingmaker.Utility;
 using System;
@@ -38,7 +37,10 @@ namespace CharacterOptionsPlus.Spells
     private const string AreaName = "FrozenNote.Area";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "frozennote.png";
+
+    // Battle Medication
+    private const string AreaEffect = "3a0228650295f6a40bc335385a929a07";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -93,7 +95,7 @@ namespace CharacterOptionsPlus.Spells
       var area = AbilityAreaEffectConfigurator.New(AreaName, Guids.FrozenNoteArea)
         .SetSize(30.Feet())
         .SetShape(AreaEffectShape.Cylinder)
-        .SetFx("3a0228650295f6a40bc335385a929a07") // Battle Medictation AoE.. kinda fine as is? Also consider c14a2f46018cb0e41bfeed61463510ff -- Overwhelming Presence
+        .SetFx(AreaEffect)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithBonusValueProgression(4))
         .AddContextRankConfig(
           ContextRankConfigs.CasterLevel(type: AbilityRankType.StatBonus).WithBonusValueProgression(-4))
@@ -147,31 +149,43 @@ namespace CharacterOptionsPlus.Spells
         .Configure();
     }
 
-    // TODO: Looks like implementing these interfaces should cover everything for cancelling frozen note
     private class FrozenNoteComponent :
-      UnitFactComponentDelegate,
+      UnitBuffComponentDelegate,
       IUnitCommandStartHandler,
-      IUnitMoveHandler,
       ITargetRulebookHandler<RuleDealDamage>
     {
       public void HandleUnitCommandDidStart(UnitCommand command)
       {
-        throw new NotImplementedException();
+        try
+        {
+          if (command.Type == CommandType.Free || !command.CreatedByPlayer)
+            return;
+
+          Logger.NativeLog($"{Owner.CharacterName} took an action {command.Type}, interrupting Frozen Note");
+          Buff.Remove();
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("FrozenNoteComponent.HandleUnitCommandDidStart", e);
+        }
       }
 
-      public void HandleUnitMovement(UnitEntityData unit)
-      {
-        throw new NotImplementedException();
-      }
-
-      public void OnEventAboutToTrigger(RuleDealDamage evt)
-      {
-        throw new NotImplementedException();
-      }
+      public void OnEventAboutToTrigger(RuleDealDamage evt) { }
 
       public void OnEventDidTrigger(RuleDealDamage evt)
       {
-        throw new NotImplementedException();
+        try
+        {
+          if (evt.Result > 0)
+          {
+            Logger.NativeLog($"{Owner.CharacterName} took damage, interrupting Frozen Note");
+            Buff.Remove();
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("FrozenNoteComponent.HandleUnitMovement", e);
+        }
       }
     }
   }

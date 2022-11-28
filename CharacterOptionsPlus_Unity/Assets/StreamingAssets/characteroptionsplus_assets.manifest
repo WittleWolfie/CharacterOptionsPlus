@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3730912689
+CRC: 1334815770
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cffd1a8451f0d83a559d35434355952f
+    Hash: 492951d2681c2388af2af85d06a30975
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -65,5 +65,6 @@ Assets:
 - Assets/Icons/DistractingShot.png
 - Assets/Icons/AsmodeusTechnique.png
 - Assets/Icons/UrgathoaAdvancedTechnique.png
+- Assets/Icons/FrozenNote.png
 - Assets/Icons/RovagugAdvancedTechnique.png
 Dependencies: []
