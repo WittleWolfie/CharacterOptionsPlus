@@ -4,7 +4,8 @@
     * Touch of Blindness - Includes support for multiple touch charges
     * Shadow Trap
     * Bladed Dash and Bladed Dash, Greater
-    * 
+    * Frozen Note
+    *
 
 * Updates
     * Added Localized Duration to some spells
