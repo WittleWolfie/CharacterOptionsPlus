@@ -5,19 +5,19 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Conditions.Builder.ContextEx;
-using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.Util;
-using HarmonyLib;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
-using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Commands.Base;
 using Kingmaker.Utility;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
@@ -74,7 +74,7 @@ namespace CharacterOptionsPlus.Spells
       var applyParalyze = ActionsBuilder.New().ApplyBuffPermanent(paralyzeBuff, isFromSpell: true);
       var areaEffect = ActionsBuilder.New()
         .Conditional(
-          ConditionsBuilder.New().HasBuffFromThisAreaEffect(paralyzeBuff),
+          ConditionsBuilder.New().UseOr().IsCaster().HasBuffFromThisAreaEffect(paralyzeBuff),
           ifFalse: ActionsBuilder.New()
             .Add<SpellResistanceCheck>(
               a => a.OnResistFail = ActionsBuilder.New()
@@ -93,7 +93,7 @@ namespace CharacterOptionsPlus.Spells
       var area = AbilityAreaEffectConfigurator.New(AreaName, Guids.FrozenNoteArea)
         .SetSize(30.Feet())
         .SetShape(AreaEffectShape.Cylinder)
-        .SetFx("bbd6decdae32bce41ae8f06c6c5eb893") // TODO: Replace
+        .SetFx("3a0228650295f6a40bc335385a929a07") // Battle Medictation AoE.. kinda fine as is? Also consider c14a2f46018cb0e41bfeed61463510ff -- Overwhelming Presence
         .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithBonusValueProgression(4))
         .AddContextRankConfig(
           ContextRankConfigs.CasterLevel(type: AbilityRankType.StatBonus).WithBonusValueProgression(-4))
@@ -111,6 +111,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDescription(Description)
         .SetIcon(IconName)
         .AddAreaEffect(areaEffect: area)
+        .AddComponent<FrozenNoteComponent>()
         .AddNotDispelable()
         .Configure();
 
@@ -125,7 +126,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
-        .SetRange(AbilityRange.Personal)
+        .SetRange(AbilityRange.Close)
         .AllowTargeting(self: true)
         .SetSpellResistance()
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
@@ -146,37 +147,31 @@ namespace CharacterOptionsPlus.Spells
         .Configure();
     }
 
-    [HarmonyPatch(typeof(UnitEntityData))]
-    static class UnitEntityData_Patch
+    // TODO: Looks like implementing these interfaces should cover everything for cancelling frozen note
+    private class FrozenNoteComponent :
+      UnitFactComponentDelegate,
+      IUnitCommandStartHandler,
+      IUnitMoveHandler,
+      ITargetRulebookHandler<RuleDealDamage>
     {
-      private static BlueprintBuff _frozenNoteBuff;
-      private static BlueprintBuff FrozenNoteBuff
+      public void HandleUnitCommandDidStart(UnitCommand command)
       {
-        get
-        {
-          _frozenNoteBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.FrozenNoteBuff);
-          return _frozenNoteBuff;
-        }
+        throw new NotImplementedException();
       }
 
-      [HarmonyPatch(nameof(UnitEntityData.SpendAction)), HarmonyPrefix]
-      static void SpendAction(UnitEntityData __instance, CommandType type)
+      public void HandleUnitMovement(UnitEntityData unit)
       {
-        try
-        {
-          if (type == CommandType.Free)
-            return;
+        throw new NotImplementedException();
+      }
 
-          if (__instance.HasFact(FrozenNoteBuff))
-          {
-            Logger.Log($"{__instance.CharacterName} took an action, canceling Frozen Note");
-            __instance.RemoveFact(FrozenNoteBuff);
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("UnitEntityData_Patch.SpendAction", e);
-        }
+      public void OnEventAboutToTrigger(RuleDealDamage evt)
+      {
+        throw new NotImplementedException();
+      }
+
+      public void OnEventDidTrigger(RuleDealDamage evt)
+      {
+        throw new NotImplementedException();
       }
     }
   }

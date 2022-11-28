@@ -18,7 +18,6 @@ namespace CharacterOptionsPlus.Actions
 
     internal ContextValue HighValue = 0;
     internal ContextValue LowValue = 0;
-    internal bool CompareToCasterLevel = true;
 
     public override string GetCaption()
     {
@@ -47,19 +46,18 @@ namespace CharacterOptionsPlus.Actions
         var low = LowValue.Calculate(Context);
         var targetHD = target.Progression.CharacterLevel;
 
-        if (CompareToCasterLevel)
-        {
-          var casterHD = Context.Params.CasterLevel;
-          high += casterHD;
-          low = Math.Max(casterHD - low, 0);
-        }
-
         if (targetHD >= high)
+        {
           OnHigh.Run();
+        }
         else if (targetHD <= low)
+        {
           OnLower.Run();
+        }
         else
+        {
           OnInBetween.Run();
+        }
       }
       catch (Exception e)
       {
