@@ -1,0 +1,183 @@
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Conditions.Builder.ContextEx;
+using BlueprintCore.Utils;
+using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Actions;
+using CharacterOptionsPlus.Util;
+using HarmonyLib;
+using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.EntitySystem.Entities;
+using Kingmaker.EntitySystem.Stats;
+using Kingmaker.Enums;
+using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.Utility;
+using System;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
+using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
+using static UnityModManagerNet.UnityModManager.ModEntry;
+
+namespace CharacterOptionsPlus.Spells
+{
+  internal class FrozenNote
+  {
+    private const string FeatureName = "FrozenNote";
+
+    internal const string DisplayName = "FrozenNote.Name";
+    private const string Description = "FrozenNote.Description";
+
+    private const string BuffName = "FrozenNote.Buff";
+    private const string AreaName = "FrozenNote.Area";
+
+    private const string IconPrefix = "assets/icons/";
+    private const string IconName = IconPrefix + "gloriousheat.png";
+
+    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+
+    internal static void Configure()
+    {
+      try
+      {
+        if (Settings.IsEnabled(Guids.FrozenNoteSpell))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("FrozenNote.Configure", e);
+      }
+    }
+
+    private static void ConfigureDisabled()
+    {
+      Logger.Log($"Configuring {FeatureName} (disabled)");
+
+      AbilityAreaEffectConfigurator.New(AreaName, Guids.FrozenNoteArea).Configure();
+      BuffConfigurator.New(BuffName, Guids.FrozenNoteBuff).Configure();
+      AbilityConfigurator.New(FeatureName, Guids.FrozenNoteSpell).Configure();
+    }
+
+    private static void ConfigureEnabled()
+    {
+      Logger.Log($"Configuring {FeatureName}");
+
+      var paralyzeBuff = BuffRefs.ParalyzedMindAffecting.ToString();
+      var applyParalyze = ActionsBuilder.New().ApplyBuffPermanent(paralyzeBuff, isFromSpell: true);
+      var areaEffect = ActionsBuilder.New()
+        .Conditional(
+          ConditionsBuilder.New().HasBuffFromThisAreaEffect(paralyzeBuff),
+          ifFalse: ActionsBuilder.New()
+            .Add<SpellResistanceCheck>(
+              a => a.OnResistFail = ActionsBuilder.New()
+                .Add<ConditionalHitDice>(
+                  a =>
+                  {
+                    a.HighValue = ContextValues.Rank();
+                    a.LowValue = ContextValues.Rank(AbilityRankType.StatBonus);
+                    a.OnInBetween = ActionsBuilder.New()
+                      .SavingThrow(
+                        SavingThrowType.Will, onResult: ActionsBuilder.New().ConditionalSaved(failed: applyParalyze))
+                      .Build();
+                    a.OnLower = applyParalyze.Build();
+                  })
+                .Build()));
+      var area = AbilityAreaEffectConfigurator.New(AreaName, Guids.FrozenNoteArea)
+        .SetSize(30.Feet())
+        .SetShape(AreaEffectShape.Cylinder)
+        .SetFx("bbd6decdae32bce41ae8f06c6c5eb893") // TODO: Replace
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithBonusValueProgression(4))
+        .AddContextRankConfig(
+          ContextRankConfigs.CasterLevel(type: AbilityRankType.StatBonus).WithBonusValueProgression(-4))
+        .AddAbilityAreaEffectRunAction(
+          unitEnter: areaEffect,
+          round: areaEffect,
+          unitExit: ActionsBuilder.New()
+            .Conditional(
+              ConditionsBuilder.New().HasBuffFromThisAreaEffect(paralyzeBuff),
+              ifTrue: ActionsBuilder.New().RemoveBuff(paralyzeBuff)))
+        .Configure();
+
+      var buff = BuffConfigurator.New(BuffName, Guids.FrozenNoteBuff)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .AddAreaEffect(areaEffect: area)
+        .AddNotDispelable()
+        .Configure();
+
+      AbilityConfigurator.NewSpell(
+          FeatureName,
+          Guids.FrozenNoteSpell,
+          SpellSchool.Enchantment,
+          canSpecialize: true,
+          SpellDescriptor.Compulsion,
+          SpellDescriptor.MindAffecting,
+          SpellDescriptor.Sonic)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .SetRange(AbilityRange.Personal)
+        .AllowTargeting(self: true)
+        .SetSpellResistance()
+        .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
+        .SetAnimation(CastAnimationStyle.Omni)
+        .SetActionType(CommandType.Standard)
+        .SetLocalizedDuration(Duration.RoundPerLevel)
+        .SetAvailableMetamagic(
+          Metamagic.CompletelyNormal,
+          Metamagic.Persistent,
+          Metamagic.Quicken,
+          Metamagic.Selective,
+          (Metamagic)CustomMetamagic.Piercing)
+        .AddToSpellLists(level: 5, SpellList.Bard)
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel())
+        .AddAbilityEffectRunAction(
+          actions: ActionsBuilder.New()
+            .ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank()), toCaster: true))
+        .Configure();
+    }
+
+    [HarmonyPatch(typeof(UnitEntityData))]
+    static class UnitEntityData_Patch
+    {
+      private static BlueprintBuff _frozenNoteBuff;
+      private static BlueprintBuff FrozenNoteBuff
+      {
+        get
+        {
+          _frozenNoteBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.FrozenNoteBuff);
+          return _frozenNoteBuff;
+        }
+      }
+
+      [HarmonyPatch(nameof(UnitEntityData.SpendAction)), HarmonyPrefix]
+      static void SpendAction(UnitEntityData __instance, CommandType type)
+      {
+        try
+        {
+          if (type == CommandType.Free)
+            return;
+
+          if (__instance.HasFact(FrozenNoteBuff))
+          {
+            Logger.Log($"{__instance.CharacterName} took an action, canceling Frozen Note");
+            __instance.RemoveFact(FrozenNoteBuff);
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("UnitEntityData_Patch.SpendAction", e);
+        }
+      }
+    }
+  }
+}

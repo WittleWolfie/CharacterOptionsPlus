@@ -64,6 +64,16 @@
   },
 
   {
+    "Key": "FrozenNote.Name",
+    "ProcessTemplates": false,
+    "enGB": "Frozen Note"
+  },
+  {
+    "Key": "FrozenNote.Description",
+    "enGB": "You produce and sustain a single perfect musical note that holds nearby creatures, friend as well as foe, utterly spellbound until you stop singing. Affected creatures are both paralyzed and oblivious to their surroundings so long as you maintain the note.\n\nMaintaining this note requires your absolute attention; if you take damage or take any other action, including moving from your current square, the spell instantly ends. Creatures that succeed in their initial Saving Throw must make a new one for each round they spend within the area of the spell until they fail and become captivated. Creatures with 4 or more Hit Dice greater than your caster level are not affected by this spell. However, those with 4 or more Hit Dice less than your caster level do not receive a Saving Throw to resist it."
+  },
+
+  {
     "Key": "HorrificDoubles.Name",
     "ProcessTemplates": false,
     "enGB": "Horrific Doubles"

@@ -149,6 +149,7 @@ namespace CharacterOptionsPlus
         BurningDisarm.Configure();
         Consecrate.Configure();
         Desecrate.Configure();
+        FrozenNote.Configure();
         HorrificDoubles.Configure();
         IceSlick.Configure();
         ShadowTrap.Configure();

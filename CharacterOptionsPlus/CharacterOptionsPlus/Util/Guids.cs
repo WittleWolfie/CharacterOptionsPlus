@@ -390,6 +390,10 @@ namespace CharacterOptionsPlus.Util
     internal const string DesecrateAoE =   "372f94fb-0a45-4813-8e85-46783792ec3d";
     internal const string DesecrateBuff =  "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
+    internal const string FrozenNoteSpell = "82bbafd5-6525-41bb-bf22-176b6fdeff1b";
+    internal const string FrozenNoteBuff = "51f066c1-f2c9-49de-bb58-0c4a65ef22be";
+    internal const string FrozenNoteArea = "96d0ccaf-3730-4a58-8d92-50f81dab92fb";
+
     internal const string HorrificDoublesSpell = "79b7eb84-9dfd-4184-9d0d-490c370d7fc3";
     internal const string HorrificDoublesBuff = "cd85fc3c-2fea-4da7-b02e-418227a6d016";
     internal const string HorrificDoublesShaken = "f0d27bcd-d791-405f-ad9e-d252c3c0abed";
@@ -413,6 +417,7 @@ namespace CharacterOptionsPlus.Util
         (BurningDisarmSpell, BurningDisarm.DisplayName),
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
+        (FrozenNoteSpell, FrozenNote.DisplayName),
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
