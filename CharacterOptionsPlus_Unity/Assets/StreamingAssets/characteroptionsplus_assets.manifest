@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1334815770
+CRC: 3242965002
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 492951d2681c2388af2af85d06a30975
+    Hash: 0ba87640c75204a492b96339c56a16d4
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -63,6 +63,7 @@ Assets:
 - Assets/Illustrations/wolfie.png
 - Assets/Icons/BurningDisarm.png
 - Assets/Icons/DistractingShot.png
+- Assets/Icons/Wrath.png
 - Assets/Icons/AsmodeusTechnique.png
 - Assets/Icons/UrgathoaAdvancedTechnique.png
 - Assets/Icons/FrozenNote.png
