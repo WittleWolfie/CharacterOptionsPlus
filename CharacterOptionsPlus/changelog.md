@@ -5,7 +5,7 @@
     * Shadow Trap
     * Bladed Dash and Bladed Dash, Greater
     * Frozen Note
-    *
+    * Wrath
 
 * Updates
     * Added Localized Duration to some spells
