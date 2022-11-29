@@ -117,5 +117,15 @@
   {
     "Key": "TouchOfBlindness.Description",
     "enGB": "A touch from your hand, which is engulfed in darkness, disrupts a creature’s vision by coating its eyes in supernatural darkness. Each touch causes the target to become blinded for 1 round unless it makes a successful Fortitude saving throw. You can use this melee touch attack up to one time per caster level."
+  },
+
+  {
+    "Key": "Wrath.Name",
+    "ProcessTemplates": false,
+    "enGB": "Wrath"
+  },
+  {
+    "Key": "Wrath.Description",
+    "enGB": "Choose one enemy creature that you can see within 50 feet. You gain a +1 morale bonus on attack rolls and weapon damage rolls against that designated creature for every three caster levels you have (at least +1, maximum +3). You also receive this bonus on caster level checks made to overcome the creature’s Spell Resistance, if any. At 12th level, you gain the benefits of the Improved Critical feat on attack rolls made against the designated creature. This effect doesn’t stack with any other effect that expands the threat range of a weapon."
   }
 ]

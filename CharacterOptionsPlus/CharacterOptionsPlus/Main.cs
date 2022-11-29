@@ -154,6 +154,7 @@ namespace CharacterOptionsPlus
         IceSlick.Configure();
         ShadowTrap.Configure();
         TouchOfBlindness.Configure();
+        Wrath.Configure();
       }
     }
   }

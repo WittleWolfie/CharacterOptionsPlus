@@ -1,0 +1,128 @@
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Components;
+using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Enums;
+using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem.Rules;
+using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Components;
+using Kingmaker.UnitLogic.Mechanics;
+using System;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
+using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
+using static UnityModManagerNet.UnityModManager.ModEntry;
+
+namespace CharacterOptionsPlus.Spells
+{
+  internal class Wrath
+  {
+    private const string FeatureName = "Wrath";
+
+    internal const string DisplayName = "Wrath.Name";
+    private const string Description = "Wrath.Description";
+
+    private const string BuffName = "Wrath.Buff";
+    private const string BuffSelfName = "Wrath.Buff.Self";
+
+    private const string IconPrefix = "assets/icons/";
+    private const string IconName = IconPrefix + "gloriousheat.png";
+
+    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+
+    internal static void Configure()
+    {
+      try
+      {
+        if (Settings.IsEnabled(Guids.WrathSpell))
+          ConfigureEnabled();
+        else
+          ConfigureDisabled();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("Wrath.Configure", e);
+      }
+    }
+
+    private static void ConfigureDisabled()
+    {
+      Logger.Log($"Configuring {FeatureName} (disabled)");
+
+      BuffConfigurator.New(BuffName, Guids.WrathBuff).Configure();
+      AbilityConfigurator.New(FeatureName, Guids.WrathSpell).Configure();
+    }
+
+    private static void ConfigureEnabled()
+    {
+      Logger.Log($"Configuring {FeatureName}");
+
+      var buff = BuffConfigurator.New(BuffName, Guids.WrathBuff)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 3, useMax: true))
+        .AddAttackBonusAgainstTarget(
+          value: ContextValues.Rank(), checkCaster: true, descriptor: ModifierDescriptor.Morale)
+        .AddDamageBonusAgainstTarget(value: ContextValues.Rank(), checkCaster: true)
+        .AddComponent(new SpellPenBonusAgainstTarget(ContextValues.Rank()))
+        .AddComponent<WrathfulCritical>()
+        .Configure();
+
+      AbilityConfigurator.NewSpell(
+          FeatureName,
+          Guids.WrathSpell,
+          SpellSchool.Enchantment,
+          canSpecialize: true,
+          SpellDescriptor.Compulsion,
+          SpellDescriptor.Emotion,
+          SpellDescriptor.MindAffecting)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .SetRange(AbilityRange.Long)
+        .AllowTargeting(enemies: true)
+        .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
+        .SetAnimation(CastAnimationStyle.Point)
+        .SetActionType(CommandType.Standard)
+        .SetLocalizedDuration(Duration.OneMinute)
+        .SetAvailableMetamagic(
+          Metamagic.CompletelyNormal,
+          Metamagic.Quicken,
+          Metamagic.Extend,
+          (Metamagic)CustomMetamagic.Encouraging)
+        .AddToSpellLists(level: 1, SpellList.Inquisitor, SpellList.LichInquisitorMinor)
+        .AddAbilityEffectRunAction(
+          actions: ActionsBuilder.New()
+            .ApplyBuff(buff: buff, ContextDuration.Fixed(1, rate: DurationRate.Minutes), isNotDispelable: true))
+        .Configure();
+    }
+
+    [TypeId("e004e2f3-84f7-4a74-923e-c2d97397bc8e")]
+    private class WrathfulCritical : UnitBuffComponentDelegate, ITargetRulebookHandler<RuleCalculateWeaponStats>
+    {
+      public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt) {
+        try
+        {
+          if (evt.Initiator != Context.MaybeCaster)
+            return;
+
+          evt.DoubleCriticalEdge = true;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("WrathfulCritical.OnEventAboutToTrigger", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateWeaponStats evt) { }
+    }
+  }
+}
