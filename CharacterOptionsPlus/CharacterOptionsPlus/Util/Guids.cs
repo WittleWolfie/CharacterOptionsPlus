@@ -412,6 +412,7 @@ namespace CharacterOptionsPlus.Util
 
     internal const string WrathSpell = "c31b0784-8523-43ce-a5f5-cb3a6121c43a";
     internal const string WrathBuff = "f47ab8be-368a-44a5-8448-fb1b8d756130";
+    internal const string WrathSelfBuff = "b4d4b58c-0147-4a93-bb45-2eae439e5787";
 
     internal static readonly (string guid, string displayName)[] Spells =
       new (string, string)[]

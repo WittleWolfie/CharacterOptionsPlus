@@ -33,7 +33,6 @@ namespace CharacterOptionsPlus.Components
           return;
 
         var bonus = Bonus.Calculate(Context);
-        Logger.NativeLog($"Adding +{bonus} spell penetration against {evt.Target.CharacterName}");
         evt.AddSpellPenetration(bonus);
       }
       catch (Exception e)

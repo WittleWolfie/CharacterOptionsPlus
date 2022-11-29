@@ -2,6 +2,7 @@
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
@@ -10,8 +11,10 @@ using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem.Rules;
+using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Mechanics;
 using System;
@@ -57,6 +60,7 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
       BuffConfigurator.New(BuffName, Guids.WrathBuff).Configure();
+      BuffConfigurator.New(BuffSelfName, Guids.WrathSelfBuff).Configure();
       AbilityConfigurator.New(FeatureName, Guids.WrathSpell).Configure();
     }
 
@@ -68,11 +72,15 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
-        .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 3, useMax: true))
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 3).WithStartPlusDivStepProgression(3))
         .AddAttackBonusAgainstTarget(
           value: ContextValues.Rank(), checkCaster: true, descriptor: ModifierDescriptor.Morale)
         .AddDamageBonusAgainstTarget(value: ContextValues.Rank(), checkCaster: true)
         .AddComponent(new SpellPenBonusAgainstTarget(ContextValues.Rank()))
+        .Configure();
+
+      var selfBuff = BuffConfigurator.New(BuffSelfName, Guids.WrathSelfBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .AddComponent<WrathfulCritical>()
         .Configure();
 
@@ -101,17 +109,29 @@ namespace CharacterOptionsPlus.Spells
         .AddToSpellLists(level: 1, SpellList.Inquisitor, SpellList.LichInquisitorMinor)
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
-            .ApplyBuff(buff: buff, ContextDuration.Fixed(1, rate: DurationRate.Minutes), isNotDispelable: true))
+            .ApplyBuff(buff: buff, ContextDuration.Fixed(1, rate: DurationRate.Minutes), isNotDispelable: true)
+            .ApplyBuff(buff: selfBuff, ContextDuration.Fixed(1, rate: DurationRate.Minutes), toCaster: true))
         .Configure();
     }
 
     [TypeId("e004e2f3-84f7-4a74-923e-c2d97397bc8e")]
-    private class WrathfulCritical : UnitBuffComponentDelegate, ITargetRulebookHandler<RuleCalculateWeaponStats>
+    private class WrathfulCritical : UnitBuffComponentDelegate, IInitiatorRulebookHandler<RuleCalculateWeaponStats>
     {
-      public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt) {
+      private static BlueprintBuff _wrathBuff;
+      private static BlueprintBuff WrathBuff
+      {
+        get
+        {
+          _wrathBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.WrathBuff);
+          return _wrathBuff;
+        }
+      }
+
+      public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt)
+      {
         try
         {
-          if (evt.Initiator != Context.MaybeCaster)
+          if (Context.Params.CasterLevel < 12 || evt.AttackWithWeapon?.Target?.HasFact(WrathBuff) != true)
             return;
 
           evt.DoubleCriticalEdge = true;
