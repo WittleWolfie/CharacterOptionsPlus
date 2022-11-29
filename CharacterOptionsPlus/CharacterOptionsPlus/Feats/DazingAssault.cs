@@ -1,23 +1,22 @@
-﻿using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
+﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
+using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
-using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
-using Kingmaker.PubSubSystem;
-using Kingmaker.RuleSystem.Rules;
-using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.Utility;
 using System;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
+  // Adopted Envibel's implementation from Martial Excellence: https://github.com/Envibel/MartialExcellence
   internal class DazingAssault
   {
     internal const string FeatName = "DazingAssault";
@@ -62,7 +61,18 @@ namespace CharacterOptionsPlus.Feats
 
       var buff = BuffConfigurator.New(BuffName, Guids.DazingAssaultBuff)
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .AddComponent<DazingAssaultComponent>()
+        .AddWeaponParametersAttackBonus(attackBonus: -5, ranged: false)
+        .AddContextCalculateAbilityParams(
+          statType: StatType.BaseAttackBonus, replaceCasterLevel: true, replaceSpellLevel: true)
+        .AddInitiatorAttackWithWeaponTrigger(
+          onlyHit: true,
+          rangeType: WeaponRangeType.Melee,
+          action: ActionsBuilder.New()
+            .SavingThrow(
+              SavingThrowType.Fortitude,
+              onResult: ActionsBuilder.New()
+                .ConditionalSaved(
+                  failed: ActionsBuilder.New().ApplyBuff(BuffRefs.DazeBuff.ToString(), ContextDuration.Fixed(1)))))
         .Configure();
 
       var toggle = ActivatableAbilityConfigurator.New(AbilityName, Guids.DazingAssaultToggle)
@@ -83,61 +93,6 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisitePlayerHasFeature(FeatureRefs.PowerAttackFeature.ToString())
         .AddFacts(new() { toggle })
         .Configure(delayed: true);
-    }
-
-    [TypeId("54c53f23-8c38-4f3a-91c5-83e262d3eb25")]
-    private class DazingAssaultComponent :
-      UnitFactComponentDelegate,
-      IInitiatorRulebookHandler<RuleCalculateAttackBonusWithoutTarget>,
-      IInitiatorRulebookHandler<RuleAttackRoll>
-    {
-      public void OnEventAboutToTrigger(RuleCalculateAttackBonusWithoutTarget evt)
-      {
-        try
-        {
-          if (evt.Weapon?.Blueprint?.IsMelee != true)
-            return;
-
-          evt.AddModifier(-5, Fact, ModifierDescriptor.UntypedStackable);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("DazingAssaultComponent.OnEventAboutToTrigger", e);
-        }
-      }
-
-      public void OnEventAboutToTrigger(RuleAttackRoll evt) { }
-
-      public void OnEventDidTrigger(RuleCalculateAttackBonusWithoutTarget evt) { }
-
-      public void OnEventDidTrigger(RuleAttackRoll evt)
-      {
-        try
-        {
-          var target = evt.Target;
-          if (target is null)
-          {
-            Logger.Warning("No target");
-            return;
-          }
-
-          if (evt.Weapon?.Blueprint?.IsMelee != true || !evt.IsHit)
-            return;
-
-          var dc = 10 + Owner.Stats.GetStat(StatType.BaseAttackBonus);
-          Logger.NativeLog($"Attempting to daze {target.CharacterName} with DC {dc}");
-          var savingThrow = Context.TriggerRule(new RuleSavingThrow(target, SavingThrowType.Fortitude, dc));
-          if (savingThrow.IsPassed)
-            return;
-
-          var buff = target.AddBuff(BuffRefs.Daze.Reference.Get(), Context, 1.Rounds().Seconds);
-          buff.IsNotDispelable = true;
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("DazingAssaultComponent.OnEventAboutToTrigger", e);
-        }
-      }
     }
   }
 }
