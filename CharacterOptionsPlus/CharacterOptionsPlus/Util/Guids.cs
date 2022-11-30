@@ -394,6 +394,10 @@ namespace CharacterOptionsPlus.Util
     internal const string FrozenNoteBuff = "51f066c1-f2c9-49de-bb58-0c4a65ef22be";
     internal const string FrozenNoteArea = "96d0ccaf-3730-4a58-8d92-50f81dab92fb";
 
+    internal const string HedgingWeaponsSpell = "9d39ffeb-6d18-4f0b-8ec2-2a7272539d85";
+    internal const string HedgingWeaponsBuff = "baf45d67-c5e8-4e4f-9f22-75dc08303b72";
+    internal const string HedgingWeaponsProjectile = "ed1fdeb5-033e-400b-8ce9-d127ce218c9d";
+
     internal const string HorrificDoublesSpell = "79b7eb84-9dfd-4184-9d0d-490c370d7fc3";
     internal const string HorrificDoublesBuff = "cd85fc3c-2fea-4da7-b02e-418227a6d016";
     internal const string HorrificDoublesShaken = "f0d27bcd-d791-405f-ad9e-d252c3c0abed";
@@ -422,6 +426,7 @@ namespace CharacterOptionsPlus.Util
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
         (FrozenNoteSpell, FrozenNote.DisplayName),
+        (HedgingWeaponsSpell, HedgingWeapons.DisplayName),
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),

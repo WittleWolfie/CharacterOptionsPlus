@@ -150,6 +150,7 @@ namespace CharacterOptionsPlus
         Consecrate.Configure();
         Desecrate.Configure();
         FrozenNote.Configure();
+        HedgingWeapons.Configure();
         HorrificDoubles.Configure();
         IceSlick.Configure();
         ShadowTrap.Configure();
