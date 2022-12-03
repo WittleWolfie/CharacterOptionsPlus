@@ -1,24 +1,30 @@
 ﻿using BlueprintCore.Actions.Builder;
-using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.ModReferences;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.EntitySystem.Entities;
+using Kingmaker.Enums;
 using Kingmaker.ResourceLinks;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
-using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.Visual.Particles;
+using Kingmaker.Visual.Particles.FxSpawnSystem;
 using System;
+using System.Collections.Generic;
+using TabletopTweaks.Core.NewActions;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
@@ -69,6 +75,8 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName}");
 
       var buff = BuffConfigurator.New(BuffName, Guids.HedgingWeaponsBuff)
+        .SetRanks(5)
+        .SetStacking(StackingType.Rank)
         .Configure();
 
       var projectile = ControllableProjectileConfigurator.New(ProjectileName, Guids.HedgingWeaponsProjectile)
@@ -92,32 +100,28 @@ namespace CharacterOptionsPlus.Spells
           level: 1, SpellList.Cleric, SpellList.Inquisitor, SpellList.LichInquisitorMinor, SpellList.Paladin)
         .AddToSpellList(level: 1, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
+        .AddContextRankConfig(
+          ContextRankConfigs.CasterLevel(max: 5, type: AbilityRankType.ProjectilesCount)
+            .WithStartPlusDivStepProgression(4, start: 2))
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
-            .ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes))
-            .Add<SpawnHedgingWeapons>())
+            .Add<ContextActionApplyBuffRanks>(
+              a =>
+                {
+                  a.m_Buff = buff.ToReference<BlueprintBuffReference>();
+                  a.Rank = ContextValues.Rank(AbilityRankType.ProjectilesCount);
+                  a.DurationValue = ContextDuration.Variable(ContextValues.Rank(), DurationRate.Minutes);
+                }))
         .Configure();
     }
 
-    private static readonly Vector3[] Offsets =
-      new Vector3[]
-      {
-        new(0.5f, 1f, 0.5f),
-        new(0.5f, 1f, -0.5f),
-        new(-0.5f, 1f, 0.5f),
-        new(-0.5f, 1f, -0.5f),
-        new(-8.6f, 1f, 0f),
-      };
-
     [TypeId("45444d3f-4e06-4294-a6d5-7905a77f54b4")]
-    private class SpawnHedgingWeapons : ContextAction
+    private class HedgingWeaponsSpawner : ProjectileController
     {
-      public override string GetCaption()
-      {
-        return "Custom action for Hedging Weapons";
-      }
+      private static readonly BlueprintBuffReference HedgingWeaponsBuff =
+        BlueprintTool.GetRef<BlueprintBuffReference>(Guids.HedgingWeaponsBuff);
 
-      public override void RunAction()
+      public override void OnActivate()
       {
         try
         {
@@ -128,24 +132,92 @@ namespace CharacterOptionsPlus.Spells
             return;
           }
 
-          var enchantPrefab = Enchant.Load();
-          var weaponPrefab = GetWeapon(caster).Load();
-          weaponPrefab.SetActive(false);
+          var enchant = Enchant.Load();
+          var weapon = GetWeapon(caster).Load();
+          weapon.SetActive(false);
 
-          var numWeapons = Math.Min(5, 1 + (Context.Params.CasterLevel - 2) / 4);
+          var projectiles = new List<ControlledProjectile>();
+          var numWeapons = Buff.GetRank();
           for (int i = 0; i < numWeapons; i++)
+            projectiles.Add(new(SpawnWeapon(weapon, enchant, caster, Offsets[i])));
+
+          caster.Ensure<UnitPartControlledProjectiles>().Register(HedgingWeaponsBuff, projectiles);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("HedgingWeaponsSpawner.OnActivate", e);
+        }
+      }
+
+      public override void SpawnProjectiles()
+      {
+        try
+        {
+          var caster = Context.MaybeCaster;
+          if (caster is null)
           {
-            var weapon = GameObject.Instantiate(weaponPrefab);
-            weapon.AnchorToUnit(caster, Offsets[i], Quaternion.AngleAxis(90, Vector3.up));
-            weapon.SetActive(true);
-            FxHelper.SpawnFxOnGameObject(enchantPrefab, weapon, partySource: true);
+            Logger.Warning("No caster");
+            return;
+          }
+
+          var enchant = Enchant.Load();
+          var weapon = GetWeapon(caster).Load();
+          weapon.SetActive(false);
+
+          var projectiles = caster.Ensure<UnitPartControlledProjectiles>().Get(HedgingWeaponsBuff);
+          int i = 0;
+          foreach (var projectile in projectiles)
+          {
+            projectile.Handle = SpawnWeapon(weapon, enchant, caster, Offsets[i]);
+            i++;
           }
         }
         catch(Exception e)
         {
-          Logger.LogException("SpawnHedgingWeapons.RunAction", e);
+          Logger.LogException("HedgingWeaponsSpawner.SpawnProjectiles", e);
         }
       }
+
+      private IFxHandle SpawnWeapon(GameObject prefab, GameObject enchant, UnitEntityData unit, Vector3 offset)
+      {
+        var handle = FxHelper.SpawnFxOnUnit(prefab, unit.View, partyRelated: true);
+        handle.RunAfterSpawn(
+          weapon =>
+          {
+            weapon.AnchorToUnit(unit, offset, Quaternion.AngleAxis(90, Vector3.up));
+            weapon.SetActive(true);
+            FxHelper.SpawnFxOnGameObject(enchant, weapon, partySource: true);
+          });
+        return handle;
+      }
+
+      public override void OnDeactivate()
+      {
+        try
+        {
+          var caster = Context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning("No caster");
+            return;
+          }
+          caster.Get<UnitPartControlledProjectiles>()?.ConsumeAll(HedgingWeaponsBuff);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("HedgingWeaponsSpawner.OnDeactivate", e);
+        }
+      }
+
+      private static readonly Vector3[] Offsets =
+        new Vector3[]
+        {
+        new(0.5f, 1f, 0.5f),
+        new(0.5f, 1f, -0.5f),
+        new(-0.5f, 1f, 0.5f),
+        new(-0.5f, 1f, -0.5f),
+        new(-8.6f, 1f, 0f),
+        };
 
       private static readonly PrefabLink Enchant = new() { AssetId = "fdc7f8f37d3f8da42be2a1d35a617001" };
       private static readonly PrefabLink Abadar = new() { AssetId = "f4ef679dee9518b40806cea527b62958" };
