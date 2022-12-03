@@ -132,6 +132,9 @@ namespace CharacterOptionsPlus.UnitParts
       while (!projectile.Handle.IsSpawned)
         yield return null;
 
+
+      // I think we need to bypass ProjectileController entirely. Or at the very least, skip the Createview stuff and
+      // just create the projectile ourself. It does a bunch of logic we don't actually want (and some we do).
       var startTime = Game.Instance.TimeController.GameTime;
       var direction = (target.Point - projectile.Handle.SpawnedObject.transform.position).ToXZ().normalized;
 
