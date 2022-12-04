@@ -1,7 +1,9 @@
-﻿using CharacterOptionsPlus.Util;
+﻿using BlueprintCore.Blueprints.References;
+using CharacterOptionsPlus.Util;
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Controllers.Projectiles;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
@@ -14,10 +16,11 @@ using Kingmaker.Utility;
 using Kingmaker.Visual.Particles;
 using Kingmaker.Visual.Particles.FxSpawnSystem;
 using Newtonsoft.Json;
-using Owlcat.Runtime.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
@@ -89,7 +92,7 @@ namespace CharacterOptionsPlus.UnitParts
 
   [AllowedOn(typeof(BlueprintBuff))]
   [TypeId("9ac5f05d-3710-42b1-a378-0630b55e6ee7")]
-  public abstract class ProjectileController : UnitBuffComponentDelegate
+  public abstract class ProjectileControllerComponent : UnitBuffComponentDelegate
   {
     public abstract void SpawnProjectiles();
   }
@@ -98,6 +101,8 @@ namespace CharacterOptionsPlus.UnitParts
   internal class AbilityDeliverControlledProjectile : AbilityDeliverEffect
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityDeliverControlledProjectile));
+    private static BlueprintProjectileReference FakeProjectile =
+      ProjectileRefs.Arrow.Cast<BlueprintProjectileReference>().Reference;
 
     private readonly BlueprintBuffReference Buff;
 
@@ -115,29 +120,60 @@ namespace CharacterOptionsPlus.UnitParts
         yield break;
       }
 
-      var unitPart = context.Caster.Get<UnitPartControlledProjectiles>();
+      var unitPart = caster.Get<UnitPartControlledProjectiles>();
       if (unitPart is null)
       {
         Logger.Warning("Attempted to deliver a controlled projectile but there is no unit part.");
         yield break;
       }
 
-      var projectile = unitPart.Consume(Buff);
-      if (projectile is null || projectile.Handle is null)
+      var controlledProjectile = unitPart.Consume(Buff);
+      if (controlledProjectile is null || controlledProjectile.Handle is null)
       {
         Logger.Warning("Attempted to deliver a controlled projectile but there are none.");
         yield break;
       }
 
-      while (!projectile.Handle.IsSpawned)
+      while (!controlledProjectile.Handle.IsSpawned)
         yield return null;
 
+      // This setup is a mixture of AbilityDeliverProjectile.Deliver() and ProjectileController.Launch()
+      var spawnedProjectile = controlledProjectile.Handle.SpawnedObject;
+      var projectile =
+        new Projectile
+        {
+          Launcher = spawnedProjectile.transform.position,
+          Target = target,
+          Blueprint = FakeProjectile.Get(),
+          MaxRange = context.AbilityBlueprint.GetRange(abilityData: context.Ability).Meters,
+          IsFirstProjectile = true,
+        };
+      projectile.LaunchPosition = projectile.Launcher.Point + Vector3.up;
+      projectile.BeforeLaunch();
 
-      // I think we need to bypass ProjectileController entirely. Or at the very least, skip the Createview stuff and
-      // just create the projectile ourself. It does a bunch of logic we don't actually want (and some we do).
-      var startTime = Game.Instance.TimeController.GameTime;
-      var direction = (target.Point - projectile.Handle.SpawnedObject.transform.position).ToXZ().normalized;
+      // Make sure the projectile controller view is setup; same logic as in ProjectileController
+      var projectileController = Game.Instance.ProjectileController;
+      if (projectileController.m_ViewParent is null)
+      {
+        projectileController.m_ViewParent = new GameObject("__Projectiles__").transform;
+        SceneManager.MoveGameObjectToScene(
+          projectileController.m_ViewParent.gameObject, SceneManager.GetSceneByName("BaseMechanics"));
+      }
 
+      // We can't call ProjectileController because it uses the Blueprint, so just claim the view on our own
+      projectile.View =
+        GameObjectsPool.Claim(
+          spawnedProjectile,
+          projectile.LaunchPosition,
+          Quaternion.LookRotation(projectile.GetTargetPoint() - projectile.LaunchPosition),
+          projectileController.m_ViewParent,
+          partyRelated: true);
+      ProjectileController.ApplyLightProbeAnchor(projectile.View);
+
+      // The rest of the logic in ProjectileController.Launch() isn't needed, move on to the attack roll
+
+      // TODO: Do we need to add the controller to ProjectileController?
+      // TODO: How to compute the attack roll?
     }
   }
 
@@ -176,7 +212,7 @@ namespace CharacterOptionsPlus.UnitParts
 
       private void SpawnProjectiles()
       {
-        Owner.GetFact(Buff).GetComponent<ProjectileController>().SpawnProjectiles();
+        Owner.GetFact(Buff).GetComponent<ProjectileControllerComponent>().SpawnProjectiles();
       }
 
       public void OnAreaBeginUnloading()

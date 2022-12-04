@@ -116,7 +116,7 @@ namespace CharacterOptionsPlus.Spells
     }
 
     [TypeId("45444d3f-4e06-4294-a6d5-7905a77f54b4")]
-    private class HedgingWeaponsSpawner : ProjectileController
+    private class HedgingWeaponsSpawner : ProjectileControllerComponent
     {
       private static readonly BlueprintBuffReference HedgingWeaponsBuff =
         BlueprintTool.GetRef<BlueprintBuffReference>(Guids.HedgingWeaponsBuff);
