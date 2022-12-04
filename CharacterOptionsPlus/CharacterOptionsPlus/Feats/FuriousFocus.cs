@@ -88,7 +88,7 @@ namespace CharacterOptionsPlus.Feats
       {
         try
         {
-          if (evt.Weapon is null || !evt.Weapon.Blueprint.IsTwoHanded)
+          if (evt.Weapon is null || !evt.Weapon.HoldInTwoHands)
           {
             Logger.NativeLog("Skipped: not a 2H weapon attack.");
             return;
