@@ -44,7 +44,7 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "HedgingWeapons.Description";
 
     private const string BuffName = "HedgingWeapons.Buff";
-    private const string ProjectileName = "HedgingWeapons.Projectile";
+    private const string ThrowName = "HedgingWeapons.Throw";
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "gloriousheat.png";
@@ -70,6 +70,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      AbilityConfigurator.New(ThrowName, Guids.HedgingWeaponsThrow).Configure();
       BuffConfigurator.New(BuffName, Guids.HedgingWeaponsBuff).Configure();
       AbilityConfigurator.New(FeatureName, Guids.HedgingWeaponsSpell).Configure();
     }
@@ -83,6 +84,18 @@ namespace CharacterOptionsPlus.Spells
         .SetStacking(StackingType.Rank)
         .AddComponent<HedgingWeaponsController>()
         .AddComponent<ControlledProjectilesHolder>()
+        .AddFacts(new() { Guids.HedgingWeaponsThrow })
+        .Configure();
+
+      AbilityConfigurator.New(ThrowName, Guids.HedgingWeaponsThrow)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
+        .SetIcon(IconName)
+        .SetRange(AbilityRange.Close)
+        .AllowTargeting(enemies: true)
+        .SetAnimation(CastAnimationStyle.Thrown)
+        .SetActionType(CommandType.Standard)
+        .AddComponent(new AbilityDeliverControlledProjectile(buff.ToReference<BlueprintBuffReference>()))
         .Configure();
 
       //var projectile = ControllableProjectileConfigurator.New(ProjectileName, Guids.HedgingWeaponsProjectile)

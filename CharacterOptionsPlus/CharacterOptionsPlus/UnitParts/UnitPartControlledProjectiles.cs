@@ -162,14 +162,20 @@ namespace CharacterOptionsPlus.UnitParts
           projectileController.m_ViewParent.gameObject, SceneManager.GetSceneByName("BaseMechanics"));
       }
 
-      // We can't call ProjectileController because it uses the Blueprint, so just claim the view on our own
-      projectile.View =
-        GameObjectsPool.Claim(
-          spawnedProjectile,
-          projectile.LaunchPosition,
-          Quaternion.LookRotation(projectile.GetTargetPoint() - projectile.LaunchPosition),
-          projectileController.m_ViewParent,
-          partyRelated: true);
+      // TODO: This doesn't actually throw the projectile? Not sure what claim is doing that we're not.
+      // TODO: Oh shit it's the anchor. Need to disable it!
+      // We can't call ProjectileController because it uses the Blueprint, so just configure the view on our own
+      projectile.View = spawnedProjectile;
+      spawnedProjectile.transform.rotation =
+        Quaternion.LookRotation(projectile.GetTargetPoint() - projectile.LaunchPosition);
+      spawnedProjectile.transform.parent = projectileController.m_ViewParent;
+        //GameObjectsPool.Claim(
+        //  spawnedProjectile,
+        //  projectile.LaunchPosition,
+        //  Quaternion.LookRotation(projectile.GetTargetPoint() - projectile.LaunchPosition),
+        //  projectileController.m_ViewParent,
+        //  partyRelated: true);
+      projectileController.AddProjectile(projectile);
       ProjectileController.ApplyLightProbeAnchor(projectile.View);
 
       // The rest of the logic in ProjectileController.Launch() isn't needed, move on to the attack roll
