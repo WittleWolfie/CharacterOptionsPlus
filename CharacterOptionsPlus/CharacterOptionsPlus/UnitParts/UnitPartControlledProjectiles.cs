@@ -163,8 +163,6 @@ namespace CharacterOptionsPlus.UnitParts
           projectileController.m_ViewParent.gameObject, SceneManager.GetSceneByName("BaseMechanics"));
       }
 
-      // TODO: Also really do need a fake projectile so we don't leave arrows stuck in the ground lol
-
       // We can't call ProjectileController because it uses the Blueprint, so just configure the view on our own
       projectile.View = spawnedProjectile;
       spawnedProjectile.DestroyComponents<SnapToTransformWithRotation>();
