@@ -98,9 +98,6 @@ namespace CharacterOptionsPlus.Spells
         .AddComponent(new AbilityDeliverControlledProjectile(buff.ToReference<BlueprintBuffReference>()))
         .Configure();
 
-      //var projectile = ControllableProjectileConfigurator.New(ProjectileName, Guids.HedgingWeaponsProjectile)
-      //  .Configure();
-
       AbilityConfigurator.NewSpell(
           FeatureName, Guids.HedgingWeaponsSpell, SpellSchool.Abjuration, canSpecialize: true, SpellDescriptor.Force)
         .SetDisplayName(DisplayName)

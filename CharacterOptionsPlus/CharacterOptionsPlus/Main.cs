@@ -90,6 +90,7 @@ namespace CharacterOptionsPlus
           // Then settings
           Settings.Init();
 
+          CommonBlueprints.Configure();
           BugFixes.Configure();
 
           ConfigureArchetypes();

@@ -468,6 +468,10 @@ namespace CharacterOptionsPlus.Util
 
     #endregion
 
+    #region Common Blueprints
+    internal const string BlankProjectile = "5172c4d9-a5a1-4fea-8600-fc5619d9f1de";
+    #endregion
+
     #region Dynamic GUIDs
     private const string GUID_0 = "4d802e91-ea0e-41bd-9ebe-1e92263605e8";
     private const string GUID_1 = "6ba9a23f-30af-4e26-9c4a-836cc7431c4f";
