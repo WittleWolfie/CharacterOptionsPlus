@@ -7,6 +7,7 @@ using Kingmaker.Controllers.Projectiles;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
@@ -32,7 +33,7 @@ namespace CharacterOptionsPlus.UnitParts
   internal class UnitPartControlledProjectiles : UnitPart
   {
     [JsonProperty]
-    private Dictionary<BlueprintGuid, List<ControlledProjectile>> Projectiles;
+    private Dictionary<BlueprintGuid, List<ControlledProjectile>> Projectiles = new();
 
     internal List<ControlledProjectile> Get(BlueprintBuffReference buff)
     {
@@ -94,14 +95,15 @@ namespace CharacterOptionsPlus.UnitParts
   [TypeId("9ac5f05d-3710-42b1-a378-0630b55e6ee7")]
   public abstract class ProjectileControllerComponent : UnitBuffComponentDelegate
   {
-    public abstract void SpawnProjectiles();
+    public abstract RuleAttackRoll RollAttack(AbilityExecutionContext context);
+    public abstract void SpawnProjectiles(UnitEntityData caster);
   }
 
   [TypeId("d64f7afb-419b-48a5-a8f0-b343724fe5a4")]
   internal class AbilityDeliverControlledProjectile : AbilityDeliverEffect
   {
     private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityDeliverControlledProjectile));
-    private static BlueprintProjectileReference FakeProjectile =
+    private static readonly BlueprintProjectileReference FakeProjectile =
       ProjectileRefs.Arrow.Cast<BlueprintProjectileReference>().Reference;
 
     private readonly BlueprintBuffReference Buff;
@@ -171,9 +173,28 @@ namespace CharacterOptionsPlus.UnitParts
       ProjectileController.ApplyLightProbeAnchor(projectile.View);
 
       // The rest of the logic in ProjectileController.Launch() isn't needed, move on to the attack roll
+      var buff = caster.Buffs.GetBuff(Buff);
+      var controller = buff.GetComponent<ProjectileControllerComponent>();
+      var attackRoll = controller.RollAttack(context);
+      projectile.AttackRoll = attackRoll;
+      projectile.MissTarget = context.MissTarget;
 
-      // TODO: Do we need to add the controller to ProjectileController?
-      // TODO: How to compute the attack roll?
+      // Loop until the projectile hits
+      while (!projectile.IsHit && !projectile.Cleared)
+        yield return null;
+
+      attackRoll.ConsumeMirrorImageIfNecessary();
+      buff.RemoveRank();
+
+      if (projectile.Cleared)
+        yield break;
+
+      yield return new AbilityDeliveryTarget(projectile.Target)
+        {
+          AttackRoll = attackRoll,
+          Projectile = projectile
+        };
+      yield break;
     }
   }
 
@@ -212,7 +233,7 @@ namespace CharacterOptionsPlus.UnitParts
 
       private void SpawnProjectiles()
       {
-        Owner.GetFact(Buff).GetComponent<ProjectileControllerComponent>().SpawnProjectiles();
+        Owner.GetFact(Buff).GetComponent<ProjectileControllerComponent>().SpawnProjectiles(Owner);
       }
 
       public void OnAreaBeginUnloading()

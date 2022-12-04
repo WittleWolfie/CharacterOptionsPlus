@@ -1,5 +1,4 @@
 ﻿using BlueprintCore.Actions.Builder;
-using BlueprintCore.Blueprints.Configurators;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.ModReferences;
@@ -11,10 +10,15 @@ using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.Items.Weapons;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem.Entities;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.Items;
 using Kingmaker.ResourceLinks;
+using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -77,10 +81,12 @@ namespace CharacterOptionsPlus.Spells
       var buff = BuffConfigurator.New(BuffName, Guids.HedgingWeaponsBuff)
         .SetRanks(5)
         .SetStacking(StackingType.Rank)
+        .AddComponent<HedgingWeaponsController>()
+        .AddComponent<ControlledProjectilesHolder>()
         .Configure();
 
-      var projectile = ControllableProjectileConfigurator.New(ProjectileName, Guids.HedgingWeaponsProjectile)
-        .Configure();
+      //var projectile = ControllableProjectileConfigurator.New(ProjectileName, Guids.HedgingWeaponsProjectile)
+      //  .Configure();
 
       AbilityConfigurator.NewSpell(
           FeatureName, Guids.HedgingWeaponsSpell, SpellSchool.Abjuration, canSpecialize: true, SpellDescriptor.Force)
@@ -116,10 +122,46 @@ namespace CharacterOptionsPlus.Spells
     }
 
     [TypeId("45444d3f-4e06-4294-a6d5-7905a77f54b4")]
-    private class HedgingWeaponsSpawner : ProjectileControllerComponent
+    private class HedgingWeaponsController : ProjectileControllerComponent
     {
       private static readonly BlueprintBuffReference HedgingWeaponsBuff =
         BlueprintTool.GetRef<BlueprintBuffReference>(Guids.HedgingWeaponsBuff);
+
+      public override RuleAttackRoll RollAttack(AbilityExecutionContext context)
+      {
+        try
+        {
+          var caster = context.MaybeCaster;
+          if (caster is null)
+          {
+            Logger.Warning("No caster");
+            return null;
+          }
+
+          var weapon = GetWeapon(caster).CreateEntity<ItemEntityWeapon>();
+          using (ContextData<AttackBonusStatReplacement>.Request().Setup(StatType.Dexterity))
+          {
+            return context.TriggerRule<RuleAttackRoll>(
+              new(caster, context.MainTarget.Unit, weapon, attackBonusPenalty: 0));
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("HedgingWeaponsSpawner.RollAttack", e);
+        }
+        return null;
+      }
+
+      #region Asset Stuff
+      private static readonly Vector3[] Offsets =
+        new Vector3[]
+        {
+        new(0.5f, 1f, 0.5f),
+        new(0.5f, 1f, -0.5f),
+        new(-0.5f, 1f, 0.5f),
+        new(-0.5f, 1f, -0.5f),
+        new(-8.6f, 1f, 0f),
+        };
 
       public override void OnActivate()
       {
@@ -133,7 +175,7 @@ namespace CharacterOptionsPlus.Spells
           }
 
           var enchant = Enchant.Load();
-          var weapon = GetWeapon(caster).Load();
+          var weapon = GetWeaponPrefab(caster).Load();
           weapon.SetActive(false);
 
           var projectiles = new List<ControlledProjectile>();
@@ -149,11 +191,11 @@ namespace CharacterOptionsPlus.Spells
         }
       }
 
-      public override void SpawnProjectiles()
+      public override void SpawnProjectiles(UnitEntityData caster)
       {
         try
         {
-          var caster = Context.MaybeCaster;
+          //var caster = Context.MaybeCaster;
           if (caster is null)
           {
             Logger.Warning("No caster");
@@ -161,7 +203,7 @@ namespace CharacterOptionsPlus.Spells
           }
 
           var enchant = Enchant.Load();
-          var weapon = GetWeapon(caster).Load();
+          var weapon = GetWeaponPrefab(caster).Load();
           weapon.SetActive(false);
 
           var projectiles = caster.Ensure<UnitPartControlledProjectiles>().Get(HedgingWeaponsBuff);
@@ -208,56 +250,99 @@ namespace CharacterOptionsPlus.Spells
           Logger.LogException("HedgingWeaponsSpawner.OnDeactivate", e);
         }
       }
+      #endregion
 
-      private static readonly Vector3[] Offsets =
-        new Vector3[]
-        {
-        new(0.5f, 1f, 0.5f),
-        new(0.5f, 1f, -0.5f),
-        new(-0.5f, 1f, 0.5f),
-        new(-0.5f, 1f, -0.5f),
-        new(-8.6f, 1f, 0f),
-        };
-
+      #region God Stuff
       private static readonly PrefabLink Enchant = new() { AssetId = "fdc7f8f37d3f8da42be2a1d35a617001" };
-      private static readonly PrefabLink Abadar = new() { AssetId = "f4ef679dee9518b40806cea527b62958" };
-      private static readonly PrefabLink Asmodeus = new() { AssetId = "949c76c2c0141264e9885d939a3e09e4" };
-      private static readonly PrefabLink Desna = new() { AssetId = "0c8388fec791b844587490913639146b" };
-      private static readonly PrefabLink Erastil = new() { AssetId = "8082c39628c82e34abf1dbc920624036" };
-      private static readonly PrefabLink Gorum = new() { AssetId = "5f14f60fffc49c843affe14fcb55fa04" };
-      private static readonly PrefabLink Iomedae = new() { AssetId = "7545e752a43edac47a2af12fd8cb79f5" };
-      private static readonly PrefabLink Lamashtu = new() { AssetId = "5464bdca2bddbab439369d03f6383f41" };
-      private static readonly PrefabLink Norgorber = new() { AssetId = "8a0684581898ee642aa771427d77f9ab" };
-      private static readonly PrefabLink Sarenrae = new() { AssetId = "ad5acf45026b1ac46911fbef2ab79fb5" };
-      private static readonly PrefabLink Torag = new() { AssetId = "ef203bf6ef89c19409394731d72955d3" };
-      private static readonly PrefabLink Urgathoa = new() { AssetId = "88fd281bc9977bf448246469c85477b6" };
+      private static readonly PrefabLink AbadarPrefab = new() { AssetId = "f4ef679dee9518b40806cea527b62958" };
+      private static readonly PrefabLink AsmodeusPrefab = new() { AssetId = "949c76c2c0141264e9885d939a3e09e4" };
+      private static readonly PrefabLink DesnaPrefab = new() { AssetId = "0c8388fec791b844587490913639146b" };
+      private static readonly PrefabLink ErastilPrefab = new() { AssetId = "8082c39628c82e34abf1dbc920624036" };
+      private static readonly PrefabLink GorumPrefab = new() { AssetId = "5f14f60fffc49c843affe14fcb55fa04" };
+      private static readonly PrefabLink IomedaePrefab = new() { AssetId = "7545e752a43edac47a2af12fd8cb79f5" };
+      private static readonly PrefabLink LamashtuPrefab = new() { AssetId = "5464bdca2bddbab439369d03f6383f41" };
+      private static readonly PrefabLink NorgorberPrefab = new() { AssetId = "8a0684581898ee642aa771427d77f9ab" };
+      private static readonly PrefabLink SarenraePrefab = new() { AssetId = "ad5acf45026b1ac46911fbef2ab79fb5" };
+      private static readonly PrefabLink ToragPrefab = new() { AssetId = "ef203bf6ef89c19409394731d72955d3" };
+      private static readonly PrefabLink UrgathoaPrefab = new() { AssetId = "88fd281bc9977bf448246469c85477b6" };
 
-      private static PrefabLink GetWeapon(UnitEntityData unit)
+      private static PrefabLink GetWeaponPrefab(UnitEntityData unit)
       {
         if (unit.HasFact(FeatureRefs.AbadarFeature.Reference.Get()))
-          return Abadar;
+          return AbadarPrefab;
         if (unit.HasFact(FeatureRefs.AsmodeusFeature.Reference.Get()))
-          return Asmodeus;
+          return AsmodeusPrefab;
         if (unit.HasFact(FeatureRefs.DesnaFeature.Reference.Get()))
-          return Desna;
+          return DesnaPrefab;
         if (unit.HasFact(FeatureRefs.ErastilFeature.Reference.Get()))
-          return Erastil;
+          return ErastilPrefab;
         if (unit.HasFact(FeatureRefs.GorumFeature.Reference.Get()))
-          return Gorum;
+          return GorumPrefab;
         if (unit.HasFact(FeatureRefs.IomedaeFeature.Reference.Get()))
-          return Iomedae;
+          return IomedaePrefab;
         if (unit.HasFact(FeatureRefs.LamashtuFeature.Reference.Get()))
-          return Lamashtu;
+          return LamashtuPrefab;
         if (unit.HasFact(FeatureRefs.NorgorberFeature.Reference.Get()))
-          return Norgorber;
+          return NorgorberPrefab;
         if (unit.HasFact(FeatureRefs.SarenraeFeature.Reference.Get()))
-          return Sarenrae;
+          return SarenraePrefab;
         if (unit.HasFact(FeatureRefs.ToragFeature.Reference.Get()))
-          return Torag;
+          return ToragPrefab;
         if (unit.HasFact(FeatureRefs.UrgathoaFeature.Reference.Get()))
-          return Urgathoa;
-        return Iomedae;
+          return UrgathoaPrefab;
+        return IomedaePrefab;
       }
+
+      private static readonly BlueprintItemWeaponReference AbadarWeapon =
+        ItemWeaponRefs.StandardHeavyCrossbow.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference AsmodeusWeapon =
+        ItemWeaponRefs.StandardHeavyMace.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference DesnaWeapon =
+        ItemWeaponRefs.StandardStarknife.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference ErastilWeapon =
+        ItemWeaponRefs.StandardLongbow.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference GorumWeapon =
+        ItemWeaponRefs.StandardGreatsword.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference IomedaeWeapon =
+        ItemWeaponRefs.StandardLongsword.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference LamashtuWeapon =
+        ItemWeaponRefs.StandardKukri.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference NorgorberWeapon =
+        ItemWeaponRefs.StandardDagger.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference SarenraeWeapon =
+        ItemWeaponRefs.StandardScimitar.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference ToragWeapon =
+        ItemWeaponRefs.StandardWarhammer.Cast<BlueprintItemWeaponReference>().Reference;
+      private static readonly BlueprintItemWeaponReference UrgathoaWeapon =
+        ItemWeaponRefs.StandardScythe.Cast<BlueprintItemWeaponReference>().Reference;
+
+      private static BlueprintItemWeapon GetWeapon(UnitEntityData unit)
+      {
+        if (unit.HasFact(FeatureRefs.AbadarFeature.Reference.Get()))
+          return AbadarWeapon;
+        if (unit.HasFact(FeatureRefs.AsmodeusFeature.Reference.Get()))
+          return AsmodeusWeapon;
+        if (unit.HasFact(FeatureRefs.DesnaFeature.Reference.Get()))
+          return DesnaWeapon;
+        if (unit.HasFact(FeatureRefs.ErastilFeature.Reference.Get()))
+          return ErastilWeapon;
+        if (unit.HasFact(FeatureRefs.GorumFeature.Reference.Get()))
+          return GorumWeapon;
+        if (unit.HasFact(FeatureRefs.IomedaeFeature.Reference.Get()))
+          return IomedaeWeapon;
+        if (unit.HasFact(FeatureRefs.LamashtuFeature.Reference.Get()))
+          return LamashtuWeapon;
+        if (unit.HasFact(FeatureRefs.NorgorberFeature.Reference.Get()))
+          return NorgorberWeapon;
+        if (unit.HasFact(FeatureRefs.SarenraeFeature.Reference.Get()))
+          return SarenraeWeapon;
+        if (unit.HasFact(FeatureRefs.ToragFeature.Reference.Get()))
+          return ToragWeapon;
+        if (unit.HasFact(FeatureRefs.UrgathoaFeature.Reference.Get()))
+          return UrgathoaWeapon;
+        return IomedaeWeapon;
+      }
+      #endregion
     }
   }
 }
