@@ -182,7 +182,10 @@ namespace CharacterOptionsPlus.UnitParts
         yield return null;
 
       attackRoll.ConsumeMirrorImageIfNecessary();
-      buff.RemoveRank();
+      // Manually manage the ranks so it doesn't deactivate & activate the buff, respawning the projectiles
+      buff.Rank -= 1;
+      if (buff.Rank <= 0)
+        buff.Remove();
       GameObject.DestroyImmediate(spawnedProjectile);
 
       if (projectile.Cleared)

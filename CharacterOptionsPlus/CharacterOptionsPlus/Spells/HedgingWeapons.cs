@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.ModReferences;
@@ -120,6 +121,7 @@ namespace CharacterOptionsPlus.Spells
             .WithStartPlusDivStepProgression(4, start: 2))
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
+            .RemoveBuff(buff) // Clear the old buff first
             .Add<ContextActionApplyBuffRanks>(
               a =>
                 {
@@ -136,6 +138,7 @@ namespace CharacterOptionsPlus.Spells
       private static readonly BlueprintBuffReference HedgingWeaponsBuff =
         BlueprintTool.GetRef<BlueprintBuffReference>(Guids.HedgingWeaponsBuff);
 
+      // TODO: Attack roll is totally broken. FIX IT. Then also maybe we do the damage?
       public override RuleAttackRoll RollAttack(AbilityExecutionContext context)
       {
         try
