@@ -11,6 +11,8 @@
     * Added Localized Duration to some spells
     * Divine Fighting Techniques granting Vital Strike effects do not multiply on crits
         * This is a base game bug that is fixed if you're using TTT-Base
+    * Furious Focus works when two-handing 1h weapons
+        * Combat log tooltips should also correctly display the modifier only on the first attack and not iteratives
 
 ## v0.8.1
 
