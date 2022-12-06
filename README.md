@@ -91,6 +91,8 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 ### Reporting Problems
 
+**Follow this guide: [So you want to report a WotR mod bug?](https://github.com/Pathfinder-WOTR-Modding-Community/MewsiferConsole/blob/main/ModBugReports.md)** Ideally include a save file.
+
 1. Use [ModFinder](https://github.com/Pathfinder-WOTR-Modding-Community/ModFinder) to install [Mewsifer Console](https://github.com/Pathfinder-WOTR-Modding-Community/MewsiferConsole) and Mewsifer Console Menu
 2. Reproduce the issue in-game
 3. Open Settings > Mods > Mewsifer Console and select "Mod Bug Report"
