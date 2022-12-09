@@ -7,6 +7,7 @@ using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
+using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.UnitParts;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
@@ -96,6 +97,7 @@ namespace CharacterOptionsPlus.Spells
         .SetAnimation(CastAnimationStyle.Thrown)
         .SetActionType(CommandType.Standard)
         .AddComponent(new AbilityDeliverControlledProjectile(buff.ToReference<BlueprintBuffReference>()))
+        .AddComponent<AlwaysAddToActionBar>()
         .Configure();
 
       AbilityConfigurator.NewSpell(
@@ -138,7 +140,6 @@ namespace CharacterOptionsPlus.Spells
       private static readonly BlueprintBuffReference HedgingWeaponsBuff =
         BlueprintTool.GetRef<BlueprintBuffReference>(Guids.HedgingWeaponsBuff);
 
-      // TODO: Attack roll is totally broken. FIX IT. Then also maybe we do the damage?
       public override RuleAttackRoll RollAttack(AbilityExecutionContext context)
       {
         try
@@ -153,8 +154,9 @@ namespace CharacterOptionsPlus.Spells
           var weapon = GetWeapon(caster).Blueprint.Get().CreateEntity<ItemEntityWeapon>();
           using (ContextData<AttackBonusStatReplacement>.Request().Setup(StatType.Dexterity))
           {
-            return context.TriggerRule<RuleAttackRoll>(
-              new(caster, context.MainTarget.Unit, weapon, attackBonusPenalty: 0));
+            var attackRule = new RuleAttackRoll(caster, context.MainTarget.Unit, weapon, attackBonusPenalty: 0);
+            attackRule.SuspendCombatLog = true;
+            return context.TriggerRule(attackRule);
           }
         }
         catch (Exception e)
