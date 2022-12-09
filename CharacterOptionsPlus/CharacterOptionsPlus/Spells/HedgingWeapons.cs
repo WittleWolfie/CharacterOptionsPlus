@@ -19,16 +19,19 @@ using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.Items;
 using Kingmaker.ResourceLinks;
+using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Visual.Particles;
 using Kingmaker.Visual.Particles.FxSpawnSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TabletopTweaks.Core.NewActions;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
@@ -86,6 +89,8 @@ namespace CharacterOptionsPlus.Spells
         .AddComponent<HedgingWeaponsController>()
         .AddComponent<ControlledProjectilesHolder>()
         .AddFacts(new() { Guids.HedgingWeaponsThrow })
+        .AddACBonusAgainstAttacks(value: ContextValues.Rank(), descriptor: ModifierDescriptor.Deflection)
+        .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.HedgingWeaponsBuff))
         .Configure();
 
       AbilityConfigurator.New(ThrowName, Guids.HedgingWeaponsThrow)
@@ -98,6 +103,8 @@ namespace CharacterOptionsPlus.Spells
         .SetActionType(CommandType.Standard)
         .AddComponent(new AbilityDeliverControlledProjectile(buff.ToReference<BlueprintBuffReference>()))
         .AddComponent<AlwaysAddToActionBar>()
+        .AddAbilityEffectRunAction(
+          ActionsBuilder.New().DealDamage(DamageTypes.Force(), ContextDice.Value(DiceType.D6, diceCount: 2)))
         .Configure();
 
       AbilityConfigurator.NewSpell(
@@ -188,6 +195,9 @@ namespace CharacterOptionsPlus.Spells
             return;
           }
 
+          if (caster.Get<UnitPartControlledProjectiles>()?.Get(HedgingWeaponsBuff)?.Any() == true)
+            return;
+
           var enchant = Enchant.Load();
           var weapon = GetWeapon(caster);
           var prefab = weapon.Prefab.Load();
@@ -260,7 +270,10 @@ namespace CharacterOptionsPlus.Spells
             Logger.Warning("No caster");
             return;
           }
-          caster.Get<UnitPartControlledProjectiles>()?.ConsumeAll(HedgingWeaponsBuff);
+
+          var consumeAll = ContextData<BuffCollection.RemoveByRank>.Current ? Fact.GetRank() <= 1 : true;
+          if (consumeAll)
+            caster.Get<UnitPartControlledProjectiles>()?.ConsumeAll(HedgingWeaponsBuff);
         }
         catch (Exception e)
         {

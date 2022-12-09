@@ -5,6 +5,7 @@ using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Controllers.Projectiles;
+using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
@@ -12,6 +13,7 @@ using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
+using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.Utility;
@@ -53,7 +55,7 @@ namespace CharacterOptionsPlus.UnitParts
         return null;
 
       var projectiles = Projectiles[buff.Guid];
-      var projectile = projectiles.FirstOrDefault();
+      var projectile = projectiles.LastOrDefault();
       if (projectile is null || projectile.Handle is null)
         return null;
 
@@ -182,9 +184,7 @@ namespace CharacterOptionsPlus.UnitParts
         yield return null;
 
       attackRoll.ConsumeMirrorImageIfNecessary();
-      // Manually manage the ranks so it doesn't deactivate & activate the buff, respawning the projectiles
-      buff.Rank -= 1;
-      if (buff.Rank <= 0)
+      using (ContextData<BuffCollection.RemoveByRank>.Request())
         buff.Remove();
       GameObject.DestroyImmediate(spawnedProjectile);
 
