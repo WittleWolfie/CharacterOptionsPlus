@@ -50,9 +50,6 @@ namespace CharacterOptionsPlus.Spells
     private const string BuffName = "HedgingWeapons.Buff";
     private const string ThrowName = "HedgingWeapons.Throw";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -83,6 +80,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var icon = FeatureRefs.DevotedBladeFeature.Reference.Get().Icon;
       var buff = BuffConfigurator.New(BuffName, Guids.HedgingWeaponsBuff)
         .SetRanks(5)
         .SetStacking(StackingType.Rank)
@@ -96,7 +94,7 @@ namespace CharacterOptionsPlus.Spells
       AbilityConfigurator.New(ThrowName, Guids.HedgingWeaponsThrow)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icon)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
         .SetAnimation(CastAnimationStyle.Thrown)
@@ -111,7 +109,7 @@ namespace CharacterOptionsPlus.Spells
           FeatureName, Guids.HedgingWeaponsSpell, SpellSchool.Abjuration, canSpecialize: true, SpellDescriptor.Force)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(icon)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.EnchantWeapon)
