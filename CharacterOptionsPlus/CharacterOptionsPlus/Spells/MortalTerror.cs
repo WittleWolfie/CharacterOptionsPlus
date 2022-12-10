@@ -30,7 +30,7 @@ namespace CharacterOptionsPlus.Spells
     private const string BuffName = "MortalTerror.Name";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png";
+    private const string IconName = IconPrefix + "mortalterror.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
