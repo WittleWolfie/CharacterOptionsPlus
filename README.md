@@ -50,10 +50,16 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
         * Grants skill unlocks for all skills except Use Magic Device and Thievery
         * Automatically granted to rogue at level 5 / 10 / 15 / 20 per TT rules for unchained rogue
 * Spells
+    * [Bladed Dash](https://www.d20pfsrd.com/magic/all-spells/b/bladed-dash/)
     * [Burning Disarm](https://www.d20pfsrd.com/magic/all-spells/b/burning-disarm/)
     * [Consecrate](https://www.d20pfsrd.com/magic/all-spells/c/consecrate/)
     * [Desecrate](https://www.d20pfsrd.com/magic/all-spells/d/desecrate/)
+    * [Frozen Note](https://www.d20pfsrd.com/magic/all-spells/f/frozen-note/)
+    * [Hedging Weapons](https://www.d20pfsrd.com/magic/all-spells/h/hedging-weapons/)
     * [Ice Slick](https://www.d20pfsrd.com/magic/all-spells/i/ice-slick/)
+    * [Shadow Trap](https://www.d20pfsrd.com/magic/all-spells/s/shadow-trap/)
+    * [Touch of Blindness](https://www.d20pfsrd.com/magic/all-spells/t/touch-of-blindness/)
+    * [Wrath](https://www.d20pfsrd.com/magic/all-spells/w/wrath/)
 
 ## Bug Fixes
 
