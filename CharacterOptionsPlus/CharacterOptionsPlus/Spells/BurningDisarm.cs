@@ -96,7 +96,7 @@ namespace CharacterOptionsPlus.Spells
           (Metamagic)CustomMetamagic.Intensified,
           (Metamagic)CustomMetamagic.Piercing)
         .AddToSpellLists(level: 1, SpellList.Cleric, SpellList.Druid, SpellList.Wizard)
-        .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 5, useMax: true))
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 5))
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
             .Conditional(
