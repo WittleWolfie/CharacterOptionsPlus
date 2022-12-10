@@ -27,7 +27,7 @@ namespace CharacterOptionsPlus.Spells
     internal const string DisplayName = "MortalTerror.Name";
     private const string Description = "MortalTerror.Description";
 
-    private const string BuffName = "MortalTerror.Name";
+    private const string BuffName = "MortalTerror.Buff";
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "mortalterror.png";
@@ -113,6 +113,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Reach,
           (Metamagic)CustomMetamagic.Piercing)
+        .SetLocalizedDuration(Duration.RoundPerLevel)
         .AddToSpellLists(
           level: 2,
           SpellList.Bard,
@@ -134,7 +135,7 @@ namespace CharacterOptionsPlus.Spells
                 .ConditionalSaved(
                   succeed: ActionsBuilder.New().ApplyBuff(BuffRefs.Shaken.ToString(), ContextDuration.Fixed(1)),
                   failed: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank())))))
-        .Configure();
+        .Configure(delayed: true);
     }
   }
 }

@@ -136,7 +136,7 @@ namespace CharacterOptionsPlus.Spells
                   a.Rank = ContextValues.Rank(AbilityRankType.ProjectilesCount);
                   a.DurationValue = ContextDuration.Variable(ContextValues.Rank(), DurationRate.Minutes);
                 }))
-        .Configure();
+        .Configure(delayed: true);
     }
 
     [TypeId("45444d3f-4e06-4294-a6d5-7905a77f54b4")]
