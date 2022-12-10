@@ -64,6 +64,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var staggered = BuffRefs.Staggered.ToString();
       var effect = AbilityConfigurator.NewSpell(
           TouchEffectName,
           Guids.StrickenHeartEffect,
@@ -102,9 +103,9 @@ namespace CharacterOptionsPlus.Spells
               ifFalse: ActionsBuilder.New()
                 .Conditional(
                   ConditionsBuilder.New().Add<DidAttackCrit>(),
-                  ifTrue: ActionsBuilder.New().ApplyBuff(BuffRefs.Staggered.ToString(), ContextDuration.Fixed(1)),
-                  ifFalse: ActionsBuilder.New()
-                    .ApplyBuff(BuffRefs.Staggered.ToString(), ContextDuration.Fixed(1, rate: DurationRate.Minutes)))))
+                  ifTrue: ActionsBuilder.New()
+                    .ApplyBuff(staggered, ContextDuration.Fixed(1, rate: DurationRate.Minutes)),
+                  ifFalse: ActionsBuilder.New().ApplyBuff(staggered, ContextDuration.Fixed(1)))))
         .Configure();
 
       AbilityConfigurator.NewSpell(
@@ -133,7 +134,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
-          var attack = Rulebook.CurrentContext.LastEvent<RuleAttackRoll>();
+          var attack = Context.SourceAbilityContext.RulebookContext.LastEvent<RuleAttackRoll>();
           if (attack is null)
           {
             Logger.Warning("No attack roll");
