@@ -154,6 +154,7 @@ namespace CharacterOptionsPlus
         HedgingWeapons.Configure();
         HorrificDoubles.Configure();
         IceSlick.Configure();
+        MortalTerror.Configure();
         ShadowTrap.Configure();
         TouchOfBlindness.Configure();
         Wrath.Configure();

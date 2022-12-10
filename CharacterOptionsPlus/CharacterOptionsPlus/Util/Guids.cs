@@ -407,6 +407,9 @@ namespace CharacterOptionsPlus.Util
     internal const string IceSlickAoE =     "b94a289c-49c2-4754-83a5-e171ad39fba6";
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
+    internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
+    internal const string MortalTerrorBuff = "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
+
     internal const string ShadowTrapSpell =     "a3a7e60e-7866-46c4-99b8-ad685e625c06";
     internal const string ShadowTrapBuff =      "09062a14-4a01-41dc-8408-abb0cd38da69";
     internal const string ShadowTrapDelayBuff = "46f235b2-95b1-425e-ae14-8dd54173b039";
@@ -429,6 +432,7 @@ namespace CharacterOptionsPlus.Util
         (HedgingWeaponsSpell, HedgingWeapons.DisplayName),
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
+        (MortalTerrorSpell, MortalTerror.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
         (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
         (WrathSpell, Wrath.DisplayName),
@@ -470,6 +474,8 @@ namespace CharacterOptionsPlus.Util
 
     #region Common Blueprints
     internal const string BlankProjectile = "5172c4d9-a5a1-4fea-8600-fc5619d9f1de";
+
+    internal const string PanickedBuff = "22c82942-931a-4ca8-955d-78ce86944218";
     #endregion
 
     #region Dynamic GUIDs

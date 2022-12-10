@@ -1,3 +1,8 @@
+## v1.0.0
+
+* New Spells:
+    * Mortal Terror
+
 ## v0.9.0
 
 * New Spells:
