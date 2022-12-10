@@ -156,6 +156,7 @@ namespace CharacterOptionsPlus
         IceSlick.Configure();
         MortalTerror.Configure();
         ShadowTrap.Configure();
+        StrickenHeart.Configure();
         TouchOfBlindness.Configure();
         Wrath.Configure();
       }

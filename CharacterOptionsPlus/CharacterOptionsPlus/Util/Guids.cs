@@ -408,11 +408,14 @@ namespace CharacterOptionsPlus.Util
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
-    internal const string MortalTerrorBuff = "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
+    internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
 
     internal const string ShadowTrapSpell =     "a3a7e60e-7866-46c4-99b8-ad685e625c06";
     internal const string ShadowTrapBuff =      "09062a14-4a01-41dc-8408-abb0cd38da69";
     internal const string ShadowTrapDelayBuff = "46f235b2-95b1-425e-ae14-8dd54173b039";
+
+    internal const string StrickenHeartSpell =  "8e4e9469-8fa1-42a9-8cfc-44ad05ff8c91";
+    internal const string StrickenHeartEffect = "99b047cc-658a-43d1-9b8b-7a922ccdaa1d";
 
     internal const string TouchOfBlindnessSpell =  "6177af1b-a096-4f58-a0a0-c02778e95483";
     internal const string TouchOfBlindnessEffect = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
@@ -434,6 +437,7 @@ namespace CharacterOptionsPlus.Util
         (IceSlickSpell, IceSlick.DisplayName),
         (MortalTerrorSpell, MortalTerror.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
+        (StrickenHeartSpell, StrickenHeart.DisplayName),
         (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
         (WrathSpell, Wrath.DisplayName),
       };
