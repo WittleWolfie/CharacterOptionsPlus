@@ -61,18 +61,22 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var shaken = BuffRefs.Shaken.ToString();
+      var frightened = BuffRefs.Frightened.ToString();
+      var panicked = Guids.PanickedBuff;
+      var cowering = BuffRefs.CowerBuff.ToString();
       var applyBuff = ActionsBuilder.New()
         .Conditional(
-          ConditionsBuilder.New().HasBuff(BuffRefs.Shaken.ToString()),
-          ifTrue: ActionsBuilder.New().ApplyBuffPermanent(BuffRefs.Frightened.ToString()),
+          ConditionsBuilder.New().HasBuff(shaken),
+          ifTrue: ActionsBuilder.New().RemoveBuff(shaken).ApplyBuffPermanent(frightened),
           ifFalse: ActionsBuilder.New()
             .Conditional(
-              ConditionsBuilder.New().HasBuff(BuffRefs.Frightened.ToString()),
-              ifTrue: ActionsBuilder.New().ApplyBuffPermanent(Guids.PanickedBuff),
+              ConditionsBuilder.New().HasBuff(frightened),
+              ifTrue: ActionsBuilder.New().RemoveBuff(frightened).ApplyBuffPermanent(panicked),
               ifFalse: ActionsBuilder.New()
                 .Conditional(
-                  ConditionsBuilder.New().HasBuff(Guids.PanickedBuff),
-                  ifTrue: ActionsBuilder.New().ApplyBuffPermanent(BuffRefs.CowerBuff.ToString()))));
+                  ConditionsBuilder.New().HasBuff(panicked),
+                  ifTrue: ActionsBuilder.New().RemoveBuff(panicked).ApplyBuffPermanent(cowering))));
       var buff = BuffConfigurator.New(BuffName, Guids.MortalTerrorBuff)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)

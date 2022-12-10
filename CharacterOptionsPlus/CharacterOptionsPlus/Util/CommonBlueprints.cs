@@ -15,6 +15,7 @@ namespace CharacterOptionsPlus.Util
       Logger.Log($"Configuring {nameof(CommonBlueprints)}");
 
       ConfigureBlankProjectile();
+      ConfigurePanicked();
     }
 
     private const string BlankProjectile = "BlankProjectile";
