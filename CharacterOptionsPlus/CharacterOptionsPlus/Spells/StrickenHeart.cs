@@ -32,9 +32,6 @@ namespace CharacterOptionsPlus.Spells
 
     private const string TouchEffectName = "StricknHeart.Touch";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -73,7 +70,7 @@ namespace CharacterOptionsPlus.Spells
           SpellDescriptor.Death)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(AbilityRefs.DeathClutch.Reference.Get().Icon)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()
