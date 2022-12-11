@@ -39,7 +39,7 @@ namespace CharacterOptionsPlus.Spells
     private const string AreaEffect = "InvisibilityPurge.Area";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "invisibilitypurge.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
