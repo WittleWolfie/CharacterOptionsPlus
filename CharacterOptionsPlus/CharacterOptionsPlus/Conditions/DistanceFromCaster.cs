@@ -33,7 +33,7 @@ namespace CharacterOptionsPlus.Conditions
           return false;
         }
 
-        return caster.DistanceTo(target).Feet() <= DistanceInFeet.Calculate(Context).Feet();
+        return caster.DistanceTo(target) <= DistanceInFeet.Calculate(Context).Feet().Meters;
       }
       catch (Exception e)
       {

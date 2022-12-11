@@ -411,6 +411,7 @@ namespace CharacterOptionsPlus.Util
     internal const string InvisibilityPurgeSelfBuff = "38e2cf8a-3259-462a-8b2f-801c82c19fff";
     internal const string InvisibilityPurgeBuff = "553334c9-c5cb-4918-91c5-80c60036e642";
     internal const string InvisibilityPurgeArea = "64704517-29fe-4619-a5f7-3a613f0e090d";
+    internal const string InvisibilityPurgeFxBuff = "c7486afb-2fd9-4a40-969d-38d0922c4b1d";
 
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
     internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";

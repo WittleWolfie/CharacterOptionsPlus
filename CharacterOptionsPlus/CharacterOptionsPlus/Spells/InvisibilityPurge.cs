@@ -2,12 +2,17 @@
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
-using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.EntitySystem.Entities;
+using Kingmaker.PubSubSystem;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -30,6 +35,7 @@ namespace CharacterOptionsPlus.Spells
 
     private const string SelfBuff = "InvisibilityPurge.Buff.Self";
     private const string TargetBuff = "InvisibilityPurge.Buff.Target";
+    private const string FxBuff = "InvisibilityPurge.Buff.Fx";
     private const string AreaEffect = "InvisibilityPurge.Area";
 
     private const string IconPrefix = "assets/icons/";
@@ -57,6 +63,7 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
       AbilityAreaEffectConfigurator.New(AreaEffect, Guids.InvisibilityPurgeArea).Configure();
+      BuffConfigurator.New(FxBuff, Guids.InvisibilityPurgeFxBuff).Configure();
       BuffConfigurator.New(SelfBuff, Guids.InvisibilityPurgeSelfBuff).Configure();
       BuffConfigurator.New(TargetBuff, Guids.InvisibilityPurgeBuff).Configure();
       AbilityConfigurator.New(FeatureName, Guids.InvisibilityPurgeSpell).Configure();
@@ -66,9 +73,20 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var fxBuff = BuffConfigurator.New(FxBuff, Guids.InvisibilityPurgeFxBuff)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .SetFxOnStart(BuffRefs.FaerieFireBuff.Reference.Get().FxOnStart)
+        .Configure();
+
+      var applyFx = ActionsBuilder.New()
+        .Conditional(
+          ConditionsBuilder.New().Add<HasCondition>(c => c.Condition = UnitCondition.Invisible),
+          ifTrue: ActionsBuilder.New().ApplyBuffPermanent(fxBuff));
       var buff = BuffConfigurator.New(TargetBuff, Guids.InvisibilityPurgeBuff)
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .AddComponent(new SuppressConditions(UnitCondition.Invisible))
+        .AddConditionImmunity(condition: UnitCondition.Invisible)
+        .AddFactContextActions(activated: applyFx)
+        .AddComponent<InvisibilityPurgeComponent>()
         .Configure();
 
       var area = AbilityAreaEffectConfigurator.New(AreaEffect, Guids.InvisibilityPurgeArea)
@@ -92,7 +110,7 @@ namespace CharacterOptionsPlus.Spells
           buff: buff,
           checkConditionEveryRound: true,
           condition: ConditionsBuilder.New()
-            .Add<DistanceFromCaster>(a => a.DistanceInFeet = ContextValues.Rank()))
+            .Add<DistanceFromCaster>(c => c.DistanceInFeet = ContextValues.Rank()))
         .Configure();
 
       var selfBuff = BuffConfigurator.New(SelfBuff, Guids.InvisibilityPurgeSelfBuff)
@@ -124,6 +142,26 @@ namespace CharacterOptionsPlus.Spells
           actions: ActionsBuilder.New()
             .ApplyBuff(selfBuff, ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes)))
         .Configure();
+    }
+
+    [TypeId("4f3f7044-e3ce-4922-99dc-7cf9d41491a7")]
+    private class InvisibilityPurgeComponent : UnitFactComponentDelegate, IUnitConditionChangeAttemptHandler
+    {
+      private static readonly BlueprintBuffReference FxBuff =
+        BlueprintTool.GetRef<BlueprintBuffReference>(Guids.InvisibilityPurgeFxBuff);
+
+      public void HandleUnitConditionAddAttempt(UnitEntityData unit, UnitCondition condition, bool success)
+      {
+        try
+        {
+          if (condition == UnitCondition.Invisible)
+            unit.AddBuff(FxBuff, Context);
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("InvisibilityPurgeComponent.HandleUnitConditionAddAttempt", e);
+        }
+      }
     }
   }
 }
