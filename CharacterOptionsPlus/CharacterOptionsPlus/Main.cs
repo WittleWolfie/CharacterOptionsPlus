@@ -154,6 +154,7 @@ namespace CharacterOptionsPlus
         HedgingWeapons.Configure();
         HorrificDoubles.Configure();
         IceSlick.Configure();
+        InvisibilityPurge.Configure();
         MortalTerror.Configure();
         ShadowTrap.Configure();
         StrickenHeart.Configure();

@@ -110,6 +110,16 @@
   },
 
   {
+    "Key": "InvisibilityPurge.Name",
+    "ProcessTemplates": false,
+    "enGB": "Invisibility Purge"
+  },
+  {
+    "Key": "InvisibilityPurge.Description",
+    "enGB": "You surround yourself with a sphere of power that negates all forms of invisibility. The radius of this effect is 5 feet for every 2 caster levels, minimum 5 feet. The maximum radius is 50 feet."
+  },
+
+  {
     "Key": "MortalTerror.Name",
     "ProcessTemplates": false,
     "enGB": "Mortal Terror"
