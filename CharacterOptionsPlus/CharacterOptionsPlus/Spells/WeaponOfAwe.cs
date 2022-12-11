@@ -29,9 +29,6 @@ namespace CharacterOptionsPlus.Spells
 
     private const string Enchantment = "WeaponOfAwe.Enchantment";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png";
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -80,7 +77,7 @@ namespace CharacterOptionsPlus.Spells
           SpellDescriptor.Fear)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(BuffRefs.ArcaneStrikeBuff.Reference.Get().Icon)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(friends: true)
         .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
