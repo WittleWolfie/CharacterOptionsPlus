@@ -420,6 +420,9 @@ namespace CharacterOptionsPlus.Util
     internal const string TouchOfBlindnessSpell =  "6177af1b-a096-4f58-a0a0-c02778e95483";
     internal const string TouchOfBlindnessEffect = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
 
+    internal const string WeaponOfAweSpell = "685de54b-0964-499e-9a5d-af234a618c54";
+    internal const string WeaponOfAweEnchant = "e020060b-9ed7-47df-9689-1c787f271ed0";
+
     internal const string WrathSpell = "c31b0784-8523-43ce-a5f5-cb3a6121c43a";
     internal const string WrathBuff = "f47ab8be-368a-44a5-8448-fb1b8d756130";
     internal const string WrathSelfBuff = "b4d4b58c-0147-4a93-bb45-2eae439e5787";
@@ -439,6 +442,7 @@ namespace CharacterOptionsPlus.Util
         (ShadowTrapSpell, ShadowTrap.DisplayName),
         (StrickenHeartSpell, StrickenHeart.DisplayName),
         (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
+        (WeaponOfAweSpell, WeaponOfAwe.DisplayName),
         (WrathSpell, Wrath.DisplayName),
       };
     #endregion

@@ -4,6 +4,11 @@
     "ProcessTemplates": false,
     "enGB": "Requires an equipped weapon: {0}"
   },
+  {
+    "Key": "AbilityTargetHasWeaponSubcategory.Restriction.Negated",
+    "ProcessTemplates": false,
+    "enGB": "Wrong weapon type equipped: {0}"
+  },
 
   {
     "Key": "AbilityTargetHasWeaponEquipped.Restriction",
