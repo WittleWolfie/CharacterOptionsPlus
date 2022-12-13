@@ -1,7 +1,12 @@
-## v1.0.0
+## v0.9.1
 
 * New Spells:
     * Mortal Terror
+    * Invisibility Purge
+    * Weapon of Awe
+
+* Updates:
+    * Patched WorldCrawl compatibility
 
 ## v0.9.0
 
