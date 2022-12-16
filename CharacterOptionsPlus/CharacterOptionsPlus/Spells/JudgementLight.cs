@@ -168,13 +168,13 @@ namespace CharacterOptionsPlus.Spells
         .SetDescription(DescriptionSmiting)
         .Configure();
 
-      var smitingAlignment = BuffConfigurator.New(SmitingBuffMagic, Guids.JudgementLightSmitingAlignmentBuff)
+      var smitingAlignment = BuffConfigurator.New(SmitingBuffAlignment, Guids.JudgementLightSmitingAlignmentBuff)
         .SetDisplayName(DisplayNameSmiting)
         .SetDescription(DescriptionSmiting)
         .AddComponent<JudgementLightAlignment>()
         .Configure();
 
-      var smitingAdamantite = BuffConfigurator.New(SmitingBuffMagic, Guids.JudgementLightSmitingAdamantiteBuff)
+      var smitingAdamantite = BuffConfigurator.New(SmitingBuffAdamantite, Guids.JudgementLightSmitingAdamantiteBuff)
         .CopyFrom(BuffRefs.SmitingJudgmentBuffAdamantite, typeof(AddOutgoingPhysicalDamageProperty))
         .SetDisplayName(DisplayNameSmiting)
         .SetDescription(DescriptionSmiting)
@@ -186,9 +186,8 @@ namespace CharacterOptionsPlus.Spells
         .SetDescription(Description)
         .SetIcon(IconName)
         .SetRange(AbilityRange.Personal)
+        .AllowTargeting(self: true, enemies: true, friends: true)
         .SetSpellResistance()
-        .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
-        .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
@@ -208,14 +207,15 @@ namespace CharacterOptionsPlus.Spells
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
             .Conditional(
-              conditions: ConditionsBuilder.New().IsAlly(),
-              ifTrue: ActionsBuilder.New()
+              conditions: ConditionsBuilder.New().IsEnemy(),
+      #region Ally Effect
+              ifFalse: ActionsBuilder.New()
                 // Healing
                 .Conditional(
                   conditions: ConditionsBuilder.New().CasterHasFact(BuffRefs.HealingJudgmentBuff.ToString()),
                   ifTrue: ActionsBuilder.New()
                     .HealTarget(
-                      ContextDice.Value(diceType: DiceType.D8, diceCount: 1, bonus: ContextValues.CasterStatBonus()))
+                      ContextDice.Value(diceType: DiceType.D8, diceCount: 1, bonus: ContextValues.CasterStatBonus())))
                 // Protection
                 .Conditional(
                   conditions: ConditionsBuilder.New().CasterHasFact(BuffRefs.ProtectionJudgmentBuff.ToString()),
@@ -268,8 +268,9 @@ namespace CharacterOptionsPlus.Spells
                   conditions: ConditionsBuilder.New().CasterHasFact(BuffRefs.SmitingJudgmentBuffAdamantite.ToString()),
                   ifTrue: ActionsBuilder.New()
                     .ApplyBuff(smitingAdamantite, ContextDuration.Variable(ContextValues.Rank()))),
-               
-              ifFalse: ActionsBuilder.New()
+      #endregion
+      #region Enemy Effect
+              ifTrue: ActionsBuilder.New()
                 // Destruction
                 .Conditional(
                   conditions: ConditionsBuilder.New().CasterHasFact(BuffRefs.DestructionJudgmentBuff.ToString()),
@@ -281,7 +282,7 @@ namespace CharacterOptionsPlus.Spells
                           failed: ActionsBuilder.New()
                             .ApplyBuff(BuffRefs.Shaken.ToString(), ContextDuration.FixedDice(DiceType.D4)))
                         .DealDamage(
-                          DamageTypes.Untyped(), ContextDice.Value(DiceType.D8, diceCount: 4), halfIfSaved: true))))
+                          DamageTypes.Untyped(), ContextDice.Value(DiceType.D8, diceCount: 4), halfIfSaved: true)))
                 // Justice
                 .Conditional(
                   conditions: ConditionsBuilder.New().CasterHasFact(BuffRefs.JusticeJudgmentBuff.ToString()),
@@ -290,6 +291,7 @@ namespace CharacterOptionsPlus.Spells
                 .Conditional(
                   conditions: ConditionsBuilder.New().CasterHasFact(BuffRefs.PiercingJudgmentBuff.ToString()),
                   ifTrue: ActionsBuilder.New().ApplyBuff(piercing, ContextDuration.Variable(ContextValues.Rank())))))
+      #endregion
         .Configure();
     }
 
