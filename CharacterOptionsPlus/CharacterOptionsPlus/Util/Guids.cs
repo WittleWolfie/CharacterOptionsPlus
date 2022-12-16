@@ -413,6 +413,22 @@ namespace CharacterOptionsPlus.Util
     internal const string InvisibilityPurgeArea = "64704517-29fe-4619-a5f7-3a613f0e090d";
     internal const string InvisibilityPurgeFxBuff = "c7486afb-2fd9-4a40-969d-38d0922c4b1d";
 
+    internal const string JudgementLightSpell =          "9fe907d3-0833-40a2-9fb6-730f213a29c1";
+    internal const string JudgementLightJusticeBuff =    "b66eb501-c0fe-4d0a-8cf1-9a4fc2165aae";
+    internal const string JudgementLightPiercingBuff =   "11eb4a5e-b87f-4561-b954-76d840170f11";
+    internal const string JudgementLightProtectionBuff = "a2cc5eb1-400a-4c86-9700-b240088d0074";
+    internal const string JudgementLightResistanceBuff = "6c102979-3232-4be7-972d-b9334f2bd784";
+
+    internal const string JudgementLightResiliencyChaosBuff = "db03a5d8-b8fb-49bd-9da4-443b82bcbe04";
+    internal const string JudgementLightResiliencyEvilBuff =  "acef7958-18c5-4c99-bd3e-c12d5adebfb2";
+    internal const string JudgementLightResiliencyGoodBuff =  "b1139e4b-2081-498c-a136-6132c8ab0e35";
+    internal const string JudgementLightResiliencyLawBuff =   "f1724fb5-f99b-4fdc-8ba3-6decb098fc94";
+    internal const string JudgementLightResiliencyMagicBuff = "5a8bf4d3-584f-4cb0-879a-487ad03039ca";
+
+    internal const string JudgementLightSmitingMagicBuff =      "9547b3fc-b33a-43b7-ada9-5ccebe35b0ed";
+    internal const string JudgementLightSmitingAlignmentBuff =  "1fb027d9-4174-4b1e-b5de-6485532507f8";
+    internal const string JudgementLightSmitingAdamantiteBuff = "17f401da-c2cc-4de7-af65-df50d8e57c5f";
+
     internal const string KeenEdgeSpell = "103e53fe-89de-48a1-b85e-9efcb1de4860";
 
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";

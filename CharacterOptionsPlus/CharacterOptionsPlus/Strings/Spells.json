@@ -120,6 +120,70 @@
   },
 
   {
+    "Key": "JudgementLight.Name",
+    "ProcessTemplates": false,
+    "enGB": "Judgement Light"
+  },
+  {
+    "Key": "JudgementLight.Description",
+    "enGB": "An inquisitor may only cast this spell while she has a judgment active. When she does cast this spell, it causes one or more of the following effects based on the inquisitor’s active judgments.\n\nDestruction: Red light erupts from the caster. Enemies in the area take 4d8 points of damage and become shaken for 1d4 rounds. A successful Will saving throw halves the damage and negates the shaken effect.\n\nHealing: Green light erupts from the caster. Allies in the area regain a number of hit points equal to 1d8 + the caster’s Wisdom modifier.\n\nJustice: Blue light erupts from the caster, revealing hidden and invisible creatures to all. The light outlines such creatures for 1 round per caster level, imposing a –20 penalty on Stealth checks on those creatures.\n\nPiercing: Violet light erupts from the caster, reducing the spell resistance of enemies within the burst by 5 for 1 round per caster level.\n\nProtection: Amber light erupts from the caster, granting allies in the burst a +2 sacred bonus to AC and CMD, and a +4 bonus to AC against critical confirmation attack rolls for 1 round per caster level.\n\nResiliency: Golden light erupts from the caster, granting allies within the burst DR 3 of the same type granted by your judgement.\n\nPurity: White light erupts from the caster, attempting a dispel check on each ally within the burst with a +2 bonus on the roll.\n\nResistance: Copper light erupts from the caster, granting allies within the burst resistance 5 against the energy the judgment protects the inquisitor against when she casts this spell for 1 round per caster level.\n\nSmiting: Silver light erupts from the caster, making allies’ weapons within the burst count as magic, the alignment her weapon is, and adamantine for purposes of overcoming damage reduction for 1 round per caster level."
+  },
+  {
+    "Key": "JudgementLight.Justice.Name",
+    "ProcessTemplates": false,
+    "enGB": "Light of Justice"
+  },
+  {
+    "Key": "JudgementLight.Justice.Description",
+    "enGB": "Blue light erupts from the caster, revealing hidden and invisible creatures to all. The light outlines such creatures for 1 round per caster level, imposing a –20 penalty on Stealth checks on those creatures."
+  },
+  {
+    "Key": "JudgementLight.Piercing.Name",
+    "ProcessTemplates": false,
+    "enGB": "Piercing Light"
+  },
+  {
+    "Key": "JudgementLight.Piercing.Description",
+    "enGB": "Violet light erupts from the caster, reducing the spell resistance of enemies within the burst by 5 for 1 round per caster level."
+  },
+  {
+    "Key": "JudgementLight.Protection.Name",
+    "ProcessTemplates": false,
+    "enGB": "Protecting Light"
+  },
+  {
+    "Key": "JudgementLight.Protection.Description",
+    "enGB": "Amber light erupts from the caster, granting allies in the burst a +2 sacred bonus to AC and CMD, and a +4 bonus to AC against critical confirmation attack rolls for 1 round per caster level."
+  },
+  {
+    "Key": "JudgementLight.Resiliency.Name",
+    "ProcessTemplates": false,
+    "enGB": "Light of Resiliency"
+  },
+  {
+    "Key": "JudgementLight.Resiliency.Description",
+    "enGB": "Copper light erupts from the caster, granting allies within the burst resistance 5 against the energy the judgment protects the inquisitor against when she casts this spell for 1 round per caster level."
+  },
+  {
+    "Key": "JudgementLight.Resistance.Name",
+    "ProcessTemplates": false,
+    "enGB": "Light of Resistance"
+  },
+  {
+    "Key": "JudgementLight.Resistance.Description",
+    "enGB": "Copper light erupts from the caster, granting allies within the burst resistance 5 against the energy the judgment protects the inquisitor against when she casts this spell for 1 round per caster level."
+  },
+  {
+    "Key": "JudgementLight.Smiting.Name",
+    "ProcessTemplates": false,
+    "enGB": "Smiting Light"
+  },
+  {
+    "Key": "JudgementLight.Smiting.Description",
+    "enGB": "Silver light erupts from the caster, making allies’ weapons within the burst count as magic, the alignment her weapon is, and adamantine for purposes of overcoming damage reduction for 1 round per caster level."
+  },
+
+  {
     "Key": "KeenEdge.Name",
     "ProcessTemplates": false,
     "enGB": "Keen Edge"
