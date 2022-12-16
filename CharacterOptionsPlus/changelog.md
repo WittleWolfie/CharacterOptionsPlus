@@ -2,7 +2,7 @@
 
 * New Spells:
     * Keen Edge
-    * 
+    * Judgement Light
 
 ## v0.9.1
 

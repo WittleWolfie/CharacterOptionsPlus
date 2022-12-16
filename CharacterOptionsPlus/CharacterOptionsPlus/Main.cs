@@ -155,6 +155,7 @@ namespace CharacterOptionsPlus
         HorrificDoubles.Configure();
         IceSlick.Configure();
         InvisibilityPurge.Configure();
+        JudgementLight.Configure();
         KeenEdge.Configure();
         MortalTerror.Configure();
         ShadowTrap.Configure();

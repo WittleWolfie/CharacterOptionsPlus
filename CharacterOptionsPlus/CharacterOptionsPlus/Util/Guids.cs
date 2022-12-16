@@ -463,6 +463,7 @@ namespace CharacterOptionsPlus.Util
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
         (InvisibilityPurgeSpell, InvisibilityPurge.DisplayName),
+        (JudgementLightSpell, JudgementLight.DisplayName),
         (KeenEdgeSpell, KeenEdge.DisplayName),
         (MortalTerrorSpell, MortalTerror.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
