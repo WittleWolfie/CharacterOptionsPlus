@@ -25,9 +25,6 @@ namespace CharacterOptionsPlus.Spells
     internal const string DisplayName = "KeenEdge.Name";
     private const string Description = "KeenEdge.Description";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png";
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -60,7 +57,7 @@ namespace CharacterOptionsPlus.Spells
           FeatureName, Guids.KeenEdgeSpell, SpellSchool.Transmutation, canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(BuffRefs.WeaponBondKeenBuff.Reference.Get().Icon)
         .SetLocalizedDuration(Duration.TenMinutesPerLevel)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(self: true, friends: true)
