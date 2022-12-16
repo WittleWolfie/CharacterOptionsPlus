@@ -74,7 +74,7 @@ namespace CharacterOptionsPlus.Spells
     private const string SmitingBuffAdamantite = "JudgementLight.Smiting.Adamantite";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png";
+    private const string IconName = IconPrefix + "judgementlight.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 

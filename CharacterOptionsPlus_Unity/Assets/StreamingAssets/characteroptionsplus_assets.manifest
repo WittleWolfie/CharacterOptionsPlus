@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1853955427
+CRC: 3894673212
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d724947545ccfa9815d47dcbbabc051f
+    Hash: 416e977ca28c4734f7b3bf2c3723e46d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -65,9 +65,10 @@ Assets:
 - Assets/Icons/MortalTerror.png
 - Assets/Icons/BurningDisarm.png
 - Assets/Icons/DistractingShot.png
+- Assets/Icons/JudgementLight.png
 - Assets/Icons/Wrath.png
-- Assets/Icons/AsmodeusTechnique.png
 - Assets/Icons/UrgathoaAdvancedTechnique.png
+- Assets/Icons/AsmodeusTechnique.png
 - Assets/Icons/FrozenNote.png
 - Assets/Icons/RovagugAdvancedTechnique.png
 Dependencies: []
