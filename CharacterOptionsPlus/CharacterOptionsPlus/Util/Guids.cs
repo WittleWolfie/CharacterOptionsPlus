@@ -413,6 +413,9 @@ namespace CharacterOptionsPlus.Util
     internal const string InvisibilityPurgeArea = "64704517-29fe-4619-a5f7-3a613f0e090d";
     internal const string InvisibilityPurgeFxBuff = "c7486afb-2fd9-4a40-969d-38d0922c4b1d";
 
+    internal const string KeenEdgeSpell = "103e53fe-89de-48a1-b85e-9efcb1de4860";
+    internal const string KeenEdgeBuff =  "4fcdfbf2-5b9c-478f-a9e3-65e513673b89";
+
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
     internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
 
@@ -445,6 +448,7 @@ namespace CharacterOptionsPlus.Util
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
         (InvisibilityPurgeSpell, InvisibilityPurge.DisplayName),
+        (KeenEdgeSpell, KeenEdge.DisplayName),
         (MortalTerrorSpell, MortalTerror.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
         (StrickenHeartSpell, StrickenHeart.DisplayName),

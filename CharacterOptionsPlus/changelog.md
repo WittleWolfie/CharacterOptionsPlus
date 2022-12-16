@@ -1,3 +1,9 @@
+## v1.0.0
+
+* New Spells:
+    * Keen Edge
+    * 
+
 ## v0.9.1
 
 * New Spells:

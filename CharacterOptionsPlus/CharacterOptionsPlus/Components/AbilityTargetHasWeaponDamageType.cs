@@ -4,7 +4,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.Root;
 using Kingmaker.EntitySystem.Entities;
-using Kingmaker.Enums;
+using Kingmaker.Enums.Damage;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components.Base;
@@ -17,31 +17,31 @@ using static UnityModManagerNet.UnityModManager.ModEntry;
 namespace CharacterOptionsPlus.Components
 {
   [AllowedOn(typeof(BlueprintAbility))]
-  [TypeId("198f1661-1db2-48d4-b336-d8fa5e289a07")]
-  internal class AbilityTargetHasWeaponSubcategory : BlueprintComponent, IAbilityTargetRestriction
+  [TypeId("065f5e6a-f98f-418b-b701-ff6e7488a584")]
+  internal class AbilityTargetHasWeaponDamageType : BlueprintComponent, IAbilityTargetRestriction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityCasterHasWeaponSubcategory));
+    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityTargetHasWeaponDamageType));
 
-    private readonly List<WeaponSubCategory> SubCategories = new();
+    private readonly List<PhysicalDamageForm> DamageTypes = new();
     private readonly bool Exclude;
 
-    internal AbilityTargetHasWeaponSubcategory(bool exclude, params WeaponSubCategory[] subCategories)
+    internal AbilityTargetHasWeaponDamageType(bool exclude, params PhysicalDamageForm[] damageTypes)
     {
-      SubCategories.AddRange(subCategories);
+      DamageTypes.AddRange(damageTypes);
       Exclude = exclude;
     }
 
     public string GetAbilityTargetRestrictionUIText(UnitEntityData caster, TargetWrapper target)
     {
-      var subCategories =
-        SubCategories.Select(subCategory => LocalizedTexts.Instance.WeaponSubCategories.GetText(subCategory));
+      var damageTypes =
+        DamageTypes.Select(type => LocalizedTexts.Instance.DamageForm.GetText(type));
       return Exclude
         ? string.Format(
             LocalizationTool.GetString("AbilityTargetHasWeaponSubcategory.Restriction.Negated"),
-            string.Join(", ", subCategories))
+            string.Join(", ", damageTypes))
         : string.Format(
             LocalizationTool.GetString("AbilityCasterHasWeaponSubcategory.Restriction"),
-            string.Join(", ", subCategories));
+            string.Join(", ", damageTypes));
     }
 
     public bool IsTargetRestrictionPassed(UnitEntityData caster, TargetWrapper target)
@@ -59,11 +59,11 @@ namespace CharacterOptionsPlus.Components
         if (weapon is null)
           return false;
 
-        foreach (var subCategory in SubCategories)
+        foreach (var type in DamageTypes)
         {
           // If there's a match either we're excluding it (Exclude is true, so return false), or we're including it
           // (Exclude is false, so return true)
-          if (weapon.Blueprint.Category.HasSubCategory(subCategory))
+          if (weapon.Blueprint.DamageType.IsPhysical && weapon.Blueprint.DamageType.Physical.Form == type)
             return !Exclude;
         }
         // No match. If Exclude is true then the type is not excluded, return true; otherwise return false.
@@ -71,7 +71,7 @@ namespace CharacterOptionsPlus.Components
       }
       catch (Exception e)
       {
-        Logger.LogException("AbilityTargetHasWeaponSubcategory.IsTargetRestrictionPassed", e);
+        Logger.LogException("AbilityTargetHasWeaponDamageType.IsTargetRestrictionPassed", e);
       }
       return false;
     }
