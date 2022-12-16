@@ -414,7 +414,6 @@ namespace CharacterOptionsPlus.Util
     internal const string InvisibilityPurgeFxBuff = "c7486afb-2fd9-4a40-969d-38d0922c4b1d";
 
     internal const string KeenEdgeSpell = "103e53fe-89de-48a1-b85e-9efcb1de4860";
-    internal const string KeenEdgeBuff =  "4fcdfbf2-5b9c-478f-a9e3-65e513673b89";
 
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
     internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
