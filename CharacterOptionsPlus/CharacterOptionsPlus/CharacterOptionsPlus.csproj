@@ -52,7 +52,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="ILRepack.MSBuild.Task" Version="*" />
-    <PackageReference Include="WW-Blueprint-Core" Version="2.7.1" />
+    <PackageReference Include="WW-Blueprint-Core" Version="2.7.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -133,6 +133,7 @@
       <RenamedAssembly Include="$(SolutionDir)lib\Assembly-CSharp.dll" />
     </ItemGroup>
 
+    <RemoveDir Directories="$(SolutionDir)lib/" />
     <PublicizeTask InputAssemblies="@(Assemblies)" OutputDir="$(SolutionDir)lib/" />
     <!-- ILRepack requires the assembly name match the reference so remove _public -->
     <Move SourceFiles="@(PublicAssembly)" DestinationFiles="@(RenamedAssembly)" />

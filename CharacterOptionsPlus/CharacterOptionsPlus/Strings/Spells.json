@@ -64,6 +64,16 @@
   },
 
   {
+    "Key": "FleshwormInfestation.Name",
+    "ProcessTemplates": false,
+    "enGB": "Fleshworm Infestation"
+  },
+  {
+    "Key": "FleshwormInfestation.Description",
+    "enGB": "With a touch, you cause an infestation of ravenous worms to manifest in the target’s flesh. The target must make a Fortitude save every round. Failure means it takes 1d6 hit points of damage and 2 points of Dexterity damage, and is staggered for 1 round. If it makes the save, it takes no hit point or Dexterity damage and is only sickened for 1 round rather than staggered. Protection from evil negates this spell’s effects for as long as the two durations overlap. Dispel evil automatically ends a fleshworm infestation."
+  },
+
+  {
     "Key": "FrozenNote.Name",
     "ProcessTemplates": false,
     "enGB": "Frozen Note"
