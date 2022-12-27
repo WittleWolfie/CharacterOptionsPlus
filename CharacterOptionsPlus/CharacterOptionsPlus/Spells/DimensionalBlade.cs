@@ -4,30 +4,22 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.ModReferences;
 using BlueprintCore.Blueprints.References;
-using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
-using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
@@ -108,11 +100,32 @@ namespace CharacterOptionsPlus.Spells
     private class DimensionalBladeComponent :
       UnitBuffComponentDelegate,
       IInitiatorRulebookHandler<RuleCalculateWeaponStats>,
-      IInitiatorRulebookHandler<RuleCalculateAC>
+      IInitiatorRulebookHandler<RuleCalculateAC>,
+      IInitiatorRulebookHandler<RuleAttackWithWeaponResolve>
     {
       public void OnEventAboutToTrigger(RuleCalculateAC evt) { }
 
       public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt) { }
+
+      public void OnEventAboutToTrigger(RuleAttackWithWeaponResolve evt)
+      {
+        try
+        {
+          if (!Applies(evt.AttackWithWeapon.WeaponStats))
+            return;
+
+          var weapon = evt.AttackWithWeapon.Weapon;
+          if (weapon.Blueprint.DamageType.IsPhysical
+            && weapon.Blueprint.DamageType.Physical.Form == PhysicalDamageForm.Bludgeoning)
+          {
+            evt.Damage.Half = true;
+          }
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("DimensionalBladeComponent.OnEventAboutToTrigger(RuleAttackWithWeaponResolve)", e);
+        }
+      }
 
       public void OnEventDidTrigger(RuleCalculateWeaponStats evt)
       {
@@ -126,7 +139,6 @@ namespace CharacterOptionsPlus.Spells
             && dmg.TypeDescription.Physical.Form == PhysicalDamageForm.Bludgeoning)
           {
             dmg.TypeDescription.Physical.Form = PhysicalDamageForm.Slashing;
-            dmg.ModifyDice(new DiceFormula(dmg.Dice.Rolls / 2, dmg.Dice.Dice), Buff);
           }
         }
         catch (Exception e)
@@ -139,8 +151,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
-          var attack = evt.Reason?.Rule as RuleAttackRoll;
-          if (attack is null)
+          if (evt.Reason?.Rule is not RuleAttackWithWeapon attack)
           {
             Logger.Warning("No attack");
             return;
@@ -161,20 +172,49 @@ namespace CharacterOptionsPlus.Spells
                 || bonus.Descriptor == ModifierDescriptor.NaturalArmorForm
                 || bonus.Descriptor == ModifierDescriptor.Shield
                 || bonus.Descriptor == ModifierDescriptor.ShieldEnhancement
-                || bonus.Descriptor == ModifierDescriptor.ShieldFocus)
+                || bonus.Descriptor == ModifierDescriptor.ShieldFocus
+                || bonus.Descriptor == ModifierDescriptor.Focus)
             {
               var spellDescriptor = bonus.Fact.GetComponent<SpellDescriptorComponent>();
               if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
+              {
                 continue;
+              }
 
               spellDescriptor = bonus.Fact.SourceAbility?.GetComponent<SpellDescriptorComponent>();
               if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
+              {
                 continue;
+              }
 
               penalty += bonus.Value;
             }
           }
-          evt.AddModifier(-penalty, Buff, ModifierDescriptor.UntypedStackable);
+
+          foreach (var bonus in evt.Target.Stats.AC.Modifiers)
+          {
+            if (bonus.ModDescriptor == ModifierDescriptor.Armor
+                || bonus.ModDescriptor == ModifierDescriptor.ArmorEnhancement
+                || bonus.ModDescriptor == ModifierDescriptor.ArmorFocus
+                || bonus.ModDescriptor == ModifierDescriptor.NaturalArmor
+                || bonus.ModDescriptor == ModifierDescriptor.NaturalArmorEnhancement
+                || bonus.ModDescriptor == ModifierDescriptor.NaturalArmorForm
+                || bonus.ModDescriptor == ModifierDescriptor.Shield
+                || bonus.ModDescriptor == ModifierDescriptor.ShieldEnhancement
+                || bonus.ModDescriptor == ModifierDescriptor.ShieldFocus
+                || bonus.ModDescriptor == ModifierDescriptor.Focus)
+            {
+              var descriptor = bonus.Source?.GetComponent<SpellDescriptorComponent>();
+              if (descriptor is not null && descriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
+              {
+                continue;
+              }
+
+              penalty += bonus.ModValue;
+            }
+          }
+
+          attack.AttackRoll.AddModifier(penalty, Buff, ModifierDescriptor.UntypedStackable);
         }
         catch (Exception e)
         {
@@ -182,16 +222,24 @@ namespace CharacterOptionsPlus.Spells
         }
       }
 
+      public void OnEventDidTrigger(RuleAttackWithWeaponResolve evt) { }
+
       private bool Applies(RuleCalculateWeaponStats weaponStats)
       {
         if (weaponStats is null)
+        {
           return false;
+        }
 
         if (weaponStats.IsSecondary || weaponStats.Weapon.Blueprint.IsNatural)
+        {
           return false;
+        }
 
         if (!weaponStats.Weapon.Blueprint.IsMelee)
+        {
           return false;
+        }
 
         return true;
       }
