@@ -17,6 +17,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Conditions.Builder.BasicEx;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder.ContextEx;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -28,9 +29,6 @@ namespace CharacterOptionsPlus.Spells
     private const string Description = "FleshwormInfestation.Description";
 
     private const string BuffName = "FleshwormInfestation.Buff";
-
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png";
 
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
@@ -64,15 +62,13 @@ namespace CharacterOptionsPlus.Spells
       var buff = BuffConfigurator.New(BuffName, Guids.FleshwormInfestationBuff)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
         .AddFactContextActions(
           newRound: ActionsBuilder.New()
             .Conditional(
               ConditionsBuilder.New()
-                .UseOr()
-                .HasFact(BuffRefs.ProtectionFromEvilBuff.ToString())
-                .HasFact(BuffRefs.AuraOfProtectionFromEvilEffectBuff.ToString()),
-              ifFalse: ActionsBuilder.New()
+                .HasFact(BuffRefs.ProtectionFromEvilBuff.ToString(), negate: true)
+                .HasFact(BuffRefs.AuraOfProtectionFromEvilEffectBuff.ToString(), negate: true),
+              ifTrue: ActionsBuilder.New()
                 .SavingThrow(
                   SavingThrowType.Fortitude,
                   onResult: ActionsBuilder.New()
@@ -93,7 +89,7 @@ namespace CharacterOptionsPlus.Spells
           SpellDescriptor.Evil)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(IconName)
+        .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()
