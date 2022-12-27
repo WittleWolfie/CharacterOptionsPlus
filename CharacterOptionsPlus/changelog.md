@@ -3,6 +3,8 @@
 * New Spells:
     * Keen Edge
     * Judgement Light
+    * Fleshworm Infestation
+    * Dimensional Blade
 
 ## v0.9.1
 
