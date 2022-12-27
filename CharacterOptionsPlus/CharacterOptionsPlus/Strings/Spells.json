@@ -64,6 +64,16 @@
   },
 
   {
+    "Key": "DimensionalBlade.Name",
+    "ProcessTemplates": false,
+    "enGB": "Dimensional Blade"
+  },
+  {
+    "Key": "DimensionalBlade.Description",
+    "enGB": "This spell gives you the power to turn your main-hand melee weapon into a two-dimensional object with length and height but no width.\n\nAttacks made with the weapon are melee touch attacks that ignore all armor. Force effects, such as mage armor and shield, still apply their AC against attacks made with a dimensional blade. Bludgeoning weapons used to make attacks with this spell deal half damage and are treated as slashing weapons."
+  },
+
+  {
     "Key": "FleshwormInfestation.Name",
     "ProcessTemplates": false,
     "enGB": "Fleshworm Infestation"

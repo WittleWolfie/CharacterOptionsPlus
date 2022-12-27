@@ -150,6 +150,7 @@ namespace CharacterOptionsPlus
         BurningDisarm.Configure();
         Consecrate.Configure();
         Desecrate.Configure();
+        DimensionalBlade.Configure();
         FleshwormInfestation.Configure();
         FrozenNote.Configure();
         HedgingWeapons.Configure();

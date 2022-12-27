@@ -390,6 +390,9 @@ namespace CharacterOptionsPlus.Util
     internal const string DesecrateAoE =   "372f94fb-0a45-4813-8e85-46783792ec3d";
     internal const string DesecrateBuff =  "6bf4c34c-8e54-448f-8921-11f93f21aac7";
 
+    internal const string DimensionalBladeSpell = "aaed2bc8-7c24-4737-83f6-df4c520888ee";
+    internal const string DimensionalBladeBuff = "ad446477-c50b-455b-9012-4881ad456589";
+
     internal const string FleshwormInfestationSpell = "7af385de-a758-4984-8ab9-14b484b509f3";
     internal const string FleshwormInfestationBuff = "3a640ba3-7191-40c8-ade2-b305790f4c4f";
 
@@ -461,6 +464,7 @@ namespace CharacterOptionsPlus.Util
         (BurningDisarmSpell, BurningDisarm.DisplayName),
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
+        (DimensionalBladeSpell, DimensionalBlade.DisplayName),
         (FleshwormInfestationSpell, FleshwormInfestation.DisplayName),
         (FrozenNoteSpell, FrozenNote.DisplayName),
         (HedgingWeaponsSpell, HedgingWeapons.DisplayName),
