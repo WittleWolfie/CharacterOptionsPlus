@@ -78,6 +78,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.ArcaneAccuracyAbility.Reference.Get().Icon)
+        .SetLocalizedDuration(Duration.OneRound)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.EnchantWeapon)
