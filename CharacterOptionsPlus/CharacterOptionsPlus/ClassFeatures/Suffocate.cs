@@ -76,7 +76,7 @@ namespace CharacterOptionsPlus.ClassFeatures
                   ActionsBuilder.New()
                     .ConditionalSaved(
                       succeed: ActionsBuilder.New().RemoveSelf(),
-                      failed: ActionsBuilder.New().Add<SetHitPoints>(a => a.Value = -1))))
+                      failed: ActionsBuilder.New().Add<SetHitPoints>(a => a.Value = -1).RemoveSelf())))
         .Configure();
 
       var icon = AbilityRefs.PredictionOfFailure.Reference.Get().Icon;
