@@ -52,6 +52,11 @@ namespace CharacterOptionsPlus.Util
     internal const string ShadowDuplicateHiddenBuff = "05ab8c51-cfa9-49bc-896a-95d8d5797ded";
     internal const string ShadowDuplicateBuff = "41e68502-7aac-4635-a66e-d0220619c759";
 
+    internal const string ShimmeringMirageTalent = "2438b572-d1dd-4bab-b484-7b8fe4dab6ed";
+    internal const string ShimmeringMirageBuff = "7be46731-3d11-4dee-bdfd-155e01e02cc7";
+    internal const string ShimmeringMirageEffectBuff = "d1277226-d6d7-4c9b-a0ef-b9a7313bd449";
+    internal const string ShimmeringMirageAbility = "a3646382-6a88-4e57-8569-9503c9445466";
+
     internal const string SlowingStrikeTalent = "1fda2ef4-8e4f-4698-bca0-6af85d5e5307";
     internal const string SlowingStrikeBuff = "00650b0e-e4e4-478c-a03b-63d03d53a0ad";
 
@@ -64,6 +69,7 @@ namespace CharacterOptionsPlus.Util
       {
         (IceTombHex, IceTomb.DisplayName),
         (ShadowDuplicateTalent, ShadowDuplicate.DisplayName),
+        (ShimmeringMirageTalent, ShimmeringMirage.DisplayName),
         (SlowingStrikeTalent, SlowingStrike.DisplayName),
         (SuffocateTalent, Suffocate.DisplayName),
       };

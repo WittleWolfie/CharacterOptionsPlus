@@ -28,6 +28,16 @@
   },
 
   {
+    "Key": "ShimmeringMirage.Name",
+    "ProcessTemplates": false,
+    "enGB": "Shimmering Mirage"
+  },
+  {
+    "Key": "ShimmeringMirage.Description",
+    "enGB": "Element: water\n\nType: utility\n\nBurn: 1\n\nYour shroud bends light, creating a shimmering mirage. While your shroud of water is active, attacks against you suffer a 20% miss chance due to concealment until the next time your burn is removed."
+  },
+
+  {
     "Key": "SlowingStrike.Name",
     "ProcessTemplates": false,
     "enGB": "Slowing Strike"

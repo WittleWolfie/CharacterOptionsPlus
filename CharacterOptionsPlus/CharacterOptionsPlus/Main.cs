@@ -117,6 +117,7 @@ namespace CharacterOptionsPlus
 
         IceTomb.Configure();
         ShadowDuplicate.Configure();
+        ShimmeringMirage.Configure();
         SlowingStrike.Configure();
         Suffocate.Configure();
       }
