@@ -55,12 +55,17 @@ namespace CharacterOptionsPlus.Util
     internal const string SlowingStrikeTalent = "1fda2ef4-8e4f-4698-bca0-6af85d5e5307";
     internal const string SlowingStrikeBuff = "00650b0e-e4e4-478c-a03b-63d03d53a0ad";
 
+    internal const string SuffocateTalent = "2306f7e0-445c-4806-9789-ff9ddcd6ec11";
+    internal const string SuffocateAbility = "938c3f61-9f9b-4318-b905-54210e044752";
+    internal const string SuffocateBuff = "cd38e4f1-6d5f-4712-9d03-81c3a646963d";
+
     internal static readonly (string guid, string displayName)[] ClassFeatures =
       new (string, string)[]
       {
         (IceTombHex, IceTomb.DisplayName),
         (ShadowDuplicateTalent, ShadowDuplicate.DisplayName),
         (SlowingStrikeTalent, SlowingStrike.DisplayName),
+        (SuffocateTalent, Suffocate.DisplayName),
       };
     #endregion
 

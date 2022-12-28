@@ -118,6 +118,7 @@ namespace CharacterOptionsPlus
         IceTomb.Configure();
         ShadowDuplicate.Configure();
         SlowingStrike.Configure();
+        Suffocate.Configure();
       }
 
       private static void ConfigureFeats()

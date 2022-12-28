@@ -1,5 +1,23 @@
 [
   {
+    "Key": "IceTomb.Name",
+    "ProcessTemplates": false,
+    "enGB": "Ice Tomb",
+    "ruRU": "Ледяной саркофаг"
+  },
+  {
+    "Key": "IceTomb.Description",
+    "enGB": "A storm of ice and freezing wind envelops the target, which takes 3d8 points of cold damage (Fortitude half). If the target fails its save, it is paralyzed and unconscious but does not need to eat or breathe while the ice lasts. Each round the target can break the ice with a successful Fortitude saving throw, after which it is staggered for 1d4 rounds. Whether or not the target’s saving throw is successful, it cannot be the target of this hex again for 1 day.",
+    "ruRU": "Буря изо льда и морозного ветра погребает цель в ледяном саркофаге, нанося 3d8 урона холодом (половину при успешном спасброске Стойкости). Если цедь проваливает спасбросок, она оказывается парализована и без сознания, но не нуждается в еде и воздухе, пока находится внутри ледяного саркофага. Каждый раунд цель может разбить лёд и выбраться наружу при помощи успешного спкасброска Стойкости, но после этого цель остаётся ошеломлена на 1d4 раунда. Вне зависимости от того, был ли спасбросок успешен, цель становится невосприимчивой к данному заговору на 1 день."
+  },
+  {
+    "Key": "IceTomb.Cooldown.Name",
+    "ProcessTemplates": false,
+    "enGB": "Ice Tomb (Cooldown)",
+    "ruRU": "Ледяной саркофаг (кулдаун)"
+  },
+
+  {
     "Key": "ShadowDuplicate.Name",
     "ProcessTemplates": false,
     "enGB": "Shadow Duplicate"
@@ -20,20 +38,12 @@
   },
 
   {
-    "Key": "IceTomb.Name",
+    "Key": "Suffocate.WildTalent.Name",
     "ProcessTemplates": false,
-    "enGB": "Ice Tomb",
-    "ruRU": "Ледяной саркофаг"
+    "enGB": "Suffocate"
   },
   {
-    "Key": "IceTomb.Description",
-    "enGB": "A storm of ice and freezing wind envelops the target, which takes 3d8 points of cold damage (Fortitude half). If the target fails its save, it is paralyzed and unconscious but does not need to eat or breathe while the ice lasts. Each round the target can break the ice with a successful Fortitude saving throw, after which it is staggered for 1d4 rounds. Whether or not the target’s saving throw is successful, it cannot be the target of this hex again for 1 day.",
-    "ruRU": "Буря изо льда и морозного ветра погребает цель в ледяном саркофаге, нанося 3d8 урона холодом (половину при успешном спасброске Стойкости). Если цедь проваливает спасбросок, она оказывается парализована и без сознания, но не нуждается в еде и воздухе, пока находится внутри ледяного саркофага. Каждый раунд цель может разбить лёд и выбраться наружу при помощи успешного спкасброска Стойкости, но после этого цель остаётся ошеломлена на 1d4 раунда. Вне зависимости от того, был ли спасбросок успешен, цель становится невосприимчивой к данному заговору на 1 день."
-  },
-  {
-    "Key": "IceTomb.Cooldown.Name",
-    "ProcessTemplates": false,
-    "enGB": "Ice Tomb (Cooldown)",
-    "ruRU": "Ледяной саркофаг (кулдаун)"
+    "Key": "Suffocate.WildTalent.Description",
+    "enGB": "You can accept 1 point of burn to expel the air from your target’s lungs. If you do so and the target fails its first Fortitude save, it becomes disabled and is reduced to 0 hit points, and on its second failed Fortitude save, it falls unconscious and is reduced to –1 hit points."
   }
 ]
