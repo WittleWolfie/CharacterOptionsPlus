@@ -82,7 +82,7 @@ namespace CharacterOptionsPlus.Spells
           SpellDescriptor.Evil)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
+        .SetIcon(AbilityRefs.BurstOfGlory.Reference.Get().Icon)
         .SetLocalizedDuration(Duration.HourPerLevel)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(self: true, friends: true)
