@@ -90,8 +90,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetAnimation(CastAnimationStyle.Directional)
         .SetActionType(CommandType.Standard)
         .SetSpellResistance()
-        .SetAvailableMetamagic(
-          Metamagic.Quicken, Metamagic.Extend, Metamagic.Heighten, Metamagic.CompletelyNormal, Metamagic.Persistent)
+        .SetAvailableMetamagic(Metamagic.Quicken, Metamagic.Heighten, Metamagic.Reach)
         .AddSpellDescriptorComponent(SpellDescriptor.Death)
         .AddAbilityTargetHasFact(
           checkedFacts:
