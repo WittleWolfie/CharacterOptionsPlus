@@ -1,10 +1,15 @@
 ## v1.0.0
 
+* New Class Features:
+    * Shimmering Mirage (Wild Talent)
+    * Suffocate (Wild Talent)
+
 * New Spells:
     * Keen Edge
     * Judgement Light
     * Fleshworm Infestation
     * Dimensional Blade
+    * Unshakable Zeal
 
 ## v0.9.1
 
