@@ -84,7 +84,6 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Frost Fall](https://www.d20pfsrd.com/magic/all-spells/f/frost-fall/)
     * [Ice Spears](https://www.d20pfsrd.com/magic/all-spells/i/ice-spears/)
     * [Implosion](https://www.d20pfsrd.com/magic/all-spells/i/implosion/)
-    * [Infernal Healing](https://www.d20pfsrd.com/magic/all-spells/i/infernal-healing/)
     * [Invisibility Purge](https://www.d20pfsrd.com/magic/all-spells/i/invisibility-purge/)
     * [Ironskin](https://www.d20pfsrd.com/magic/all-spells/i/ironskin/)
     * [Judgement Light](https://www.d20pfsrd.com/magic/all-spells/j/judgment-light/)
