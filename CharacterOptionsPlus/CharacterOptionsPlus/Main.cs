@@ -163,6 +163,7 @@ namespace CharacterOptionsPlus
         ShadowTrap.Configure();
         StrickenHeart.Configure();
         TouchOfBlindness.Configure();
+        UnshakableZeal.Configure();
         WeaponOfAwe.Configure();
         Wrath.Configure();
       }

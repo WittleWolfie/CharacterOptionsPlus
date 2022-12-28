@@ -254,6 +254,16 @@
   },
 
   {
+    "Key": "UnshakableZeal.Name",
+    "ProcessTemplates": false,
+    "enGB": "Unshakable Zeal"
+  },
+  {
+    "Key": "UnshakableZeal.Description",
+    "enGB": "You fill the target with boundless enthusiasm and faith in its ultimate triumph. Whenever the target fails an attack roll, a save, a skill check, or a concentration check, the target receives a +4 morale bonus on its next attempt at the failed check within 1 round (this includes attack rolls against the same foe, saving throws against the same ability from the same foe, and so on). The target also receives a +2 bonus on saving throws against fear and emotion effects."
+  },
+
+  {
     "Key": "WeaponOfAwe.Name",
     "ProcessTemplates": false,
     "enGB": "Weapon of Awe"

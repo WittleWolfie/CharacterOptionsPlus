@@ -450,6 +450,9 @@ namespace CharacterOptionsPlus.Util
     internal const string TouchOfBlindnessSpell =  "6177af1b-a096-4f58-a0a0-c02778e95483";
     internal const string TouchOfBlindnessEffect = "a8bb445d-74ce-4075-b4f0-875d1b73715b";
 
+    internal const string UnshakableZealSpell = "c02df23f-e828-402a-8666-8e1ce39cd171";
+    internal const string UnshakableZealBuff = "70063916-f768-4aea-884b-6b7cdca0a41b";
+
     internal const string WeaponOfAweSpell = "685de54b-0964-499e-9a5d-af234a618c54";
     internal const string WeaponOfAweEnchant = "e020060b-9ed7-47df-9689-1c787f271ed0";
 
@@ -477,6 +480,7 @@ namespace CharacterOptionsPlus.Util
         (ShadowTrapSpell, ShadowTrap.DisplayName),
         (StrickenHeartSpell, StrickenHeart.DisplayName),
         (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
+        (UnshakableZealSpell, UnshakableZeal.DisplayName),
         (WeaponOfAweSpell, WeaponOfAwe.DisplayName),
         (WrathSpell, Wrath.DisplayName),
       };

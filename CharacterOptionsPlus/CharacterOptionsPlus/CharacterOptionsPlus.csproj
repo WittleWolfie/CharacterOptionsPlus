@@ -98,7 +98,7 @@
     <Reference Include="UniRx">
       <HintPath>$(WrathPath)\Wrath_Data\Managed\UniRx.dll</HintPath>
     </Reference>
-    
+
     <!-- ModMenu -->
     <Reference Include="ModMenu">
       <HintPath>$(WrathPath)\Mods\ModMenu\ModMenu.dll</HintPath>
