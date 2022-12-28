@@ -1,19 +1,24 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Conditions.Builder.ContextEx;
+using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
-using Kingmaker.UnitLogic.Abilities.Blueprints;
-using Kingmaker.UnitLogic.Abilities;
-using System;
-using static UnityModManagerNet.UnityModManager.ModEntry;
-using Kingmaker.UnitLogic.FactLogic;
-using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
-using BlueprintCore.Actions.Builder.ContextEx;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.FactLogic;
+using System;
+using System.Collections.Generic;
+using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
+using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
+using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.ClassFeatures
 {
@@ -59,23 +64,37 @@ namespace CharacterOptionsPlus.ClassFeatures
     {
       Logger.Log($"Configuring {FeatureName}");
 
+      var shroudOfWater =
+        new List<Blueprint<BlueprintUnitFactReference>>()
+        {
+          BuffRefs.ShroudOfWaterArmorBuff.ToString(),
+          BuffRefs.ShroudOfWaterShieldBuff.ToString()
+        };
       var effectBuff = BuffConfigurator.New(EffectBuffName, Guids.ShimmeringMirageEffectBuff)
         .CopyFrom(BuffRefs.BlurBuff, typeof(AddConcealment))
         .AddToFlags(BlueprintBuff.Flags.HiddenInUi)
         .SetStacking(StackingType.Ignore)
         .Configure();
 
+      var applyEffect = ActionsBuilder.New().ApplyBuffPermanent(effectBuff).Build();
+      var removeEffect = ActionsBuilder.New().RemoveBuff(effectBuff).Build();
       var buff = BuffConfigurator.New(BuffName, Guids.ShimmeringMirageBuff)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .AddFactsChangeTrigger(
-          checkedFacts:
-            new() { BuffRefs.ShroudOfWaterArmorBuff.ToString(), BuffRefs.ShroudOfWaterShieldBuff.ToString() },
-          onFactGainedActions: ActionsBuilder.New().ApplyBuffPermanent(effectBuff, asChild: true),
-          onFactLostActions: ActionsBuilder.New().RemoveBuff(effectBuff))
+        .AddFactContextActions(
+          activated: applyEffect,
+          newRound: ActionsBuilder.New()
+            .Conditional(
+              ConditionsBuilder.New()
+                .HasFact(BuffRefs.ShroudOfWaterArmorBuff.ToString(), negate: true)
+                .HasFact(BuffRefs.ShroudOfWaterShieldBuff.ToString(), negate: true),
+              ifTrue: removeEffect),
+          deactivated: removeEffect)
+        .AddFactsChangeTrigger(checkedFacts: shroudOfWater, onFactGainedActions: applyEffect)
+        .AddRestTrigger(action: ActionsBuilder.New().RemoveSelf())
         .Configure();
 
-      var icon = AbilityRefs.PredictionOfFailure.Reference.Get().Icon;
+      var icon = BuffRefs.BlurBuff.Reference.Get().Icon;
       var ability = AbilityConfigurator.New(AbilityName, Guids.ShimmeringMirageAbility)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
@@ -88,8 +107,8 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetAvailableMetamagic(Metamagic.Quicken)
         .AddAbilityKineticist(wildTalentBurnCost: 1)
         .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuffPermanent(buff))
-        .AddAbilityCasterHasFacts(
-          facts: new() { BuffRefs.ShroudOfWaterArmorBuff.ToString(), BuffRefs.ShroudOfWaterShieldBuff.ToString() })
+        .AddAbilityCasterHasFacts(facts: shroudOfWater)
+        .AddAbilityCasterHasNoFacts(facts: new() { buff })
         .Configure();
 
       FeatureConfigurator.New(FeatureName, Guids.ShimmeringMirageTalent, FeatureGroup.KineticWildTalent)

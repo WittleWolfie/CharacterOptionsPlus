@@ -34,7 +34,7 @@
   },
   {
     "Key": "ShimmeringMirage.Description",
-    "enGB": "Element: water\n\nType: utility\n\nBurn: 1\n\nYour shroud bends light, creating a shimmering mirage. While your shroud of water is active, attacks against you suffer a 20% miss chance due to concealment until the next time your burn is removed."
+    "enGB": "Element: water\nType: utility\nBurn: 1\nYour shroud bends light, creating a shimmering mirage. While your shroud of water is active, attacks against you suffer a 20% miss chance due to concealment until the next time your burn is removed."
   },
 
   {
@@ -54,6 +54,6 @@
   },
   {
     "Key": "Suffocate.WildTalent.Description",
-    "enGB": "Element: air, water\n\nType: utility\n\nBurn: 1\n\nSaving Throw: Fortitude negates\n\nSpell Resistance: yes\n\nAs a standard action you can accept 1 point of burn to expel the air from your target’s lungs. If you do so and the target fails its first Fortitude save, it becomes disabled and is reduced to 0 hit points, and on its second failed Fortitude save, it falls unconscious and is reduced to –1 hit points."
+    "enGB": "Element: air, water\nType: utility\nBurn: 1\nSaving Throw: Fortitude negates\nSpell Resistance: yes\nAs a standard action you can accept 1 point of burn to expel the air from your target’s lungs. If you do so and the target fails its first Fortitude save, it becomes disabled and is reduced to 0 hit points, and on its second failed Fortitude save, it falls unconscious and is reduced to –1 hit points."
   }
 ]
