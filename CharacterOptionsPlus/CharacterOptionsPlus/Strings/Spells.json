@@ -146,6 +146,16 @@
   },
 
   {
+    "Key": "IceSpears.Name",
+    "ProcessTemplates": false,
+    "enGB": "Ice Spears"
+  },
+  {
+    "Key": "IceSpears.Description",
+    "enGB": "Upon casting this spell, one or more giant spears of ice lance up out of the ground. One spear for every 4 caster levels you possess burst from the ground, targeting a nearby creature. Affected creatures take 2d6 points of piercing damage and 2d6 points of cold damage. When the spears erupt from the ground, they make a combat maneuver check against affected creatures, with a total bonus equal to your caster level plus your Intelligence, Wisdom, or Charisma modifier, whichever is highest. Each additional ice spear beyond the first that strikes a single foe grants a +10 bonus to this CMB check. If the check succeeds, the ice spears knock the foe prone. A successful Reflex save halves the damage and prevents the trip attempt.\nIf the target is affected by a spell with the cold descriptor, the spears trike with additional force. Saves against the effect suffer a -2 penalty and the spell gains a +4 bonus on its combat maneuver check to trip foes."
+  },
+
+  {
     "Key": "InvisibilityPurge.Name",
     "ProcessTemplates": false,
     "enGB": "Invisibility Purge"

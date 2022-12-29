@@ -427,6 +427,8 @@ namespace CharacterOptionsPlus.Util
     internal const string IceSlickAoE =     "b94a289c-49c2-4754-83a5-e171ad39fba6";
     internal const string IceSlickAoEBuff = "e3dcd204-3216-4ed1-9c49-708106e8191c";
 
+    internal const string IceSpearsSpell = "576450cf-3f8a-4440-a0aa-f678a6286b62";
+
     internal const string InvisibilityPurgeSpell = "c3647ce7-d6da-49fa-a6e8-6830841e56e1";
     internal const string InvisibilityPurgeSelfBuff = "38e2cf8a-3259-462a-8b2f-801c82c19fff";
     internal const string InvisibilityPurgeBuff = "553334c9-c5cb-4918-91c5-80c60036e642";
@@ -488,6 +490,7 @@ namespace CharacterOptionsPlus.Util
         (HedgingWeaponsSpell, HedgingWeapons.DisplayName),
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
+        (IceSpearsSpell, IceSpears.DisplayName),
         (InvisibilityPurgeSpell, InvisibilityPurge.DisplayName),
         (JudgementLightSpell, JudgementLight.DisplayName),
         (KeenEdgeSpell, KeenEdge.DisplayName),

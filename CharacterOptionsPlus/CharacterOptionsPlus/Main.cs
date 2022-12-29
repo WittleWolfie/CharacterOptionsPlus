@@ -159,6 +159,7 @@ namespace CharacterOptionsPlus
         HedgingWeapons.Configure();
         HorrificDoubles.Configure();
         IceSlick.Configure();
+        IceSpears.Configure();
         InvisibilityPurge.Configure();
         JudgementLight.Configure();
         KeenEdge.Configure();
