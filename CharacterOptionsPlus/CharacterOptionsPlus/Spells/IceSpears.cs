@@ -2,6 +2,8 @@
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
+using Kingmaker;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Designers;
@@ -115,6 +117,12 @@ namespace CharacterOptionsPlus.Spells
             GameHelper.GetTargetsAround(caster.Position, 30.Feet()).Where(unit => unit.IsEnemy(caster)).ToList();
           targets.Sort((a, b) => a.DistanceTo(caster).CompareTo(b.DistanceTo(caster)));
 
+          if (!targets.Any())
+          {
+            Logger.Warning("No targets");
+            return;
+          }
+
           int numTargets = targets.Count;
           int[] spearsPerTarget = new int[numTargets];
           int numSpears = Math.Max(1, Context.Params.CasterLevel / 4);
@@ -127,11 +135,38 @@ namespace CharacterOptionsPlus.Spells
           {
             if (spearsPerTarget[i] < 1)
               break;
+            var target = targets[i];
+
+            #region Affected by Cold
+            bool affectedByCold = false;
+            foreach (var buff in target.Buffs)
+            {
+              var spellDescriptor = buff.GetComponent<SpellDescriptorComponent>();
+              if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Cold))
+              {
+                affectedByCold = true;
+                break;
+              }
+            }
+
+            foreach (var area in Game.Instance.State.AreaEffects)
+            {
+              if (!area.InGameUnitsInside.Contains(target))
+                continue;
+
+              var spellDescriptor = area.Blueprint.GetComponent<SpellDescriptorComponent>();
+              if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Cold))
+              {
+                affectedByCold = true;
+                break;
+              }
+            }
+            #endregion
 
             #region Saving Throw
-            var target = targets[i];
+            var dc = affectedByCold ? Context.Params.DC + 2 : Context.Params.DC;
             var savingThrow =
-              new RuleSavingThrow(target, SavingThrowType.Reflex, difficultyClass: Context.Params.DC)
+              new RuleSavingThrow(target, SavingThrowType.Reflex, difficultyClass: dc)
               {
                 Reason = Context,
                 PersistentSpell = Context.HasMetamagic(Metamagic.Persistent)
@@ -160,11 +195,12 @@ namespace CharacterOptionsPlus.Spells
                 Math.Max(caster.Stats.Intelligence.Bonus, caster.Stats.Charisma.Bonus),
                 caster.Stats.Wisdom.Bonus);
             var multipleSpearsBonus = 10 * (spearsPerTarget[i] - 1);
+            var cl = affectedByCold ? Context.Params.CasterLevel + 4 : Context.Params.CasterLevel;
             var combatManeuver =
               new RuleCombatManeuver(caster, target, CombatManeuver.Trip)
               {
                 Reason = Context,
-                OverrideBonus = Context.Params.CasterLevel + statBonus + multipleSpearsBonus,
+                OverrideBonus = cl + statBonus + multipleSpearsBonus,
                 IgnoreConcealment = true
               };
             Context.TriggerRule(combatManeuver);

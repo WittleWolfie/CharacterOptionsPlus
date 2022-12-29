@@ -8,6 +8,7 @@
     * Dimensional Blade
     * Fleshworm Infestation
     * Frost Fall
+    * Ice Spears
     * Judgement Light
     * Keen Edge
     * Unshakable Zeal
