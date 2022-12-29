@@ -39,6 +39,10 @@ namespace CharacterOptionsPlus.Components
       {
         if (unit == context.MaybeCaster && !IncludeCaster)
           continue;
+
+        if (context.HasMetamagic(Metamagic.Selective) && !unit.IsEnemy(context.MaybeCaster))
+          continue;
+
         yield return new(unit);
       }
       yield break;
