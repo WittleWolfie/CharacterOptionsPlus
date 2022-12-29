@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3663848834
+CRC: 567951304
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b2f27689295199c09256eda4bd0d637b
+    Hash: 78d1e98501ccc8f249184524a322472b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -39,10 +39,10 @@ Assets:
 - Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/AbadarTechnique.png
 - Assets/Icons/BladedDash.png
-- Assets/Icons/Consecrate.png
+- Assets/Icons/AsmodeusBlind.png
 - Assets/Icons/IomedaeAdvancedTechnique.png
 - Assets/Icons/GloriousHeat.png
-- Assets/Icons/AsmodeusBlind.png
+- Assets/Icons/Consecrate.png
 - Assets/Icons/BreakFree.png
 - Assets/Icons/DazingAssault.png
 - Assets/Icons/SuppressParalyze.png
@@ -60,6 +60,7 @@ Assets:
 - Assets/Icons/ArcaneArchery.png
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
+- Assets/Icons/IceSpears.png
 - Assets/Icons/SignatureKnowledge.png
 - Assets/Icons/FrostFall.png
 - Assets/Illustrations/wolfie.png
