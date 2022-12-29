@@ -33,10 +33,6 @@ namespace CharacterOptionsPlus.Spells
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "burningdisarm.png";
 
-    // A 20 ft "cold puddle"
-    private const string AreaEffectFxSource = "fd21d914e9f6f5e4faa77365549ad0a7";
-    private const string AreaEffectFx = "53dc3c4b-055d-4150-bc98-6940f910b9ab";
-
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -129,6 +125,9 @@ namespace CharacterOptionsPlus.Spells
 
           for (int i = 0; i < spearsPerTarget.Length; i++)
           {
+            if (spearsPerTarget[i] < 1)
+              break;
+
             #region Saving Throw
             var target = targets[i];
             var savingThrow =
