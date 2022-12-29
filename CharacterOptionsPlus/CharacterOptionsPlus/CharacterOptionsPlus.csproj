@@ -30,6 +30,7 @@
     <None Remove="Strings\ClassFeatures.json" />
     <None Remove="Strings\Components.json" />
     <None Remove="Strings\Feats.json" />
+    <None Remove="Strings\Homebrew.json" />
     <None Remove="Strings\Settings.json" />
     <None Remove="Strings\Spells.json" />
   </ItemGroup>
@@ -42,6 +43,7 @@
     <EmbeddedResource Include="Strings\Feats.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Strings\Homebrew.json" />
     <EmbeddedResource Include="Strings\Settings.json" />
     <EmbeddedResource Include="Strings\Spells.json" />
   </ItemGroup>
@@ -214,5 +216,4 @@
     <Copy SourceFiles="@(Assets)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
     <ZipDirectory SourceDirectory="$(OutputPath)\$(AssemblyName)" DestinationFile="$(OutputPath)\$(AssemblyName).zip" Overwrite="true" />
   </Target>
-
 </Project>

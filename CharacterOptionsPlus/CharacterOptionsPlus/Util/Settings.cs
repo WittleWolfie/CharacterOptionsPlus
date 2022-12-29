@@ -1,5 +1,4 @@
 ﻿using BlueprintCore.Utils;
-using CharacterOptionsPlus.Feats;
 using Kingmaker.Blueprints;
 using Kingmaker.Localization;
 using ModMenu.Settings;
@@ -39,13 +38,13 @@ namespace CharacterOptionsPlus.Util
             ResourcesLibrary.TryGetResource<Sprite>("assets/illustrations/wolfie.png"), height: 200, imageScale: 0.75f)
           .AddDefaultButton(OnDefaultsApplied);
 
-      settings.AddSubHeader(GetString("Homebrew.Title"), startExpanded: true)
-        .AddToggle(
-          Toggle.New(
-            GetKey(GloriousHeat.OriginalFeatSetting),
-            defaultValue: false,
-            GetString("Homebrew.GloriousHeat"))
-          .WithLongDescription(GetString("Homebrew.GloriousHeat.Description")));
+      settings.AddSubHeader(GetString("Homebrew.Title"), startExpanded: true);
+      foreach (var (key, name, description) in Homebrew.Entries)
+      {
+        settings.AddToggle(
+          Toggle.New(GetKey(key), defaultValue: false, GetString(name, usePrefix: false))
+            .WithLongDescription(GetString(description, usePrefix: false)));
+      }
 
       settings.AddSubHeader(GetString("Fixes.Title"), startExpanded: false);
       foreach (var (key, name, description) in BugFixes.Entries)

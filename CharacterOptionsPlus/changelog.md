@@ -12,6 +12,16 @@
     * Keen Edge
     * Unshakable Zeal
 
+* New Bugfixes:
+    * Cone of Cold is now on the Witch spell list
+
+* New Optional Changes:
+    * Cone of Cold replaces Cold Ice Strike as a bonus spell granted by the Winter Patron
+
+* Updates:
+    * Single Draconic Bloodline / Single Elemental Bloodline fixes are now under "Optional" and default to false
+        * By popular demand + Owlcat stating this is working as intended
+
 ## v0.9.1
 
 * New Spells:

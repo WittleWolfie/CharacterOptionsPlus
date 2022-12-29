@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
 using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
@@ -7,6 +8,7 @@ using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -25,17 +27,19 @@ namespace CharacterOptionsPlus
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(PackRagerTeamworkSelection))
-        FixPackRagerTeamworkSelection();
+      if (Settings.IsEnabled(ConeOfColdWitchSpell))
+        FixConeOfColdWitchSpell();
       if (Settings.IsEnabled(HeavenlyFireResourceAmount))
         FixHeavenlyFireResourceAmount();
+      if (Settings.IsEnabled(PackRagerTeamworkSelection))
+        FixPackRagerTeamworkSelection();
       if (Settings.IsEnabled(SerpentineBiteDC))
         FixSerpentineBiteDC();
       if (Settings.IsEnabled(SerpentineFriendBonus))
         FixSerpentineFriendBonus();
     }
 
-    internal static string PackRagerTeamworkSelection = "pack-rager-teamwork-selection-fix";
+    internal const string PackRagerTeamworkSelection = "pack-rager-teamwork-selection-fix";
     internal static void FixPackRagerTeamworkSelection()
     {
       Logger.Log("Patching PackRager Teamwork Selection");
@@ -44,7 +48,7 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
-    internal static string HeavenlyFireResourceAmount = "heavenly-fire-resource-amount-fix";
+    internal const string HeavenlyFireResourceAmount = "heavenly-fire-resource-amount-fix";
     internal static void FixHeavenlyFireResourceAmount()
     {
       Logger.Log("Patching Heavenly Fire resource amount");
@@ -53,7 +57,7 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
-    internal static string SerpentineBiteDC = "serpentine-bite-dc";
+    internal const string SerpentineBiteDC = "serpentine-bite-dc";
     internal static void FixSerpentineBiteDC()
     {
       Logger.Log("Patching Serpentine Bite DC");
@@ -120,7 +124,7 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
-    internal static string SerpentineFriendBonus = "serpentine-friend-bonus";
+    internal const string SerpentineFriendBonus = "serpentine-friend-bonus";
     internal static void FixSerpentineFriendBonus()
     {
       Logger.Log("Patching Serpentine Friend DC");
@@ -129,19 +133,29 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
-    // Fixes are in Eldritch Heritage
-    internal static string SingleDraconicBloodline = "single-draconic-bloodline";
-    internal static string SingleElementalBloodline = "single-elemental-bloodline";
+    internal const string ConeOfColdWitchSpell = "cone-of-cold-witch-spell-fix";
+    internal static void FixConeOfColdWitchSpell()
+    {
+      Logger.Log("Patching Cone of Cold Witch Spell");
+      SpellListConfigurator.For(SpellListRefs.WitchSpellList)
+        .ModifySpellsByLevel(
+          spells =>
+          {
+            if (spells.SpellLevel == 6)
+              spells.m_Spells.Add(AbilityRefs.ConeOfCold.Cast<BlueprintAbilityReference>().Reference);
+          })
+        .Configure();
+    }
+
 
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
+        (ConeOfColdWitchSpell, "ConeOfCold.WitchSpell.Name", "ConeOfCold.WitchSpell.Description"),
         (HeavenlyFireResourceAmount, "HeavenlyFireResourceAmount.Name", "HeavenlyFireResourceAmount.Description"),
         (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
         (SerpentineBiteDC, "SerpentineBiteDC.Name", "SerpentineBiteDC.Description"),
         (SerpentineFriendBonus, "SerpentineFriendBonus.Name", "SerpentineFriendBonus.Description"),
-        (SingleDraconicBloodline, "SingleDraconicBloodline.Name", "SingleDraconicBloodline.Description"),
-        (SingleElementalBloodline, "SingleElementalBloodline.Name", "SingleElementalBloodline.Description"),
       };
   }
 }

@@ -84,6 +84,7 @@ namespace CharacterOptionsPlus
             "CharacterOptionsPlus.Strings.ClassFeatures.json",
             "CharacterOptionsPlus.Strings.Components.json",
             "CharacterOptionsPlus.Strings.Feats.json",
+            "CharacterOptionsPlus.Strings.Homebrew.json",
             "CharacterOptionsPlus.Strings.Settings.json",
             "CharacterOptionsPlus.Strings.Spells.json");
 
@@ -92,6 +93,7 @@ namespace CharacterOptionsPlus
 
           CommonBlueprints.Configure();
           BugFixes.Configure();
+          Homebrew.Configure();
 
           ConfigureArchetypes();
           ConfigureClassFeatures();

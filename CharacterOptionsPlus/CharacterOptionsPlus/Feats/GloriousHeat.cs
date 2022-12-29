@@ -26,8 +26,6 @@ namespace CharacterOptionsPlus.Feats
 {
   public class GloriousHeat
   {
-    internal const string OriginalFeatSetting = "glorious-heat-og";
-
     internal const string FeatName = "GloriousHeat";
     internal const string FeatDisplayName = "GloriousHeat.Name";
     private const string FeatDescription = "GloriousHeat.Description";
@@ -158,7 +156,7 @@ namespace CharacterOptionsPlus.Feats
           effectTarget.AddBuff(Buff, Context, duration: ContextDuration.Fixed(1).Calculate(Context).Seconds);
 
           int healValue =
-            Settings.IsEnabled(OriginalFeatSetting) && evt.Spell.SpellLevel > 0
+            Settings.IsEnabled(Homebrew.OriginalGloriousHeat) && evt.Spell.SpellLevel > 0
               ? Owner.Descriptor.Progression.CharacterLevel
               : evt.Spell.SpellLevel;
           if (healValue > 0)

@@ -1,5 +1,15 @@
 [
   {
+    "Key": "ConeOfCold.WitchSpell.Name",
+    "ProcessTemplates": false,
+    "enGB": "Cone of Cold - Witch Spell"
+  },
+  {
+    "Key": "ConeOfCold.WitchSpell.Description",
+    "enGB": "REQUIRES RESTART\n\nCone of Cold is on the Witch spell list."
+  },
+
+  {
     "Key": "HeavenlyFireResourceAmount.Name",
     "ProcessTemplates": false,
     "enGB": "Heavenly Fire Resource Amount",
@@ -45,29 +55,5 @@
     "Key": "SerpentineBiteDC.Description",
     "enGB": "REQUIRES RESTART\n\nCorrectly sets the DC of the Serpentine Bloodline Bite poison for Socererors and Magi.",
     "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nКорректно устанавливает значение сложности способности Змеиный Клык от Змеиного Наследия для Колдунов и Магусов."
-  },
-
-  {
-    "Key": "SingleDraconicBloodline.Name",
-    "ProcessTemplates": false,
-    "enGB": "Single Draconic Bloodline",
-    "ruRU": "Одиночное Драконье Наследие"
-  },
-  {
-    "Key": "SingleDraconicBloodline.Description",
-    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the draconic bloodline.",
-    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nЗапрещает выбор нескольких Драконьих Наследий одним персонажем."
-  },
-
-  {
-    "Key": "SingleElementalBloodline.Name",
-    "ProcessTemplates": false,
-    "enGB": "Single Elemental Bloodline",
-    "ruRU": "Одиночное Стихийное Наследие"
-  },
-  {
-    "Key": "SingleElementalBloodline.Description",
-    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline.",
-    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nЗапрещает выбор нескольких Стихийных Наследий одним персонажем."
   }
 ]

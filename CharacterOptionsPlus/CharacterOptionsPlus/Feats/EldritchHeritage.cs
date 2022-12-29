@@ -702,7 +702,7 @@ namespace CharacterOptionsPlus.Feats
     {
       var bp = ProgressionConfigurator.For(progression).AddPrerequisiteNoFeature(Guids.DraconicHeritage);
       var featureToAdd =
-        Settings.IsEnabled(BugFixes.SingleDraconicBloodline)
+        Settings.IsEnabled(Homebrew.SingleDraconicBloodline)
           ? Guids.DraconicHeritage
           : Guids.DraconicHeritageRequisite;
       bp.ModifyLevelEntries(
@@ -718,7 +718,7 @@ namespace CharacterOptionsPlus.Feats
     {
       var bp = ProgressionConfigurator.For(progression).AddPrerequisiteNoFeature(Guids.ElementalHeritage);
       var featureToAdd =
-        Settings.IsEnabled(BugFixes.SingleElementalBloodline)
+        Settings.IsEnabled(Homebrew.SingleElementalBloodline)
           ? Guids.ElementalHeritage
           : Guids.ElementalHeritageRequisite;
       bp.ModifyLevelEntries(
