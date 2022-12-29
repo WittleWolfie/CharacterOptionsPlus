@@ -5,10 +5,11 @@
     * Suffocate (Wild Talent)
 
 * New Spells:
-    * Keen Edge
-    * Judgement Light
-    * Fleshworm Infestation
     * Dimensional Blade
+    * Fleshworm Infestation
+    * Frost Fall
+    * Judgement Light
+    * Keen Edge
     * Unshakable Zeal
 
 ## v0.9.1
