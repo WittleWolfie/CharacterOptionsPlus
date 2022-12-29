@@ -32,6 +32,9 @@ namespace CharacterOptionsPlus.Spells
 
     private const string AreaName = "FrostFall.Area";
 
+    private const string IconPrefix = "assets/icons/";
+    private const string IconName = IconPrefix + "frostfall.png";
+
     // A 20 ft "cold puddle"
     private const string AreaEffectFxSource = "fd21d914e9f6f5e4faa77365549ad0a7";
     private const string AreaEffectFx = "53dc3c4b-055d-4150-bc98-6940f910b9ab";
@@ -108,7 +111,7 @@ namespace CharacterOptionsPlus.Spells
           SpellDescriptor.Ground)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
+        .SetIcon(IconName)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(friends: true, enemies: true, self: true, point: true)
         .SetSpellResistance()
