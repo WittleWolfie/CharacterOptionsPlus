@@ -1,5 +1,11 @@
 ﻿[
   {
+    "Key": "Duration.RoundPerTwoLevels",
+    "ProcessTemplates": false,
+    "enGB": "1 round/2 levels"
+  },
+
+  {
     "Key": "BladedDash.Name",
     "ProcessTemplates": false,
     "enGB": "Bladed Dash"
@@ -81,6 +87,16 @@
   {
     "Key": "FleshwormInfestation.Description",
     "enGB": "With a touch, you cause an infestation of ravenous worms to manifest in the target’s flesh. The target must make a Fortitude save every round. Failure means it takes 1d6 hit points of damage and 2 points of Dexterity damage, and is staggered for 1 round. If it makes the save, it takes no hit point or Dexterity damage and is only sickened for 1 round rather than staggered. Protection from evil negates this spell’s effects for as long as the two durations overlap. Dispel evil automatically ends a fleshworm infestation."
+  },
+
+  {
+    "Key": "FrostFall.Name",
+    "ProcessTemplates": false,
+    "enGB": "Frost Fall"
+  },
+  {
+    "Key": "FrostFall.Description",
+    "enGB": "The area of this spell is covered in chilling frost, dealing 2d6 points of cold damage to all creatures within it. Creatures that the spell initially damages must succeed at a Fortitude save or become staggered for 1 round. The area remains chilled for the spell’s duration. Any creature that starts its turn within the spell’s area takes 1d6 points of cold damage (Fortitude saving throw for half) but does not become staggered even on a failed saving throw."
   },
 
   {

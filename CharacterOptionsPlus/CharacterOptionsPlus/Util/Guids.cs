@@ -407,6 +407,9 @@ namespace CharacterOptionsPlus.Util
     internal const string FleshwormInfestationSpell = "7af385de-a758-4984-8ab9-14b484b509f3";
     internal const string FleshwormInfestationBuff = "3a640ba3-7191-40c8-ade2-b305790f4c4f";
 
+    internal const string FrostFallSpell = "904d8cf8-38b2-4289-b041-f3ce573e707d";
+    internal const string FrostFallAoE = "281520ac-2eef-4a71-8685-ca5035e5a622";
+
     internal const string FrozenNoteSpell = "82bbafd5-6525-41bb-bf22-176b6fdeff1b";
     internal const string FrozenNoteBuff = "51f066c1-f2c9-49de-bb58-0c4a65ef22be";
     internal const string FrozenNoteArea = "96d0ccaf-3730-4a58-8d92-50f81dab92fb";
@@ -480,6 +483,7 @@ namespace CharacterOptionsPlus.Util
         (DesecrateSpell, Desecrate.DisplayName),
         (DimensionalBladeSpell, DimensionalBlade.DisplayName),
         (FleshwormInfestationSpell, FleshwormInfestation.DisplayName),
+        (FrostFallSpell, FrostFall.DisplayName),
         (FrozenNoteSpell, FrozenNote.DisplayName),
         (HedgingWeaponsSpell, HedgingWeapons.DisplayName),
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),

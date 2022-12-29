@@ -154,6 +154,7 @@ namespace CharacterOptionsPlus
         Desecrate.Configure();
         DimensionalBlade.Configure();
         FleshwormInfestation.Configure();
+        FrostFall.Configure();
         FrozenNote.Configure();
         HedgingWeapons.Configure();
         HorrificDoubles.Configure();
