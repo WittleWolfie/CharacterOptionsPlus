@@ -8,6 +8,7 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
@@ -39,6 +40,9 @@ namespace CharacterOptionsPlus.Spells
 
     private const string BuffName = "NineLives.Buff";
 
+    private const string IconPrefix = "assets/icons/";
+    private const string IconName = IconPrefix + "ninelives.png";
+
     private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -68,18 +72,20 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName}");
 
-      var icon = FeatureRefs.DevotedBladeFeature.Reference.Get().Icon;
       var buff = BuffConfigurator.New(BuffName, Guids.NineLivesBuff)
+        .SetDisplayName(DisplayName)
+        .SetDescription(Description)
         .SetRanks(9)
         .SetStacking(StackingType.Rank)
         .AddComponent<NineLivesComponent>()
+        .AddConditionImmunity(UnitCondition.Prone)
         .Configure();
 
       AbilityConfigurator.NewSpell(
           FeatureName, Guids.NineLivesSpell, SpellSchool.Abjuration, canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(icon)
+        .SetIcon(IconName)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(self: true, friends: true)
         .SetAnimation(CastAnimationStyle.Touch)
@@ -111,34 +117,48 @@ namespace CharacterOptionsPlus.Spells
       ISavingThrowFailed,
       IDamageHandler,
       IUnitConditionsChanged,
+      IUnitConditionChangeAttemptHandler,
       IUnitBuffHandler,
-      ITargetRulebookHandler<RuleAttackRoll>
+      ITargetRulebookHandler<RuleAttackRoll>,
+      ITargetRulebookHandler<RuleCombatManeuver>
     {
       private static readonly CustomDataKey FortificationKey = new("NineLives.Fortification");
       private static readonly CustomDataKey RerollKey = new("NineLives.CatsLuck");
 
       #region Stay Up
-      public override void OnActivate()
+      public void HandleUnitConditionAddAttempt(UnitEntityData unit, UnitCondition condition, bool success)
       {
         try
         {
-          Owner.State.AddConditionImmunity(UnitCondition.Prone);
+          if (unit != Owner || condition != UnitCondition.Prone)
+            return;
+
+          Owner.State.RemoveCondition(UnitCondition.Prone);
+          RemoveRank();
         }
         catch (Exception e)
         {
-          Logger.LogException("NineLivesComponent.OnActivate", e);
+          Logger.LogException("NineLivesComponent.HandleUnitConditionAddAttempt", e);
         }
       }
 
-      public override void OnDeactivate()
+      public void OnEventAboutToTrigger(RuleCombatManeuver evt) { }
+
+      public void OnEventDidTrigger(RuleCombatManeuver evt)
       {
         try
         {
-          Owner.State.RemoveConditionImmunity(UnitCondition.Prone);
+          if (evt.Type != CombatManeuver.Trip)
+            return;
+
+          if (!evt.Success)
+            return;
+
+          RemoveRank();
         }
         catch (Exception e)
         {
-          Logger.LogException("NineLivesComponent.OnDeactivate", e);
+          Logger.LogException("NineLivesComponent.OnEventDidTrigger(RuleCombatManeuver)", e);
         }
       }
       #endregion
@@ -161,7 +181,7 @@ namespace CharacterOptionsPlus.Spells
           var newSavingThrow = new RuleSavingThrow(Owner, rule);
           newSavingThrow.SetCustomData(RerollKey, true);
           rule.IsAlternativePassed = Rulebook.Trigger(newSavingThrow).Success;
-          Buff.RemoveRank();
+          RemoveRank();
         }
         catch (Exception e)
         {
@@ -197,7 +217,7 @@ namespace CharacterOptionsPlus.Spells
           {
             // The fortifiation roll would have overcome existing fortification, so use a charge
             if (evt.FortificationRoll > fortificationValue)
-              Buff.RemoveRank();
+              RemoveRank();
           }
         }
         catch (Exception e)
@@ -221,7 +241,7 @@ namespace CharacterOptionsPlus.Spells
           var heal = new RuleHealDamage(Owner, Owner, new DiceFormula(rollsCount: 3, diceType: DiceType.D6), bonus: 0);
           heal.SourceFact = Buff;
           Rulebook.Trigger(heal);
-          Buff.RemoveRank();
+          RemoveRank();
         }
         catch (Exception e)
         {
@@ -257,7 +277,7 @@ namespace CharacterOptionsPlus.Spells
             case UnitCondition.Sickened:
             case UnitCondition.Staggered:
               unit.State.RemoveCondition(condition);
-              Buff.RemoveRank();
+              RemoveRank();
               break;
           }
         }
@@ -284,7 +304,7 @@ namespace CharacterOptionsPlus.Spells
             return;
 
           Owner.Remove<UnitPartGrappleTarget>();
-          Buff.RemoveRank();
+          RemoveRank();
         }
         catch (Exception e)
         {
@@ -294,6 +314,12 @@ namespace CharacterOptionsPlus.Spells
 
       public void HandleBuffDidRemoved(Buff buff) { }
       #endregion
+
+      private void RemoveRank()
+      {
+        using (ContextData<BuffCollection.RemoveByRank>.Request())
+          Buff.Remove();
+      }
     }
   }
 }
