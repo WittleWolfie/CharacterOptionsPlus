@@ -55,5 +55,15 @@
     "Key": "SerpentineBiteDC.Description",
     "enGB": "REQUIRES RESTART\n\nCorrectly sets the DC of the Serpentine Bloodline Bite poison for Socererors and Magi.",
     "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nКорректно устанавливает значение сложности способности Змеиный Клык от Змеиного Наследия для Колдунов и Магусов."
+  },
+
+  {
+    "Key": "SlayerEvasionTalent.Name",
+    "ProcessTemplates": false,
+    "enGB": "Slayer Evasion Talent"
+  },
+  {
+    "Key": "SlayerEvasionTalent.Description",
+    "enGB": "REQUIRES RESTART\n\nAdds Evasion to the Slayer's Advanced Talent selection"
   }
 ]

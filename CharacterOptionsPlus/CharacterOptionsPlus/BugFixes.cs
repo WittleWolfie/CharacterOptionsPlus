@@ -37,6 +37,8 @@ namespace CharacterOptionsPlus
         FixSerpentineBiteDC();
       if (Settings.IsEnabled(SerpentineFriendBonus))
         FixSerpentineFriendBonus();
+      if (Settings.IsEnabled(SlayerEvasionTalent))
+        AddSlayerEvasionTalent();
     }
 
     internal const string PackRagerTeamworkSelection = "pack-rager-teamwork-selection-fix";
@@ -147,6 +149,14 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
+    internal const string SlayerEvasionTalent = "slayer-evasion-talent";
+    internal static void AddSlayerEvasionTalent()
+    {
+      Logger.Log("Adding Evasion to Slayer Talents");
+      FeatureSelectionConfigurator.For(FeatureSelectionRefs.SlayerTalentSelection10)
+        .AddToAllFeatures(FeatureRefs.Evasion.ToString())
+        .Configure();
+    }
 
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
@@ -156,6 +166,7 @@ namespace CharacterOptionsPlus
         (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
         (SerpentineBiteDC, "SerpentineBiteDC.Name", "SerpentineBiteDC.Description"),
         (SerpentineFriendBonus, "SerpentineFriendBonus.Name", "SerpentineFriendBonus.Description"),
+        (SlayerEvasionTalent, "SlayerEvasionTalent.Name", "SlayerEvasionTalent.Description"),
       };
   }
 }
