@@ -7,6 +7,8 @@
 * New Spells:
     * Dimensional Blade
     * Fleshworm Infestation
+    * Freezing Sphere
+        * Optional rule to make it only affect enemies
     * Frost Fall
     * Ice Spears
     * Judgement Light
