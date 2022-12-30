@@ -57,10 +57,14 @@ namespace CharacterOptionsPlus
     internal const string SingleDraconicBloodline = "single-draconic-bloodline";
     internal const string SingleElementalBloodline = "single-elemental-bloodline";
 
+    // Change is in FreezingSphere
+    internal const string SelectiveFreezingSphere = "freezing-sphere-selective";
+
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
         (ConeOfColdWinterPatron, "ConeOfCold.WinterPatron.Name", "ConeOfCold.WinterPatron.Description"),
+        (SelectiveFreezingSphere, "Homebrew.FreezingSphere.Name", "Homebrew.FreezingSphere.Description"),
         (OriginalGloriousHeat, "Homebrew.GloriousHeat.Name", "Homebrew.GloriousHeat.Description"),
         (SingleDraconicBloodline, "SingleDraconicBloodline.Name", "SingleDraconicBloodline.Description"),
         (SingleElementalBloodline, "SingleElementalBloodline.Name", "SingleElementalBloodline.Description"),

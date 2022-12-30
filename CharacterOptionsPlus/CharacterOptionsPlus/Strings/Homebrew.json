@@ -10,6 +10,16 @@
   },
 
   {
+    "Key": "Homebrew.FreezingSphere.Name",
+    "ProcessTemplates": false,
+    "enGB": "Freezing Sphere - Selective"
+  },
+  {
+    "Key": "Homebrew.FreezingSphere.Description",
+    "enGB": "REQUIRES RESTART\n\nFreezing Sphere only hits enemies."
+  },
+
+  {
     "Key": "Homebrew.GloriousHeat.Name",
     "ProcessTemplates": false,
     "enGB": "Use original Glorious Heat",
