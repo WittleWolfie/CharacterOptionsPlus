@@ -459,6 +459,9 @@ namespace CharacterOptionsPlus.Util
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
     internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
 
+    internal const string NineLivesSpell = "e12e8537-7bfc-415e-9d50-87456dd0a3a1";
+    internal const string NineLivesBuff = "961739ff-b78b-430f-9790-4525687ceb81";
+
     internal const string ScreamingFlamesSpell = "81121903-96c4-4b91-b5f3-4199e6a1662d";
     internal const string ScreamingFlamesProjectile = "4c0bc1a3-bea7-4f92-9992-76f8825bb720";
 
@@ -502,6 +505,7 @@ namespace CharacterOptionsPlus.Util
         (JudgementLightSpell, JudgementLight.DisplayName),
         (KeenEdgeSpell, KeenEdge.DisplayName),
         (MortalTerrorSpell, MortalTerror.DisplayName),
+        (NineLivesSpell, NineLives.DisplayName),
         (ScreamingFlamesSpell, ScreamingFlames.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
         (StrickenHeartSpell, StrickenHeart.DisplayName),

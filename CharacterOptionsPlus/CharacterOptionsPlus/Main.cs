@@ -167,6 +167,7 @@ namespace CharacterOptionsPlus
         JudgementLight.Configure();
         KeenEdge.Configure();
         MortalTerror.Configure();
+        NineLives.Configure();
         ScreamingFlames.Configure();
         ShadowTrap.Configure();
         StrickenHeart.Configure();

@@ -260,6 +260,16 @@
   },
 
   {
+    "Key": "NineLives.Name",
+    "ProcessTemplates": false,
+    "enGB": "Nine Lives"
+  },
+  {
+    "Key": "NineLives.Description",
+    "enGB": "Despite its name, this powerful ward does not grant the target multiple lives, but rather gives the target the ability to get out of trouble and relieves harmful effects and conditions. For the spell’s duration, the target is protected by the following abilities, but only up to a total of nine times, at which point the spell ends.\nCat's Luck: Reroll a failed saving throw.\nFortitude: Negate a critical hit or sneak attack.\nRejuvenate: When reduced to 0 or fewer hit points, immediately heal 3d6 points of damage.\nShake Off: Negate blinded, confused, cowering, dazed, dazzled, entangled, exhausted, fatigued, frightened, nauseated, shaken, sickened, or staggered.\nShimmy Out: Escape from being grappled.\nStay Up: Do not fall prone."
+  },
+
+  {
     "Key": "ScreamingFlames.Name",
     "ProcessTemplates": false,
     "enGB": "Screaming Flames"
