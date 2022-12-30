@@ -260,6 +260,16 @@
   },
 
   {
+    "Key": "ScreamingFlames.Name",
+    "ProcessTemplates": false,
+    "enGB": "Screaming Flames"
+  },
+  {
+    "Key": "ScreamingFlames.Description",
+    "enGB": "You blast your foes with fire shaped into skulls screaming in agony. Creatures hit by the fire must succeed at a Reflex save or take 1d8 points of fire damage for every 2 caster levels you have (maximum 5d8). Each affected creature must also succeed at a Will save or take 1d3 points of Wisdom damage."
+  },
+
+  {
     "Key": "ShadowTrap.Name",
     "ProcessTemplates": false,
     "enGB": "Shadow Trap"

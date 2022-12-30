@@ -459,6 +459,9 @@ namespace CharacterOptionsPlus.Util
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
     internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";
 
+    internal const string ScreamingFlamesSpell = "81121903-96c4-4b91-b5f3-4199e6a1662d";
+    internal const string ScreamingFlamesProjectile = "4c0bc1a3-bea7-4f92-9992-76f8825bb720";
+
     internal const string ShadowTrapSpell =     "a3a7e60e-7866-46c4-99b8-ad685e625c06";
     internal const string ShadowTrapBuff =      "09062a14-4a01-41dc-8408-abb0cd38da69";
     internal const string ShadowTrapDelayBuff = "46f235b2-95b1-425e-ae14-8dd54173b039";
@@ -499,6 +502,7 @@ namespace CharacterOptionsPlus.Util
         (JudgementLightSpell, JudgementLight.DisplayName),
         (KeenEdgeSpell, KeenEdge.DisplayName),
         (MortalTerrorSpell, MortalTerror.DisplayName),
+        (ScreamingFlamesSpell, ScreamingFlames.DisplayName),
         (ShadowTrapSpell, ShadowTrap.DisplayName),
         (StrickenHeartSpell, StrickenHeart.DisplayName),
         (TouchOfBlindnessSpell, TouchOfBlindness.DisplayName),
