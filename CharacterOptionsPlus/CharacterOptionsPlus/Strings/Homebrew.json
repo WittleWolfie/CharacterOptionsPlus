@@ -34,6 +34,16 @@
   },
 
   {
+    "Key": "Implosion.DestructionDomain.Name",
+    "ProcessTemplates": false,
+    "enGB": "Implosion - Destruction Domain"
+  },
+  {
+    "Key": "Implosion.DestructionDomain.Description",
+    "enGB": "REQUIRES RESTART\n\nImplosion replaces Tsunami in for the bonus spells granted by the Destruction Domain."
+  },
+
+  {
     "Key": "SingleDraconicBloodline.Name",
     "ProcessTemplates": false,
     "enGB": "Single Draconic Bloodline",

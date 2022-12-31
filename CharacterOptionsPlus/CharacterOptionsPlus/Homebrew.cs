@@ -1,5 +1,7 @@
-﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+﻿using BlueprintCore.Blueprints.Configurators.Classes.Spells;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
@@ -47,6 +49,16 @@ namespace CharacterOptionsPlus
 
       FeatureConfigurator.For(FeatureRefs.WitchPatronSpellLevel6_Winter)
         .EditComponent<AddKnownSpell>(c => c.m_Spell = coneOfCold)
+        .Configure();
+    }
+
+    internal const string ImplosionDestructionDomain = "implosion-destruction-domain";
+    internal static void ConfigureImplosionDestructionDomain()
+    {
+      Logger.Log("Patching Implosion - Destruction Domain");
+      var implosion = BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.ImplosionSpell);
+      SpellListConfigurator.For(SpellListRefs.DestructionDomainSpellList)
+        .OnConfigure(bp => bp.SpellsByLevel[9].m_Spells = new() { implosion })
         .Configure();
     }
 
