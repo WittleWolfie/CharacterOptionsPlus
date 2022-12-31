@@ -284,7 +284,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.ArcaneTricksterBard.ToString(),
         replacementName: ArrowsongMinstrelArcaneTrickster,
         replacementGuid: Guids.ArrowsongMinstrelArcaneTrickster,
-        spellbook);
+        spellbook,
+        replacementSelection: FeatureSelectionRefs.ArcaneTricksterSpellbookSelection.ToString());
 
       // Dragon Disciple
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -294,7 +295,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.DragonDiscipleBard.ToString(),
         replacementName: ArrowsongMinstrelDragonDisciple,
         replacementGuid: Guids.ArrowsongMinstrelDragonDisciple,
-        spellbook);
+        spellbook,
+        replacementSelection: FeatureSelectionRefs.DragonDiscipleSpellbookSelection.ToString());
 
       // Eldritch Knight
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -304,7 +306,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.EldritchKnightBard.ToString(),
         replacementName: ArrowsongMinstrelEldritchKnight,
         replacementGuid: Guids.ArrowsongMinstrelEldritchKnight,
-        spellbook);
+        spellbook,
+        replacementSelection: FeatureSelectionRefs.EldritchKnightSpellbookSelection.ToString());
 
       // Hellknight Signifier
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -314,7 +317,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.HellknightSigniferBard.ToString(),
         replacementName: ArrowsongMinstrelHellknightSignifier,
         replacementGuid: Guids.ArrowsongMinstrelHellknightSignifier,
-        spellbook);
+        spellbook,
+        replacementSelection: FeatureSelectionRefs.HellknightSigniferSpellbook.ToString());
 
       // Loremaster
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -324,7 +328,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.LoremasterBard.ToString(),
         replacementName: ArrowsongMinstrelLoremaster,
         replacementGuid: Guids.ArrowsongMinstrelLoremaster,
-        spellbook);
+        spellbook,
+        replacementSelection: FeatureSelectionRefs.LoremasterSpellbookSelection.ToString());
 
       // MysticTheurge
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -334,7 +339,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.MysticTheurgeBard.ToString(),
         replacementName: ArrowsongMinstrelMysticTheurge,
         replacementGuid: Guids.ArrowsongMinstrelMysticTheurge,
-        spellbook);
+        spellbook,
+        replacementSelection: FeatureSelectionRefs.MysticTheurgeArcaneSpellbookSelection.ToString());
 
       return spellbook;
     }

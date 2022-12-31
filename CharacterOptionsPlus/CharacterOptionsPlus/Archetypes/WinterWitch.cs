@@ -194,7 +194,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.ArcaneTricksterWitchAccursed.ToString(),
         replacementName: ArcaneTricksterWinterWitch,
         replacementGuid: Guids.WinterWitchArcaneTrickster,
-        spellbook: spellbook);
+        spellbook: spellbook,
+        replacementSelection: FeatureSelectionRefs.ArcaneTricksterSpellbookSelection.ToString());
 
       // Eldritch Knight Support
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -204,7 +205,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.EldritchKnightWitchAccursed.ToString(),
         replacementName: EldritchKnightWinterWitch,
         replacementGuid: Guids.WinterWitchEldritchKnight,
-        spellbook: spellbook);
+        spellbook: spellbook,
+        replacementSelection: FeatureSelectionRefs.EldritchKnightSpellbookSelection.ToString());
 
       // Hellknight Signifier Support
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -214,7 +216,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.HellknightSigniferWitchAccursed.ToString(),
         replacementName: HellknightSignifierWinterWitch,
         replacementGuid: Guids.WinterWitchHellknightSignifier,
-        spellbook: spellbook);
+        spellbook: spellbook,
+        replacementSelection: FeatureSelectionRefs.HellknightSigniferSpellbook.ToString());
 
       // Loremaster Support
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -224,7 +227,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.LoremasterWitchAccursed.ToString(),
         replacementName: LoremasterWinterWitch,
         replacementGuid: Guids.WinterWitchLoremaster,
-        spellbook: spellbook);
+        spellbook: spellbook,
+        replacementSelection: FeatureSelectionRefs.LoremasterSpellbookSelection.ToString());
 
       // Mystic Theurge Support
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -234,7 +238,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.MysticTheurgeWitchAccursed.ToString(),
         replacementName: MysticTheurgeWinterWitch,
         replacementGuid: Guids.WinterWitchMysticTheurge,
-        spellbook: spellbook);
+        spellbook: spellbook,
+        replacementSelection: FeatureSelectionRefs.MysticTheurgeArcaneSpellbookSelection.ToString());
 
       // Winter Witch Support
       Common.ConfigureArchetypeSpellbookReplacement(
@@ -244,7 +249,8 @@ namespace CharacterOptionsPlus.Archetypes
         sourceReplacement: FeatureReplaceSpellbookRefs.WinterWitchWitchAccursed.ToString(),
         replacementName: WinterWitchWinterWitch,
         replacementGuid: Guids.WinterWitchWinterWitch,
-        spellbook: spellbook);
+        spellbook: spellbook,
+        replacementSelection: FeatureSelectionRefs.WinterWitchSpellbookSelection.ToString());
 
       FeatureConfigurator.For(FeatureRefs.BlackenedRagsFeature)
         .EditComponent<IncreaseSpellSpellbookDC>(

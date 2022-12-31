@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes;
+using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Spells;
 
@@ -21,6 +22,7 @@ namespace CharacterOptionsPlus.Util
     /// <param name="replacementName">New replacement name</param>
     /// <param name="replacementGuid">New replacement guid</param>
     /// <param name="spellbook">Spellbook for new replacement</param>
+    /// <param name="replacementSelection">Guid / name of replacement selection bp</param>
     internal static void ConfigureArchetypeSpellbookReplacement(
       string characterClass,
       string archetype,
@@ -28,15 +30,20 @@ namespace CharacterOptionsPlus.Util
       string sourceReplacement,
       string replacementName,
       string replacementGuid,
-      BlueprintSpellbook spellbook)
+      BlueprintSpellbook spellbook,
+      string replacementSelection)
     {
       FeatureReplaceSpellbookConfigurator.For(baseReplacement)
         .AddPrerequisiteNoArchetype(characterClass: characterClass, archetype: archetype)
         .Configure();
-      FeatureReplaceSpellbookConfigurator.New(replacementName, replacementGuid)
+      var replacement = FeatureReplaceSpellbookConfigurator.New(replacementName, replacementGuid)
         .CopyFrom(sourceReplacement, typeof(PrerequisiteClassSpellLevel))
         .AddPrerequisiteArchetypeLevel(characterClass: characterClass, archetype: archetype)
         .SetSpellbook(spellbook)
+        .Configure();
+
+      FeatureSelectionConfigurator.For(replacementSelection)
+        .AddToAllFeatures(replacement)
         .Configure();
     }
   }
