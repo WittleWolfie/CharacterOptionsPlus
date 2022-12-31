@@ -86,6 +86,7 @@ namespace CharacterOptionsPlus.Spells
         .AddFactContextActions(deactivated: ActionsBuilder.New().RemoveBuff(Guids.ImplosionBuff))
         .Configure();
 
+      var icon = FeatureRefs.ExtendedRangeInfusion.Reference.Get().Icon;
       var ability = AbilityConfigurator.NewSpell(
           AbilityName,
           Guids.ImplosionAbility,
@@ -93,7 +94,7 @@ namespace CharacterOptionsPlus.Spells
           canSpecialize: true)
         .SetDisplayName(ConcentrationDisplayName)
         .SetDescription(Description)
-        .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
+        .SetIcon(icon)
         .SetLocalizedDuration(Common.DurationRoundPerTwoLevels)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
@@ -130,7 +131,7 @@ namespace CharacterOptionsPlus.Spells
           canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
-        .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
+        .SetIcon(icon)
         .SetLocalizedDuration(Common.DurationRoundPerTwoLevels)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
