@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 991519270
+CRC: 1764010946
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9d60c3014344e67c4e042429e2e9a0ce
+    Hash: c986eeacbd4d26f79562000d2e60f692
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -35,6 +35,7 @@ Assets:
 - Assets/Icons/AsmodeusSicken.png
 - Assets/Icons/GorumAdvancedTechnique.png
 - Assets/Icons/ErastilAdvancedTechnique.png
+- Assets/Icons/IceMagic.png
 - Assets/Icons/SignatureMobility.png
 - Assets/Icons/EldritchHeritageGreater.png
 - Assets/Icons/NineLives.png

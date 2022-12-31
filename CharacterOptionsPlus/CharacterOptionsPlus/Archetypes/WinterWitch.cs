@@ -1,16 +1,20 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+﻿using BlueprintCore.Blueprints.Configurators.Classes;
+using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
@@ -20,11 +24,10 @@ using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
+using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Linq;
-using TabletopTweaks.Core.Utilities;
-using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -48,6 +51,13 @@ namespace CharacterOptionsPlus.Archetypes
     private const string FrozenCaressAbility = "WinterWitch.FrozenCaress.Ability";
     private const string FrozenCaressBuff = "WinterWitch.FrozenCaress.Buff";
 
+    private const string ArcaneTricksterWinterWitch = "WinterWitch.ArcaneTrickster";
+    private const string EldritchKnightWinterWitch = "WinterWitch.EldritchKnight";
+    private const string HellknightSignifierWinterWitch = "WinterWitch.HellknightSignifier";
+    private const string LoremasterWinterWitch = "WinterWitch.Loremaster";
+    private const string MysticTheurgeWinterWitch = "WinterWitch.MysticTheurge";
+    private const string WinterWitchWinterWitch = "WinterWitch.WinterWitch";
+
     internal const string ArchetypeDisplayName = "WinterWitch.Name";
     private const string ArchetypeDescription = "WinterWitch.Description";
 
@@ -63,7 +73,7 @@ namespace CharacterOptionsPlus.Archetypes
     private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "burningdisarm.png";
+    private const string IceMagicIcon = IconPrefix + "icemagic.png";
 
     internal static void Configure()
     {
@@ -98,6 +108,13 @@ namespace CharacterOptionsPlus.Archetypes
       FeatureConfigurator.New(FrozenCaress, Guids.WinterWitchFrozenCaress).Configure();
       ActivatableAbilityConfigurator.New(FrozenCaressAbility, Guids.WinterWitchFrozenCaressAbility).Configure();
       BuffConfigurator.New(FrozenCaressBuff, Guids.WinterWitchFrozenCaressBuff).Configure();
+
+      FeatureReplaceSpellbookConfigurator.New(ArcaneTricksterWinterWitch, Guids.WinterWitchArcaneTrickster).Configure();
+      FeatureReplaceSpellbookConfigurator.New(EldritchKnightWinterWitch, Guids.WinterWitchEldritchKnight).Configure();
+      FeatureReplaceSpellbookConfigurator.New(HellknightSignifierWinterWitch, Guids.WinterWitchHellknightSignifier).Configure();
+      FeatureReplaceSpellbookConfigurator.New(LoremasterWinterWitch, Guids.WinterWitchLoremaster).Configure();
+      FeatureReplaceSpellbookConfigurator.New(MysticTheurgeWinterWitch, Guids.WinterWitchMysticTheurge).Configure();
+      FeatureReplaceSpellbookConfigurator.New(WinterWitchWinterWitch, Guids.WinterWitchWinterWitch).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -130,9 +147,11 @@ namespace CharacterOptionsPlus.Archetypes
         .AddComponent<FrozenCaressComponent>()
         .Configure();
 
+      var icon = AbilityRefs.ArmyMagusChillTouch.Reference.Get().Icon;
       var frozenCaress = ActivatableAbilityConfigurator.New(FrozenCaressAbility, Guids.WinterWitchFrozenCaressAbility)
         .SetDisplayName(FrozenCaressDisplayName)
         .SetDescription(FrozenCaressDescription)
+        .SetIcon(icon)
         .SetBuff(buff)
         .SetActivationType(AbilityActivationType.WithUnitCommand)
         .SetActivateWithUnitCommand(CommandType.Swift)
@@ -143,6 +162,7 @@ namespace CharacterOptionsPlus.Archetypes
       FeatureConfigurator.New(FrozenCaress, Guids.WinterWitchFrozenCaress, FeatureGroup.WitchHex)
         .SetDisplayName(FrozenCaressDisplayName)
         .SetDescription(FrozenCaressDescription)
+        .SetIcon(icon)
         .SetIsClassFeature()
         .AddPrerequisiteArchetypeLevel(
           archetype: Guids.WinterWitchArchetype, characterClass: CharacterClassRefs.WitchClass.ToString())
@@ -151,11 +171,104 @@ namespace CharacterOptionsPlus.Archetypes
     }
 
     #region Spells
+    private static readonly string Witch = CharacterClassRefs.WitchClass.ToString();
     private static BlueprintSpellbook CreateSpellbook()
     {
-      return SpellbookConfigurator.New(Spellbook, Guids.WinterWitchSpellbook)
+      var spellbook = SpellbookConfigurator.New(Spellbook, Guids.WinterWitchSpellbook)
         .CopyFrom(SpellbookRefs.WitchSpellbook)
         .SetSpellList(CreateSpellList())
+        .Configure();
+
+      // Update references to the witch spellbook to include the new spellbook
+      FeatureConfigurator.For(FeatureRefs.DLC3_ArcaneModFeature)
+        .EditComponent<AddAbilityUseTrigger>(
+          c =>
+            c.m_Spellbooks = CommonTool.Append(c.m_Spellbooks, spellbook.ToReference<BlueprintSpellbookReference>()))
+        .Configure();
+
+      // Arcane Trickster Support
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: Witch,
+        archetype: Guids.WinterWitchArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.ArcaneTricksterWitch.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.ArcaneTricksterWitchAccursed.ToString(),
+        replacementName: ArcaneTricksterWinterWitch,
+        replacementGuid: Guids.WinterWitchArcaneTrickster,
+        spellbook: spellbook);
+
+      // Eldritch Knight Support
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: Witch,
+        archetype: Guids.WinterWitchArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.EldritchKnightWitch.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.EldritchKnightWitchAccursed.ToString(),
+        replacementName: EldritchKnightWinterWitch,
+        replacementGuid: Guids.WinterWitchEldritchKnight,
+        spellbook: spellbook);
+
+      // Hellknight Signifier Support
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: Witch,
+        archetype: Guids.WinterWitchArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.HellknightSigniferWitch.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.HellknightSigniferWitchAccursed.ToString(),
+        replacementName: HellknightSignifierWinterWitch,
+        replacementGuid: Guids.WinterWitchHellknightSignifier,
+        spellbook: spellbook);
+
+      // Loremaster Support
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: Witch,
+        archetype: Guids.WinterWitchArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.LoremasterWitch.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.LoremasterWitchAccursed.ToString(),
+        replacementName: LoremasterWinterWitch,
+        replacementGuid: Guids.WinterWitchLoremaster,
+        spellbook: spellbook);
+
+      // Mystic Theurge Support
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: Witch,
+        archetype: Guids.WinterWitchArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.MysticTheurgeWitch.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.MysticTheurgeWitchAccursed.ToString(),
+        replacementName: MysticTheurgeWinterWitch,
+        replacementGuid: Guids.WinterWitchMysticTheurge,
+        spellbook: spellbook);
+
+      // Winter Witch Support
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: Witch,
+        archetype: Guids.WinterWitchArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.WinterWitchWitch.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.WinterWitchWitchAccursed.ToString(),
+        replacementName: WinterWitchWinterWitch,
+        replacementGuid: Guids.WinterWitchWinterWitch,
+        spellbook: spellbook);
+
+      FeatureConfigurator.For(FeatureRefs.BlackenedRagsFeature)
+        .EditComponent<IncreaseSpellSpellbookDC>(
+          c =>
+            c.m_Spellbooks = CommonTool.Append(c.m_Spellbooks, spellbook.ToReference<BlueprintSpellbookReference>()))
+        .Configure();
+
+      FeatureSelectMythicSpellbookConfigurator.For(FeatureSelectMythicSpellbookRefs.LichIncorporateSpellbookFeature)
+        .AddToAllowedSpellbooks(spellbook)
+        .Configure();
+
+      return spellbook;
+    }
+
+    private static void ConfigureSpellbookReplacement(
+      string witchReplacement, string sourceReplacement, string name, string guid, BlueprintSpellbook spellbook)
+    {
+      FeatureReplaceSpellbookConfigurator.For(witchReplacement)
+        .AddPrerequisiteNoArchetype(characterClass: Witch, archetype: Guids.WinterWitchArchetype)
+        .Configure();
+      FeatureReplaceSpellbookConfigurator.New(name, guid)
+        .CopyFrom(sourceReplacement, typeof(PrerequisiteClassSpellLevel))
+        .AddPrerequisiteArchetypeLevel(characterClass: Witch, archetype: Guids.WinterWitchArchetype)
+        .SetSpellbook(spellbook)
         .Configure();
     }
 
@@ -237,6 +350,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(IceMagic, Guids.WinterWitchIceMagic)
         .SetDisplayName(IceMagicDisplayName)
         .SetDescription(IceMagicDescription)
+        .SetIcon(IceMagicIcon)
         .SetIsClassFeature()
         .AddIncreaseSpellDescriptorDC(descriptor: SpellDescriptor.Cold, bonusDC: 1, spellsOnly: true)
         .Configure();
@@ -248,6 +362,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(ColdFlesh4, Guids.WinterWitchColdFlesh4)
         .SetDisplayName(ColdFleshDisplayName)
         .SetDescription(ColdFleshDescription)
+        .SetIcon(FeatureRefs.ColdResistance5.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddResistEnergy(type: DamageEnergyType.Cold, value: 5)
         .Configure();
@@ -258,6 +373,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(ColdFlesh9, Guids.WinterWitchColdFlesh9)
         .SetDisplayName(ColdFleshDisplayName)
         .SetDescription(ColdFleshDescription)
+        .SetIcon(FeatureRefs.ColdResistance10.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddResistEnergy(type: DamageEnergyType.Cold, value: 10)
         .Configure();
@@ -268,6 +384,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(ColdFlesh14, Guids.WinterWitchColdFlesh14)
         .SetDisplayName(ColdFleshDisplayName)
         .SetDescription(ColdFleshDescription)
+        .SetIcon(FeatureRefs.ColdImmunity.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddEnergyImmunity(type: DamageEnergyType.Cold)
         .Configure();
