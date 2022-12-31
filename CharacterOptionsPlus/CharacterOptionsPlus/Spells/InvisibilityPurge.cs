@@ -22,7 +22,6 @@ using Kingmaker.Utility;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -155,7 +154,10 @@ namespace CharacterOptionsPlus.Spells
         try
         {
           if (condition == UnitCondition.Invisible)
+          {
+            Logger.Verbose($"Adding FX to invisible unit: {unit}");
             unit.AddBuff(FxBuff, Context);
+          }
         }
         catch (Exception e)
         {

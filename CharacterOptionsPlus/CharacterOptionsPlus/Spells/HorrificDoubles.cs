@@ -28,7 +28,6 @@ using System.Linq;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -173,6 +172,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
+          Logger.Verbose("Activating (HorrificDoublesComponent)");
           Apply();
         }
         catch (Exception e)
@@ -185,6 +185,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
+          Logger.Verbose("New Round (HorrificDoublesComponent)");
           Apply();
         }
         catch (Exception e)
@@ -199,19 +200,31 @@ namespace CharacterOptionsPlus.Spells
           .Where(unit => unit.IsEnemy(Owner))
           .Where(unit => !unit.HasFact(Horrified) && !unit.HasFact(HorrifiedImmunity));
         if (!enemies.Any())
+        {
+          Logger.Verbose("No affected enemies");
           return;
+        }
 
         foreach (var enemy in enemies)
         {
           if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Buff.Context, enemy)).IsSpellResisted)
+          {
+            Logger.Verbose($"{enemy} resisted");
             return;
+          }
 
           if (Rulebook.Trigger(CreateSavingThrow(enemy)).IsPassed
               && (!Buff.Context.HasMetamagic(Metamagic.Persistent)
                 || Rulebook.Trigger(CreateSavingThrow(enemy, persistent: true)).IsPassed))
+          {
+            Logger.Verbose($"{enemy} saved, granting immunity");
             enemy.AddBuff(HorrifiedImmunity, Buff.Context);
+          }
           else
+          {
+            Logger.Verbose($"{enemy} failed their save");
             enemy.AddBuff(Horrified, Buff.Context);
+          }
         }
       }
 
@@ -233,6 +246,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
+          Logger.Verbose("Activating (HorrifiedComponent)");
           Buff.StoreFact(Owner.AddBuff(Shaken, Context));
         }
         catch (Exception e)
@@ -247,31 +261,40 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
-          if (evt.Initiator != Owner)
+          if (evt.Target != Context.MaybeCaster)
           {
-            Logger.Log("WTF");
+            Logger.Verbose("Target is not caster");
             return;
           }
 
-          if (evt.Target != Context.MaybeCaster)
-            return;
-
           if (evt.HitMirrorImageIndex < 1)
+          {
+            Logger.Verbose("Missed images");
             return;
+          }
 
           if (Owner.HasFact(HorrifiedImmunity))
+          {
+            Logger.Verbose($"{Owner} is immune to the effects");
             return;
+          }
 
           // Hit an image, make a will save (but only the first time)
           Buff.StoreFact(Owner.AddBuff(HorrifiedImmunity, Buff.Context));
 
           if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Buff.Context, Owner)).IsSpellResisted)
+          {
+            Logger.Verbose($"{Owner} resisted");
             return;
+          }
 
           if (Rulebook.Trigger(CreateSavingThrow(Owner)).IsPassed
               && (!Buff.Context.HasMetamagic(Metamagic.Persistent)
                 || Rulebook.Trigger(CreateSavingThrow(Owner, persistent: true)).IsPassed))
+          {
+            Logger.Verbose($"{Owner} passed their save");
             return;
+          }
 
           Buff.StoreFact(Owner.AddBuff(BuffRefs.Frightened.Reference.Get(), Buff.Context, 1.Rounds().Seconds));
           Context.TriggerRule<RuleDealStatDamage>(
@@ -324,6 +347,7 @@ namespace CharacterOptionsPlus.Spells
           }
           if (shakenBuff is not null)
           {
+            Logger.Verbose("Removing shaken");
             shakenBuff.Remove();
             Buff.m_StoredFacts.Remove(shakenBuff);
           }

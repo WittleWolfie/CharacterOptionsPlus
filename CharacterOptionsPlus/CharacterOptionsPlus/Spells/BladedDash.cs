@@ -23,7 +23,6 @@ using Kingmaker.Utility;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -139,6 +138,7 @@ namespace CharacterOptionsPlus.Spells
         {
           var chaMod = (Owner.Stats.GetStat(StatType.Charisma) as ModifiableValueAttributeStat).Bonus;
           var intMod = (Owner.Stats.GetStat(StatType.Intelligence) as ModifiableValueAttributeStat).Bonus;
+          Logger.Verbose($"Adding {chaMod} | {intMod} to attack");
           evt.AddModifier(chaMod > intMod ? chaMod : intMod, Fact, ModifierDescriptor.Circumstance);
         }
         catch (Exception e)

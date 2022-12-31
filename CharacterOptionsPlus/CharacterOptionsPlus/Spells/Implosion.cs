@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -191,7 +190,10 @@ namespace CharacterOptionsPlus.Spells
         try
         {
           if (!Rulebook.Trigger<RuleCheckConcentration>(new(Owner, Context.SourceAbilityContext.Ability, evt)).Success)
+          {
+            Logger.Verbose("Failed to concentrate after taking damage");
             Buff.Remove();
+          }
         }
         catch (Exception e)
         {
@@ -210,6 +212,7 @@ namespace CharacterOptionsPlus.Spells
 
           var cooldown = evt.SpellTarget.Unit.AddBuff(Cooldown, evt.Context, Buff.TimeLeft);
           cooldown.IsNotDispelable = true;
+          Logger.Verbose($"Storing {cooldown} for {evt.SpellTarget.Unit}");
           Data.AppliedBuffs.Add(cooldown);
         }
         catch (Exception e)
@@ -224,6 +227,7 @@ namespace CharacterOptionsPlus.Spells
         {
           foreach (var buff in Data.AppliedBuffs)
           {
+            Logger.Verbose($"Removing {buff} from {buff.Owner}");
             if (buff.IsActive)
               buff.Remove();
           }

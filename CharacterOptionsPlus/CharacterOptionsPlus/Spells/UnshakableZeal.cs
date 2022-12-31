@@ -23,7 +23,6 @@ using System.Linq;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -118,6 +117,7 @@ namespace CharacterOptionsPlus.Spells
           if (!Data.MissedAttacks.Contains(evt.Target))
             return;
 
+          Logger.Verbose($"Boosting attack against {evt.Target}");
           Data.MissedAttacks.Remove(evt.Target);
           evt.AddModifier(4, Buff, ModifierDescriptor.Morale);
         }
@@ -134,6 +134,7 @@ namespace CharacterOptionsPlus.Spells
           if (!Data.FailedSkillChecks.Contains(evt.StatType))
             return;
 
+          Logger.Verbose($"Boosting skill check {evt.StatType}");
           Data.FailedSkillChecks.Remove(evt.StatType);
           evt.AddModifier(4, Buff, ModifierDescriptor.Morale);
         }
@@ -153,6 +154,7 @@ namespace CharacterOptionsPlus.Spells
           if (failedSave is null)
             return;
 
+          Logger.Verbose($"Boosting saving throw {source}");
           Data.FailedSavingThrows.Remove(failedSave);
           evt.AddModifier(4, Buff, ModifierDescriptor.Morale);
         }
@@ -169,6 +171,7 @@ namespace CharacterOptionsPlus.Spells
           if (!Data.FailedConcentration)
             return;
 
+          Logger.Verbose($"Boosting concentration check");
           Data.FailedConcentration = false;
           evt.AddModifier(4, Buff, ModifierDescriptor.Morale);
         }
@@ -185,6 +188,7 @@ namespace CharacterOptionsPlus.Spells
           if (evt.IsHit)
             return;
 
+          Logger.Verbose($"Missed target: {evt.Target}");
           Data.MissedAttacks.Add(evt.Target);
         }
         catch (Exception e)
@@ -200,6 +204,7 @@ namespace CharacterOptionsPlus.Spells
           if (evt.Success)
             return;
 
+          Logger.Verbose("Failed skill check");
           Data.FailedSkillChecks.Add(evt.StatType);
         }
         catch (Exception e)
@@ -217,6 +222,7 @@ namespace CharacterOptionsPlus.Spells
 
           var caster = evt.Reason.Context?.MaybeCaster;
           var source = evt.Reason.Context?.SourceAbility;
+          Logger.Verbose($"Failed saving throw: {source}");
           Data.FailedSavingThrows.Add(new(caster, source));
         }
         catch (Exception e)
@@ -232,6 +238,7 @@ namespace CharacterOptionsPlus.Spells
           if (evt.Success)
             return;
 
+          Logger.Verbose("Failed concentration check");
           Data.FailedConcentration = true;
         }
         catch (Exception e)

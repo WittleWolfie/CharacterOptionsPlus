@@ -29,7 +29,6 @@ using System.Linq;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -162,6 +161,7 @@ namespace CharacterOptionsPlus.Spells
         .EditComponent<AbilityEffectRunAction>(
           c =>
           {
+            Logger.Verbose($"Editing {ability} to increase spawn count");
             var spawnMonster =
               c.Actions.Actions.Where(
                 a => a is ContextActionSpawnMonster).Cast<ContextActionSpawnMonster>().FirstOrDefault();
@@ -251,7 +251,10 @@ namespace CharacterOptionsPlus.Spells
         try
         {
           if (!Owner.HasFact(Undead))
+          {
+            Logger.Verbose($"Skipping saving throw bonus for {Owner.CharacterName}, not undead.");
             return;
+          }
 
           Logger.Verbose($"Adding +1 Profane bonus to saving throw for {Owner.CharacterName}");
           evt.AddModifier(1, source: Fact, descriptor: ModifierDescriptor.Profane);

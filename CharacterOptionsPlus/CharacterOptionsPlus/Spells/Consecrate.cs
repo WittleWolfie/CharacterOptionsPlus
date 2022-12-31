@@ -24,7 +24,6 @@ using System;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -193,7 +192,10 @@ namespace CharacterOptionsPlus.Spells
         try
         {
           if (!Owner.HasFact(Undead))
+          {
+            Logger.Verbose("Owner is not undead");
             return;
+          }
 
           Logger.Verbose($"Adding -1 penalty to saving throw for {Owner.CharacterName}");
           evt.AddModifier(-1, source: Fact, descriptor: ModifierDescriptor.UntypedStackable);

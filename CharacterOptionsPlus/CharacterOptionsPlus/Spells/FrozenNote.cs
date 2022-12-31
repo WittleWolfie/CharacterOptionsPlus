@@ -22,7 +22,6 @@ using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -159,7 +158,10 @@ namespace CharacterOptionsPlus.Spells
         try
         {
           if (command.Type == CommandType.Free || !command.CreatedByPlayer)
+          {
+            Logger.Verbose("Ignoring, free | automatic command");
             return;
+          }
 
           Logger.Verbose($"{Owner.CharacterName} took an action {command.Type}, interrupting Frozen Note");
           Buff.Remove();

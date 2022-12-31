@@ -26,7 +26,6 @@ using System;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -204,7 +203,7 @@ namespace CharacterOptionsPlus.Spells
           // Assume this is right when the effect spawned
           if (Game.Instance.TimeController.GameTime - areaEffect.m_CreationTime < 0.25f.Seconds())
           {
-            Logger.Log($"Running spawn actions on {unit.CharacterName}");
+            Logger.Verbose($"Running spawn actions on {unit.CharacterName}");
             using (ContextData<AreaEffectContextData>.Request().Setup(areaEffect))
             {
               using (context.GetDataScope(unit))

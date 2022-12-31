@@ -36,7 +36,6 @@ using TabletopTweaks.Core.NewActions;
 using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -159,6 +158,7 @@ namespace CharacterOptionsPlus.Spells
           var weapon = GetWeapon(caster).Blueprint.Get().CreateEntity<ItemEntityWeapon>();
           using (ContextData<AttackBonusStatReplacement>.Request().Setup(StatType.Dexterity))
           {
+            Logger.Verbose("Triggering attack roll");
             var attackRule = new RuleAttackRoll(caster, context.MainTarget.Unit, weapon, attackBonusPenalty: 0);
             attackRule.SuspendCombatLog = true;
             return context.TriggerRule(attackRule);
@@ -194,7 +194,10 @@ namespace CharacterOptionsPlus.Spells
           }
 
           if (caster.Get<UnitPartControlledProjectiles>()?.Get(HedgingWeaponsBuff)?.Any() == true)
+          {
+            Logger.Verbose("Projectiles already spawned");
             return;
+          }
 
           var enchant = Enchant.Load();
           var weapon = GetWeapon(caster);
@@ -206,6 +209,7 @@ namespace CharacterOptionsPlus.Spells
           for (int i = 0; i < numWeapons; i++)
             projectiles.Add(new(SpawnWeapon(prefab, enchant, caster, Offsets[i], weapon.Scale)));
 
+          Logger.Verbose($"Spawned {numWeapons} projectiles");
           caster.Ensure<UnitPartControlledProjectiles>().Register(HedgingWeaponsBuff, projectiles);
         }
         catch (Exception e)
@@ -250,6 +254,7 @@ namespace CharacterOptionsPlus.Spells
         handle.RunAfterSpawn(
           weapon =>
           {
+            Logger.Verbose("Configuring spawned asset");
             weapon.AnchorToUnit(unit, offset, Quaternion.AngleAxis(90, Vector3.up));
             weapon.SetActive(true);
             weapon.transform.localScale = new(scale, scale, scale);
@@ -271,7 +276,10 @@ namespace CharacterOptionsPlus.Spells
 
           var consumeAll = ContextData<BuffCollection.RemoveByRank>.Current ? Fact.GetRank() <= 1 : true;
           if (consumeAll)
+          {
+            Logger.Verbose("Consuming all projectiles");
             caster.Get<UnitPartControlledProjectiles>()?.ConsumeAll(HedgingWeaponsBuff);
+          }
         }
         catch (Exception e)
         {

@@ -20,7 +20,6 @@ using Kingmaker.UnitLogic.Buffs.Components;
 using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -119,6 +118,7 @@ namespace CharacterOptionsPlus.Spells
           if (weapon.Blueprint.DamageType.IsPhysical
             && weapon.Blueprint.DamageType.Physical.Form == PhysicalDamageForm.Bludgeoning)
           {
+            Logger.Verbose("Halving damage for bludgeoning weapon");
             evt.Damage.Half = true;
           }
         }
@@ -139,6 +139,7 @@ namespace CharacterOptionsPlus.Spells
           if (dmg.TypeDescription.Type == DamageType.Physical
             && dmg.TypeDescription.Physical.Form == PhysicalDamageForm.Bludgeoning)
           {
+            Logger.Verbose("Changing damage to slashing");
             dmg.TypeDescription.Physical.Form = PhysicalDamageForm.Slashing;
           }
         }
@@ -179,15 +180,18 @@ namespace CharacterOptionsPlus.Spells
               var spellDescriptor = bonus.Fact.GetComponent<SpellDescriptorComponent>();
               if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
               {
+                Logger.Verbose("Skipping force modifier");
                 continue;
               }
 
               spellDescriptor = bonus.Fact.SourceAbility?.GetComponent<SpellDescriptorComponent>();
               if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
               {
+                Logger.Verbose("Skipping force modifier");
                 continue;
               }
 
+              Logger.Verbose($"Adding AC penalty from AllBonuses: {bonus}");
               penalty += bonus.Value;
             }
           }
@@ -205,12 +209,15 @@ namespace CharacterOptionsPlus.Spells
                 || bonus.ModDescriptor == ModifierDescriptor.ShieldFocus
                 || bonus.ModDescriptor == ModifierDescriptor.Focus)
             {
+
               var descriptor = bonus.Source?.GetComponent<SpellDescriptorComponent>();
               if (descriptor is not null && descriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
               {
+                Logger.Verbose("Skipping force modifier");
                 continue;
               }
 
+              Logger.Verbose($"Adding AC penalty from AC Modifier: {bonus}");
               penalty += bonus.ModValue;
             }
           }
@@ -229,16 +236,19 @@ namespace CharacterOptionsPlus.Spells
       {
         if (weaponStats is null)
         {
+          Logger.Verbose("No weapon stats");
           return false;
         }
 
         if (weaponStats.IsSecondary || weaponStats.Weapon.Blueprint.IsNatural)
         {
+          Logger.Verbose("Secondary | natural weapon");
           return false;
         }
 
         if (!weaponStats.Weapon.Blueprint.IsMelee)
         {
+          Logger.Verbose("Ranged weapon");
           return false;
         }
 

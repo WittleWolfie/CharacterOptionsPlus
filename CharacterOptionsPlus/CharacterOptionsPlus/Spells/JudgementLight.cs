@@ -29,7 +29,6 @@ using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.UnitLogic.Mechanics.Actions.ContextActionDispelMagic;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {

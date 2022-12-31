@@ -21,7 +21,6 @@ using System;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -132,7 +131,10 @@ namespace CharacterOptionsPlus.Spells
         try
         {
           if (Context.Params.CasterLevel < 12 || evt.AttackWithWeapon?.Target?.HasFact(WrathBuff) != true)
+          {
+            Logger.Verbose("Critical edge does not apply");
             return;
+          }
 
           evt.DoubleCriticalEdge = true;
         }

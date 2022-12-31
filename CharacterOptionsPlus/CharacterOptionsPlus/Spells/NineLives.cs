@@ -2,7 +2,6 @@
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
-using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
@@ -27,7 +26,6 @@ using TabletopTweaks.Core.NewActions;
 using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -133,6 +131,7 @@ namespace CharacterOptionsPlus.Spells
           if (unit != Owner || condition != UnitCondition.Prone)
             return;
 
+          Logger.Verbose("Removing proine condition");
           Owner.State.RemoveCondition(UnitCondition.Prone);
           RemoveRank();
         }
@@ -154,6 +153,7 @@ namespace CharacterOptionsPlus.Spells
           if (!evt.Success)
             return;
 
+          Logger.Verbose("Trip attempted, removing a charge");
           RemoveRank();
         }
         catch (Exception e)
@@ -176,8 +176,12 @@ namespace CharacterOptionsPlus.Spells
 
           // Don't let this chain until success!
           if (rule.TryGetCustomData(RerollKey, out bool _))
+          {
+            Logger.Verbose("Skipping reroll chain");
             return;
+          }
 
+          Logger.Verbose("Rerolling saving throw");
           var newSavingThrow = new RuleSavingThrow(Owner, rule);
           newSavingThrow.SetCustomData(RerollKey, true);
           rule.IsAlternativePassed = Rulebook.Trigger(newSavingThrow).Success;
@@ -195,6 +199,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
+          Logger.Verbose("Setting fortification to 100%");
           var fortification = Owner.Ensure<UnitPartFortification>();
           evt.SetCustomData(FortificationKey, fortification.Value);
           fortification.Add(100); 
@@ -209,15 +214,22 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
+          Logger.Verbose("Removing 100% fortification");
           Owner.Get<UnitPartFortification>()?.Remove(100);
           if (!evt.FortificationNegatesCriticalHit && !evt.FortificationNegatesSneakAttack)
+          {
+            Logger.Verbose("Fortification had no effect");
             return;
+          }
 
           if (evt.TryGetCustomData(FortificationKey, out int fortificationValue))
           {
             // The fortifiation roll would have overcome existing fortification, so use a charge
             if (evt.FortificationRoll > fortificationValue)
+            {
+              Logger.Verbose("Fortification effect was used, removing a charge");
               RemoveRank();
+            }
           }
         }
         catch (Exception e)
@@ -238,6 +250,7 @@ namespace CharacterOptionsPlus.Spells
           if (Owner.HPLeft > 0)
             return;
 
+          Logger.Verbose($"Healing {Owner}");
           var heal = new RuleHealDamage(Owner, Owner, new DiceFormula(rollsCount: 3, diceType: DiceType.D6), bonus: 0);
           heal.SourceFact = Buff;
           Rulebook.Trigger(heal);
@@ -276,6 +289,7 @@ namespace CharacterOptionsPlus.Spells
             case UnitCondition.Shaken:
             case UnitCondition.Sickened:
             case UnitCondition.Staggered:
+              Logger.Verbose($"Blocking condition: {unit} - {condition}");
               unit.State.RemoveCondition(condition);
               RemoveRank();
               break;
@@ -303,6 +317,7 @@ namespace CharacterOptionsPlus.Spells
           if (grapple.m_Buff != buff)
             return;
 
+          Logger.Verbose("Breaking grapple");
           Owner.Remove<UnitPartGrappleTarget>();
           RemoveRank();
         }

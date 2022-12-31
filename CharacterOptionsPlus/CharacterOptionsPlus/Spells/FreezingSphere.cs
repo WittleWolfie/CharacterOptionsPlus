@@ -22,7 +22,6 @@ using UnityEngine;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Spells
 {
@@ -96,7 +95,10 @@ namespace CharacterOptionsPlus.Spells
 
       var alwaysSelective = Settings.IsEnabled(Homebrew.SelectiveFreezingSphere);
       if (!alwaysSelective)
+      {
+        Logger.Verbose("Enabling Selective Metamagic");
         availableMetamagic.Add(Metamagic.Selective);
+      }
 
       var attack = ActionsBuilder.New()
         .SavingThrow(
