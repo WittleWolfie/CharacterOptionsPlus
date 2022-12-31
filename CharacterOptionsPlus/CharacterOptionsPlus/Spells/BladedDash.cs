@@ -43,7 +43,7 @@ namespace CharacterOptionsPlus.Spells
     private const string IconName = IconPrefix + "bladeddash.png";
     private const string IconNameGreater = IconPrefix + "bladeddashgreater.png";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

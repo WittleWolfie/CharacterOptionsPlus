@@ -5,13 +5,12 @@ using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using System;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Actions
 {
   internal class SpellResistanceCheck : ContextAction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(SpellResistanceCheck));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(SpellResistanceCheck));
 
     internal ActionList OnResistSucceed = Constants.Empty.Actions;
     internal ActionList OnResistFail = Constants.Empty.Actions;

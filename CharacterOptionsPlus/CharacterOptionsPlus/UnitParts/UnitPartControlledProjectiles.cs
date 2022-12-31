@@ -105,7 +105,7 @@ namespace CharacterOptionsPlus.UnitParts
   [TypeId("d64f7afb-419b-48a5-a8f0-b343724fe5a4")]
   internal class AbilityDeliverControlledProjectile : AbilityDeliverEffect
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityDeliverControlledProjectile));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityDeliverControlledProjectile));
     private static readonly BlueprintProjectileReference FakeProjectile =
       BlueprintTool.GetRef<BlueprintProjectileReference>(Guids.BlankProjectile);
 
@@ -203,7 +203,7 @@ namespace CharacterOptionsPlus.UnitParts
   [TypeId("03ed7c7d-3859-48a7-a91a-0ec3e09e575e")]
   internal class ControlledProjectilesHolder : BlueprintComponent, IRuntimeEntityFactComponentProvider
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(ControlledProjectilesHolder));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(ControlledProjectilesHolder));
 
     public EntityFactComponent CreateRuntimeFactComponent()
     {

@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("e4f9b2e9-02c9-4479-a740-09d539efa04f")]
   internal class WeaponDamageBonus : WeaponEnchantmentLogic, IInitiatorRulebookHandler<RuleCalculateWeaponStats>
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(WeaponDamageBonus));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(WeaponDamageBonus));
 
     private readonly ContextValue Bonus;
     private readonly ModifierDescriptor Descriptor;

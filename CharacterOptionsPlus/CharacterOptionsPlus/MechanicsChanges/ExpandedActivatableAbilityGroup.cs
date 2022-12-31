@@ -9,7 +9,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
 {
   internal class ExpandedActivatableAbilityGroup
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(ExpandedActivatableAbilityGroup));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(ExpandedActivatableAbilityGroup));
 
     internal const ActivatableAbilityGroup AsmodeusTechnique = (ActivatableAbilityGroup)1050;
 

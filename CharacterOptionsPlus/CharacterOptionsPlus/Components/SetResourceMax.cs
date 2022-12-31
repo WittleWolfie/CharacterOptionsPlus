@@ -12,7 +12,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("2d933a77-2c29-42ef-aad1-cfd2a4197ac1")]
   public class SetResourceMax : UnitFactComponentDelegate, IResourceAmountBonusHandler
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("SetResourceAmountMax");
+    private static readonly Logging.Logger Logger = Logging.GetLogger("SetResourceAmountMax");
 
     private readonly ContextValue Max;
     private readonly BlueprintAbilityResourceReference Resource;

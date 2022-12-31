@@ -39,7 +39,7 @@ namespace CharacterOptionsPlus.ClassFeatures
     private const string CooldownName = "IceTomb.Cooldown";
     private const string CooldownDisplayName = "IceTomb.Cooldown.Name";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

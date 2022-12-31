@@ -70,7 +70,7 @@ namespace CharacterOptionsPlus.Archetypes
     private const string FrozenCaressDisplayName = "WinterWitch.FrozenCaress.Name";
     private const string FrozenCaressDescription = "WinterWitch.FrozenCaress.Description";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(ArchetypeName);
 
     private const string IconPrefix = "assets/icons/";
     private const string IceMagicIcon = IconPrefix + "icemagic.png";

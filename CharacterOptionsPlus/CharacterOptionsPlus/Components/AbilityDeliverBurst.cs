@@ -12,7 +12,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("bed832dd-3701-4d7b-9f66-552bf89a8cfe")]
   internal class AbilityDeliverBurst : AbilityDeliverEffect
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityDeliverBurst));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityDeliverBurst));
 
     private readonly Feet Radius;
     private readonly bool IncludeCaster;

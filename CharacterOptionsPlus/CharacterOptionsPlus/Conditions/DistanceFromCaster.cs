@@ -11,7 +11,7 @@ namespace CharacterOptionsPlus.Conditions
   [TypeId("fc411c44-2931-41b9-afde-d142d2d8adc3")]
   internal class DistanceFromCaster : ContextCondition
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(DistanceFromCaster));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(DistanceFromCaster));
 
     internal ContextValue DistanceInFeet;
 

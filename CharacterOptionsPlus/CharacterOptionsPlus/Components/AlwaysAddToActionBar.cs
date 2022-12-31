@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("44b89d49-a223-4b98-bd5d-76c67657ff66")]
   internal class AlwaysAddToActionBar : UnitFactComponentDelegate
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AlwaysAddToActionBar));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AlwaysAddToActionBar));
 
     public override void OnTurnOn()
     {

@@ -34,7 +34,7 @@ namespace CharacterOptionsPlus.ClassFeatures
     private const string BuffName = "ShimmeringMirage.Buff";
     private const string EffectBuffName = "ShimmeringMirage.Effect.Buff";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

@@ -20,7 +20,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("d8da02d0-1483-49e6-b816-4767d14bf3aa")]
   internal class RecommendationWeaponFocus : LevelUpRecommendationComponent
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(RecommendationWeaponFocus));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(RecommendationWeaponFocus));
 
     private static BlueprintFeature _weaponFocus;
     private static BlueprintFeature WeaponFocus

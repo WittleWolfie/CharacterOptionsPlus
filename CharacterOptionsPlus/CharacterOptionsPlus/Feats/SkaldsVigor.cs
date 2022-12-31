@@ -41,7 +41,7 @@ namespace CharacterOptionsPlus.Feats
     internal const string IconName = IconPrefix + "skaldvigor.png";
     internal const string GreaterIconName = IconPrefix + "greaterskaldvigor.png";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

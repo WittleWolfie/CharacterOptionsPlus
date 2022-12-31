@@ -32,7 +32,7 @@ namespace CharacterOptionsPlus.ClassFeatures
     // commonnecromancybuff00
     private const string BuffFx = "cbfe312cb8e63e240a859efaad8e467c";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

@@ -10,7 +10,7 @@ namespace CharacterOptionsPlus.Actions
 {
   internal class MeleeAttackExtended : ContextActionMeleeAttack
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(MeleeAttackExtended));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(MeleeAttackExtended));
 
     internal ActionList OnHit = Constants.Empty.Actions;
 

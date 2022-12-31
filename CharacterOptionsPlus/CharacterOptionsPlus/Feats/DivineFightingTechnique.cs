@@ -68,7 +68,7 @@ namespace CharacterOptionsPlus.Feats
 
     private const string IconPrefix = "assets/icons/";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatName);
 
     internal static void Configure()
     {

@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("d2e40f9a-36f9-42dc-aa15-5c80f934a3b2")]
   internal class AbilityAreaEffectRunActionExtended : AbilityAreaEffectRunAction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityAreaEffectRunActionExtended));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityAreaEffectRunActionExtended));
 
     private readonly ActionList OnSpawn;
 

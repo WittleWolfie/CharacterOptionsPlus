@@ -9,7 +9,7 @@ namespace CharacterOptionsPlus.Actions
 {
   internal class RangedAttackExtended : ContextActionRangedAttack
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(RangedAttackExtended));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(RangedAttackExtended));
 
     internal ActionList OnHit;
 

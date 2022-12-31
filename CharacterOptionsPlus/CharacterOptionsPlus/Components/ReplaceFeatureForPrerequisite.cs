@@ -17,7 +17,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("3792e31d-00ee-4679-aa37-08176046f8c4")]
   internal class QualifyForPrerequisiteFeature : UnitFactComponentDelegate
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(QualifyForPrerequisiteFeature));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(QualifyForPrerequisiteFeature));
 
     private readonly BlueprintFeatureReference Feature;
 

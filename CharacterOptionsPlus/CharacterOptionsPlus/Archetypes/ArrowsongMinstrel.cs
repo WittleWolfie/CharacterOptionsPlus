@@ -63,7 +63,7 @@ namespace CharacterOptionsPlus.Archetypes
     private const string ArrowsongMinstrelLoremaster = "ArrowsongMinstrel.Loremaster";
     private const string ArrowsongMinstrelMysticTheurge = "ArrowsongMinstrel.MysticTheurge";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(ArchetypeName);
 
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "arcanearchery.png";

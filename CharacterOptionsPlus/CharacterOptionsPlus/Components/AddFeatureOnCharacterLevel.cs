@@ -17,7 +17,7 @@ namespace CharacterOptionsPlus.Components
   internal class AddFeatureOnCharacterLevel :
     UnitFactComponentDelegate<AddFeatureOnCharacterLevel.ComponentData>, IOwnerGainLevelHandler
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("AddFeatureOnCharacterLevel");
+    private static readonly Logging.Logger Logger = Logging.GetLogger("AddFeatureOnCharacterLevel");
 
     private readonly List<(BlueprintFeatureReference feature, int level)> FeatureLevels;
     private readonly BlueprintFeatureReference GreaterFeature;

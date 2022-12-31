@@ -20,7 +20,7 @@ namespace CharacterOptionsPlus.UnitParts
 {
   internal class UnitPartTouchCharges : OldStyleUnitPart
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartTouchCharges));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(UnitPartTouchCharges));
 
     [JsonProperty]
     private int Charges = 0;

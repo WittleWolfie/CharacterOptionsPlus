@@ -42,7 +42,7 @@ namespace CharacterOptionsPlus.Spells
     // Battle Medication
     private const string AreaEffect = "3a0228650295f6a40bc335385a929a07";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

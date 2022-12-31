@@ -26,7 +26,7 @@ namespace CharacterOptionsPlus.Feats
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "furiousfocus.png";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatName);
 
     internal static void Configure()
     {

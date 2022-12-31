@@ -7,6 +7,17 @@
   },
 
   {
+    "Key": "COP.Settings.VerboseLogging",
+    "ProcessTemplates": false,
+    "enGB": "Enable Detailed Logs"
+  },
+  {
+    "Key": "COP.Settings.VerboseLogging.Description",
+    "ProcessTemplates": false,
+    "enGB": "REQUIRES RESTART\n\nTurn this on and restart your game to get detailed logs for capturing bug reports.\nThis will probably cause lag as the logging is extremely detailed, but this makes it a lot easier to identify and fix bugs quickly."
+  }
+
+  {
     "Key": "COP.Settings.Homebrew.Title",
     "ProcessTemplates": false,
     "enGB": "Optional Rules",

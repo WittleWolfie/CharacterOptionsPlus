@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus.Components
   internal class SpellPenBonusAgainstTarget :
     UnitBuffComponentDelegate, ITargetRulebookHandler<RuleSpellResistanceCheck>
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(SpellPenBonusAgainstTarget));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(SpellPenBonusAgainstTarget));
 
     private readonly ContextValue Bonus;
 

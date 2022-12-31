@@ -15,7 +15,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("f1878982-2799-4927-b8df-c742c6b5e56b")]
   internal class AbilityTargetHasWeaponEquipped : BlueprintComponent, IAbilityTargetRestriction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityTargetHasWeaponEquipped));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityTargetHasWeaponEquipped));
 
     public string GetAbilityTargetRestrictionUIText(UnitEntityData caster, TargetWrapper target)
     {

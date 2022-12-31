@@ -12,7 +12,7 @@ namespace CharacterOptionsPlus.Actions
   [TypeId("a2012093-2b65-4019-8696-127c4e05a08b")]
   internal class EnchantWeaponTemporary : ContextAction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(EnchantWeaponTemporary));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(EnchantWeaponTemporary));
 
     internal ContextDurationValue Duration;
     internal BlueprintWeaponEnchantmentReference Enchantment;

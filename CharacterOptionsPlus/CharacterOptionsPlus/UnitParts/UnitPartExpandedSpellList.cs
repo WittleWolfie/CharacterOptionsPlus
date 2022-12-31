@@ -30,7 +30,7 @@ namespace CharacterOptionsPlus.UnitParts
   /// </summary>
   public class UnitPartExpandedSpellList : OldStyleUnitPart
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartExpandedSpellList));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(UnitPartExpandedSpellList));
 
     // These are needed because you can't tell if a character has an altered spell list when the spell selection is
     // first instantiated. This is essentially a hint that the spell list should be replaced to support a bonus spell
@@ -416,7 +416,7 @@ namespace CharacterOptionsPlus.UnitParts
   [TypeId("5b143c58-e784-45de-87a1-b1bbae34db7c")]
   public class AddSpellToSpellList : UnitFactComponentDelegate
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AddSpellToSpellList));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AddSpellToSpellList));
 
     private readonly BlueprintCharacterClassReference Clazz;
     private readonly BlueprintSpellListReference SourceSpellList;

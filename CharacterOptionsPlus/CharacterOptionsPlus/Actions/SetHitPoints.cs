@@ -12,7 +12,7 @@ namespace CharacterOptionsPlus.Actions
   [TypeId("1ae0c78e-df94-4fc6-bbc9-81f6922b2ab3")]
   internal class SetHitPoints : ContextAction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(SetHitPoints));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(SetHitPoints));
 
     public ContextValue Value;
 

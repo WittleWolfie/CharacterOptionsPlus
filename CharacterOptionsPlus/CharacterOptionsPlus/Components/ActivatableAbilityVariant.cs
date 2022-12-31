@@ -11,7 +11,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("96a7530c-6473-48aa-bdf4-3d72eea0bd03")]
   internal class ActivatableAbilityVariant : UnitFactComponentDelegate
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("ActivatableAbilityVariant");
+    private static readonly Logging.Logger Logger = Logging.GetLogger("ActivatableAbilityVariant");
 
     private readonly BlueprintActivatableAbilityReference Ability;
 

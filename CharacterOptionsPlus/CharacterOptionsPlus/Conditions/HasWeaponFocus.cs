@@ -12,7 +12,7 @@ namespace CharacterOptionsPlus.Conditions
   [TypeId("19bb9236-efc6-45d0-b793-eea016fc5dc6")]
   internal class HasWeaponFocus : ContextCondition
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(HasWeaponFocus));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(HasWeaponFocus));
 
     private static BlueprintFeature _weaponFocus;
     private static BlueprintFeature WeaponFocus

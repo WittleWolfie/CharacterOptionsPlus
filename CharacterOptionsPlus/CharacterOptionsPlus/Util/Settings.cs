@@ -5,7 +5,6 @@ using ModMenu.Settings;
 using System.Linq;
 using UnityEngine;
 using UnityModManagerNet;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 using Menu = ModMenu.ModMenu;
 
 namespace CharacterOptionsPlus.Util
@@ -14,8 +13,9 @@ namespace CharacterOptionsPlus.Util
   {
     private static readonly string RootKey = "cop.settings";
     private static readonly string RootStringKey = "COP.Settings";
+    private const string VerboseLoggingKey = "enable-verbose-logs";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(Settings));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(Settings));
 
     internal static bool IsEnabled(string key)
     {
@@ -36,6 +36,10 @@ namespace CharacterOptionsPlus.Util
         SettingsBuilder.New(RootKey, GetString("Title"))
           .AddImage(
             ResourcesLibrary.TryGetResource<Sprite>("assets/illustrations/wolfie.png"), height: 200, imageScale: 0.75f)
+          .AddToggle(
+            Toggle.New(GetKey(VerboseLoggingKey), defaultValue: false, GetString("VerboseLogging"))
+              .WithLongDescription(GetString("VerboseLogging.Description"))
+              .OnValueChanged(enabled => Logging.EnableVerboseLogging(enabled)))
           .AddDefaultButton(OnDefaultsApplied);
 
       settings.AddSubHeader(GetString("Homebrew.Title"), startExpanded: true);
@@ -87,6 +91,7 @@ namespace CharacterOptionsPlus.Util
       }
 
       Menu.AddSettings(settings);
+      Logging.EnableVerboseLogging(IsEnabled(VerboseLoggingKey));
     }
 
     private static void OnDefaultsApplied()

@@ -21,7 +21,7 @@ namespace CharacterOptionsPlus.UnitParts
 {
   internal class UnitPartEscapeArtist : OldStyleUnitPart
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(UnitPartEscapeArtist));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(UnitPartEscapeArtist));
 
     private static BlueprintBuff _suppressBuff;
     private static BlueprintBuff SuppressBuff

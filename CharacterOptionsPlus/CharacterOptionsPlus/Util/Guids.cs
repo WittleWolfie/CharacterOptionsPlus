@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus.Util
   /// </summary>
   internal static class Guids
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(Guids));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(Guids));
 
     #region Archetypes
     internal const string ArrowsongMinstrelArchetype = "b704d577-abe5-4873-b922-8f56c2319b54";

@@ -20,7 +20,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("065f5e6a-f98f-418b-b701-ff6e7488a584")]
   internal class AbilityTargetHasWeaponDamageType : BlueprintComponent, IAbilityTargetRestriction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityTargetHasWeaponDamageType));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityTargetHasWeaponDamageType));
 
     private readonly List<PhysicalDamageForm> DamageTypes = new();
     private readonly bool Exclude;

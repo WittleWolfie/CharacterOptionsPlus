@@ -19,7 +19,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("02a70e00-915c-4843-8851-b16517b67603")]
   internal class ReplaceCommandType : UnitFactComponentDelegate, IOwnerGainLevelHandler
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("ReplaceCommandType");
+    private static readonly Logging.Logger Logger = Logging.GetLogger("ReplaceCommandType");
 
     private readonly ICalculateCommandType Calculation;
     private readonly BlueprintAbilityReference Ability;

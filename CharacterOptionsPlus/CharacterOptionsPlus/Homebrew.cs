@@ -15,7 +15,7 @@ namespace CharacterOptionsPlus
   /// </summary>
   internal class Homebrew
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(Homebrew));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(Homebrew));
 
     internal static void Configure()
     {

@@ -44,7 +44,7 @@ namespace CharacterOptionsPlus.Spells
     private const string ShakenImmunityName = "HorrificDoubles.Shaken.Immunity";
     private const string ShakenDescription = "HorrificDoubles.Shaken.Description";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

@@ -10,7 +10,7 @@ namespace CharacterOptionsPlus.Actions
 {
   internal class ConditionalHitDice : ContextAction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(ConditionalHitDice));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(ConditionalHitDice));
 
     internal ActionList OnHigh = Constants.Empty.Actions;
     internal ActionList OnInBetween = Constants.Empty.Actions;

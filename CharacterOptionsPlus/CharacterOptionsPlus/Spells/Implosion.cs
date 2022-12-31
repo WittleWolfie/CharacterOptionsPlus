@@ -43,7 +43,7 @@ namespace CharacterOptionsPlus.Spells
     private const string CooldownBuff = "Implosion.Buff.Cooldown";
     private const string AbilityName = "Implosion.Ability";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

@@ -40,7 +40,7 @@ namespace CharacterOptionsPlus.Spells
     private const string BuffEffect = "a2d55bc9-793f-4dc3-a948-6b35abb6fe36";
     private const string BuffEffectSource = "cfcad40e39eab5b499c47f2113f86b45";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

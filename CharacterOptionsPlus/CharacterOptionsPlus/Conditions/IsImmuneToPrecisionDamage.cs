@@ -11,7 +11,7 @@ namespace CharacterOptionsPlus.Conditions
   [TypeId("6920e96f-2fa3-4f31-914c-8dcf5eaef476")]
   internal class IsImmuneToPrecisionDamage : ContextCondition
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(IsImmuneToPrecisionDamage));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(IsImmuneToPrecisionDamage));
 
     public override bool CheckCondition()
     {

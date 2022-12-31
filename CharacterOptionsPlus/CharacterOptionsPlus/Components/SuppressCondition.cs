@@ -14,7 +14,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("c7869037-c989-45e0-a4e1-d00daf644fbc")]
   internal class SuppressConditions : UnitBuffComponentDelegate<SuppressConditions.ComponentData>
   {
-    private static readonly ModLogger Logger = Logging.GetLogger("SuppressCondition");
+    private static readonly Logging.Logger Logger = Logging.GetLogger("SuppressCondition");
 
     private readonly UnitCondition[] Conditions;
 

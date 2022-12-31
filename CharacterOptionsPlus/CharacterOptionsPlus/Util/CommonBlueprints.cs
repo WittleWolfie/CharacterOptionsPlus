@@ -8,7 +8,7 @@ namespace CharacterOptionsPlus.Util
 {
   internal class CommonBlueprints
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(CommonBlueprints));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(CommonBlueprints));
 
     internal static void Configure()
     {

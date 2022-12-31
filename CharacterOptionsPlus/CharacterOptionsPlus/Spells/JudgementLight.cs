@@ -76,7 +76,7 @@ namespace CharacterOptionsPlus.Spells
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "judgementlight.png";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

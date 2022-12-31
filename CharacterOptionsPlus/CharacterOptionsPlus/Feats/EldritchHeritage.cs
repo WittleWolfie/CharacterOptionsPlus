@@ -64,7 +64,7 @@ namespace CharacterOptionsPlus.Feats
     private const string IconImproved = IconPrefix + "eldritchheritageimproved.png";
     private const string IconGreater = IconPrefix + "eldritchheritagegreater.png";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatName);
 
     internal static void Configure()
     {

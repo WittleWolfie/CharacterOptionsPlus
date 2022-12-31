@@ -19,7 +19,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("446b614c-fbd4-4c25-98f6-94c3cc0f5eae")]
   internal class AbilityCasterHasWeaponSubcategory : BlueprintComponent, IAbilityCasterRestriction
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(AbilityCasterHasWeaponSubcategory));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityCasterHasWeaponSubcategory));
 
     private readonly List<WeaponSubCategory> SubCategories = new();
 

@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus
 {
   public static class Main
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(Main));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(Main));
 
     public static bool Load(UnityModManager.ModEntry modEntry)
     {

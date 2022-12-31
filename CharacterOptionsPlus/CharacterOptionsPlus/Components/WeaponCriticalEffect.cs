@@ -16,7 +16,7 @@ namespace CharacterOptionsPlus.Components
   [TypeId("a6e5e854-5ae6-48dd-950f-ee364768e171")]
   internal class WeaponCriticalEffect : WeaponEnchantmentLogic, IInitiatorRulebookHandler<RuleAttackWithWeapon>
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(WeaponCriticalEffect));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(WeaponCriticalEffect));
 
     private readonly ActionList Effect;
 

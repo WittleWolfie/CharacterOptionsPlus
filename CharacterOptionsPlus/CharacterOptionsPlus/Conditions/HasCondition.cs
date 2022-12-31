@@ -10,7 +10,7 @@ namespace CharacterOptionsPlus.Conditions
   [TypeId("1ca328f5-2b39-496c-9241-98577942d946")]
   internal class HasCondition : ContextCondition
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(HasCondition));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(HasCondition));
 
     internal UnitCondition Condition;
 

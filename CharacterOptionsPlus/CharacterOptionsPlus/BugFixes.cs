@@ -23,7 +23,7 @@ namespace CharacterOptionsPlus
 {
   internal class BugFixes
   {
-    private static readonly ModLogger Logger = Logging.GetLogger(nameof(BugFixes));
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(BugFixes));
 
     internal static void Configure()
     {

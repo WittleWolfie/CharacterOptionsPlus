@@ -47,7 +47,7 @@ namespace CharacterOptionsPlus.Spells
     private const string AreaEffectFxSource = "fd21d914e9f6f5e4faa77365549ad0a7";
     private const string AreaEffectFx = "c1ef4fc5-e5ea-43b7-a9d4-cbb4be41516a";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {

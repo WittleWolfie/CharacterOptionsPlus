@@ -29,7 +29,7 @@ namespace CharacterOptionsPlus.Spells
 
     private const string Enchantment = "WeaponOfAwe.Enchantment";
 
-    private static readonly ModLogger Logger = Logging.GetLogger(FeatureName);
+    private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
     {
