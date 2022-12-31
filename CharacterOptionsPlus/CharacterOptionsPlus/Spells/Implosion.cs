@@ -20,7 +20,6 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
-using Kingmaker.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -77,15 +76,13 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName}");
 
       var cooldownBuff = BuffConfigurator.New(CooldownBuff, Guids.ImplosionCooldownBuff)
-        // .SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .SetDisplayName("Implosion.Cooldown.Name")
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
         .SetStacking(StackingType.Stack)
         .Configure();
 
       var concentrationBuff = BuffConfigurator.New(ConcentrationBuffName, Guids.ImplosionConcentrationBuff)
-        //.SetFlags(BlueprintBuff.Flags.HiddenInUi)
-        .SetDisplayName("Implosion.Watcher.Name")
-        .SetStacking(StackingType.Summ)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .SetStacking(StackingType.Prolong)
         .AddFactContextActions(deactivated: ActionsBuilder.New().RemoveBuff(Guids.ImplosionBuff))
         .Configure();
 
@@ -201,7 +198,9 @@ namespace CharacterOptionsPlus.Spells
         }
       }
 
-      public void OnEventAboutToTrigger(RuleCastSpell evt)
+      public void OnEventAboutToTrigger(RuleCastSpell evt) { }
+
+      public void OnEventDidTrigger(RuleCastSpell evt)
       {
         try
         {
@@ -214,11 +213,9 @@ namespace CharacterOptionsPlus.Spells
         }
         catch (Exception e)
         {
-          Logger.LogException("ImplosionComponent.OnEventAboutToTrigger(RuleCastSpell)", e);
+          Logger.LogException("ImplosionComponent.OnEventDidTrigger(RuleCastSpell)", e);
         }
       }
-
-      public void OnEventDidTrigger(RuleCastSpell evt) { }
 
       public override void OnDeactivate()
       {
