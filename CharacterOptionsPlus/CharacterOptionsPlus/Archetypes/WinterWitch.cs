@@ -368,7 +368,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(ColdFlesh4, Guids.WinterWitchColdFlesh4)
         .SetDisplayName(ColdFleshDisplayName)
         .SetDescription(ColdFleshDescription)
-        .SetIcon(FeatureRefs.ColdResistance5.Reference.Get().Icon)
+        .SetIcon(AbilityRefs.ResistCold.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddResistEnergy(type: DamageEnergyType.Cold, value: 5)
         .Configure();
@@ -379,7 +379,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(ColdFlesh9, Guids.WinterWitchColdFlesh9)
         .SetDisplayName(ColdFleshDisplayName)
         .SetDescription(ColdFleshDescription)
-        .SetIcon(FeatureRefs.ColdResistance10.Reference.Get().Icon)
+        .SetIcon(AbilityRefs.ResistCold.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddResistEnergy(type: DamageEnergyType.Cold, value: 10)
         .Configure();
@@ -390,7 +390,7 @@ namespace CharacterOptionsPlus.Archetypes
       return FeatureConfigurator.New(ColdFlesh14, Guids.WinterWitchColdFlesh14)
         .SetDisplayName(ColdFleshDisplayName)
         .SetDescription(ColdFleshDescription)
-        .SetIcon(FeatureRefs.ColdImmunity.Reference.Get().Icon)
+        .SetIcon(AbilityRefs.ResistCold.Reference.Get().Icon)
         .SetIsClassFeature()
         .AddEnergyImmunity(type: DamageEnergyType.Cold)
         .Configure();
