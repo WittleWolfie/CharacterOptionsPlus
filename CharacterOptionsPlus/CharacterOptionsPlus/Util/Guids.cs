@@ -5,6 +5,7 @@ using CharacterOptionsPlus.Spells;
 using Kingmaker.Utility;
 using System;
 using System.Collections.Generic;
+using System.Configuration.Internal;
 using System.Linq;
 using static UnityModManagerNet.UnityModManager.ModEntry;
 
@@ -32,6 +33,13 @@ namespace CharacterOptionsPlus.Util
     internal const string ArrowsongMinstrelSpellsPerDay = "32e41814-4688-42b6-87a7-4384f602a621";
     internal const string ArrowsongMinstrelSpellSelection = "3c9b1fb1-9466-45db-9fe8-08500b66ea50";
 
+    internal const string ArrowsongMinstrelArcaneTrickster = "92db8c23-714a-4c82-9d4a-254f08553095";
+    internal const string ArrowsongMinstrelDragonDisciple = "666ccef9-ccd9-4698-9d3f-618879217147";
+    internal const string ArrowsongMinstrelEldritchKnight = "10a89d89-1ff3-4fd3-91ab-6dc83acff30d";
+    internal const string ArrowsongMinstrelHellknightSignifier = "23770d88-cdca-4012-bfab-a5b73771c05b";
+    internal const string ArrowsongMinstrelLoremaster = "6f6b61dd-aba0-4a26-8c59-b88da33a0e96";
+    internal const string ArrowsongMinstrelMysticTheurge = "bd572074-4978-48c6-be5f-3d7db99eeb76";
+
     internal const string WinterWitchArchetype = "23f2281a-c005-4193-b545-849b669b4ea5";
     internal const string WinterWitchFamiliarSelection = "290d012b-0883-4adf-9f43-a10a0cf49c64";
     internal const string WinterWitchPatronSelection = "43e304fa-de8d-447f-abf5-17981fd064c1";
@@ -46,6 +54,13 @@ namespace CharacterOptionsPlus.Util
     internal const string WinterWitchFrozenCaress = "ba655d18-7ee9-4b69-bbb0-6430682b6bfd";
     internal const string WinterWitchFrozenCaressAbility = "4f1c5583-5a0d-442a-b6df-9e17a9d536a4";
     internal const string WinterWitchFrozenCaressBuff = "d2fc675c-b308-40c2-a552-4442cd3aceea";
+
+    internal const string WinterWitchArcaneTrickster = "92d597c5-51bf-48f9-980e-1f94cdea2e4c";
+    internal const string WinterWitchEldritchKnight = "db2a4c81-020c-4ec7-bd2f-14a6403d86bd";
+    internal const string WinterWitchHellknightSignifier = "1a182c5f-8368-4027-b8c4-0c8d13f74a97";
+    internal const string WinterWitchLoremaster = "b69bcbe3-0b9f-414e-8266-3b307af42f23";
+    internal const string WinterWitchMysticTheurge = "146ebe63-1a35-4093-9ecf-fe4075bbc8e3";
+    internal const string WinterWitchWinterWitch = "2e979e45-5815-41e2-8af6-824eb8b14a56";
 
     internal static readonly (string guid, string displayName)[] Archetypes =
       new (string, string)[]

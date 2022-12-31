@@ -1,4 +1,5 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+﻿using BlueprintCore.Blueprints.Configurators.Classes;
+using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
@@ -54,6 +55,13 @@ namespace CharacterOptionsPlus.Archetypes
     private const string SpellSelection = "ArrowsongMinstrel.SpellSelection";
     private const string SpellSelectionName = "ArrowsongMinstrel.ArcaneArchery.BonusSpells";
     private const string SpellSelectionDescription = "ArrowsongMinstrel.ArcaneArchery.BonusSpells.Description";
+
+    private const string ArrowsongMinstrelArcaneTrickster = "ArrowsongMinstrel.ArcaneTrickster";
+    private const string ArrowsongMinstrelDragonDisciple = "ArrowsongMinstrel.DragonDisciple";
+    private const string ArrowsongMinstrelEldritchKnight = "ArrowsongMinstrel.EldritchKnight";
+    private const string ArrowsongMinstrelHellknightSignifier = "ArrowsongMinstrel.HellknightSignifier";
+    private const string ArrowsongMinstrelLoremaster = "ArrowsongMinstrel.Loremaster";
+    private const string ArrowsongMinstrelMysticTheurge = "ArrowsongMinstrel.MysticTheurge";
 
     private static readonly ModLogger Logger = Logging.GetLogger(ArchetypeName);
 
@@ -119,6 +127,13 @@ namespace CharacterOptionsPlus.Archetypes
         .SetDisplayName(SpellSelectionName)
         .SetDescription(SpellSelectionDescription)
         .Configure();
+
+      FeatureReplaceSpellbookConfigurator.New(ArrowsongMinstrelArcaneTrickster, Guids.ArrowsongMinstrelArcaneTrickster).Configure();
+      FeatureReplaceSpellbookConfigurator.New(ArrowsongMinstrelDragonDisciple, Guids.ArrowsongMinstrelDragonDisciple).Configure();
+      FeatureReplaceSpellbookConfigurator.New(ArrowsongMinstrelEldritchKnight, Guids.ArrowsongMinstrelEldritchKnight).Configure();
+      FeatureReplaceSpellbookConfigurator.New(ArrowsongMinstrelHellknightSignifier, Guids.ArrowsongMinstrelHellknightSignifier).Configure();
+      FeatureReplaceSpellbookConfigurator.New(ArrowsongMinstrelLoremaster, Guids.ArrowsongMinstrelLoremaster).Configure();
+      FeatureReplaceSpellbookConfigurator.New(ArrowsongMinstrelMysticTheurge, Guids.ArrowsongMinstrelMysticTheurge).Configure();
     }
 
     private static void ConfigureEnabled()
@@ -241,7 +256,7 @@ namespace CharacterOptionsPlus.Archetypes
 
     private static BlueprintSpellbook CreateSpellbook()
     {
-      return SpellbookConfigurator.New(Spellbook, Guids.ArrowsongMinstrelSpellbook)
+      var spellbook = SpellbookConfigurator.New(Spellbook, Guids.ArrowsongMinstrelSpellbook)
         .SetName(ArchetypeDisplayName)
         .SetSpellsPerDay(GetSpellSlots())
         .SetSpellsKnown(SpellsTableRefs.BardSpellsKnownTable.ToString())
@@ -251,6 +266,77 @@ namespace CharacterOptionsPlus.Archetypes
         .SetSpontaneous(true)
         .SetIsArcane(true)
         .Configure();
+
+      var bard = CharacterClassRefs.BardClass.ToString();
+
+      // Update references to the bard spellbook to include the new spellbook
+      FeatureConfigurator.For(FeatureRefs.DLC3_ArcaneModFeature)
+        .EditComponent<AddAbilityUseTrigger>(
+          c =>
+            c.m_Spellbooks = CommonTool.Append(c.m_Spellbooks, spellbook.ToReference<BlueprintSpellbookReference>()))
+        .Configure();
+
+      // Arcane Trickster
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: bard,
+        archetype: Guids.ArrowsongMinstrelArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.ArcaneTricksterBard.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.ArcaneTricksterBard.ToString(),
+        replacementName: ArrowsongMinstrelArcaneTrickster,
+        replacementGuid: Guids.ArrowsongMinstrelArcaneTrickster,
+        spellbook);
+
+      // Dragon Disciple
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: bard,
+        archetype: Guids.ArrowsongMinstrelArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.DragonDiscipleBard.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.DragonDiscipleBard.ToString(),
+        replacementName: ArrowsongMinstrelDragonDisciple,
+        replacementGuid: Guids.ArrowsongMinstrelDragonDisciple,
+        spellbook);
+
+      // Eldritch Knight
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: bard,
+        archetype: Guids.ArrowsongMinstrelArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.EldritchKnightBard.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.EldritchKnightBard.ToString(),
+        replacementName: ArrowsongMinstrelEldritchKnight,
+        replacementGuid: Guids.ArrowsongMinstrelEldritchKnight,
+        spellbook);
+
+      // Hellknight Signifier
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: bard,
+        archetype: Guids.ArrowsongMinstrelArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.HellknightSigniferBard.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.HellknightSigniferBard.ToString(),
+        replacementName: ArrowsongMinstrelHellknightSignifier,
+        replacementGuid: Guids.ArrowsongMinstrelHellknightSignifier,
+        spellbook);
+
+      // Loremaster
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: bard,
+        archetype: Guids.ArrowsongMinstrelArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.LoremasterBard.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.LoremasterBard.ToString(),
+        replacementName: ArrowsongMinstrelLoremaster,
+        replacementGuid: Guids.ArrowsongMinstrelLoremaster,
+        spellbook);
+
+      // MysticTheurge
+      Common.ConfigureArchetypeSpellbookReplacement(
+        characterClass: bard,
+        archetype: Guids.ArrowsongMinstrelArchetype,
+        baseReplacement: FeatureReplaceSpellbookRefs.MysticTheurgeBard.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.MysticTheurgeBard.ToString(),
+        replacementName: ArrowsongMinstrelMysticTheurge,
+        replacementGuid: Guids.ArrowsongMinstrelMysticTheurge,
+        spellbook);
+
+      return spellbook;
     }
 
     // Generates the diminished spell slots
