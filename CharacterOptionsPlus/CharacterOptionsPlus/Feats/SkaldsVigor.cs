@@ -175,7 +175,7 @@ namespace CharacterOptionsPlus.Feats
             var skaldsVigor = unit.GetFact<Buff>(SkaldsVigor);
             if (skaldsVigor?.Context?.MaybeCaster == ability.Owner.Unit)
             {
-              Logger.NativeLog($"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
+              Logger.Verbose($"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
               skaldsVigor.Remove();
             }
           }

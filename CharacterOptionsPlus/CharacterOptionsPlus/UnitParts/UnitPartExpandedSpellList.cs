@@ -65,7 +65,7 @@ namespace CharacterOptionsPlus.UnitParts
       if (spellLevelList.Spells.Contains(spell))
         return;
 
-      Logger.NativeLog($"Adding to spell list for {Owner.CharacterName} - {clazz}");
+      Logger.Verbose($"Adding to spell list for {Owner.CharacterName} - {clazz}");
       spellLevelList.Spells.Add(spell);
     }
 
@@ -85,7 +85,7 @@ namespace CharacterOptionsPlus.UnitParts
       if (!spellLevelList.Spells.Contains(spell))
         return;
 
-      Logger.NativeLog($"Removing from spell list for {Owner.CharacterName} - {clazz}");
+      Logger.Verbose($"Removing from spell list for {Owner.CharacterName} - {clazz}");
       spellLevelList.Spells.Remove(spell);
     }
 
@@ -112,7 +112,7 @@ namespace CharacterOptionsPlus.UnitParts
           spellSelection.SpellList,
           extraSpells);
 
-      Logger.NativeLog(
+      Logger.Verbose(
         $"Returning spell selection for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
       newSelection = new SpellSelectionData(spellSelection.Spellbook, spellList);
       for (int i = 0; i < spellSelection.LevelCount.Length; i++)
@@ -137,7 +137,7 @@ namespace CharacterOptionsPlus.UnitParts
       var extraSpells =
         ExtraSpells.ContainsKey(spellbook.m_CharacterClass) ? ExtraSpells[spellbook.m_CharacterClass] : new();
 
-      Logger.NativeLog($"Returning spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
+      Logger.Verbose($"Returning spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
       expandedSpellList = GetExpandedSpellList(spellbook.m_CharacterClass, spellList, extraSpells);
       return true;
     }
@@ -163,7 +163,7 @@ namespace CharacterOptionsPlus.UnitParts
       else
       {
         var guid = Guids.ReserveDynamic();
-        Logger.NativeLog(
+        Logger.Verbose(
           $"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
         expandedList = SpellListConfigurator.New(spellListName, guid);
       }

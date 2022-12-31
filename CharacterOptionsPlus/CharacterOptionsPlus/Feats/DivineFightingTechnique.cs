@@ -621,12 +621,12 @@ namespace CharacterOptionsPlus.Feats
           if (evt.Weapon.Blueprint.Category != WeaponCategory.HeavyMace
             && evt.Weapon.Blueprint.Category != WeaponCategory.LightMace)
           {
-            Logger.NativeLog($"Not using a mace: {evt.Weapon.Blueprint.Category}");
+            Logger.Verbose($"Not using a mace: {evt.Weapon.Blueprint.Category}");
             return;
           }
 
           var rounds = evt.AttackRoll.IsCriticalConfirmed ? 2 : 1;
-          Logger.NativeLog($"{evt.Target.CharacterName} is sickened for {rounds} rounds");
+          Logger.Verbose($"{evt.Target.CharacterName} is sickened for {rounds} rounds");
           evt.Target.AddBuff(Sickened, Context, rounds.Rounds().Seconds);
         }
         catch (Exception e)
@@ -667,13 +667,13 @@ namespace CharacterOptionsPlus.Feats
           if (evt.Weapon.Blueprint.Category != WeaponCategory.HeavyMace
             && evt.Weapon.Blueprint.Category != WeaponCategory.LightMace)
           {
-            Logger.NativeLog($"Not using a mace: {evt.Weapon.Blueprint.Category}");
+            Logger.Verbose($"Not using a mace: {evt.Weapon.Blueprint.Category}");
             return;
           }
 
           if (!Owner.HasSwiftAction())
           {
-            Logger.NativeLog($"No swift action available");
+            Logger.Verbose($"No swift action available");
             return;
           }
 
@@ -849,7 +849,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (!adjacentAllies.Any() && (!hasAdvancedTechnique || !nearbyAllies.Any()))
           {
-            Logger.NativeLog("No allies nearby");
+            Logger.Verbose("No allies nearby");
             return;
           }
 
@@ -896,7 +896,7 @@ namespace CharacterOptionsPlus.Feats
               || distracted.MaybeContext?.MaybeCaster is null)
             return;
 
-          Logger.NativeLog($"Granting {evt.Target.CharacterName} +{Bonus} AC against {evt.Initiator.CharacterName}");
+          Logger.Verbose($"Granting {evt.Target.CharacterName} +{Bonus} AC against {evt.Initiator.CharacterName}");
           evt.AddModifier(Bonus, Fact, ModifierDescriptor.UntypedStackable);
         }
         catch (Exception e)
@@ -1017,7 +1017,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.TryGetCustomData(HandlerKey, out ISubscriber handler))
           {
-            Logger.NativeLog("Removing Vital Strike handler");
+            Logger.Verbose("Removing Vital Strike handler");
             EventBus.Unsubscribe(handler);
           }
         }
@@ -1046,7 +1046,7 @@ namespace CharacterOptionsPlus.Feats
 
       private void RegisterVitalStrike(RuleAttackWithWeapon evt)
       {
-        Logger.NativeLog("Adding Vital Strike handler");
+        Logger.Verbose("Adding Vital Strike handler");
         var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
         var handler =
           new VitalStrikeEventHandler(
@@ -1176,7 +1176,7 @@ namespace CharacterOptionsPlus.Feats
           var targets = GameHelper.GetTargetsAround(Owner.Position, 120.Feet()).Where(unit => unit.IsAlly(Owner));
           foreach (var target in targets)
           {
-            Logger.NativeLog($"Applying {Blessing.name} to {target.CharacterName}");
+            Logger.Verbose($"Applying {Blessing.name} to {target.CharacterName}");
             target.AddBuff(Blessing, Context, 1.Minutes());
           }
         }
@@ -1540,7 +1540,7 @@ namespace CharacterOptionsPlus.Feats
               damage.BonusTargetRelated = 0;
             }
 
-            Logger.NativeLog($"Setting bleed damage to {bleed}");
+            Logger.Verbose($"Setting bleed damage to {bleed}");
             Context[AbilitySharedValue.Damage] = bleed;
           }
           catch (Exception e)
@@ -1580,7 +1580,7 @@ namespace CharacterOptionsPlus.Feats
           var target = evt.Target;
           if (target.HasFact(Immunity))
           {
-            Logger.NativeLog($"{target.CharacterName} is immune");
+            Logger.Verbose($"{target.CharacterName} is immune");
             return;
           }
 
@@ -1589,7 +1589,7 @@ namespace CharacterOptionsPlus.Feats
             if (buff.Blueprint.SpellDescriptor.HasFlag(SpellDescriptor.Bleed))
             {
               var dc = 10 + Owner.Stats.GetStat(StatType.BaseAttackBonus);
-              Logger.NativeLog($"Triggering saving throw for {target.CharacterName} with DC {dc}");
+              Logger.Verbose($"Triggering saving throw for {target.CharacterName} with DC {dc}");
               var savingThrow = Rulebook.Trigger<RuleSavingThrow>(new(target, SavingThrowType.Fortitude, dc));
               if (savingThrow.IsPassed)
                 target.AddBuff(Immunity, Context, 1.Rounds().Seconds);
@@ -1751,11 +1751,11 @@ namespace CharacterOptionsPlus.Feats
           var targetBuff = target.Buffs.GetBuff(Unaware);
           if (target.Memory.ContainsVisible(Owner) && (targetBuff is null || targetBuff.Context.MaybeCaster != Owner))
           {
-            Logger.NativeLog($"{target.CharacterName} is aware of {Owner.CharacterName}");
+            Logger.Verbose($"{target.CharacterName} is aware of {Owner.CharacterName}");
             return;
           }
 
-          Logger.NativeLog("Increasing weapon size.");
+          Logger.Verbose("Increasing weapon size.");
           evt.IncreaseWeaponSize(1);
         }
         catch (Exception e)
@@ -1839,7 +1839,7 @@ namespace CharacterOptionsPlus.Feats
           var bab = Owner.Stats.GetStat(StatType.BaseAttackBonus);
           int bonus = (int)(1 + Math.Floor(bab / 4f));
 
-          Logger.NativeLog($"Reducing DR for {Owner.CharacterName} by {bonus}");
+          Logger.Verbose($"Reducing DR for {Owner.CharacterName} by {bonus}");
           evt.DamageBundle.WeaponDamage.ReductionPenalty.Add(
             new Modifier(bonus, Fact, ModifierDescriptor.UntypedStackable));
         }
@@ -1960,7 +1960,7 @@ namespace CharacterOptionsPlus.Feats
           var aooPerRound = Owner.CombatState.AttackOfOpportunityPerRound;
           if (aooCount < aooPerRound - 1)
           {
-            Logger.NativeLog($"Not the first AOO this round: {aooCount} / {aooPerRound}");
+            Logger.Verbose($"Not the first AOO this round: {aooCount} / {aooPerRound}");
             return;
           }
 
@@ -1978,7 +1978,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.TryGetCustomData(HandlerKey, out ISubscriber handler))
           {
-            Logger.NativeLog("Removing Vital Strike handler");
+            Logger.Verbose("Removing Vital Strike handler");
             EventBus.Unsubscribe(handler);
 
             if (!evt.AttackRoll.IsCriticalConfirmed)
@@ -1997,7 +1997,7 @@ namespace CharacterOptionsPlus.Feats
 
       private void RegisterVitalStrike(RuleAttackWithWeapon evt)
       {
-        Logger.NativeLog("Adding Vital Strike handler");
+        Logger.Verbose("Adding Vital Strike handler");
         var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
         var handler =
           new VitalStrikeEventHandler(

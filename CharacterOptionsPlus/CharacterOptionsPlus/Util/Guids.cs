@@ -633,11 +633,11 @@ namespace CharacterOptionsPlus.Util
       {
         guid = GUIDS[0];
         GUIDS.RemoveAt(0);
-        Logger.NativeLog($"Reserving dynamic guid {guid}");
+        Logger.Verbose($"Reserving dynamic guid {guid}");
         return guid;
       }
       guid = Guid.NewGuid().ToString();
-      Logger.NativeLog($"Generating dynamic guid {guid}");
+      Logger.Verbose($"Generating dynamic guid {guid}");
       return guid;
     }
     #endregion

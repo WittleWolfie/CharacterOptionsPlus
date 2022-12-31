@@ -52,7 +52,7 @@ namespace CharacterOptionsPlus.Util
         InternalLog.LogException(key, e);
       }
 
-      internal void NativeLog(string str)
+      internal void Verbose(string str)
       {
         if (VerboseLogging)
           InternalLog.NativeLog(str);

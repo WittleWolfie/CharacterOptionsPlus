@@ -169,7 +169,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         var sourceBlueprint = __instance.Source?.Blueprint;
         if (force && sourceBlueprint == RogueShadow)
         {
-          Logger.NativeLog($"Skipping forced image spend. Attack missed by 5 or less.");
+          Logger.Verbose($"Skipping forced image spend. Attack missed by 5 or less.");
           __result = 0;
           return false;
         }

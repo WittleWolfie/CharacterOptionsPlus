@@ -212,19 +212,19 @@ namespace CharacterOptionsPlus.Spells
         {
           if (!Owner.HasFact(Undead))
           {
-            Logger.NativeLog($"Skipping hit point bonus for {Owner.CharacterName}, not undead.");
+            Logger.Verbose($"Skipping hit point bonus for {Owner.CharacterName}, not undead.");
             return;
           }
            
           if (!Owner.HasFact(Game.Instance.BlueprintRoot.SystemMechanics.SummonedUnitBuff))
           {
-            Logger.NativeLog($"Skipping hit point bonus for {Owner.CharacterName}, not summoned.");
+            Logger.Verbose($"Skipping hit point bonus for {Owner.CharacterName}, not summoned.");
             return;
           }
 
           var bonusHP = Owner.Descriptor.Progression.CharacterLevel;
 
-          Logger.NativeLog($"Adding +{bonusHP} hit points to {Owner.CharacterName}");
+          Logger.Verbose($"Adding +{bonusHP} hit points to {Owner.CharacterName}");
           Owner.Stats.HitPoints.RemoveModifiersFrom(Runtime);
           Owner.Stats.HitPoints.AddModifier(bonusHP, Runtime, ModifierDescriptor.UntypedStackable);
         }
@@ -253,7 +253,7 @@ namespace CharacterOptionsPlus.Spells
           if (!Owner.HasFact(Undead))
             return;
 
-          Logger.NativeLog($"Adding +1 Profane bonus to saving throw for {Owner.CharacterName}");
+          Logger.Verbose($"Adding +1 Profane bonus to saving throw for {Owner.CharacterName}");
           evt.AddModifier(1, source: Fact, descriptor: ModifierDescriptor.Profane);
         }
         catch (Exception e)

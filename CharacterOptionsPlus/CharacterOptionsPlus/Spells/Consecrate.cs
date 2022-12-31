@@ -195,7 +195,7 @@ namespace CharacterOptionsPlus.Spells
           if (!Owner.HasFact(Undead))
             return;
 
-          Logger.NativeLog($"Adding -1 penalty to saving throw for {Owner.CharacterName}");
+          Logger.Verbose($"Adding -1 penalty to saving throw for {Owner.CharacterName}");
           evt.AddModifier(-1, source: Fact, descriptor: ModifierDescriptor.UntypedStackable);
         }
         catch (Exception e)

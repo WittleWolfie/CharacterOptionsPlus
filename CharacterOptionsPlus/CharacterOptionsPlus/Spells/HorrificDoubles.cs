@@ -296,7 +296,7 @@ namespace CharacterOptionsPlus.Spells
 
           if (!caster.HasFact(HorrificDoublesBuff))
           {
-            Logger.NativeLog($"Removing {Buff.Name} from {Owner.CharacterName} because {caster.CharacterName} has no images");
+            Logger.Verbose($"Removing {Buff.Name} from {Owner.CharacterName} because {caster.CharacterName} has no images");
             Buff.Remove();
             return;
           }
@@ -305,7 +305,7 @@ namespace CharacterOptionsPlus.Spells
           {
             if (!Owner.HasFact(Shaken))
             {
-              Logger.NativeLog($"Applying shaken to {Owner.CharacterName} because {caster.CharacterName} is in LOS");
+              Logger.Verbose($"Applying shaken to {Owner.CharacterName} because {caster.CharacterName} is in LOS");
               Buff.StoreFact(Owner.AddBuff(Shaken, Context));
             }
             return;
@@ -317,7 +317,7 @@ namespace CharacterOptionsPlus.Spells
             var buff = fact as Buff;
             if (buff is not null && buff.Blueprint == Shaken)
             {
-              Logger.NativeLog($"Removing {buff.Name} from {Owner.CharacterName} because {caster.CharacterName} is not in LOS");
+              Logger.Verbose($"Removing {buff.Name} from {Owner.CharacterName} because {caster.CharacterName} is not in LOS");
               shakenBuff = buff;
               break;
             }

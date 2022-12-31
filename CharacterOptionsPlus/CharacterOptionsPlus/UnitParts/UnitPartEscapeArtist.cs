@@ -179,12 +179,12 @@ namespace CharacterOptionsPlus.UnitParts
         var rounds = (1 + (result.RollResult - dc) / 5).Rounds();
         if (AppliesCondition(SuppressTarget, UnitCondition.Paralyzed))
         {
-          Logger.NativeLog($"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
+          Logger.Verbose($"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(ParalyzeBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
         if (AppliesCondition(SuppressTarget, UnitCondition.Slowed))
         {
-          Logger.NativeLog($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
+          Logger.Verbose($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(SlowBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
 

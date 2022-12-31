@@ -470,7 +470,7 @@ namespace CharacterOptionsPlus.Feats
               foreach (var action in
                   buff.Blueprint.ElementsArray.Where(e => e is ContextActionBreakFree).Cast<ContextActionBreakFree>())
               {
-                Logger.NativeLog($"Breaking free from: {buff.Name} for {target.CharacterName}");
+                Logger.Verbose($"Breaking free from: {buff.Name} for {target.CharacterName}");
                 buff.RunActionInContext(new() { Actions = new GameAction[] { action } });
                 return;
               }
@@ -488,7 +488,7 @@ namespace CharacterOptionsPlus.Feats
               return;
             }
 
-            Logger.NativeLog($"Breaking free from: {targetGrapple.m_Buff?.Name} for {target.CharacterName}");
+            Logger.Verbose($"Breaking free from: {targetGrapple.m_Buff?.Name} for {target.CharacterName}");
             if (target.TryBreakFree(initiator, UnitHelper.BreakFreeFlags.Default, targetGrapple.Context))
               target.Remove<UnitPartGrappleTarget>();
             return;
@@ -543,7 +543,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (IsBreakFreeBuff(buff))
           {
-            Logger.NativeLog($"Adding {buff.Name} to BreakFreeBuffs for {Owner.CharacterName}");
+            Logger.Verbose($"Adding {buff.Name} to BreakFreeBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().BreakFreeBuffs.Add(buff);
             return;
           }
@@ -555,7 +555,7 @@ namespace CharacterOptionsPlus.Feats
           var appliesParalyze = UnitPartEscapeArtist.AppliesCondition(buff, UnitCondition.Paralyzed);
           if (appliesParalyze || appliesSlow)
           {
-            Logger.NativeLog($"Adding {buff.Name} to SuppressBuffs for {Owner.CharacterName}");
+            Logger.Verbose($"Adding {buff.Name} to SuppressBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().AddSupressBuff(buff, appliesParalyze, appliesSlow);
           }
         }
@@ -844,7 +844,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = GetBonus(evt.Initiator);
-          Logger.NativeLog($"Adding +{bonus} to saving throw for {evt.Initiator.CharacterName}");
+          Logger.Verbose($"Adding +{bonus} to saving throw for {evt.Initiator.CharacterName}");
           evt.AddModifier(bonus, Fact, ModifierDescriptor.Competence);
         }
         catch (Exception e)
@@ -868,7 +868,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = GetBonus(evt.Initiator);
-          Logger.NativeLog($"Adding +{bonus} to attack against {evt.Target.CharacterName}");
+          Logger.Verbose($"Adding +{bonus} to attack against {evt.Target.CharacterName}");
           evt.AddModifier(bonus, Fact, ModifierDescriptor.Competence);
         }
         catch (Exception e)
@@ -892,7 +892,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = GetBonus(evt.Initiator);
-          Logger.NativeLog($"Adding +{bonus} to spell resistance check against {evt.Target.CharacterName}");
+          Logger.Verbose($"Adding +{bonus} to spell resistance check against {evt.Target.CharacterName}");
           evt.AddSpellPenetration(bonus, ModifierDescriptor.Competence);
         }
         catch (Exception e)
@@ -915,7 +915,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           checkBonus += Owner.Stats.GetStat(Skill).BaseValue;
-          Logger.NativeLog($"Adding +{checkBonus} to identify success for {Owner.CharacterName}");
+          Logger.Verbose($"Adding +{checkBonus} to identify success for {Owner.CharacterName}");
         }
         catch (Exception e)
         {
@@ -1239,7 +1239,7 @@ namespace CharacterOptionsPlus.Feats
         if (!evt.Initiator.HasFact(MobilityBuff))
           return;
 
-        Logger.NativeLog($"Adding +5 to {evt.Target.CharacterName} CMD");
+        Logger.Verbose($"Adding +5 to {evt.Target.CharacterName} CMD");
         evt.AddModifier(5, Fact);
       }
 
@@ -1253,7 +1253,7 @@ namespace CharacterOptionsPlus.Feats
           return;
 
         var bonus = ranks >= 20 ? 4 : 2;
-        Logger.NativeLog($"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
+        Logger.Verbose($"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
         evt.AddModifier(bonus, Fact);
       }
 
@@ -1273,7 +1273,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = ranks >= 20 ? 4 : 2;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
+          Logger.Verbose($"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
           evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
@@ -1362,7 +1362,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = perceptionRanks >= 20 ? 10 : 5;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
+          Logger.Verbose($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
           evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
@@ -1381,7 +1381,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = perceptionRanks >= 20 ? 10 : 5;
-          Logger.NativeLog($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
+          Logger.Verbose($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
           evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
@@ -1423,7 +1423,7 @@ namespace CharacterOptionsPlus.Feats
           if (signatureSkill is not null)
           {
             var bonus = __result.Initiator.Stats.SkillPerception.BaseValue >= 15 ? 4 : 2;
-            Logger.NativeLog($"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
+            Logger.Verbose($"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
             __result.AddModifier(bonus, signatureSkill);
           }
         }
@@ -1501,7 +1501,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (appliedBuff is null)
           {
-            Logger.NativeLog($"{target.CharacterName} is immune to Persuasion");
+            Logger.Verbose($"{target.CharacterName} is immune to Persuasion");
             return;
           }
 
@@ -1515,7 +1515,7 @@ namespace CharacterOptionsPlus.Feats
           var succeedBy = intimidateCheck.RollResult - intimidateCheck.DC;
           if (succeedBy < 10)
           {
-            Logger.NativeLog($"Failed to exceed DC by 10: {succeedBy}");
+            Logger.Verbose($"Failed to exceed DC by 10: {succeedBy}");
             return;
           }
 
@@ -1677,7 +1677,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (nearestEnemy is null)
           {
-            Logger.NativeLog("No enemies nearby");
+            Logger.Verbose("No enemies nearby");
             return;
           }
 

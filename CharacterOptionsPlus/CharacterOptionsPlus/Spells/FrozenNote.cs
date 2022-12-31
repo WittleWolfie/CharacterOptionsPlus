@@ -161,7 +161,7 @@ namespace CharacterOptionsPlus.Spells
           if (command.Type == CommandType.Free || !command.CreatedByPlayer)
             return;
 
-          Logger.NativeLog($"{Owner.CharacterName} took an action {command.Type}, interrupting Frozen Note");
+          Logger.Verbose($"{Owner.CharacterName} took an action {command.Type}, interrupting Frozen Note");
           Buff.Remove();
         }
         catch (Exception e)
@@ -178,7 +178,7 @@ namespace CharacterOptionsPlus.Spells
         {
           if (evt.Result > 0)
           {
-            Logger.NativeLog($"{Owner.CharacterName} took damage, interrupting Frozen Note");
+            Logger.Verbose($"{Owner.CharacterName} took damage, interrupting Frozen Note");
             Buff.Remove();
           }
         }

@@ -112,20 +112,20 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.Spell.Spellbook?.Blueprint.IsArcane == true)
           {
-            Logger.NativeLog("Skipped: Arcane spell.");
+            Logger.Verbose("Skipped: Arcane spell.");
             return;
           }
 
           if (!evt.Spell.Blueprint.SpellDescriptor.HasFlag(SpellDescriptor.Fire))
           {
-            Logger.NativeLog("Skipped: Missing fire descriptor.");
+            Logger.Verbose("Skipped: Missing fire descriptor.");
             return;
           }
 
           var targets = GameHelper.GetTargetsAround(Owner.Position, Range).Where(unit => unit.IsAlly(Owner));
           if (!targets.Any())
           {
-            Logger.NativeLog("Skipped: No valid targets.");
+            Logger.Verbose("Skipped: No valid targets.");
             return;
           }
 
@@ -133,7 +133,7 @@ namespace CharacterOptionsPlus.Feats
           targets = targets.Where(unit => !unit.Facts.HasComponent<SufferFromHealing>(fact => true));
           if (!targets.Any())
           {
-            Logger.NativeLog("Skipped: Targets suffer from healing.");
+            Logger.Verbose("Skipped: Targets suffer from healing.");
             return;
           }
 
@@ -152,7 +152,7 @@ namespace CharacterOptionsPlus.Feats
             }
           }
 
-          Logger.NativeLog($"Applying GLORIOUS HEAT to {effectTarget.CharacterName}");
+          Logger.Verbose($"Applying GLORIOUS HEAT to {effectTarget.CharacterName}");
           effectTarget.AddBuff(Buff, Context, duration: ContextDuration.Fixed(1).Calculate(Context).Seconds);
 
           int healValue =

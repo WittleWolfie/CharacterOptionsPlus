@@ -151,7 +151,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.Reason.Rule is not RuleAttackWithWeapon attack || !attack.IsAttackOfOpportunity)
           {
-            Logger.NativeLog("Skipping: Not AOO.");
+            Logger.Verbose("Skipping: Not AOO.");
             return;
           }
 
@@ -173,7 +173,7 @@ namespace CharacterOptionsPlus.Feats
             }
           }
 
-          Logger.NativeLog("Skipping: No supporting ally.");
+          Logger.Verbose("Skipping: No supporting ally.");
         }
         catch (Exception e)
         {
@@ -183,7 +183,7 @@ namespace CharacterOptionsPlus.Feats
 
       private void AddAttackBonus(RuleCalculateAttackBonus evt)
       {
-        Logger.NativeLog("Adding Paired Opportunists attack bonus.");
+        Logger.Verbose("Adding Paired Opportunists attack bonus.");
         evt.AddModifier(4, Fact, ModifierDescriptor.Circumstance);
       }
 
@@ -234,7 +234,7 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          Logger.NativeLog($"{attacker.CharacterName} provoked an attack against {target.CharacterName}");
+          Logger.Verbose($"{attacker.CharacterName} provoked an attack against {target.CharacterName}");
           Provoking = true;
           Owner.CombatState.AttackOfOpportunity(target);
           Provoking = false;
