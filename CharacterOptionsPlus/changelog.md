@@ -23,6 +23,7 @@
 * New Bugfixes:
     * Cone of Cold is now on the Witch spell list
     * Evasion is now available as an Advanced Slayer Talent
+    * Arrowsong Minstrel should work with Archetypes that extend your spellbook
 
 * New Optional Changes:
     * Cone of Cold replaces Cold Ice Strike as a bonus spell granted by the Winter Patron
