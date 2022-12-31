@@ -23,6 +23,7 @@ using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Linq;
+using TabletopTweaks.Core.Utilities;
 using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static UnityModManagerNet.UnityModManager.ModEntry;
@@ -276,20 +277,16 @@ namespace CharacterOptionsPlus.Archetypes
     [TypeId("52af25ca-44f8-41fb-99a5-dc6e09933e5e")]
     private class FrozenCaressComponent :
       UnitBuffComponentDelegate,
-      IInitiatorRulebookHandler<RuleCastSpell>,
+      IInitiatorRulebookHandler<RuleCalculateAbilityParams>,
       IInitiatorRulebookHandler<RuleDealDamage>
     {
-      private static readonly CustomDataKey DescriptorKey = new("FrozenCaress.Descriptor");
-
       public void OnEventAboutToTrigger(RuleCastSpell evt)
       {
         try
         {
-          Logger.Log($"Casting spell");
           if (evt.Spell.Blueprint.Range != AbilityRange.Touch)
             return;
 
-          Logger.Log($"Added descriptor!");
           evt.Context.AddSpellDescriptor(SpellDescriptor.Cold);
         }
         catch (Exception e)
@@ -298,18 +295,7 @@ namespace CharacterOptionsPlus.Archetypes
         }
       }
 
-      public void OnEventDidTrigger(RuleCastSpell evt)
-      {
-        try
-        {
-          if (evt.TryGetCustomData(DescriptorKey, out SpellDescriptor descriptor))
-            Owner.Ensure<UnitPartChangeSpellElementalDamage>().RemoveDescriptor(Buff.Blueprint);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("FrozenCaressComponent.OnEventDidTrigger(RuleCastSpell)", e);
-        }
-      }
+      public void OnEventDidTrigger(RuleCastSpell evt) { }
 
       public void OnEventAboutToTrigger(RuleDealDamage evt)
       {
@@ -342,6 +328,35 @@ namespace CharacterOptionsPlus.Archetypes
       }
 
       public void OnEventDidTrigger(RuleDealDamage evt) { }
+
+      public void OnEventAboutToTrigger(RuleCalculateAbilityParams evt)
+      {
+        try
+        {
+          if (evt.Spellbook == null)
+            return;
+
+          var spell = evt.Spell;
+          if (spell.Range != AbilityRange.Touch)
+            return;
+
+          var component = spell.GetComponent<SpellDescriptorComponent>();
+          if (component is not null)
+          {
+            var descriptor = UnitPartChangeSpellElementalDamage.ReplaceSpellDescriptorIfCan(Owner, component.Descriptor);
+            if (descriptor.HasAnyFlag(SpellDescriptor.Cold))
+              return;
+          }
+
+          evt.AddBonusDC(dc: 1); // Ice Magic won't apply since the cold descriptor isn't applied yet
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("FrozenCaressComponent.OnEventAboutToTrigger(RuleCalculateAbilityParams)", e);
+        }
+      }
+
+      public void OnEventDidTrigger(RuleCalculateAbilityParams evt) { }
     }
   }
 }
