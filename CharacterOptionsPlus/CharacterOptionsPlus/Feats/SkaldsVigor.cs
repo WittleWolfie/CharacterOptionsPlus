@@ -160,7 +160,7 @@ namespace CharacterOptionsPlus.Feats
           {
             return;
           }
-          Logger.Log("Inspired Rage deactivated.");
+          Logger.Verbose("Inspired Rage deactivated.");
 
           var inspiredRageBuff = ability.Owner.Buffs.GetBuff(InspiredRageBuff);
           if (inspiredRageBuff is null)

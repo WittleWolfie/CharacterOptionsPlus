@@ -137,7 +137,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         {
           if (evt.Result == AttackResult.MirrorImage || evt.IsHit)
           {
-            Logger.Log($"Spending a resource.");
+            Logger.Verbose($"Spending a resource.");
             evt.Target.Resources.Spend(Resource, 1);
           }
         }

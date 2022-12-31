@@ -55,7 +55,7 @@ namespace CharacterOptionsPlus.Components
         Remove();
 
         var commandType = Calculation.Calculate(Owner);
-        Logger.Log($"Setting action cost for {Ability.Get().Name} to {commandType} for {Owner.CharacterName}");
+        Logger.Verbose($"Setting action cost for {Ability.Get().Name} to {commandType} for {Owner.CharacterName}");
         Owner.Ensure<UnitPartAbilityModifiers>().AddEntry(new(Fact, commandType, Ability));
       }
       catch (Exception e)

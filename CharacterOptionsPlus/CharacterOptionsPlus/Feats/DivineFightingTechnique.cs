@@ -2168,7 +2168,7 @@ namespace CharacterOptionsPlus.Feats
           var wisdom = Owner.Stats.GetStat(StatType.Wisdom) as ModifiableValueAttributeStat;
           var dc = 10 + Owner.Progression.CharacterLevel / 2 + wisdom.Bonus;
 
-          Logger.Log($"Attempting to infect {evt.Target.CharacterName} with {contagion.name}, DC {dc}");
+          Logger.Verbose($"Attempting to infect {evt.Target.CharacterName} with {contagion.name}, DC {dc}");
           Owner.Resources.Spend(Resource, 1);
           if (!Rulebook.Trigger<RuleSavingThrow>(new(target, SavingThrowType.Fortitude, dc)).IsPassed)
           {
@@ -2237,7 +2237,7 @@ namespace CharacterOptionsPlus.Feats
           if (evt.Damage.Result < 1)
             return;
 
-          Logger.Log($"{Owner.CharacterName} drained {damage} HP from {evt.Target.CharacterName}");
+          Logger.Verbose($"{Owner.CharacterName} drained {damage} HP from {evt.Target.CharacterName}");
           Owner.Resources.Spend(Resource, 1);
           Context[AbilitySharedValue.Heal] = damage;
           Owner.AddBuff(LifeBuff, Context, 1.Minutes());

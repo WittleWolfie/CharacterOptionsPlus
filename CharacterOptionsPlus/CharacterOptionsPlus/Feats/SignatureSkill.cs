@@ -823,7 +823,7 @@ namespace CharacterOptionsPlus.Feats
           if (skillRanks < 20)
             return;
 
-          Logger.Log($"Adding reroll for {Owner.CharacterName}.");
+          Logger.Verbose($"Adding reroll for {Owner.CharacterName}.");
           evt.AddReroll(amount: 1, takeBest: true, Fact);
         }
         catch (Exception e)
@@ -1692,7 +1692,7 @@ namespace CharacterOptionsPlus.Feats
           if (GameHelper.TriggerSkillCheck(
             new(unit, StatType.SkillStealth, enemyResult.RollResult - distanceBonus + ranksPenalty)).Success)
           {
-            Logger.Log($"Applying concealment to {unit.CharacterName} for 1 round.");
+            Logger.Verbose($"Applying concealment to {unit.CharacterName} for 1 round.");
             if (skillRanks >= 10)
               unit.AddBuff(TotalConcealment, Context, 1.Rounds().Seconds);
             else
@@ -1700,7 +1700,7 @@ namespace CharacterOptionsPlus.Feats
           }
           else
           {
-            Logger.Log($"{unit.CharacterName} failed stealth check against {nearestEnemy.CharacterName}");
+            Logger.Verbose($"{unit.CharacterName} failed stealth check against {nearestEnemy.CharacterName}");
           }
         }
         catch (Exception e)
@@ -1746,7 +1746,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var duration = skillRanks >= 20 ? 2 : 1;
-          Logger.Log($"Denying Dexterity bonuses to {target.CharacterName} for {duration} rounds");
+          Logger.Verbose($"Denying Dexterity bonuses to {target.CharacterName} for {duration} rounds");
           target.AddBuff(DenyDexterity, unit, duration: duration.Rounds().Seconds);
         }
         catch (Exception e)

@@ -31,7 +31,7 @@ namespace CharacterOptionsPlus.Components
         {
           if (Owner.State.HasCondition(condition))
           {
-            Logger.Log($"Suppressing {string.Join(", ", Conditions)} on {Owner.CharacterName}");
+            Logger.Verbose($"Suppressing {string.Join(", ", Conditions)} on {Owner.CharacterName}");
             Owner.State.RemoveCondition(condition);
             Data.SuppressedConditions.Add(condition);
           }
@@ -49,7 +49,7 @@ namespace CharacterOptionsPlus.Components
       {
         foreach (var condition in Data.SuppressedConditions)
         {
-          Logger.Log($"Removing suppression of {condition} on {Owner.CharacterName}");
+          Logger.Verbose($"Removing suppression of {condition} on {Owner.CharacterName}");
           Owner.State.AddCondition(condition);
         }
         Data.SuppressedConditions.Clear();
