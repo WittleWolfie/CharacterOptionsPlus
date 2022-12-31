@@ -432,6 +432,12 @@ namespace CharacterOptionsPlus.Util
 
     internal const string IceSpearsSpell = "576450cf-3f8a-4440-a0aa-f678a6286b62";
 
+    internal const string ImplosionSpell = "47859cc0-7a4b-48b8-99ee-3931f3b88de4";
+    internal const string ImplosionAbility = "289b2f51-ae84-4f63-bd7a-c34232e3294b";
+    internal const string ImplosionBuff = "ff092c39-f7c7-4538-aef5-dc90556e257d";
+    internal const string ImplosionConcentrationBuff = "9c5794d5-758e-44d9-ace8-ca9b27294131";
+    internal const string ImplosionCooldownBuff = "ca36d91d-dc15-430d-8727-2c2d6b818d28";
+
     internal const string InvisibilityPurgeSpell = "c3647ce7-d6da-49fa-a6e8-6830841e56e1";
     internal const string InvisibilityPurgeSelfBuff = "38e2cf8a-3259-462a-8b2f-801c82c19fff";
     internal const string InvisibilityPurgeBuff = "553334c9-c5cb-4918-91c5-80c60036e642";
@@ -501,6 +507,7 @@ namespace CharacterOptionsPlus.Util
         (HorrificDoublesSpell, HorrificDoubles.DisplayName),
         (IceSlickSpell, IceSlick.DisplayName),
         (IceSpearsSpell, IceSpears.DisplayName),
+        (ImplosionSpell, Implosion.DisplayName),
         (InvisibilityPurgeSpell, InvisibilityPurge.DisplayName),
         (JudgementLightSpell, JudgementLight.DisplayName),
         (KeenEdgeSpell, KeenEdge.DisplayName),

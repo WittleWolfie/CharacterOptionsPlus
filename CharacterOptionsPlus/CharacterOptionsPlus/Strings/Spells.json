@@ -166,6 +166,31 @@
   },
 
   {
+    "Key": "Implosion.Name",
+    "ProcessTemplates": false,
+    "enGB": "Implosion"
+  },
+  {
+    "Key": "Implosion.Description",
+    "enGB": "This spell causes a destructive resonance in a corporeal creature’s body. Each round you concentrate (including the first), you can cause one creature to collapse in on itself, inflicting 10 points of damage per caster level. If you break concentration, the spell immediately ends, though any implosions that have already happened remain in effect. You can target a particular creature only once with each casting of the spell. Implosion has no effect on incorporeal creatures."
+  },
+  {
+    "Key": "Implosion.Concentration.Name",
+    "ProcessTemplates": false,
+    "enGB": "Implosion (Concentration)"
+  },
+  {
+    "Key": "Implosion.Cooldown.Name",
+    "ProcessTemplates": false,
+    "enGB": "Implosion (Cooldown)"
+  },
+  {
+    "Key": "Implosion.Watcher.Name",
+    "ProcessTemplates": false,
+    "enGB": "Implosion (Watcher)"
+  },
+
+  {
     "Key": "InvisibilityPurge.Name",
     "ProcessTemplates": false,
     "enGB": "Invisibility Purge"

@@ -163,6 +163,7 @@ namespace CharacterOptionsPlus
         HorrificDoubles.Configure();
         IceSlick.Configure();
         IceSpears.Configure();
+        Implosion.Configure();
         InvisibilityPurge.Configure();
         JudgementLight.Configure();
         KeenEdge.Configure();

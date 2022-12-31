@@ -11,8 +11,10 @@
         * Optional rule to make it only affect enemies
     * Frost Fall
     * Ice Spears
+    * Implosion
     * Judgement Light
     * Keen Edge
+    * Nine Lives
     * Unshakable Zeal
 
 * New Bugfixes:
