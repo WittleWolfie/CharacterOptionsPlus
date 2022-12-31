@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
 {
@@ -35,6 +34,8 @@ namespace CharacterOptionsPlus.UnitParts
   [JsonObject]
   internal class UnitPartControlledProjectiles : UnitPart
   {
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(UnitPartControlledProjectiles));
+
     [JsonProperty]
     private Dictionary<BlueprintGuid, List<ControlledProjectile>> Projectiles = new();
 
@@ -52,16 +53,25 @@ namespace CharacterOptionsPlus.UnitParts
     internal ControlledProjectile Consume(BlueprintBuffReference buff)
     {
       if (!Projectiles.ContainsKey(buff.Guid))
+      {
+        Logger.Verbose($"No projetiles for buff");
         return null;
+      }
 
       var projectiles = Projectiles[buff.Guid];
       var projectile = projectiles.LastOrDefault();
       if (projectile is null || projectile.Handle is null)
+      {
+        Logger.Verbose(projectile is null ? "Projectile is null" : "Projectile handle is null");
         return null;
+      }
 
       projectiles.Remove(projectile);
       if (!projectiles.Any())
+      {
+        Logger.Verbose($"No remaining projectiles");
         Projectiles.Remove(buff.Guid);
+      }
 
       return projectile;
     }
@@ -69,12 +79,18 @@ namespace CharacterOptionsPlus.UnitParts
     internal void ConsumeAll(BlueprintBuffReference buff)
     {
       if (!Projectiles.ContainsKey(buff.Guid))
+      {
+        Logger.Verbose($"No projetiles for buff");
         return;
+      }
 
       foreach (var projectile in Projectiles[buff.Guid])
       {
         if (projectile?.Handle is not null)
+        {
+          Logger.Verbose($"Destroying a projectile");
           FxHelper.Destroy(projectile.Handle);
+        }
       }
       Projectiles.Remove(buff.Guid);
     }
@@ -142,6 +158,7 @@ namespace CharacterOptionsPlus.UnitParts
       while (!controlledProjectile.Handle.IsSpawned)
         yield return null;
 
+      Logger.Verbose("Projectile spawned");
       // This setup is a mixture of AbilityDeliverProjectile.Deliver() and ProjectileController.Launch()
       var spawnedProjectile = controlledProjectile.Handle.SpawnedObject;
       var projectile =
@@ -160,6 +177,7 @@ namespace CharacterOptionsPlus.UnitParts
       var projectileController = Game.Instance.ProjectileController;
       if (projectileController.m_ViewParent is null)
       {
+        Logger.Verbose("Creating projectile view parent");
         projectileController.m_ViewParent = new GameObject("__Projectiles__").transform;
         SceneManager.MoveGameObjectToScene(
           projectileController.m_ViewParent.gameObject, SceneManager.GetSceneByName("BaseMechanics"));
@@ -183,13 +201,17 @@ namespace CharacterOptionsPlus.UnitParts
       while (!projectile.IsHit && !projectile.Cleared)
         yield return null;
 
+      Logger.Verbose("Projectile animation completed");
       attackRoll.ConsumeMirrorImageIfNecessary();
       using (ContextData<BuffCollection.RemoveByRank>.Request())
         buff.Remove();
       GameObject.DestroyImmediate(spawnedProjectile);
 
       if (projectile.Cleared)
+      {
+        Logger.Verbose("Projectile cleared");
         yield break;
+      }
 
       yield return new AbilityDeliveryTarget(projectile.Target)
         {
@@ -225,6 +247,7 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
+          Logger.Verbose("Spawning projectiles on area load");
           SpawnProjectiles();
         }
         catch (Exception e)
@@ -242,6 +265,7 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
+          Logger.Verbose("Consuming projectiles on area unload");
           ConsumeAll();
         }
         catch (Exception e)

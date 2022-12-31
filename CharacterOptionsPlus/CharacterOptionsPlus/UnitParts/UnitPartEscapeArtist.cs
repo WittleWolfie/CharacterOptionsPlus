@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.UnitParts
 {
@@ -77,29 +76,36 @@ namespace CharacterOptionsPlus.UnitParts
     //  - Lowest DC is prioritized (i.e. most likely to succeed)
     public void AddSupressBuff(Buff buff, bool appliesParalyze, bool appliesSlow)
     {
+      Logger.Verbose($"Adding suppress: {buff.Name}");
       SuppressBuffs.Add(buff);
 
       if (SuppressTarget is null)
       {
+        Logger.Verbose("Updating target: no current target");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
         return;
       }
 
       if (appliesParalyze && appliesSlow && (!AppliesParalyze || !AppliesSlow))
       {
+        Logger.Verbose("Updating target: paralyze and slow applied");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
         return;
       }
 
       if (appliesParalyze && !AppliesParalyze)
       {
+        Logger.Verbose("Updating target: paralyze applied");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
         return;
       }
 
       var hasLowerDC = buff.Context.Params.DC < SuppressTarget.Context.Params.DC;
       if (hasLowerDC && AppliesParalyze == appliesParalyze && AppliesSlow == appliesSlow)
+      {
+        Logger.Verbose("Updating target: higher DC");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
+      }
     }
 
     public void RemoveSuppressBuff(Buff buff)
@@ -108,7 +114,10 @@ namespace CharacterOptionsPlus.UnitParts
       SuppressedBuffs.Remove(buff);
 
       if (SuppressTarget == buff)
+      {
+        Logger.Verbose("Updating target: buff removed");
         UpdateSuppressTarget();
+      }
 
       // If a suppression buff ended, put the suppressed buff back into the valid pool
       if (buff.Blueprint == ParalyzeBuff || buff.Blueprint == SlowBuff)
@@ -125,6 +134,7 @@ namespace CharacterOptionsPlus.UnitParts
 
         if (parentBuff is not null)
         {
+          Logger.Verbose($"Removing suppression of {parentBuff.Name}");
           SuppressedBuffs.Remove(parentBuff);
           UpdateSuppressTarget();
         }
@@ -159,7 +169,8 @@ namespace CharacterOptionsPlus.UnitParts
 
       var unit = Owner.Unit;
       var dc = SuppressTarget.Context.Params.DC + 10;
-      Logger.Log($"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {dc}");
+      Logger.Verbose(
+        $"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {dc}");
 
       // This is basically whether or not this is activated automatically at start of round or by an active ability.
       // Manually spending / triggering the action for the ability causes problems.
@@ -170,12 +181,15 @@ namespace CharacterOptionsPlus.UnitParts
 
         var actionCost =
           unit.Stats.GetStat(StatType.SkillAthletics).BaseValue >= 20 ? CommandType.Move : CommandType.Standard;
+        Logger.Verbose($"Spending an action: {actionCost}");
         unit.SpendAction(actionCost, isFullRound: false, timeSinceCommandStart: 0);
       }
 
       var result = GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, dc), SuppressTarget.Context);
       if (result.Success)
       {
+        Logger.Verbose("Athletics check passed");
+
         var rounds = (1 + (result.RollResult - dc) / 5).Rounds();
         if (AppliesCondition(SuppressTarget, UnitCondition.Paralyzed))
         {

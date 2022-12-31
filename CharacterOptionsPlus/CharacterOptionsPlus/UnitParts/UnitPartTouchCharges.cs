@@ -45,14 +45,16 @@ namespace CharacterOptionsPlus.UnitParts
         var charges = caster.Get<UnitPartTouchCharges>();
         if (charges is null)
         {
+          Logger.Verbose("No charges to consume");
           caster.Remove<UnitPartTouch>();
           return;
         }
 
-        Logger.Log($"Consuming touch charge on {caster.CharacterName}");
+        Logger.Verbose($"Consuming touch charge on {caster.CharacterName}");
         charges.UseCharge();
         if (!charges.HasCharge())
         {
+          Logger.Verbose("No charges remaining");
           caster.Remove<UnitPartTouch>();
         }
       }
@@ -99,16 +101,22 @@ namespace CharacterOptionsPlus.UnitParts
         {
           var caster = context.MaybeCaster;
           if (caster is null)
+          {
+            Logger.Warning("No caster");
             return;
+          }
 
           var touchCharges = ability.GetComponent<TouchCharges>();
           if (touchCharges is null)
+          {
+            Logger.Verbose("Not a touch ability");
             return;
+          }
 
           var count = touchCharges.GetChargeCount(context);
           var charges = caster.Ensure<UnitPartTouchCharges>();
           charges.Init(count);
-          Logger.Log($"Added {count} touch charges for {caster.CharacterName}");
+          Logger.Verbose($"Added {count} touch charges for {caster.CharacterName}");
         }
         catch (Exception e)
         {
