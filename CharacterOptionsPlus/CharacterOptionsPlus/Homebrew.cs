@@ -21,6 +21,8 @@ namespace CharacterOptionsPlus
     {
       if (Settings.IsEnabled(ConeOfColdWinterPatron))
         ConfigureConeOfColdWinterPatron();
+      if (Settings.IsEnabled(ImplosionDestructionDomain))
+        ConfigureImplosionDestructionDomain();
     }
 
     internal const string ConeOfColdWinterPatron = "cone-of-cold-winter-patron";
@@ -76,6 +78,7 @@ namespace CharacterOptionsPlus
       new()
       {
         (ConeOfColdWinterPatron, "ConeOfCold.WinterPatron.Name", "ConeOfCold.WinterPatron.Description"),
+        (ImplosionDestructionDomain, "Implosion.DestructionDomain.Name", "Implosion.DestructionDomain.Description"),
         (SelectiveFreezingSphere, "Homebrew.FreezingSphere.Name", "Homebrew.FreezingSphere.Description"),
         (OriginalGloriousHeat, "Homebrew.GloriousHeat.Name", "Homebrew.GloriousHeat.Description"),
         (SingleDraconicBloodline, "SingleDraconicBloodline.Name", "SingleDraconicBloodline.Description"),
