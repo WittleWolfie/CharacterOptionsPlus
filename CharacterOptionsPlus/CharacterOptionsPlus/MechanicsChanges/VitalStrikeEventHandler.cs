@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.References;
+using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
@@ -28,6 +29,8 @@ namespace CharacterOptionsPlus.MechanicsChanges
     IRulebookHandler<RuleAttackWithWeapon>,
     ISubscriber, IInitiatorRulebookSubscriber
   {
+    private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(VitalStrikeEventHandler));
+
     private static BlueprintFeature _rowdy;
     private static BlueprintFeature Rowdy
     {
@@ -71,6 +74,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
       DamageDescription damageDescription = evt.DamageDescription.FirstItem();
       if (damageDescription != null && damageDescription.TypeDescription.Type == DamageType.Physical)
       {
+        Logger.Verbose("Calculating vital strike damage");
         var vitalDamage = CalculateVitalDamage(evt);
         evt.DamageDescription.Insert(1, vitalDamage);
       }
@@ -97,11 +101,14 @@ namespace CharacterOptionsPlus.MechanicsChanges
           dd.SourceFact = Fact;
 
           if (IsMythic)
+          {
+            Logger.Verbose("Vital Strike is mythic");
             dd.AddModifier(
               new(
                 evt.DamageDescription.FirstItem().Bonus * Math.Max(1, DamageMod - 1),
                 evt.Initiator.GetFact(MythicVitalStrike),
                 ModifierDescriptor.UntypedStackable));
+          }
         });
       return damageDescriptor;
     }
@@ -111,7 +118,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
     //For Ranged - Handling of damage calcs does not occur the same due to projectiles
     public void OnEventDidTrigger(RuleAttackWithWeapon evt)
     {
-      if (!IsRowdy) { return; }
+      if (!IsRowdy){ return; }
 
       var RowdyFact = evt.Initiator.GetFact(Rowdy);
       RuleAttackRoll ruleAttackRoll = evt.AttackRoll;

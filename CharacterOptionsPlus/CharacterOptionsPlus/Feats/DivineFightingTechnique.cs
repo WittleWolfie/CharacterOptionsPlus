@@ -56,7 +56,6 @@ using static Kingmaker.RuleSystem.RulebookEvent;
 using static Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityResourceLogic;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -218,18 +217,22 @@ namespace CharacterOptionsPlus.Feats
         try
         {
           if (Data.AppliedFact is not null)
+          {
+            Logger.Verbose("Already applied fact");
             return;
+          }
 
           using (Context.GetDataScope(Owner))
           {
             if (!Conditions.Check())
             {
+              Logger.Verbose("Conditions check failed");
               return;
             }
           }
 
           var technique = AdvancedTechnique.Get();
-          Logger.Log($"Applying Advanced Technique: {technique.name}");
+          Logger.Verbose($"Applying Advanced Technique: {technique.name}");
           Data.AppliedFact = Owner.AddFact(technique);
         }
         catch (Exception e)
@@ -244,7 +247,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Data.AppliedFact is not null)
           {
-            Logger.Log($"Removing {Data.AppliedFact.Name}");
+            Logger.Verbose($"Removing {Data.AppliedFact.Name}");
             Owner.RemoveFact(Data.AppliedFact);
             Data.AppliedFact = null;
           }
@@ -549,15 +552,21 @@ namespace CharacterOptionsPlus.Feats
         try
         {
           if (Data.AppliedFact is not null)
+          {
+            Logger.Verbose("Already applied fact (asmodeus)");
             return;
+          }
 
           if (Owner.Stats.GetStat(StatType.BaseAttackBonus) < 10
               || Owner.Stats.GetStat(StatType.Intelligence) < 13
               || !Owner.HasFact(FeatureRefs.CombatExpertiseFeature.Reference)
               || !Owner.HasFact(FeatureRefs.ImprovedDirtyTrick.Reference))
+          {
+            Logger.Verbose("Requirements not met (asmodeus)");
             return;
+          }
 
-          Logger.Log($"Applying Asmodeus Advanced Technique");
+          Logger.Verbose($"Applying Asmodeus Advanced Technique");
           Data.AppliedFact = Owner.AddFact(AdvancedTechnique);
         }
         catch (Exception e)
@@ -572,7 +581,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Data.AppliedFact is not null)
           {
-            Logger.Log($"Removing {Data.AppliedFact.Name}");
+            Logger.Verbose($"Removing {Data.AppliedFact.Name}");
             Owner.RemoveFact(Data.AppliedFact);
             Data.AppliedFact = null;
           }

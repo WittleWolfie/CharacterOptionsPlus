@@ -3,7 +3,6 @@ using HarmonyLib;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Parts;
 using System;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.MechanicsChanges
 {
@@ -23,6 +22,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
         {
           if (group == AsmodeusTechnique)
           {
+            Logger.Verbose("Returning group size for AsmodeusTechnique");
             __result = 1;
             return false;
           }
