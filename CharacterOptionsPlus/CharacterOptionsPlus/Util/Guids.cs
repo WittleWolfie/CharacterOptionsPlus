@@ -31,12 +31,27 @@ namespace CharacterOptionsPlus.Util
     internal const string ArrowsongMinstrelSpellList = "74f9286f-6e8e-46ba-8de8-995759759b2f";
     internal const string ArrowsongMinstrelSpellsPerDay = "32e41814-4688-42b6-87a7-4384f602a621";
     internal const string ArrowsongMinstrelSpellSelection = "3c9b1fb1-9466-45db-9fe8-08500b66ea50";
-    
+
+    internal const string WinterWitchArchetype = "23f2281a-c005-4193-b545-849b669b4ea5";
+    internal const string WinterWitchFamiliarSelection = "290d012b-0883-4adf-9f43-a10a0cf49c64";
+    internal const string WinterWitchPatronSelection = "43e304fa-de8d-447f-abf5-17981fd064c1";
+    internal const string WinterWitchCantrips = "6638cd9a-258f-4710-a648-dff9b1b30d44";
+    internal const string WinterWitchSpellbook = "48fa2071-7916-4ed7-a8a3-df5033df04e9";
+    internal const string WinterWitchSpellList = "2cb6dfbd-64c9-40aa-8160-bf2c5e34349e";
+
+    internal const string WinterWitchIceMagic = "79ce6ba4-c9f3-4f15-8584-8d690d947afc";
+    internal const string WinterWitchColdFlesh4 = "06b50460-f88b-424a-871f-38ee5f768288";
+    internal const string WinterWitchColdFlesh9 = "7fa6d8cf-7e10-4edb-b206-661387654594";
+    internal const string WinterWitchColdFlesh14 = "c30961b4-0840-48b3-9851-0338d409c6d5";
+    internal const string WinterWitchFrozenCaress = "ba655d18-7ee9-4b69-bbb0-6430682b6bfd";
+    internal const string WinterWitchFrozenCaressAbility = "4f1c5583-5a0d-442a-b6df-9e17a9d536a4";
+    internal const string WinterWitchFrozenCaressBuff = "d2fc675c-b308-40c2-a552-4442cd3aceea";
 
     internal static readonly (string guid, string displayName)[] Archetypes =
       new (string, string)[]
       {
         (ArrowsongMinstrelArchetype, ArrowsongMinstrel.ArchetypeDisplayName),
+        (WinterWitchArchetype, WinterWitch.ArchetypeDisplayName),
       };
     #endregion
 

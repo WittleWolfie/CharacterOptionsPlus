@@ -111,6 +111,7 @@ namespace CharacterOptionsPlus
         Logger.Log("Configuring archetypes.");
 
         ArrowsongMinstrel.Configure();
+        WinterWitch.Configure();
       }
 
       private static void ConfigureClassFeatures()

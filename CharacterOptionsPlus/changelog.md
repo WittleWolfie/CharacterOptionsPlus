@@ -1,5 +1,8 @@
 ## v1.0.0
 
+* New Archetypes:
+    * Winter Witch
+
 * New Class Features:
     * Shimmering Mirage (Wild Talent)
     * Suffocate (Wild Talent)
