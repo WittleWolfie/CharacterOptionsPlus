@@ -1,7 +1,7 @@
-## v1.1.0
+## v1.0.4
 
-* New Bugfixes:
-    * Nine Lives has duration text
+* Nine Lives has duration text
+* Fixed mod conflicts that sometimes prevent new spells from being learnable
 
 ## v1.0.3
 
