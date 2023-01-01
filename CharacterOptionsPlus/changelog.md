@@ -1,3 +1,15 @@
+## v1.0.3
+
+* Frozen Caress should work with ranged touch spells
+
+## v1.0.2
+
+* Freezing Sphere description reflects the optional rule setting
+
+## v1.0.1
+
+* Fixes a bug preventing Winter Witch Winter Witches from getting hexes
+
 ## v1.0.0
 
 * New Archetypes:

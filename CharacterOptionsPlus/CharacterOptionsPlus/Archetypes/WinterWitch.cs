@@ -21,6 +21,7 @@ using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
@@ -408,7 +409,7 @@ namespace CharacterOptionsPlus.Archetypes
       {
         try
         {
-          if (evt.Spell.Blueprint.Range != AbilityRange.Touch)
+          if (!IsTouchSpell(evt.Spell.Blueprint))
             return;
 
           evt.Context.AddSpellDescriptor(SpellDescriptor.Cold);
@@ -417,6 +418,35 @@ namespace CharacterOptionsPlus.Archetypes
         {
           Logger.LogException("FrozenCaressComponent.OnEventAboutToTrigger(RuleCastSpell)", e);
         }
+      }
+
+      private bool IsTouchSpell(BlueprintAbility spell)
+      {
+        if (spell.Range == AbilityRange.Touch)
+        {
+          Logger.Verbose("Touch range spell");
+          return true;
+        }
+
+        var projectile = spell.GetComponent<AbilityDeliverProjectile>();
+        if (projectile is not null)
+        {
+          var attackType = projectile.Weapon?.Type?.AttackType;
+          if (attackType is not null && (attackType == AttackType.Touch || attackType == AttackType.RangedTouch))
+          {
+            Logger.Verbose("Projectile spell with touch attack type");
+            return true;
+          }
+        }
+
+        var touch = spell.GetComponent<AbilityDeliverTouch>();
+        if (touch is not null)
+        {
+          Logger.Verbose("Touch spell");
+          return true;
+        }
+
+        return false;
       }
 
       public void OnEventDidTrigger(RuleCastSpell evt) { }
@@ -435,7 +465,7 @@ namespace CharacterOptionsPlus.Archetypes
           if (ability.Type != AbilityType.Spell)
             return;
 
-          if (ability.Range != AbilityRange.Touch)
+          if (!IsTouchSpell(ability))
             return;
 
           var savingThrow = evt.Reason.Context.SavingThrow;
@@ -461,7 +491,7 @@ namespace CharacterOptionsPlus.Archetypes
             return;
 
           var spell = evt.Spell;
-          if (spell.Range != AbilityRange.Touch)
+          if (!IsTouchSpell(spell))
             return;
 
           var component = spell.GetComponent<SpellDescriptorComponent>();
@@ -469,7 +499,10 @@ namespace CharacterOptionsPlus.Archetypes
           {
             var descriptor = UnitPartChangeSpellElementalDamage.ReplaceSpellDescriptorIfCan(Owner, component.Descriptor);
             if (descriptor.HasAnyFlag(SpellDescriptor.Cold))
+            {
+              Logger.Verbose("Already has cold descriptor");
               return;
+            }
           }
 
           evt.AddBonusDC(dc: 1); // Ice Magic won't apply since the cold descriptor isn't applied yet
