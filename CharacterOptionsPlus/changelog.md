@@ -1,3 +1,8 @@
+## v1.1.0
+
+* New Bugfixes:
+    * Nine Lives has duration text
+
 ## v1.0.3
 
 * Frozen Caress should work with ranged touch spells

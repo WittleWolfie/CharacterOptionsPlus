@@ -84,6 +84,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.HourPerLevel)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(self: true, friends: true)
         .SetAnimation(CastAnimationStyle.Touch)
