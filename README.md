@@ -27,7 +27,11 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 * Archetypes
     * [Arrowsong Minstrel](https://www.d20pfsrd.com/classes/core-classes/bard/archetypes/paizo-bard-archetypes/arrowsong-minstrel-bard/)
+    * [Winter Witch](https://www.d20pfsrd.com/classes/base-classes/witch/archetypes/paizo-witch-archetypes/winter-witch/)
 * Class Features
+    * Kineticist
+        * [Shimmering Mirage](https://www.d20pfsrd.com/alternative-rule-systems/occult-adventures/occult-classes/kineticist/utility-wild-talents/)
+        * [Suffocate](https://www.d20pfsrd.com/alternative-rule-systems/occult-adventures/occult-classes/kineticist/utility-wild-talents/)
     * Rogue
         * [Shadow Duplicate](https://www.d20pfsrd.com/classes/core-classes/rogue/rogue-talents/paizo-rogue-talents/shadow-duplicate-sp/)
     * Slayer
@@ -41,25 +45,48 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
         * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
         * Supports Aberrant and Destined bloodlines from TTT-Base
-    * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/)
     * [Furious Focus](https://www.d20pfsrd.com/feats/combat-feats/furious-focus-combat/)
+    * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/)
+        * Optionally uses original wording while excluding cantrips
     * [Hurtful](https://www.d20pfsrd.com/feats/combat-feats/hurtful-combat/)
     * [Paired Opportunists](https://www.d20pfsrd.com/feats/combat-feats/paired-opportunists-combat-teamwork/)
-    * [Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/skald-s-vigor/) and [Greater Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/greater-skald-s-vigor/)
     * [Signature Skill](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
         * Grants skill unlocks for all skills except Use Magic Device and Thievery
         * Automatically granted to rogue at level 5 / 10 / 15 / 20 per TT rules for unchained rogue
+    * [Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/skald-s-vigor/) and [Greater Skald's Vigor](https://www.d20pfsrd.com/feats/general-feats/greater-skald-s-vigor/)
 * Spells
     * [Bladed Dash](https://www.d20pfsrd.com/magic/all-spells/b/bladed-dash/)
     * [Burning Disarm](https://www.d20pfsrd.com/magic/all-spells/b/burning-disarm/)
     * [Consecrate](https://www.d20pfsrd.com/magic/all-spells/c/consecrate/)
     * [Desecrate](https://www.d20pfsrd.com/magic/all-spells/d/desecrate/)
+    * [Dimensional Blade](https://www.d20pfsrd.com/magic/all-spells/d/dimensional-blade/)
+    * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
+    * [Freezing Sphere](https://www.d20pfsrd.com/magic/all-spells/f/freezing-sphere/)
+        * Optionally is Selective by default
+    * [Frost Fall](https://www.d20pfsrd.com/magic/all-spells/f/frost-fall/)
     * [Frozen Note](https://www.d20pfsrd.com/magic/all-spells/f/frozen-note/)
     * [Hedging Weapons](https://www.d20pfsrd.com/magic/all-spells/h/hedging-weapons/)
     * [Ice Slick](https://www.d20pfsrd.com/magic/all-spells/i/ice-slick/)
+    * [Ice Spears](https://www.d20pfsrd.com/magic/all-spells/i/ice-spears/)
+    * [Implosion](https://www.d20pfsrd.com/magic/all-spells/i/implosion/)
+        * Optionally replaces Tsunami in the Destruction Domain spell list
+    * [Invisibility Purge](https://www.d20pfsrd.com/magic/all-spells/i/invisibility-purge/)
+    * [Judgement Light](https://www.d20pfsrd.com/magic/all-spells/j/judgment-light/)
+    * [Keen Edge](https://www.d20pfsrd.com/magic/all-spells/k/keen-edge/)
+    * [Mortal Terror](https://www.d20pfsrd.com/magic/all-spells/m/mortal-terror/)
+    * [Nine Lives](https://www.d20pfsrd.com/magic/all-spells/n/nine-lives/)
+    * [Screaming Flames](https://www.d20pfsrd.com/magic/all-spells/s/screaming-flames/)
     * [Shadow Trap](https://www.d20pfsrd.com/magic/all-spells/s/shadow-trap/)
+    * [Stricken Heart](https://www.d20pfsrd.com/magic/all-spells/s/stricken-heart/)
     * [Touch of Blindness](https://www.d20pfsrd.com/magic/all-spells/t/touch-of-blindness/)
+    * [Unshakable Zeal](https://www.d20pfsrd.com/magic/all-spells/u/unshakable-zeal/)
+    * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
     * [Wrath](https://www.d20pfsrd.com/magic/all-spells/w/wrath/)
+
+## Base Game Changes
+
+* Cone of Cold can replace Icy Prison in the Winter Patron spell list
+* Evasion is available as a Slayer Advanced Talent
 
 ## Bug Fixes
 
@@ -67,34 +94,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Serpent's Fang poison DC is calculated correctly
 * Serpent Friend grants +3 to Perception instead of +2, matching the feature description
 
-## Planned Content
+## Reporting Problems
 
-### NOT IMPLEMENTED YET (YOU KNOW, PLANNED)
-
-* Class Features
-    * Slayer
-        * [Evasion](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/rogue-adv-talents-master-tricks/)
-
-* Spells
-    * [Cone of Cold](https://www.d20pfsrd.com/magic/all-spells/c/cone-of-cold/)
-        * Replace Icy Prison in Winter Patron bonus spells
-    * [Dimensional Blade](https://www.d20pfsrd.com/magic/all-spells/d/dimensional-blade/)
-    * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
-    * [Freezing Sphere](https://www.d20pfsrd.com/magic/all-spells/f/freezing-sphere/)
-    * [Frost Fall](https://www.d20pfsrd.com/magic/all-spells/f/frost-fall/)
-    * [Ice Spears](https://www.d20pfsrd.com/magic/all-spells/i/ice-spears/)
-    * [Implosion](https://www.d20pfsrd.com/magic/all-spells/i/implosion/)
-    * [Invisibility Purge](https://www.d20pfsrd.com/magic/all-spells/i/invisibility-purge/)
-    * [Ironskin](https://www.d20pfsrd.com/magic/all-spells/i/ironskin/)
-    * [Judgement Light](https://www.d20pfsrd.com/magic/all-spells/j/judgment-light/)
-    * [Keen Edge](https://www.d20pfsrd.com/magic/all-spells/k/keen-edge/)
-    * [Nine Lives](https://www.d20pfsrd.com/magic/all-spells/n/nine-lives/)
-    * [Screaming Flames](https://www.d20pfsrd.com/magic/all-spells/s/screaming-flames/)
-    * [Shield of Fortification](https://www.d20pfsrd.com/magic/all-spells/s/shield-of-fortification/)
-    * [Stricken Heart](https://www.d20pfsrd.com/magic/all-spells/s/stricken-heart/)
-    * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
-
-### Reporting Problems
+### First, go to Settings > Mods > Character Options+ and turn on "Enable Detailed Logs"
 
 **Follow this guide: [So you want to report a WotR mod bug?](https://github.com/Pathfinder-WOTR-Modding-Community/MewsiferConsole/blob/main/ModBugReports.md)** Ideally include a save file.
 
@@ -105,6 +107,12 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) and attach the generated bug report
 5. Include your save file in the bug report
     * Saves are stored in `%UserProfile%\AppData\LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games`
+
+### Known Issues
+
+* [Some buffs do not work with BubbleBuffs](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/76)
+    * Also AoE indicators are not enabled in BubbleTweaks by default
+* Winter Witch's Frozen Caress hex does not apply DC increases from things like Elemental Focus; this will probably never be fixed. It does apply the bonus from Winter Witch's Ice Magic.
 
 ### Mod Options
 
