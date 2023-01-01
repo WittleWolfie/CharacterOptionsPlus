@@ -1,7 +1,9 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes;
 using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Utils;
 using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Spells;
+using System;
 
 namespace CharacterOptionsPlus.Util
 {
@@ -31,13 +33,15 @@ namespace CharacterOptionsPlus.Util
       string replacementName,
       string replacementGuid,
       BlueprintSpellbook spellbook,
-      string replacementSelection)
+      string replacementSelection,
+      params Type[] typesToCopy)
     {
       FeatureReplaceSpellbookConfigurator.For(baseReplacement)
         .AddPrerequisiteNoArchetype(characterClass: characterClass, archetype: archetype)
         .Configure();
+      var types = CommonTool.Append(typesToCopy, typeof(PrerequisiteClassSpellLevel));
       var replacement = FeatureReplaceSpellbookConfigurator.New(replacementName, replacementGuid)
-        .CopyFrom(sourceReplacement, typeof(PrerequisiteClassSpellLevel))
+        .CopyFrom(sourceReplacement, types)
         .AddPrerequisiteArchetypeLevel(characterClass: characterClass, archetype: archetype)
         .SetSpellbook(spellbook)
         .Configure();

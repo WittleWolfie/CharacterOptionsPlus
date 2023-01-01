@@ -246,11 +246,12 @@ namespace CharacterOptionsPlus.Archetypes
         characterClass: Witch,
         archetype: Guids.WinterWitchArchetype,
         baseReplacement: FeatureReplaceSpellbookRefs.WinterWitchWitch.ToString(),
-        sourceReplacement: FeatureReplaceSpellbookRefs.WinterWitchWitchAccursed.ToString(),
+        sourceReplacement: FeatureReplaceSpellbookRefs.WinterWitchWitch.ToString(),
         replacementName: WinterWitchWinterWitch,
         replacementGuid: Guids.WinterWitchWinterWitch,
         spellbook: spellbook,
-        replacementSelection: FeatureSelectionRefs.WinterWitchSpellbookSelection.ToString());
+        replacementSelection: FeatureSelectionRefs.WinterWitchSpellbookSelection.ToString(),
+        typeof(AddFacts));
 
       FeatureConfigurator.For(FeatureRefs.BlackenedRagsFeature)
         .EditComponent<IncreaseSpellSpellbookDC>(
