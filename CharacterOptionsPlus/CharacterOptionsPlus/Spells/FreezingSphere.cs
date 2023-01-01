@@ -31,6 +31,7 @@ namespace CharacterOptionsPlus.Spells
 
     internal const string DisplayName = "FreezingSphere.Name";
     private const string Description = "FreezingSphere.Description";
+    private const string SelectiveDescription = "FreezingSphere.Selective.Description";
 
     private const string ProjectileName = "FreezingSphere.Projectile";
 
@@ -124,7 +125,7 @@ namespace CharacterOptionsPlus.Spells
           canSpecialize: true,
           SpellDescriptor.Cold)
         .SetDisplayName(DisplayName)
-        .SetDescription(Description)
+        .SetDescription(alwaysSelective ? SelectiveDescription : Description)
         .SetIcon(AbilityRefs.BlizzardBlastAbility.Reference.Get().Icon)
         .SetRange(AbilityRange.Long)
         .AllowTargeting(enemies: true, point: true)
