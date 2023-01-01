@@ -94,9 +94,9 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Serpent's Fang poison DC is calculated correctly
 * Serpent Friend grants +3 to Perception instead of +2, matching the feature description
 
-### Reporting Problems
+## Reporting Problems
 
-#### First, go to Settings > Mods > Character Options+ and turn on "Enable Detailed Logs"
+### First, go to Settings > Mods > Character Options+ and turn on "Enable Detailed Logs"
 
 **Follow this guide: [So you want to report a WotR mod bug?](https://github.com/Pathfinder-WOTR-Modding-Community/MewsiferConsole/blob/main/ModBugReports.md)** Ideally include a save file.
 
@@ -107,6 +107,12 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 4. File an [issue on GitHub](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/new?template=bug_report.md&title=%5BBUG%5D) and attach the generated bug report
 5. Include your save file in the bug report
     * Saves are stored in `%UserProfile%\AppData\LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saved Games`
+
+### Known Issues
+
+* [Some buffs do not work with BubbleBuffs](https://github.com/WittleWolfie/CharacterOptionsPlus/issues/76)
+    * Also AoE indicators are not enabled in BubbleTweaks by default
+* Winter Witch's Frozen Caress hex does not apply DC increases from things like Elemental Focus; this will probably never be fixed. It does apply the bonus from Winter Witch's Ice Magic.
 
 ### Mod Options
 
