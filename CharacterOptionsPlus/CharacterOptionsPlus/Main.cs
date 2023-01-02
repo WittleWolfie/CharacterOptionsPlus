@@ -55,6 +55,8 @@ namespace CharacterOptionsPlus
           ConfigureFeatsDelayed();
 
           RootConfigurator.ConfigureDelayedBlueprints();
+
+          ConfigureArchetypesDelayed();
         }
         catch (Exception e)
         {
@@ -112,6 +114,13 @@ namespace CharacterOptionsPlus
 
         ArrowsongMinstrel.Configure();
         WinterWitch.Configure();
+      }
+
+      private static void ConfigureArchetypesDelayed()
+      {
+        Logger.Log($"Configuring Archetypes delayed.");
+
+        WinterWitch.ConfigureDelayed();
       }
 
       private static void ConfigureClassFeatures()

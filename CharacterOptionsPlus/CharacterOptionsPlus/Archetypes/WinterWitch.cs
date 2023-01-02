@@ -92,6 +92,19 @@ namespace CharacterOptionsPlus.Archetypes
       }
     }
 
+    internal static void ConfigureDelayed()
+    {
+      try
+      {
+        if (Settings.IsEnabled(Guids.WinterWitchArchetype))
+          ConfigureEnabledDelayed();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("EldritchHeritage.ConfigureDelayed", e);
+      }
+    }
+
     private static void ConfigureDisabled()
     {
       Logger.Log($"Configuring {ArchetypeName} (disabled)");
@@ -169,6 +182,11 @@ namespace CharacterOptionsPlus.Archetypes
           archetype: Guids.WinterWitchArchetype, characterClass: CharacterClassRefs.WitchClass.ToString())
         .AddFacts(new() { frozenCaress })
         .Configure(delayed: true);
+    }
+
+    private static void ConfigureEnabledDelayed()
+    {
+      PopulateSpellList();
     }
 
     #region Spells
@@ -267,24 +285,16 @@ namespace CharacterOptionsPlus.Archetypes
       return spellbook;
     }
 
-    private static void ConfigureSpellbookReplacement(
-      string witchReplacement, string sourceReplacement, string name, string guid, BlueprintSpellbook spellbook)
-    {
-      FeatureReplaceSpellbookConfigurator.For(witchReplacement)
-        .AddPrerequisiteNoArchetype(characterClass: Witch, archetype: Guids.WinterWitchArchetype)
-        .Configure();
-      FeatureReplaceSpellbookConfigurator.New(name, guid)
-        .CopyFrom(sourceReplacement, typeof(PrerequisiteClassSpellLevel))
-        .AddPrerequisiteArchetypeLevel(characterClass: Witch, archetype: Guids.WinterWitchArchetype)
-        .SetSpellbook(spellbook)
-        .Configure();
-    }
-
     private static BlueprintSpellList CreateSpellList()
     {
-      return SpellListConfigurator.New(SpellList, Guids.WinterWitchSpellList)
+      return SpellListConfigurator.New(SpellList, Guids.WinterWitchSpellList).Configure();
+    }
+
+    private static BlueprintSpellList PopulateSpellList()
+    {
+      return SpellListConfigurator.For(Guids.WinterWitchSpellList)
         .OnConfigure(PopulateSpellList)
-        .Configure(delayed: true);
+        .Configure();
     }
 
     private static void PopulateSpellList(BlueprintSpellList spellList)
