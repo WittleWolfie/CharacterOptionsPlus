@@ -157,7 +157,6 @@ namespace CharacterOptionsPlus.Archetypes
         .SetBuff(buff)
         .SetActivationType(AbilityActivationType.WithUnitCommand)
         .SetActivateWithUnitCommand(CommandType.Swift)
-        .SetDeactivateIfCombatEnded()
         .AddActivatableAbilityUnitCommand(type: CommandType.Swift)
         .Configure();
 
