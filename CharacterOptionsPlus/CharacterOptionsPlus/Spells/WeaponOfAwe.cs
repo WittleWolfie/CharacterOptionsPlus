@@ -77,12 +77,12 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(BuffRefs.ArcaneStrikeBuff.Reference.Get().Icon)
+        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(friends: true)
         .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
         .SetAnimation(CastAnimationStyle.EnchantWeapon)
         .SetActionType(CommandType.Standard)
-        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,
           Metamagic.Extend,

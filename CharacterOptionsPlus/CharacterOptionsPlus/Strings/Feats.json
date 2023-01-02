@@ -146,6 +146,11 @@
     "Key": "DFT.Iomedae.Buff.Description",
     "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws."
   },
+  {
+    "Key": "DFT.Iomedae.Buff.Duration",
+    "ProcessTemplates": false,
+    "enGB": "1 round + 1 round/5 BAB"
+  },
 
   {
     "Key": "DFT.Irori.Name",
@@ -425,6 +430,11 @@
     "Key": "SignatureSkill.Athletics.Suppress.Restriction",
     "enGB": "No slowing effects",
     "ruRu": "Отсутствуют эффекты замедления"
+  },
+  {
+    "Key": "SignatureSkill.Athletics.Suppress.Duration",
+    "ProcessTemplates": false,
+    "enGB": "1 round, plus 1 round/5 above the DC"
   },
 
   {

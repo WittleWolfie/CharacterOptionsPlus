@@ -59,6 +59,8 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
+        .SetLocalizedDuration(Duration.OneRound)
+        .SetLocalizedSavingThrow(SavingThrow.FortNegates)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()
@@ -72,7 +74,6 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Reach,
           (Metamagic)CustomMetamagic.Piercing)
-        .SetLocalizedDuration(Duration.OneRound)
         .AddComponent(new TouchCharges(ContextValues.Rank()))
         .AddAbilityDeliverTouch(touchWeapon: ItemWeaponRefs.TouchItem.ToString())
         .AddAbilityEffectRunAction(

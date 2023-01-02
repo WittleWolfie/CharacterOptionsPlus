@@ -75,6 +75,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.Demon2FlamesOfTheAbyssAbility.Reference.Get().Icon)
+        .SetLocalizedSavingThrow(Common.SavingThrowReflexHalfWillNegates)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true, point: true, friends: true)
         .SetAnimation(CastAnimationStyle.Point)

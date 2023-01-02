@@ -71,6 +71,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedSavingThrow(SavingThrow.ReflexPartial)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(enemies: true)
         .SetAnimation(CastAnimationStyle.Omni)

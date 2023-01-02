@@ -1075,6 +1075,7 @@ namespace CharacterOptionsPlus.Feats
     private const string IomedaeAdvancedDescription = "DFT.Iomedae.Advanced.Description";
     private const string IomedaeBuff = "DFT.Iomedae.Distracted";
     private const string IomedaeBuffDescription = "DFT.Iomedae.Buff.Description";
+    private const string IomedaeBuffDuration = "DFT.Iomedae.Buff.Duration";
     private const string IomedaeInspire = "DFT.Iomedae.Inspire";
     private const string IomedaeInspireDescription = "DFT.Iomedae.Ability.Description";
     private const string IomedaeQuickInspire = "DFT.Iomedae.Inspire.Quick";
@@ -1100,6 +1101,7 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(IomedaeDisplayName)
         .SetDescription(IomedaeInspireDescription)
         .SetIcon(IomedaeIcon)
+        .SetLocalizedDuration(IomedaeBuffDuration)
         .SetType(AbilityType.Physical)
         .SetRange(AbilityRange.Weapon)
         .SetNeedEquipWeapons()
@@ -1115,6 +1117,7 @@ namespace CharacterOptionsPlus.Feats
       var quickInspire = AbilityConfigurator.New(IomedaeQuickInspire, Guids.IomedaeQuickInspireAbility)
         .SetDisplayName(IomedaeDisplayName)
         .SetDescription(IomedaeAdvancedDescription)
+        .SetLocalizedDuration(IomedaeBuffDuration)
         .SetIcon(IomedaeAdvancedIcon)
         .SetType(AbilityType.Physical)
         .SetRange(AbilityRange.Weapon)

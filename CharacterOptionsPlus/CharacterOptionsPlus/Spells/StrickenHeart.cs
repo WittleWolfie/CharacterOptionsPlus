@@ -70,6 +70,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.DeathClutch.Reference.Get().Icon)
+        .SetLocalizedDuration(Duration.OneRound)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()

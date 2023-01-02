@@ -111,6 +111,8 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.MinutePerLevel)
+        .SetLocalizedSavingThrow(SavingThrow.ReflexPartial)
         .SetActionType(CommandType.Standard)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(friends: true, enemies: true, self: true, point: true)
@@ -119,7 +121,6 @@ namespace CharacterOptionsPlus.Spells
         .SetEffectOnAlly(AbilityEffectOnUnit.Harmful)
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Point)
-        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetAvailableMetamagic(
           Metamagic.Quicken,
           Metamagic.Extend,

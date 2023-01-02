@@ -111,12 +111,13 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Common.DurationRoundPerTwoLevels)
+        .SetLocalizedSavingThrow(SavingThrow.FortPartial)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(friends: true, enemies: true, self: true, point: true)
         .SetSpellResistance()
         .SetShouldTurnToTarget()
         .SetAnimation(CastAnimationStyle.Point)
-        .SetLocalizedDuration(Common.DurationRoundPerTwoLevels)
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
           Metamagic.Bolstered,

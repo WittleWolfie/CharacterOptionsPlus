@@ -94,12 +94,12 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.OneMinute)
         .SetRange(AbilityRange.Long)
         .AllowTargeting(enemies: true)
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Point)
         .SetActionType(CommandType.Standard)
-        .SetLocalizedDuration(Duration.OneMinute)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,
           Metamagic.Quicken,

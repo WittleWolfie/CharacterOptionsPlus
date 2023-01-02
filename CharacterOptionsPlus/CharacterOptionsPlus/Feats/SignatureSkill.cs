@@ -277,6 +277,7 @@ namespace CharacterOptionsPlus.Feats
     private const string AthleticsSuppressActiveDescription = "SignatureSkill.Athletics.Suppress.Active.Description";
     private const string AthleticsSuppressParalyzeBuff = "SignatureSkill.Athletics.Suppress.Paralyze.All";
     private const string AthleticsSuppressSlowBuff = "SignatureSkill.Athletics.Suppress.Slow.All";
+    private const string AthleticsSuppressDuration = "SignatureSkill.Athletics.Suppress.Duration";
 
     private static BlueprintFeature ConfigureAthletics()
     {
@@ -309,6 +310,7 @@ namespace CharacterOptionsPlus.Feats
       var activeSuppress = AbilityConfigurator.New(AthleticsSuppressActive, Guids.SignatureskillAthleticsSuppressActive)
         .SetDisplayName(AthleticsSuppressActiveName)
         .SetDescription(AthleticsSuppressActiveDescription)
+        .SetLocalizedDuration(AthleticsSuppressDuration)
         .SetIcon(AbilityRefs.Haste.Reference.Get().Icon)
         .SetRange(AbilityRange.Personal)
         .SetType(AbilityType.Extraordinary)

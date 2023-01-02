@@ -127,6 +127,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(alwaysSelective ? SelectiveDescription : Description)
         .SetIcon(AbilityRefs.BlizzardBlastAbility.Reference.Get().Icon)
+        .SetLocalizedSavingThrow(SavingThrow.ReflexHalf)
         .SetRange(AbilityRange.Long)
         .AllowTargeting(enemies: true, point: true)
         .SetAnimation(CastAnimationStyle.Point)

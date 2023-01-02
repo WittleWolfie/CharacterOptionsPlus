@@ -105,6 +105,8 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icyPrison.Icon)
+        .SetLocalizedDuration(Common.DurationVaries)
+        .SetLocalizedSavingThrow(SavingThrow.FortPartial)
         .SetType(AbilityType.Supernatural)
         .SetRange(AbilityRange.Long)
         .AllowTargeting(enemies: true)
@@ -114,7 +116,6 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
           Metamagic.Quicken, Metamagic.Extend, Metamagic.Heighten, Metamagic.CompletelyNormal, Metamagic.Persistent)
-        .SetLocalizedSavingThrow(agonyHex.LocalizedSavingThrow)
         .AddSpellDescriptorComponent(SpellDescriptor.Hex | SpellDescriptor.Cold | SpellDescriptor.Paralysis)
         .AddAbilityTargetHasFact(checkedFacts: new() { cooldown }, inverted: true) // Prevent targeting twice
         .AddAbilityEffectRunAction(

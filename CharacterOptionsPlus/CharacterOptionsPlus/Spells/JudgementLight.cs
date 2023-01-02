@@ -184,6 +184,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedSavingThrow(Common.SavingThrowVaries)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true, enemies: true, friends: true)
         .SetSpellResistance()

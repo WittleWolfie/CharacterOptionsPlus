@@ -127,13 +127,14 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.RoundPerLevel)
+        .SetLocalizedSavingThrow(SavingThrow.WillNegates)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(self: true)
         .SetSpellResistance()
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
-        .SetLocalizedDuration(Duration.RoundPerLevel)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,
           Metamagic.Persistent,

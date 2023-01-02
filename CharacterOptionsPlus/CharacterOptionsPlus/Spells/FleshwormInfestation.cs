@@ -90,6 +90,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDescription(Description)
         .SetIcon(AbilityRefs.Contagion.Reference.Get().Icon)
         .SetLocalizedDuration(Duration.RoundPerLevel)
+        .SetLocalizedSavingThrow(SavingThrow.FortPartial)
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()

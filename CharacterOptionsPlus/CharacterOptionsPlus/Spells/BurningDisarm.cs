@@ -72,6 +72,8 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.RoundPerLevel)
+        .SetLocalizedSavingThrow(SavingThrow.ReflexNegates)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()

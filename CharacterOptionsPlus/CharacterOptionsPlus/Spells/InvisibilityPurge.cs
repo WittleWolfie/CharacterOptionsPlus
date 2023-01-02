@@ -124,12 +124,12 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetRange(AbilityRange.Personal)
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetEffectOnAlly(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
-        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,
           Metamagic.Extend,

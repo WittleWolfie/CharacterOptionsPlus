@@ -109,6 +109,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
+        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.EnchantWeapon)

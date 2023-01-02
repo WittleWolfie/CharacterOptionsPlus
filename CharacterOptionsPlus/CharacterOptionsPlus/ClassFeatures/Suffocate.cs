@@ -84,6 +84,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
+        .SetLocalizedSavingThrow(SavingThrow.FortNegates)
         .SetType(AbilityType.SpellLike)
         .SetRange(AbilityRange.Long)
         .AllowTargeting(enemies: true)

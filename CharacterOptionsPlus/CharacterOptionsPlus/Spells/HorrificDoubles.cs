@@ -105,6 +105,8 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
+        .SetLocalizedDuration(Duration.MinutePerLevel)
+        .SetLocalizedSavingThrow(SavingThrow.WillNegates)
         .SetRange(AbilityRange.Personal)
         .SetSpellResistance()
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
@@ -112,7 +114,6 @@ namespace CharacterOptionsPlus.Spells
         .SetActionType(CommandType.Standard)
         .AllowTargeting(self: true)
         .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
-        .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,
           Metamagic.Extend,

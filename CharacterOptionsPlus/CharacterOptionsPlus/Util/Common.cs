@@ -12,7 +12,11 @@ namespace CharacterOptionsPlus.Util
   /// </summary>
   internal static class Common
   {
+    internal static readonly string DurationVaries = "Duration.Varies";
     internal static readonly string DurationRoundPerTwoLevels = "Duration.RoundPerTwoLevels";
+
+    internal static readonly string SavingThrowVaries = "SavingThrow.Varies";
+    internal static readonly string SavingThrowReflexHalfWillNegates = "SavingThrow.ReflexHalf.WillNegates";
 
     /// <summary>
     /// Adds a new BlueprintFeatureReplaceSpellbook for an archetype which alters a spellbook.

@@ -98,6 +98,8 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(IconName)
+        .SetLocalizedDuration(Duration.RoundPerLevel)
+        .SetLocalizedSavingThrow(SavingThrow.WillPartial)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()
@@ -112,7 +114,6 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Reach,
           (Metamagic)CustomMetamagic.Piercing)
-        .SetLocalizedDuration(Duration.RoundPerLevel)
         .AddToSpellLists(
           level: 2,
           SpellList.Bard,

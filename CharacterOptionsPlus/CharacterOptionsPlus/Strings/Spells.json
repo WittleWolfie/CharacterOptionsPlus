@@ -1,8 +1,24 @@
 ﻿[
   {
+    "Key": "Duration.Varies",
+    "ProcessTemplates": false,
+    "enGB": "Varies, see text"
+  },
+  {
     "Key": "Duration.RoundPerTwoLevels",
     "ProcessTemplates": false,
     "enGB": "1 round/2 levels"
+  },
+
+  {
+    "Key": "SavingThrow.Varies",
+    "ProcessTemplates": false,
+    "enGB": "Varies, see text"
+  },
+  {
+    "Key": "SavingThrow.ReflexHalf.WillNegates",
+    "ProcessTemplates": false,
+    "enGB": "Reflex half, Will negates"
   },
 
   {
