@@ -1,3 +1,9 @@
+## v1.0.5
+
+* Winter Witch spellbook should include all modded spells for Witch
+* Added duration and saving throw text to all abilities
+* Frozen Caress no longer turns off after combat
+
 ## v1.0.4
 
 * Nine Lives has duration text
