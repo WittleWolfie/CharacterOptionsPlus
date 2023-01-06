@@ -178,7 +178,8 @@
       <Entry Include="CharacterOptionsPlus.Components.QualifyForPrerequisiteFeature/PrerequisiteFeaturesFromList_Patch" />
       
       <Entry Include="CharacterOptionsPlus.MechanicsChanges.ExpandedActivatableAbilityGroup/UnitPartActivatableAbility_Patch" />
-
+      <Entry Include="CharacterOptionsPlus.MechanicsChanges.CompanionShareSpells/CompanionShareSpells_Patch" />
+      
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartTouchCharges/TouchSpellsController_Patch" />
 
       <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartEscapeArtist/Buff_Patch" />

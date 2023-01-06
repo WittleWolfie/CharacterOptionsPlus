@@ -24,6 +24,9 @@ namespace CharacterOptionsPlus.MechanicsChanges
           if (__instance.Range != AbilityRange.Personal)
             return true;
 
+          if (__instance.Caster.Unit == target.Unit)
+            return true;
+
           if (!Settings.IsEnabled(Homebrew.CompanionShareSpells))
             return true;
 
@@ -37,14 +40,16 @@ namespace CharacterOptionsPlus.MechanicsChanges
           if (petType is null || petType != PetType.AnimalCompanion)
           {
             Logger.Verbose($"Target is not an animal companion: {petType}");
-            return true;
+            __result = false;
+            return false;
           }
 
           var master = target.Unit.Master;
           if (master != __instance.Caster.Unit)
           {
             Logger.Verbose($"Target is not the caster's pet: {target.Unit.CharacterName} is owned by {master.CharacterName}");
-            return true;
+            __result = false;
+            return false;
           }
 
           __result = true;
@@ -57,7 +62,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
         return true;
       }
 
-      [HarmonyPatch("get_TargetAnchor", MethodType.Getter), HarmonyPrefix]
+      [HarmonyPatch(nameof(AbilityData.TargetAnchor), MethodType.Getter), HarmonyPrefix]
       static bool GetTargetAnchor(AbilityData __instance, ref AbilityTargetAnchor __result)
       {
         try
