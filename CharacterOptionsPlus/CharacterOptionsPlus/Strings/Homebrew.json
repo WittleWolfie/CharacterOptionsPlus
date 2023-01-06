@@ -1,5 +1,15 @@
 ﻿[
   {
+    "Key": "CompanionShareSpells.Name",
+    "ProcessTemplates": false,
+    "enGB": "Share Spells (Animal Companion)"
+  },
+  {
+    "Key": "CompanionShareSpells.Description",
+    "enGB": "Spells with a range of personal can target animal companions.\nWhen this is enabled you will have to select a target when casting personal spells."
+  },
+
+  {
     "Key": "ConeOfCold.WinterPatron.Name",
     "ProcessTemplates": false,
     "enGB": "Cone of Cold - Winter Patron"

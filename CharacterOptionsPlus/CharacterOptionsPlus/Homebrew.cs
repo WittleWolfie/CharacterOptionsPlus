@@ -1,5 +1,4 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Spells;
-using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Spells;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
@@ -7,7 +6,6 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
 using System.Collections.Generic;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus
 {
@@ -25,6 +23,7 @@ namespace CharacterOptionsPlus
       if (Settings.IsEnabled(ImplosionDestructionDomain))
         ConfigureImplosionDestructionDomain();
     }
+
 
     internal const string ConeOfColdWinterPatron = "cone-of-cold-winter-patron";
     internal static void ConfigureConeOfColdWinterPatron()
@@ -68,6 +67,9 @@ namespace CharacterOptionsPlus
     // Change is in GloriousHeat
     internal const string OriginalGloriousHeat = "glorious-heat-og";
 
+    // Change is in CompanionShareSpells
+    internal const string CompanionShareSpells = "companion-share-spells";
+
     // Fixes are in EldritchHeritage
     internal const string SingleDraconicBloodline = "single-draconic-bloodline";
     internal const string SingleElementalBloodline = "single-elemental-bloodline";
@@ -78,6 +80,7 @@ namespace CharacterOptionsPlus
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
+        (CompanionShareSpells, "CompanionShareSpells.Name", "CompanionShareSpells.Description"),
         (ConeOfColdWinterPatron, "ConeOfCold.WinterPatron.Name", "ConeOfCold.WinterPatron.Description"),
         (ImplosionDestructionDomain, "Implosion.DestructionDomain.Name", "Implosion.DestructionDomain.Description"),
         (SelectiveFreezingSphere, "Homebrew.FreezingSphere.Name", "Homebrew.FreezingSphere.Description"),
