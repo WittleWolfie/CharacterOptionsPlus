@@ -27,6 +27,9 @@ namespace CharacterOptionsPlus.MechanicsChanges
           if (__instance.Caster.Unit == target.Unit)
             return true;
 
+          if (__instance.Blueprint.Type != AbilityType.Spell && __instance.Blueprint.Type != AbilityType.SpellLike)
+            return true;
+
           if (!Settings.IsEnabled(Homebrew.CompanionShareSpells))
             return true;
 
@@ -70,6 +73,9 @@ namespace CharacterOptionsPlus.MechanicsChanges
           if (__instance.Range != AbilityRange.Personal)
             return true;
 
+          if (__instance.Blueprint.Type != AbilityType.Spell && __instance.Blueprint.Type != AbilityType.SpellLike)
+            return true;
+
           if (!Settings.IsEnabled(Homebrew.CompanionShareSpells))
             return true;
 
@@ -84,7 +90,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
         }
         catch (Exception e)
         {
-          Logger.LogException("CompanionShareSpells_Patch.CanTarget", e);
+          Logger.LogException("CompanionShareSpells_Patch.GetTargetAnchor", e);
         }
         return true;
       }
