@@ -4,7 +4,10 @@
     * Share Spells - When enabled, Personal range spells can be cast on animal companions
 
 * New Bugfixes:
-    * 
+    * Weapon of Awe & Keen Edge can target ranged weapons
+    * Screaming Flames target text no longer indicates only enemies are affected
+    * Eldritch Heritage selection now requires you to have at least one Skill Focus
+        * This should prevent issues where the selection shows up but you do not qualify for any bloodline
 
 ## v1.0.5
 
