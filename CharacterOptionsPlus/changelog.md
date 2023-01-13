@@ -3,6 +3,9 @@
 * New Optional Changes:
     * Share Spells - When enabled, Personal range spells can be cast on animal companions
 
+* New Bugfixes:
+    * 
+
 ## v1.0.5
 
 * Winter Witch spellbook should include all modded spells for Witch

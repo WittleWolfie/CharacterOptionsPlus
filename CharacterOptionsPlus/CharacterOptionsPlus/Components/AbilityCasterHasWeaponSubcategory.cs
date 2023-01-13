@@ -47,7 +47,7 @@ namespace CharacterOptionsPlus.Components
           return false;
         }
 
-        var weapon = caster.GetThreatHand().MaybeWeapon;
+        var weapon = caster.GetFirstWeapon();
         if (weapon is null)
           return false;
 

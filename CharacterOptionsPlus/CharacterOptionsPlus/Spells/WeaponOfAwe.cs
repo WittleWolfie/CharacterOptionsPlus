@@ -14,6 +14,7 @@ using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using System;
+using static Kingmaker.UI.GenericSlot.EquipSlotBase;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 
@@ -93,12 +94,10 @@ namespace CharacterOptionsPlus.Spells
         .AddComponent(new AbilityTargetHasWeaponSubcategory(exclude: true, WeaponSubCategory.Natural))
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
-            .Add<EnchantWeaponTemporary>(
-              a =>
-              {
-                a.Duration = ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes);
-                a.Enchantment = enchant.ToReference<BlueprintWeaponEnchantmentReference>();
-              }))
+            .EnchantWornItem(
+              ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes),
+              enchantment: enchant,
+              slot: SlotType.PrimaryHand))
         .Configure();
     }
   }

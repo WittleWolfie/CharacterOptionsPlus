@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
@@ -12,6 +13,7 @@ using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using System;
+using static Kingmaker.UI.GenericSlot.EquipSlotBase;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 
@@ -72,12 +74,10 @@ namespace CharacterOptionsPlus.Spells
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
-            .Add<EnchantWeaponTemporary>(
-              a =>
-              {
-                a.Duration = ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.TenMinutes);
-                a.Enchantment = WeaponEnchantmentRefs.Keen.Cast<BlueprintWeaponEnchantmentReference>().Reference;
-              }))
+            .EnchantWornItem(
+              ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.TenMinutes),
+              WeaponEnchantmentRefs.Keen.ToString(),
+              slot: SlotType.PrimaryHand))
         .AddComponent<AbilityTargetHasWeaponEquipped>()
         .AddComponent(
           new AbilityTargetHasWeaponDamageType(
