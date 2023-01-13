@@ -350,6 +350,20 @@ namespace CharacterOptionsPlus.Feats
         .AddFeatureTagsComponent(featureTags: FeatureTag.Magic)
         .AddPrerequisiteStatValue(StatType.Charisma, 13)
         .AddPrerequisiteCharacterLevel(3)
+        .AddPrerequisiteFeaturesFromList(
+          amount: 1,
+          features:
+            new()
+            {
+              FeatureRefs.SkillFocusAcrobatics.ToString(),
+              FeatureRefs.SkillFocusKnowledgeArcana.ToString(),
+              FeatureRefs.SkillFocusKnowledgeWorld.ToString(),
+              FeatureRefs.SkillFocusLoreNature.ToString(),
+              FeatureRefs.SkillFocusLoreReligion.ToString(),
+              FeatureRefs.SkillFocusPerception.ToString(),
+              FeatureRefs.SkillFocusPhysique.ToString(),
+              FeatureRefs.SkillFocusStealth.ToString(),
+            })
         .AddToAllFeatures(
           ConfigureAbyssalHeritage1(),
 
