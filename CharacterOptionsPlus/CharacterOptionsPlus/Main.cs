@@ -127,6 +127,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log("Configuring class features.");
 
+        ArmoredMarauder.Configure();
         IceTomb.Configure();
         ShadowDuplicate.Configure();
         ShimmeringMirage.Configure();

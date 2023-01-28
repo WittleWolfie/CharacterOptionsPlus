@@ -1,5 +1,25 @@
 [
   {
+    "Key": "ArmoredMarauder.Name",
+    "ProcessTemplates": false,
+    "enGB": "Armored Marauder"
+  },
+  {
+    "Key": "ArmoredMarauder.Description",
+    "enGB": "The slayer gains proficiency with heavy armor. In addition, the armor check penalty of any heavy armor the slayer wears is reduced by 1 for every 6 slayer levels he has."
+  },
+
+  {
+    "Key": "ArmoredSwiftness.Name",
+    "ProcessTemplates": false,
+    "enGB": "Armored Swiftness"
+  },
+  {
+    "Key": "ArmoredSwiftness.Description",
+    "enGB": "A slayer with this talent can move at full speed in heavy armor. In addition, the maximum Dexterity bonus of heavy armor the slayer wears increases by 1 for every 6 class levels he has. A slayer must have the armored marauder slayer talent to select this talent."
+  },
+
+  {
     "Key": "IceTomb.Name",
     "ProcessTemplates": false,
     "enGB": "Ice Tomb",
