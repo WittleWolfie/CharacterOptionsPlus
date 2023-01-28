@@ -5,9 +5,7 @@ using CharacterOptionsPlus.Spells;
 using Kingmaker.Utility;
 using System;
 using System.Collections.Generic;
-using System.Configuration.Internal;
 using System.Linq;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Util
 {
@@ -71,6 +69,9 @@ namespace CharacterOptionsPlus.Util
     #endregion
 
     #region Class Features
+    internal const string ArmoredMarauderTalent = "8ea0f376-5dc3-44e9-b08e-33f1130ca20c";
+    internal const string ArmoredSwiftnessTalent = "1c49a14c-a934-49d1-8f7a-23c67814402f";
+
     internal const string IceTombHex = "7c7f44cb-76b9-49a4-a40d-57fee16140ba";
     internal const string IceTombAbility = "595790fd-4b57-49e5-8e99-664dcca67092";
     internal const string IceTombBuff = "66e31ecf-ced9-4527-b985-52ec33e64c12";
@@ -97,6 +98,7 @@ namespace CharacterOptionsPlus.Util
     internal static readonly (string guid, string displayName)[] ClassFeatures =
       new (string, string)[]
       {
+        (ArmoredMarauderTalent, ArmoredMarauder.DisplayName),
         (IceTombHex, IceTomb.DisplayName),
         (ShadowDuplicateTalent, ShadowDuplicate.DisplayName),
         (ShimmeringMirageTalent, ShimmeringMirage.DisplayName),
@@ -137,6 +139,8 @@ namespace CharacterOptionsPlus.Util
     internal const string PairedOpportunistsRagerAreaBuff = "a341739e-4a61-481d-9018-63b654bdfb53";
     internal const string PairedOpportunistsRagerToggleBuff = "1bb0952d-fec5-412f-9495-5b7043548aaf";
     internal const string PairedOpportunistsRagerToggle = "68a15456-1076-408f-bd0f-9205c913f0ed";
+
+    internal const string PurifyingChannelFeat = "cecbfa47-fa15-4488-8768-ef41406ba220";
 
     internal const string SignatureSkillFeat = "7bb79f1f-8a90-4cf0-9322-c81961fae21a";
 
