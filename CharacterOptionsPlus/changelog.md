@@ -1,3 +1,13 @@
+## v1.1.1
+
+* New Class Features
+    * Slayer Talents
+        * Armored Marauder
+        * Armored Swiftness
+
+* New Bugfixes:
+    * Share Spells won't break Alchemist Infusions and Brown Fur Transmutor share transmutations
+
 ## v1.1.0
 
 * New Optional Changes:
