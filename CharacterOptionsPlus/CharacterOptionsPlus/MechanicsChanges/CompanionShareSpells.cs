@@ -24,6 +24,9 @@ namespace CharacterOptionsPlus.MechanicsChanges
           if (__instance.Range != AbilityRange.Personal)
             return true;
 
+          if (__instance.AlchemistInfusion || __instance.ArcanistShareTransmutation)
+            return true;
+
           if (__instance.Caster.Unit == target.Unit)
             return true;
 
@@ -71,6 +74,9 @@ namespace CharacterOptionsPlus.MechanicsChanges
         try
         {
           if (__instance.Range != AbilityRange.Personal)
+            return true;
+
+          if (__instance.AlchemistInfusion || __instance.ArcanistShareTransmutation)
             return true;
 
           if (__instance.Blueprint.Type != AbilityType.Spell && __instance.Blueprint.Type != AbilityType.SpellLike)
