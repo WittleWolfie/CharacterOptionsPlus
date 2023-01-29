@@ -1,39 +1,26 @@
 ﻿using BlueprintCore.Blueprints.CustomConfigurators.Classes;
-using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
+using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
-using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Designers;
-using Kingmaker.Enums;
+using Kingmaker.EntitySystem.Entities;
+using Kingmaker.EntitySystem.Stats;
 using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem;
+using Kingmaker.RuleSystem.Rules;
 using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.RuleSystem.Rules.Damage;
-using Kingmaker.RuleSystem;
-using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
-using TabletopTweaks.Core.NewComponents.Prerequisites;
-using BlueprintCore.Blueprints.References;
-using Kingmaker.EntitySystem.Stats;
-using Kingmaker.Blueprints.Classes;
-using Kingmaker.Blueprints;
-using Kingmaker.UnitLogic.Abilities.Blueprints;
-using Kingmaker.RuleSystem.Rules;
-using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
-using Kingmaker.UnitLogic.Abilities.Components;
-using Kingmaker.UnitLogic.Mechanics.Conditions;
-using Kingmaker.Designers.EventConditionActionSystem.Actions;
-using Kingmaker.UnitLogic.Abilities;
-using Kingmaker.EntitySystem.Entities;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -109,15 +96,6 @@ namespace CharacterOptionsPlus.Feats
           AbilityRefs.HexChannelerChannelEnergy.Reference,
         };
 
-      private static readonly List<BlueprintReference<BlueprintAbility>> NegativeHeal =
-        new()
-        {
-          AbilityRefs.ChannelNegativeHeal.Reference,
-          AbilityRefs.WarpriestChannelNegativeHeal.Reference,
-          AbilityRefs.HexChannelerChannelNegativeHeal.Reference,
-          AbilityRefs.LichChannelNegativeHeal.Reference,
-        };
-
       public void OnEventAboutToTrigger(RuleCastSpell evt) { }
 
       public void OnEventDidTrigger(RuleCastSpell evt)
@@ -130,21 +108,8 @@ namespace CharacterOptionsPlus.Feats
             if (evt.Spell.Blueprint == positiveChannel.Get())
             {
               Logger.Verbose($"Purifying channel triggered for {evt.Spell.Name}");
-              target = SelectPositiveTarget();
+              target = SelectTarget();
               return;
-            }
-          }
-
-          if (target is null)
-          {
-            foreach (var negativeChannel in NegativeHeal)
-            {
-              if (evt.Spell.Blueprint == negativeChannel.Get())
-              {
-                Logger.Verbose($"Purifying channel triggered for {evt.Spell.Name}");
-                ApplyNegativeEffect();
-                return;
-              }
             }
           }
 
@@ -174,7 +139,7 @@ namespace CharacterOptionsPlus.Feats
         }
       }
 
-      private UnitEntityData SelectPositiveTarget()
+      private UnitEntityData SelectTarget()
       {
         var targets = GameHelper.GetTargetsAround(Owner.Position, Range).Where(unit => !unit.IsAlly(Owner));
         if (!targets.Any())
@@ -191,11 +156,6 @@ namespace CharacterOptionsPlus.Feats
         }
 
         return targets.First();
-      }
-
-      private void ApplyNegativeEffect()
-      {
-
       }
     }
   }

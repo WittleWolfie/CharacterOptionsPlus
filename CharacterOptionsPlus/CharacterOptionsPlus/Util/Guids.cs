@@ -187,6 +187,7 @@ namespace CharacterOptionsPlus.Util
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
+        (PurifyingChannelFeat, PurifyingChannel.FeatDisplayName),
         (SignatureSkillFeat, SignatureSkill.FeatDisplayName),
         (SkaldsVigorFeat, SkaldsVigor.FeatureDisplayName),
       };

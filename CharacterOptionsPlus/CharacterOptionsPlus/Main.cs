@@ -10,7 +10,6 @@ using Kingmaker.PubSubSystem;
 using System;
 using TabletopTweaks.Core.NewEvents;
 using UnityModManagerNet;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus
 {
@@ -146,6 +145,7 @@ namespace CharacterOptionsPlus
         GloriousHeat.Configure();
         Hurtful.Configure();
         PairedOpportunists.Configure();
+        PurifyingChannel.Configure();
         SignatureSkill.Configure();
         SkaldsVigor.Configure();
       }
