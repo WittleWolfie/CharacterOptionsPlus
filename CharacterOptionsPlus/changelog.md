@@ -1,3 +1,8 @@
+## v1.1.2
+
+* New Feats
+    * Purifying Channel
+
 ## v1.1.1
 
 * New Class Features
