@@ -1,13 +1,33 @@
 ﻿using BlueprintCore.Blueprints.Configurators;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Utils;
+using Kingmaker.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Components;
+using System.Collections.Generic;
 
 namespace CharacterOptionsPlus.Util
 {
   internal class CommonBlueprints
   {
     private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(CommonBlueprints));
+
+    internal static readonly List<BlueprintReference<BlueprintAbility>> ChannelPositiveHeal =
+      new()
+      {
+          AbilityRefs.ChannelEnergy.Reference,
+          AbilityRefs.ChannelEnergyHospitalerHeal.Reference,
+          AbilityRefs.ChannelEnergyEmpyrealHeal.Reference,
+          AbilityRefs.ChannelEnergyPaladinHeal.Reference,
+          AbilityRefs.ShamanLifeSpiritChannelEnergy.Reference,
+          AbilityRefs.OracleRevelationChannelAbility.Reference,
+          AbilityRefs.WarpriestChannelEnergy.Reference,
+          AbilityRefs.HexChannelerChannelEnergy.Reference,
+          
+          // Homebrew Archetypes
+          BlueprintTool.GetRef<BlueprintReference<BlueprintAbility>>(Guids.EvangelistPositiveHeal),
+      };
 
     internal static void Configure()
     {

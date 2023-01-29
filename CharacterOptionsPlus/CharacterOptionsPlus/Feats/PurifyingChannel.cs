@@ -9,7 +9,6 @@ using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.EntitySystem.Stats;
@@ -19,7 +18,6 @@ using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using System;
-using System.Collections.Generic;
 
 namespace CharacterOptionsPlus.Feats
 {
@@ -56,19 +54,6 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(FeatName, Guids.PurifyingChannelFeat).Configure();
     }
 
-    // TODO: Evangelist from Homebrew Archetypes
-    private static readonly List<BlueprintReference<BlueprintAbility>> PositiveHeal =
-      new()
-      {
-          AbilityRefs.ChannelEnergy.Reference,
-          AbilityRefs.ChannelEnergyHospitalerHeal.Reference,
-          AbilityRefs.ChannelEnergyEmpyrealHeal.Reference,
-          AbilityRefs.ChannelEnergyPaladinHeal.Reference,
-          AbilityRefs.ShamanLifeSpiritChannelEnergy.Reference,
-          AbilityRefs.OracleRevelationChannelAbility.Reference,
-          AbilityRefs.WarpriestChannelEnergy.Reference,
-          AbilityRefs.HexChannelerChannelEnergy.Reference,
-      };
     private static void ConfigureEnabled()
     {
       Logger.Log($"Configuring {FeatName}");
@@ -84,12 +69,15 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationHasFeature(selectiveChannel)
         .Configure(delayed: true);
 
-      foreach (var bp in PositiveHeal)
+      foreach (var bp in CommonBlueprints.ChannelPositiveHeal)
         AddPurifyToChannel(bp.Get());
     }
 
     private static void AddPurifyToChannel(BlueprintAbility channel)
     {
+      if (channel == null)
+        return;
+
       Logger.Verbose($"Adding purifying channel to {channel.Name}");
       var purify =
         ActionsBuilder.New()

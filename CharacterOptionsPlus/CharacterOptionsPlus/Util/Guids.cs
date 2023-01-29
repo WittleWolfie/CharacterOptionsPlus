@@ -591,6 +591,10 @@ namespace CharacterOptionsPlus.Util
 
     #endregion
 
+    #region Homebrew Archetypes
+    internal const string EvangelistPositiveHeal = "675c4428-1614-8294-3bfa-18a8e8646986";
+    #endregion
+
     #region Common Blueprints
     internal const string BlankProjectile = "5172c4d9-a5a1-4fea-8600-fc5619d9f1de";
 
