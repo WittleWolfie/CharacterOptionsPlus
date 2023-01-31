@@ -22,6 +22,16 @@
   },
 
   {
+    "Key": "LordBeyondTheGraveLag.Name",
+    "ProcessTemplates": false,
+    "enGB": "Lord Beyond The Grave Lag"
+  },
+  {
+    "Key": "LordBeyondTheGraveLag.Description",
+    "enGB": "REQUIRES RESTART\n\nMakes Lord Beyond the Grave a permanent buff to your allies, once applied. This prevents their stats from changing constantly leading to lag when you walk around."
+  },
+
+  {
     "Key": "PackRagerTeamworkSelection.Name",
     "ProcessTemplates": false,
     "enGB": "Pack Rager Teamwork Selection",

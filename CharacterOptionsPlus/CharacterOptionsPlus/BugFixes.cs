@@ -1,25 +1,27 @@
-﻿using BlueprintCore.Blueprints.Configurators.Classes.Selection;
-using BlueprintCore.Blueprints.Configurators.Classes.Spells;
+﻿using BlueprintCore.Actions.Builder;
 using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
 using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Selection;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Spells;
+using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
 using BlueprintCore.Conditions.Builder.ContextEx;
+using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.UnitLogic.Abilities.Components.AreaEffects;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
+using Kingmaker.Utility;
 using System.Collections.Generic;
 using static Kingmaker.UnitLogic.Mechanics.Actions.ContextActionSavingThrow;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus
 {
@@ -33,6 +35,8 @@ namespace CharacterOptionsPlus
         FixConeOfColdWitchSpell();
       if (Settings.IsEnabled(HeavenlyFireResourceAmount))
         FixHeavenlyFireResourceAmount();
+      if (Settings.IsEnabled(LordBeyondTheGraveLag))
+        FixLordBeyondTheGraveLag();
       if (Settings.IsEnabled(PackRagerTeamworkSelection))
         FixPackRagerTeamworkSelection();
       if (Settings.IsEnabled(SerpentineBiteDC))
@@ -58,6 +62,15 @@ namespace CharacterOptionsPlus
       Logger.Log("Patching Heavenly Fire resource amount");
       AbilityResourceConfigurator.For(AbilityResourceRefs.BloodlineCelestialHeavenlyFireResource)
         .SetMaxAmount(ResourceAmountBuilder.New(3).IncreaseByStat(StatType.Charisma))
+        .Configure();
+    }
+
+    internal const string LordBeyondTheGraveLag = "lord-beyond-the-grave-lag";
+    internal static void FixLordBeyondTheGraveLag()
+    {
+      Logger.Log("Patching Lord Beyond the Grave");
+      AbilityAreaEffectConfigurator.For(AbilityAreaEffectRefs.LichAuraBolsterUndeadArea)
+        .EditComponent<AbilityAreaEffectRunAction>(a => a.UnitExit = Constants.Empty.Actions)
         .Configure();
     }
 
@@ -165,6 +178,7 @@ namespace CharacterOptionsPlus
       {
         (ConeOfColdWitchSpell, "ConeOfCold.WitchSpell.Name", "ConeOfCold.WitchSpell.Description"),
         (HeavenlyFireResourceAmount, "HeavenlyFireResourceAmount.Name", "HeavenlyFireResourceAmount.Description"),
+        (LordBeyondTheGraveLag, "LordBeyondTheGraveLag.Name", "LordBeyondTheGraveLag.Description"),
         (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
         (SerpentineBiteDC, "SerpentineBiteDC.Name", "SerpentineBiteDC.Description"),
         (SerpentineFriendBonus, "SerpentineFriendBonus.Name", "SerpentineFriendBonus.Description"),

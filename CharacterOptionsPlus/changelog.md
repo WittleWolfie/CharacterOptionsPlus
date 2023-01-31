@@ -3,6 +3,9 @@
 * New Feats
     * Purifying Channel
 
+* New Bugfixes
+    * Eliminates lag caused by Lord Beyond the Grave
+
 ## v1.1.1
 
 * New Class Features
