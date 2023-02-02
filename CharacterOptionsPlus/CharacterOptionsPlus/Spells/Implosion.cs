@@ -101,7 +101,7 @@ namespace CharacterOptionsPlus.Spells
         .SetAnimation(CastAnimationStyle.Point)
         .SetShouldTurnToTarget()
         .SetActionType(CommandType.Standard)
-        .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithMultiplyByModifierProgression(1))
+        .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithMultiplyByModifierProgression(10))
         .AddAbilityDeliverProjectile(
           type: AbilityProjectileType.Simple, projectiles: new() { ProjectileRefs.WindProjectile00.ToString() })
         .AddAbilityEffectRunAction(
