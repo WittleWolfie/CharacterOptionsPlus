@@ -8,8 +8,7 @@
   {
     "Key": "DazingAssault.Description",
     "enGB": "You can choose to take a –5 penalty on all melee attack rolls to daze opponents you hit with your melee attacks for 1 round, in addition to the normal damage dealt by the attack. A successful Fortitude save negates the effect. The DC of this save is 10 + your base attack bonus.",
-    "ruRu": "Вы можете принять штраф ко всем своим броскам на попадание в ближнем бою на 1 раунд, чтобы повергнуть их в ступор при попадании в добавок к нанесению обычного урона. Успешный спасбросок Стойкости нейтрализует эффект. Сложность спасброска равняется 10 + ваш базовый бонус атаки.
-\nСтупор: Существо в состоянии ступора не способно нормально действовать - оно не может предпринимтаь никаких действий, но в отличии от состояния шока не получает штрафов к Защите."
+    "ruRu": "Вы можете принять штраф ко всем своим броскам на попадание в ближнем бою на 1 раунд, чтобы повергнуть их в ступор при попадании в добавок к нанесению обычного урона. Успешный спасбросок Стойкости нейтрализует эффект. Сложность спасброска равняется 10 + ваш базовый бонус атаки.\nСтупор: Существо в состоянии ступора не способно нормально действовать - оно не может предпринимтаь никаких действий, но в отличии от состояния шока не получает штрафов к Защите."
   },
 
   {
@@ -107,9 +106,9 @@
   },
   {
     "Key": "DFT.Erastil.Advanced.Description",
-    "enGB": "The AC bonus of Erastil's Distracting Shot increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target."
-  },,
+    "enGB": "The AC bonus of Erastil's Distracting Shot increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target.",
     "ruRu": "Бонус к Защите для выбранного союзника от способности Отвлекающий выстрел Эрастила увеличивается до +4, а все остальные союзники в пределах 30 футов от цели также получают бонус +2 к Защите от её атак."
+  },
   {
     "Key": "DFT.Erastil.Focused.Name",
     "ProcessTemplates": false,
