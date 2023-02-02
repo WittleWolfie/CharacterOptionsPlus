@@ -2,254 +2,309 @@
   {
     "Key": "DazingAssault.Name",
     "ProcessTemplates": false,
-    "enGB": "Dazing Assault"
+    "enGB": "Dazing Assault",
+    "ruRu": "Ошеломляющий натиск"
   },
   {
     "Key": "DazingAssault.Description",
-    "enGB": "You can choose to take a –5 penalty on all melee attack rolls daze opponents you hit with your melee attacks for 1 round, in addition to the normal damage dealt by the attack. A successful Fortitude save negates the effect. The DC of this save is 10 + your base attack bonus."
+    "enGB": "You can choose to take a –5 penalty on all melee attack rolls to daze opponents you hit with your melee attacks for 1 round, in addition to the normal damage dealt by the attack. A successful Fortitude save negates the effect. The DC of this save is 10 + your base attack bonus.",
+    "ruRu": "Вы можете принять штраф ко всем своим броскам на попадание в ближнем бою на 1 раунд, чтобы повергнуть их в ступор при попадании в добавок к нанесению обычного урона. Успешный спасбросок Стойкости нейтрализует эффект. Сложность спасброска равняется 10 + ваш базовый бонус атаки.
+\nСтупор: Существо в состоянии ступора не способно нормально действовать - оно не может предпринимтаь никаких действий, но в отличии от состояния шока не получает штрафов к Защите."
   },
 
   {
     "Key": "DivineFightingTechnique.Name",
     "ProcessTemplates": false,
-    "enGB": "Divine Fighting Technique"
+    "enGB": "Divine Fighting Technique",
+    "ruRu": "Божественная техника боя"
   },
   {
     "Key": "DivineFightingTechnique.Description",
-    "enGB": "Divine fighting techniques emulate the martial supremacy and approach to combat of certain gods, but do not generally require users’ interests and goals to be aligned with the techniques’ associated deities. Although each deity’s divine fighting technique is primarily preserved and passed on by her faithful, worship is not required to learn one.\nEach technique has an initial benefit as well as an advanced benefit available if you meet the prerequisites."
+    "enGB": "Divine fighting techniques emulate the martial supremacy and approach to combat of certain gods, but do not generally require users’ interests and goals to be aligned with the techniques’ associated deities. Although each deity’s divine fighting technique is primarily preserved and passed on by her faithful, worship is not required to learn one.\nEach technique has an initial benefit as well as an advanced benefit available if you meet the prerequisites.",
+    "ruRu": "Божественные техники боя позвояют использующему их смертному сымитировать в поединке величие некоторых богов и их подход к сражению. Но при этом от бойца не требуется разделять интересы и цели божества, к которому эта техника относится. Хотя каждая божественная техника боя преимущественно хранится и передаётся только в кругу его верующих последователей, почитание бога не является обязательным требованием для овладения. \nУ каждой техники есть базовое преимущество от овладения, равно как продвинутое преимущество для случаев, когда вы соответствуете особым требованиям."
   },
 
   {
     "Key": "DFT.Abadar.Name",
     "ProcessTemplates": false,
-    "enGB": "Abadar's Crossbow"
+    "enGB": "Abadar's Crossbow",
+    "ruRu": "Арбалет Абадара"
   },
   {
     "Key": "DFT.Abadar.Description",
-    "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.\nAdvanced Prerequisites: Rapid Shot, BAB +10\nAdvanced Effect: While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB."
+    "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.\nAdvanced Prerequisites: Rapid Shot, BAB +10\nAdvanced Effect: While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.",
+    "ruRu": "При стребльбе из арбалета вы можете попытаться совершить боевой приём Разоружение в дальнем бою, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра. \nТребования для продвинутого преимущества: Быстрый выстрел, Базовый модификатор атаки +10 \nПродвинутое преимущество: При стрельбе из арбалета выможете совершить боевой приём Грязный Трюк в дальнем бою, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра."
   },
   {
     "Key": "DFT.Abadar.Advanced.Name",
     "ProcessTemplates": false,
-    "enGB": "Abadar's Entangling Shot"
+    "enGB": "Abadar's Entangling Shot",
+    "ruRu": "Опутывающий вытсрел Абадара"
   },
   {
     "Key": "DFT.Abadar.Advanced.Description",
-    "enGB": "While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB."
+    "enGB": "While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.",
+    "ruRu": "При стрельбе из арбалета выможете совершить в дальнем бою боевой приём Грязный Трюк - Опутывание, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра."
   },
   {
     "Key": "DFT.Abadar.Disarm.Name",
     "ProcessTemplates": false,
-    "enGB": "Abadar's Disarming Shot"
+    "enGB": "Abadar's Disarming Shot",
+    "ruRu": "Разоружающий выстрел Абадара"
   },
   {
     "Key": "DFT.Abadar.Disarm.Description",
     "ProcessTemplates": false,
-    "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB."
+    "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.",
+    "ruRu": "При стребльбе из арбалета вы можете попытаться совершить боевой приём Разоружение в дальнем бою, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра."
   },
 
   {
     "Key": "DFT.Asmodeus.Name",
     "ProcessTemplates": false,
-    "enGB": "Asmodeus's Mandate"
+    "enGB": "Asmodeus's Mandate",
+    "ruRu": "Мандат Асмодея"
   },
   {
     "Key": "DFT.Asmodeus.Description",
-    "enGB": "Whenever you threaten a critical hit with a light mace or heavy mace on a foe, that foe becomes sickened for 1 round. If you confirm the critical hit, the sickened effect lasts for 2 rounds.\nAdvanced Prerequisites: Int 13, Combat Expertise, Improved Dirty Trick, BAB +10\nAdvanced Effect: You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed."
+    "enGB": "Whenever you threaten a critical hit with a light mace or heavy mace on a foe, that foe becomes sickened for 1 round. If you confirm the critical hit, the sickened effect lasts for 2 rounds.\nAdvanced Prerequisites: Int 13, Combat Expertise, Improved Dirty Trick, BAB +10\nAdvanced Effect: You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed.",
+    "ruRu": "Когда вы попадаете по противнику дубинкой или любой булавой ударом в диапазоне критического удара, этот враг оказывается дезориентирован на 1 раунд. Если притический удар оказывается подтверждён, эффект Дезориентации длится вместо этого 2 раунда. \nТребования для продвинутого преимущества: Интеллект 13, Боевая сноровка, Улучшенный Грязный трюк, Базовый модификатор атаки +10 \nПродвинутое преимущество: Если ваша атака дубинкой или лёгкой булавой попадат по застигнутому врасплох врагу, вы можете попытаться быстрым действием совершить боевой приём Грязный Трюк."
   },
   {
     "Key": "DFT.Asmodeus.Blind",
     "ProcessTemplates": false,
-    "enGB": "Asmodeus's Mandate (Blind)"
+    "enGB": "Asmodeus's Mandate (Blind)",
+    "ruRu": "Мандат Асмодея (Ослепить)"
   },
   {
     "Key": "DFT.Asmodeus.Entangle",
     "ProcessTemplates": false,
-    "enGB": "Asmodeus's Mandate (Entangle)"
+    "enGB": "Asmodeus's Mandate (Entangle)",
+    "ruRu": "Мандат Асмодея (Опутать)"
   },
   {
     "Key": "DFT.Asmodeus.Sicken",
     "ProcessTemplates": false,
-    "enGB": "Asmodeus's Mandate (Sicken)"
+    "enGB": "Asmodeus's Mandate (Sicken)",
+    "ruRu": "Мандат Асмодея (Дезиориентировать)"
   },
   {
     "Key": "DFT.Asmodeus.Advanced.Description",
-    "enGB": "You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed."
+    "enGB": "You can attempt a dirty trick combat maneuver as a swift action against an oponent you hit with a light mace or heavy mace who is flat-footed.",
+    "ruRu": "Если ваша атака дубинкой или лёгкой булавой попадат по застигнутому врасплох врагу, вы можете попытаться быстрым действием совершить боевой приём Грязный Трюк."
   },
 
   {
     "Key": "DFT.Erastil.Name",
     "ProcessTemplates": false,
-    "enGB": "Erastil's Distracting Shot"
+    "enGB": "Erastil's Distracting Shot",
+    "ruRu": "Отвлекающий выстрел Эрастила"
   },
   {
     "Key": "DFT.Erastil.Description",
-    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +2 bonus to AC against the target for 1 round.\nAdvanced Prerequisites: Dex 17, Point-Blank Shot, Precise Shot, BAB +10\nAdvanced Effect: The AC bonus increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target."
+    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +2 bonus to AC against the target for 1 round.\nAdvanced Prerequisites: Dex 17, Point-Blank Shot, Precise Shot, BAB +10\nAdvanced Effect: The AC bonus increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target.",
+    "ruRu": "Стандартным действием, вы можете совершить отвлекающий вытсрел из своего длинного или короткого лука. Если вы попадаете по цели, один из находящихся поблизости от неё союзников получает бонус +2 к Защите от атак этого существа на 1 раунд. \nТребования для продвинутого преимущества: Ловкость 17, Стрельба вблизи, Базовый модификатор атаки +10 \nПродвинутое преимущество: бонус к Защите для выбранного союзника увеличивается до +4, а все остальные союзники в пределах 30 футов от цели также получают бонус +2 к Защите от её атак."
   },
   {
     "Key": "DFT.Erastil.Advanced.Description",
     "enGB": "The AC bonus of Erastil's Distracting Shot increases to +4 and all allies within 30 feet of the creature gain a +2 AC bonus against the target."
-  },
+  },,
+    "ruRu": "Бонус к Защите для выбранного союзника от способности Отвлекающий выстрел Эрастила увеличивается до +4, а все остальные союзники в пределах 30 футов от цели также получают бонус +2 к Защите от её атак."
   {
     "Key": "DFT.Erastil.Focused.Name",
     "ProcessTemplates": false,
-    "enGB": "Erastil's Focus"
+    "enGB": "Erastil's Focus",
+    "ruRu": "Фокус Эрастила"
   },
   {
     "Key": "DFT.Erastil.Focused.Description",
     "ProcessTemplates": false,
-    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +2 bonus to AC against the target for 1 round."
+    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +2 bonus to AC against the target for one round.",
+    "ruRu": "Стандартным действием, вы можете совершить отвлекающий вытсрел из своего длинного или короткого лука. Если вы попадаете по цели,из находящихся поблизости от неё союзников получает бонус +2 к Защите от атак этого существа на 1 раунд один ."
   },
   {
     "Key": "DFT.Erastil.Focused.Advanced.Name",
     "ProcessTemplates": false,
-    "enGB": "Erastil's Hyperfocus"
+    "enGB": "Erastil's Hyperfocus",
+    "ruRu": "Гиперфокус Эрастила"
   },
   {
     "Key": "DFT.Erastil.Focused.Advanced.Description",
     "ProcessTemplates": false,
-    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, one ally adjacent to the creature gains a +4 bonus to AC against the target for 1 round."
+    "enGB": "As a standard action, you can fire a distracting shot from your longbow or shortbow. If you hit the target, for 1 round one ally adjacent to the creature gains a +4 bonus to AC against the target and all allies within 30 feet of the creature gain a +2 AC bonus against the target.",
+    "ruRu": "Стандартным действием, вы можете совершить отвлекающий вытсрел из своего длинного или короткого лука. Если вы попадаете по цели, на 1 раунд один из находящихся поблизости от неё союзников получает бонус +4 к Защите от атак этого существа, а все остальные союзники в пределах 30 футов от цели также получают бонус +2 к Защите от его атак."
   },
 
   {
     "Key": "DFT.Gorum.Name",
     "ProcessTemplates": false,
-    "enGB": "Gorum's Swordmanship"
+    "enGB": "Gorum's Swordmanship",
+    "ruRu": "Мастерство меча Горума"
   },
   {
     "Key": "DFT.Gorum.Description",
-    "enGB": "If you have the Vital Strike feat, you apply its effect to attacks you make with a greatsword at the end of a charge. If you don't have the Vital Strike feat, your attacks deal 1 additional point of damage instead. When you use Vital Strike with a greatsword, your next attack of opportunity before the start of your next turn applies Vital Strike.\nAdvanced Prerequisites: Str 13, Cleave, Power Attack, Vital Strike, BAB +10\nAdvanced Effect: When you use Vital Strike, Improved Vital Strike, or Greater Vital Strike with a greatsword, the target must pass a concentration check to cast spells for 1 round. The DC of the concentration check is 10 + Spell Level + 1/2 the damage you dealt."
+    "enGB": "If you have the Vital Strike feat, you apply its effect to attacks you make with a greatsword at the end of a charge. If you don't have the Vital Strike feat, your attacks deal 1 additional point of damage instead. When you use Vital Strike with a greatsword, your next attack of opportunity before the start of your next turn applies Vital Strike.\nAdvanced Prerequisites: Str 13, Cleave, Power Attack, Vital Strike, BAB +10\nAdvanced Effect: When you use Vital Strike, Improved Vital Strike, or Greater Vital Strike with a greatsword, the target must pass a concentration check to cast spells for 1 round. The DC of the concentration check is 10 + Spell Level + 1/2 the damage you dealt.",
+    "ruRu": "Если у вас есть черта Жестокий удар, эффект от неё применяется к атакам двуручным мечом, совершённым в конце атаки с разбега. Если у вас нет черты Жестокий Удар, такие атаки вместо этого наносят дополнительно 1 очко урона. Когда вы совершаете Жестокий Удар с использоваинем двуручного меча, ваша следующая внеочередная атака, совершённая до начала следующего хода, тоже становится Жестоким Ударом \nТребования для продвинутого преимущества: Сила 13, Рубящий удар, Жестокий удар, Сокрушительный удар, Базовый модификатор атаки +10 \nПродвинутое преимущество: Когда вы совершаете Жестокий удар, Жестокий удар+ или Жестокий удар++ с использованием двуручного меча, в течении 1 одного раунда цель должна совершать проверку концентрации при сотворении всех заклинаний. Сложность проверки концентрации равняется 10 + Уровень заклинания + 1/2 нанесённого урона."
   },
   {
     "Key": "DFT.Gorum.Advanced.Description",
-    "enGB": "When you use Vital Strike, Improved Vital Strike, or Greater Vital Strike with a greatsword, the target must pass a concentration check to cast spells for 1 round. The DC of the concentration check is 15 + 2 * Spell Level."
+    "enGB": "When you use Vital Strike, Improved Vital Strike, or Greater Vital Strike with a greatsword, the target must pass a concentration check to cast spells for 1 round. The DC of the concentration check is 15 + 2 * Spell Level.",
+    "ruRu": "Когда вы совершаете Жестокий удар, Жестокий удар+ или Жестокий удар++ с использованием двуручного меча, в течении 1 одного раунда цель должна совершать проверку концентрации при сотворении всех заклинаний. Сложность проверки концентрации равняется 10 + Уровень заклинания + 1/2 нанесённого урона."
   },
 
   {
     "Key": "DFT.Iomedae.Name",
     "ProcessTemplates": false,
-    "enGB": "Iomedae's Inspiring Sword"
+    "enGB": "Iomedae's Inspiring Sword",
+    "ruRu": "Вдохновляющий меч Иомедай"
   },
   {
     "Key": "DFT.Iomedae.Description",
-    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 round + 1 round per 5 points of base attack bonus you have.\nAdvanced Prerequisites: Dazzling Display, Weapon Focus (Longsword), BAB +10\nAdvanced Effect: As a standard action while wielding a longsword you can make a single attack. If the attack hits, you grant all allies who can see you a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 minute. This effect also triggers after you hit a target with an attack while charging."
+    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 round + 1 round per 5 points of base attack bonus you have.\nAdvanced Prerequisites: Dazzling Display, Weapon Focus (Longsword), BAB +10\nAdvanced Effect: As a standard action while wielding a longsword you can make a single attack. If the attack hits, you grant all allies who can see you a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 minute. This effect also triggers after you hit a target with an attack while charging.",
+    "ruRu": "Потратив действие полного раунда, вы можете произвести ошеломительное представление доблести с использованием длинного меча. Все увидившие это союзники в радиусе 30 футов получают Сакральный бонус +2 ко всем броскам атаки, спасброскам и проверкам навыков на 1 раунд + 1 дополнительный раунд за каждые 5 очков вашего Базового модификатора атаки. \nТребования для продвинутого преимущества: Демонстрация силы, Уверенное владение длинным мечом, Базовый модификатор атаки +10  \nПродвинутое преимущество: Стандртным действием вы можете совершить одинчную атаку длинным мечом. Если эта атака попадает по цели, все способные видеть вас союзники получают Сакрасльный бонус +2 ко всем броскам атаки, спасброскам и проверкам навыков на 1 минуту. Этот эффект также вступает в силу, если вы попадаете по цели атакой с разбега."
   },
   {
     "Key": "DFT.Iomedae.Ability.Description",
-    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 round + 1 round per 5 points of base attack bonus you have."
+    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 round + 1 round per 5 points of base attack bonus you have.",
+    "ruRu": "Потратив действие полного раунда, вы можете произвести ошеломительное представление доблести с использованием длинного меча. Все увидившие это союзники в радиусе 30 футов получают Сакральный бонус +2 ко всем броскам атаки, спасброскам и проверкам навыков на 1 раунд + 1 дополнительный раунд за каждые 5 очков вашего Базового модификатора атаки."
   },
   {
     "Key": "DFT.Iomedae.Advanced.Description",
-    "enGB": "As a standard action while wielding a longsword you can make a single attack. If the attack hits, you grant all allies who can see you a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 minute. This effect also triggers after you hit a target with an attack while charging."
+    "enGB": "As a standard action while wielding a longsword you can make a single attack. If the attack hits, you grant all allies who can see you a +2 sacred bonus on attack rolls, saving throws, and skill checks for 1 minute. This effect also triggers after you hit a target with an attack while charging.",
+    "ruRu": "Стандртным действием вы можете совершить одинчную атаку длинным мечом. Если эта атака попадает по цели, все способные видеть вас союзники получают Сакрасльный бонус +2 ко всем броскам атаки, спасброскам и проверкам навыков на 1 минуту."
   },
   {
     "Key": "DFT.Iomedae.Buff.Description",
-    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws."
+    "enGB": "While wielding a longsword, you can perform an impressive display of prowess as a full-round action. All allies within 30 feet who can see your display gain a +2 sacred bonus on attack rolls, saving throws.",
+    "ruRu": "Вы можете произвести ошеломительное представление доблести с использованием длинного меча. Все увидившие это союзники в радиусе 30 футов получают Сакральный бонус +2 ко всем броскам атаки, спасброскам и проверкам навыков"
   },
   {
     "Key": "DFT.Iomedae.Buff.Duration",
     "ProcessTemplates": false,
-    "enGB": "1 round + 1 round/5 BAB"
+    "enGB": "1 round + 1 round/5 BAB",
+    "ruRu": "1 раунд + 1 наунд / 5 БМА"
   },
 
   {
     "Key": "DFT.Irori.Name",
     "ProcessTemplates": false,
-    "enGB": "Irori's Perfected Fist"
+    "enGB": "Irori's Perfected Fist",
+    "ruRu": "Доведённый до совершенства кулак Ирори"
   },
   {
     "Key": "DFT.Irori.Description",
-    "enGB": "You can take a –2 penalty on all attack rolls made with your unarmed strikes in order to deal the average amount of damage with each successful attack instead of rolling your weapon damage. For instance, if your unarmed strike would normally deal 1d4 points of weapon damage, you instead deal 2 points of weapon damage. Apply bonuses, modifiers, and additional damage dice to this result as if you had rolled your damage normally.\nAdvanced Prerequisites: Critical Focus, Weapon Focus (Unarmed Strike), BAB +10\nAdvanced Effect: You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
+    "enGB": "You can take a –2 penalty on all attack rolls made with your unarmed strikes in order to deal the average amount of damage with each successful attack instead of rolling your weapon damage. For instance, if your unarmed strike would normally deal 1d4 points of weapon damage, you instead deal 2 points of weapon damage. Apply bonuses, modifiers, and additional damage dice to this result as if you had rolled your damage normally.\nAdvanced Prerequisites: Critical Focus, Weapon Focus (Unarmed Strike), BAB +10\nAdvanced Effect: You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit.",
+    "ruRu": "Вы можете принять штраф -2 ко всем вашим безоружным атакам, чтобы каждая из этих атак всегда наносила среднее количество урона вместо совершения обычного броска урона. Например, если ваш безоружный удар в нормальных условиях наносит 1d4 урона оружия, с этой техникой вы будете наносить 2 очка урона. Прибавляйте бонусы, модификаторы и дополнительные кости урона к этому результату как обычно. \nТребования для продвинутого преимущества: Критическая точность, Уверенное владение оружием (Безоружный удар), Базовый модификатор атаки +10  \nПродвинутое преимущество: Вы больше не получаете штраф -2 к атаке, когда вы хотите воспользоваться обычным преимуществом Доведённого до совершенства кулака Ирори. Если вы при этом наносите противнику критический удар, он автоматически наносит максимально возможный урон."
   },
   {
     "Key": "DFT.Irori.Advanced.Description",
-    "enGB": "You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
+    "enGB": "You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit.",
+    "ruRu": "Вы больше не получаете штраф -2 к атаке, когда вы хотите воспользоваться обычным преимуществом Доведённого до совершенства кулака Ирори. Если вы при этом наносите противнику критический удар, он автоматически наносит максимально возможный урон."
   },
   {
     "Key": "DFT.Irori.Ability.Description",
-    "enGB": "You can take a –2 penalty on all attack rolls made with your unarmed strikes in order to deal the average amount of damage with each successful attack instead of rolling your weapon damage. For instance, if your unarmed strike would normally deal 1d4 points of weapon damage, you instead deal 2 points of weapon damage. Apply bonuses, modifiers, and additional damage dice to this result as if you had rolled your damage normally.\nAdvanced Effect: You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit."
+    "enGB": "You can take a –2 penalty on all attack rolls made with your unarmed strikes in order to deal the average amount of damage with each successful attack instead of rolling your weapon damage. For instance, if your unarmed strike would normally deal 1d4 points of weapon damage, you instead deal 2 points of weapon damage. Apply bonuses, modifiers, and additional damage dice to this result as if you had rolled your damage normally.\nAdvanced Effect: You no longer take a –2 penalty on attack rolls with your unarmed strikes when you choose to deal the average amount of damage. If you critically hit a creature when using this ability, you automatically inflict maximum weapon damage for that critical hit.",
+    "ruRu": "Вы можете принять штраф -2 ко всем вашим безоружным атакам, чтобы каждая из этих атак всегда наносила среднее количество урона вместо совершения обычного броска урона. Например, если ваш безоружный удар в нормальных условиях наносит 1d4 урона оружия, с этой техникой вы будете наносить 2 очка урона. Прибавляйте бонусы, модификаторы и дополнительные кости урона к этому результату как обычно. \nПродвинутое преимущество: Вы больше не получаете штраф -2 к атаке, когда вы хотите воспользоваться обычным преимуществом Доведённого до совершенства кулака Ирори. Если вы при этом наносите противнику критический удар, он автоматически наносит максимально возможный урон."
   },
 
   {
     "Key": "DFT.Lamashtu.Name",
     "ProcessTemplates": false,
-    "enGB": "Lamashtu's Carving"
+    "enGB": "Lamashtu's Carving",
+    "ruRu": "Разделка туш Ламашту"
   },
   {
     "Key": "DFT.Lamashtu.Description",
-    "enGB": "As a standard action, you can make a single attack with a falchion or a kukri in order to deal bleed damage to the target. When you make this attack, you do not apply your ability modifier (normally Strength, but potentially other modifiers) to the hit point damage dealt by your attack—instead, add an amount of bleed damage equal to this modifier. Bleed damage from this benefit doesn’t stack with itself.\nAdvanced Prerequisites: Strength 13, Dazing Assault, Power Attack, BAB +10\nAdvanced Effect: Whenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round."
+    "enGB": "As a standard action, you can make a single attack with a falchion or a kukri in order to deal bleed damage to the target. When you make this attack, you do not apply your ability modifier (normally Strength, but potentially other modifiers) to the hit point damage dealt by your attack—instead, add an amount of bleed damage equal to this modifier. Bleed damage from this benefit doesn’t stack with itself.\nAdvanced Prerequisites: Strength 13, Dazing Assault, Power Attack, BAB +10\nAdvanced Effect: Whenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round.",
+    "ruRu": "Стандартным действием вы можете совершить одиночную атаку фаличионом или кукри, чтобы вызвать у цели кровотечение. Когда вы совершаете такую атаку, не прибавляйте к обычному урону модификатор аттрибута (Силы или другого используемого вами вместо неё аттрибута) - вместо этого вы наносите это количество урона в виде кровотечения. Кровотечение от одного применения этой способности не суммируется с другими её применениями. \nТребования для продвинутого преимущества: Сила 13, Ошеломляющий натиск, Сокрушительный удар, Базовый модификатор атаки +10  \nПродвинутое преимущество: Когда вы попадаете атакой фальчионом или кукри по кровоточащему существу, это существо должно освершить спасбросок Стойкости (Сложность = 10 + ваш Базовый модификатор атаки) или окажется ошеломлённым на 1 раунд. Множественные атаки не продлевают действие этого состояния, и успешно совершившее спасбросок существо становится невосприимчиво к этому эффекту на 1 раунд."
   },
   {
     "Key": "DFT.Lamashtu.Advanced.Description",
-    "enGB": "Whenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round."
+    "enGB": "Whenever you hit a bleeding creature with a melee attack using a falchion or a kukri, that creature must succeed at a Fortitude save (DC = 10 + your base attack bonus) or become staggered for 1 round. Multiple attacks do not cause this condition to stack, and a creature that successfully saves against this staggering effect is immune to this effect for 1 round.",
+    "ruRu": "Когда вы попадаете атакой фальчионом или кукри по кровоточащему существу, это существо должно освершить спасбросок Стойкости (Сложность = 10 + ваш Базовый модификатор атаки) или окажется ошеломлённым на 1 раунд. Множественные атаки не продлевают действие этого состояния, и успешно совершившее спасбросок существо становится невосприимчиво к этому эффекту на 1 раунд."
   },
   {
     "Key": "DFT.Lamashtu.Ability.Description",
-    "enGB": "As a standard action, you can make a single attack with a falchion or a kukri in order to deal bleed damage to the target. When you make this attack, you do not apply your ability modifier (normally Strength, but potentially other modifiers) to the hit point damage dealt by your attack—instead, add an amount of bleed damage equal to this modifier. Bleed damage from this benefit doesn’t stack with itself."
+    "enGB": "As a standard action, you can make a single attack with a falchion or a kukri in order to deal bleed damage to the target. When you make this attack, you do not apply your ability modifier (normally Strength, but potentially other modifiers) to the hit point damage dealt by your attack—instead, add an amount of bleed damage equal to this modifier. Bleed damage from this benefit doesn’t stack with itself.",
+    "ruRu": "Стандартным действием вы можете совершить одиночную атаку фаличионом или кукри, чтобы вызвать у цели кровотечение. Когда вы совершаете такую атаку, не прибавляйте к обычному урону модификатор аттрибута (Силы или другого используемого вами вместо неё аттрибута) - вместо этого вы наносите это количество урона в виде кровотечения. Кровотечение от одного применения этой способности не суммируется с другими её применениями."
   },
 
   {
     "Key": "DFT.Norgorber.Name",
     "ProcessTemplates": false,
-    "enGB": "Norgorber's Silent Shiv"
+    "enGB": "Norgorber's Silent Shiv",
+    "ruRu": "Беззвучный кинжал Норгорбера"
   },
   {
     "Key": "DFT.Norgorber.Description",
-    "enGB": "Whenever you attack an opponent that is completely unaware of your presence (such as when you are using the Stealth skill or invisible), your attack deals damage as if you were one size category larger. This benefit applies only to the first attack that you make against the target, and only with attacks made with light or one-handed weapons.\nAdvanced Prerequisites: Stealth 10 Ranks\nAdvanced Effect: At the start of each round, choose one opponent that you can see and attempt a Stealth check as a swift action. If the result of your check exceeds the target’s CMD, treat the target as if it were completely unaware of your presence for the purpose of the initial benefit of this divine fighting technique for 1 round."
+    "enGB": "Whenever you attack an opponent that is completely unaware of your presence (such as when you are using the Stealth skill or invisible), your attack deals damage as if you were one size category larger. This benefit applies only to the first attack that you make against the target, and only with attacks made with light or one-handed weapons.\nAdvanced Prerequisites: Stealth 10 Ranks\nAdvanced Effect: At the start of each round, choose one opponent that you can see and attempt a Stealth check as a swift action. If the result of your check exceeds the target’s CMD, treat the target as if it were completely unaware of your presence for the purpose of the initial benefit of this divine fighting technique for 1 round.",
+    "ruRu": "Когда вы атакуете врага, который совершенно не знает о вашем присутствии (например, при атаке из режима Скрытности или невидимости), ваше оружие наносит урон, как если бы оно было на 1 категорию размера больше. Это преимущество распространяется только на первую атаку по этой цели, и только к атакам, совершённым при помощи лёгкого или одноручного оружия. \nТребования для продвинутого преимуществ: Скрытность: 10 \nПродвинутое преимущество: В начале каждого раунда выберите 1 цель, которую вы можете видеть и быстрым действием совершите проверку навыка Скрытность. Если результит проверки превосходит МЗМ цели, считайте, что цель не осведомлена о вашем присутствии на 1 раунд при определении эффектов от базового преимущества этой техники."
   },
   {
     "Key": "DFT.Norgorber.Advanced.Description",
-    "enGB": "At the start of each round, you may attempt a Stealth check against the nearest enemy as a swift action. If the result of your check exceeds the target’s CMD, treat the target as if it were completely unaware of your presence for the purpose of the initial benefit of this divine fighting technique for 1 round."
+    "enGB": "At the start of each round, you may attempt a Stealth check against the nearest enemy as a swift action. If the result of your check exceeds the target’s CMD, treat the target as if it were completely unaware of your presence for the purpose of the initial benefit of this divine fighting technique for 1 round.",
+    "ruRu": "В начале каждого раунда выберите 1 цель, которую вы можете видеть и быстрым действием совершите проверку навыка Скрытность. Если результит проверки превосходит МЗМ цели, считайте, что цель не осведомлена о вашем присутствии на 1 раунд при определении эффектов от базового преимущества техники Беззвучного кинжала Норгорбера."
   },
 
   {
     "Key": "DFT.Rovagug.Name",
     "ProcessTemplates": false,
-    "enGB": "Rovagug's Thunder"
+    "enGB": "Rovagug's Thunder",
+    "ruRu": "Гром Ровагуга"
   },
   {
     "Key": "DFT.Rovagug.Description",
-    "enGB": "Whenever you succeed at a dirty trick combat maneuver check against an opponent, you deal an amount of damage equal to 1d6 + your Charisma modifier.\nAdvanced Prerequisites: Power Attack, BAB +10\nAdvanced Effect: Anytime you use Power Attack with a great axe or a natural attack, you ignore an amount of the target’s hardness or damage reduction equal to the penalty Power Attack imparts to your attack roll. This benefit stacks with Penetrating Strike and Greater Penetrating Strike."
+    "enGB": "Whenever you succeed at a dirty trick combat maneuver check against an opponent, you deal an amount of damage equal to 1d6 + your Charisma modifier.\nAdvanced Prerequisites: Power Attack, BAB +10\nAdvanced Effect: Anytime you use Power Attack with a great axe or a natural attack, you ignore an amount of the target’s hardness or damage reduction equal to the penalty Power Attack imparts to your attack roll. This benefit stacks with Penetrating Strike and Greater Penetrating Strike.",
+    "ruRu": "Когда вы успешно совершаете боевой приём Грязный трюк, вы наносите цели урон в количестве 1d6 + ваш модификатор Харизмы. \nТребования для продвинутого преимуществ: Сокрушительный удар, Базовый модификатор атаки +10 \nПродвинутое преимущество: Всякий раз, когда вы совершаете Сокрушительный удар с использованием двуручного топора или естественной атакой, вы игнорируете Уменьшение урона цели в количестве, равном штрафу от Сокрушительного удара к вашим броскам атаки. Это преимущество суммируется с эффектом Пронзающего удара и Пронзающего удара+."
   },
   {
     "Key": "DFT.Rovagug.Advanced.Description",
-    "enGB": "Anytime you use Power Attack with a great axe or a natural attack, you ignore an amount of the target’s hardness or damage reduction equal to the penalty Power Attack imparts to your attack roll. This benefit stacks with Penetrating Strike and Greater Penetrating Strike."
+    "enGB": "Anytime you use Power Attack with a great axe or a natural attack, you ignore an amount of the target’s hardness or damage reduction equal to the penalty Power Attack imparts to your attack roll. This benefit stacks with Penetrating Strike and Greater Penetrating Strike.",
+    "ruRu": "Всякий раз, когда вы совершаете Сокрушительный удар с использованием двуручного топора или естественной атакой, вы игнорируете Уменьшение урона цели в количестве, равном штрафу от Сокрушительного удара к вашим броскам атаки. Это преимущество суммируется с эффектом Пронзающего удара и Пронзающего удара+."
   },
 
   {
     "Key": "DFT.Torag.Name",
     "ProcessTemplates": false,
-    "enGB": "Torag's Patient Strikes"
+    "enGB": "Torag's Patient Strikes",
+    "ruRu": "Терпеливая чеканка Торага"
   },
   {
     "Key": "DFT.Torag.Description",
-    "enGB": "Whenever you wield a warhammer, add your Wisdom bonus to the total number of attacks of opportunity that you can make per round. These additional attacks of opportunity don’t stack with those granted by Combat Reflexes, but this benefit counts as Combat Reflexes for the purpose of satisfying feat prerequisites and prestige class requirements. In addition, you can make attacks of opportunity while you’re flat-footed.\nAdvanced Prerequisites: Vital Strike, Weapon Focus (Warhammer), BAB +10\nAdvanced Effect: On your first opportunity attack each round with a warhammer, you can apply the effects of your Vital Strike feat. You can apply the Improved Vital Strike or Greater Vital Strike feat instead if you have either of those feats. If you confirm a critical hit with the attack, you can attempt a trip combat maneuver check against the target as a free action—this combat maneuver does not provoke an attack of opportunity."
+    "enGB": "Whenever you wield a warhammer, add your Wisdom bonus to the total number of attacks of opportunity that you can make per round. These additional attacks of opportunity don’t stack with those granted by Combat Reflexes, but this benefit counts as Combat Reflexes for the purpose of satisfying feat prerequisites and prestige class requirements. In addition, you can make attacks of opportunity while you’re flat-footed.\nAdvanced Prerequisites: Vital Strike, Weapon Focus (Warhammer), BAB +10\nAdvanced Effect: On your first opportunity attack each round with a warhammer, you can apply the effects of your Vital Strike feat. You can apply the Improved Vital Strike or Greater Vital Strike feat instead if you have either of those feats. If you confirm a critical hit with the attack, you can attempt a trip combat maneuver check against the target as a free action—this combat maneuver does not provoke an attack of opportunity.",
+    "ruRu": "Когда вы сражаетесь боевым молотом, прибавляйте свой модификатор Мудрости к общему количеству внеочередных атак, которые вы можете совершить за раунд. Эти дополнительные внеочередные атаки не суммируется с дополнительными атакми от черты Боевые Рефлексы, но эта боевая техника считается за черту Боевые Рефлексы при определении соответствия требований другим чертам и престиж-классам. Вдобавок, вы можете совершать эти внеочередные атаки даже будучи застигнутым врасплох. \nТребования для продвинутого преимуществ: Жестокий удар, Уверенное владение оружием (Боевой молот), Базовый модификатор атаки +10 \nПродвинутое преимущество: Вы можете применить Жестокого удара к своей первой внеочередной атаке в раунде. Если вы владете Жестоким ударом+ или Жестоким ударом++, вместо этого вы можете применить их. Если вы успешно подвтерждаете критический удар, свободным действием вы можете совершить боевой приём Сбивание с ног по цели своей атаки - этот приём не провоцирует внеочередных атак."
   },
   {
     "Key": "DFT.Torag.Advanced.Description",
-    "enGB": "On your first opportunity attack each round with a warhammer, you can apply the effects of your Vital Strike feat. You can apply the Improved Vital Strike or Greater Vital Strike feat instead if you have either of those feats. If you confirm a critical hit with the attack, you can attempt a trip combat maneuver check against the target as a free action—this combat maneuver does not provoke an attack of opportunity."
+    "enGB": "On your first opportunity attack each round with a warhammer, you can apply the effects of your Vital Strike feat. You can apply the Improved Vital Strike or Greater Vital Strike feat instead if you have either of those feats. If you confirm a critical hit with the attack, you can attempt a trip combat maneuver check against the target as a free action—this combat maneuver does not provoke an attack of opportunity.",
+    "ruRu": "Вы можете применить Жестокого удара к своей первой внеочередной атаке в раунде. Если вы владете Жестоким ударом+ или Жестоким ударом++, вместо этого вы можете применить их. Если вы успешно подвтерждаете критический удар, свободным действием вы можете совершить боевой приём Сбивание с ног по цели своей атаки - этот приём не провоцирует внеочередных атак."
   },
 
   {
     "Key": "DFT.Urgathoa.Name",
     "ProcessTemplates": false,
-    "enGB": "Urgathoa's Hunger"
+    "enGB": "Urgathoa's Hunger",
+    "ruRu": "Голод Ургатоа"
   },
   {
     "Key": "DFT.Urgathoa.Description",
-    "enGB": "A number of times per day equal to your Wisdom bonus, you can feast upon the life essence of a creature that you hit with a scythe. Activating this ability is a swift action. When you do so, you gain a number of temporary hit points equal to the damage you dealt with the scythe attack. These temporary hit points last for 1 minute and don’t stack.\nAdvanced Prerequisites: Lore (Religion) 10 Ranks, BAB +7\nAdvanced Effect: A number of times per day equal to your Wisdom bonus, you can cast Contagion as a swift action after making a successful melee attack with a scythe. The caster level is equal to your character level and the DC is 10 + half your character level + your Wisdom modifier. The disease inflicted is selected randomly."
+    "enGB": "A number of times per day equal to your Wisdom bonus, you can feast upon the life essence of a creature that you hit with a scythe. Activating this ability is a swift action. When you do so, you gain a number of temporary hit points equal to the damage you dealt with the scythe attack. These temporary hit points last for 1 minute and don’t stack.\nAdvanced Prerequisites: Lore (Religion) 10 Ranks, BAB +7\nAdvanced Effect: A number of times per day equal to your Wisdom bonus, you can cast Contagion as a swift action after making a successful melee attack with a scythe. The caster level is equal to your character level and the DC is 10 + half your character level + your Wisdom modifier. The disease inflicted is selected randomly.",
+    "ruRu": "Вы можете выпить жизненные силы существа, по которому вы успешно совершили атаку косой. Количество раз в день, которое можно совершить это, равно вашему модификатору Мудрости. Активация этой способности требует быстрого действия. Использование этой способности даёт вам временные очки здоровья в количестве равном нанесённому косой урону. Эти временные очки здоровья остаются в силе в течение 1 минуты и не суммируются. \nТребования для продвинутого преимуществ: Знание (Религия): 10, Базовый модификатор атаки +10 \nПродвинутое преимущество: После успешной атаки косой, быстрым действием вы можете сотворить заклинание Заражение. Количество раз в день, которое можно совершить это, равно вашему модификатору Мудрости. Уровень заклинателя равняется вашему уровню пресонажа, а сложность спасброска = 10 + 1/2 уровня персонажа + ваш модификатор Мудрости. Вызванное заболевание выбирается случайным образом."
   },
   {
     "Key": "DFT.Urgathoa.Advanced.Name",
-    "enGB": "Urgathoa's Contagion"
+    "enGB": "Urgathoa's Contagion",
+    "ruRu": "Зараза Ургатоа"
   },
   {
     "Key": "DFT.Urgathoa.Advanced.Description",
-    "enGB": "A number of times per day equal to your Wisdom bonus, you can cast Contagion as a swift action after making a successful melee attack with a scythe. The caster level is equal to your character level and the DC is 10 + half your character level + your Wisdom modifier. The disease inflicted is selected randomly."
+    "enGB": "A number of times per day equal to your Wisdom bonus, you can cast Contagion as a swift action after making a successful melee attack with a scythe. The caster level is equal to your character level and the DC is 10 + half your character level + your Wisdom modifier. The disease inflicted is selected randomly.",
+    "ruRu": "После успешной атаки косой, быстрым действием вы можете сотворить заклинание Заражение. Количество раз в день, которое можно совершить это, равно вашему модификатору Мудрости. Уровень заклинателя равняется вашему уровню пресонажа, а сложность спасброска = 10 + 1/2 уровня персонажа + ваш модификатор Мудрости. Вызванное заболевание выбирается случайным образом."
   },
   {
     "Key": "DFT.Urgathoa.Ability.Description",
-    "enGB": "A number of times per day equal to your Wisdom bonus, you can feast upon the life essence of a creature that you hit with a scythe. Activating this ability is a swift action. When you do so, you gain a number of temporary hit points equal to the damage you dealt with the scythe attack. These temporary hit points last for 1 minute and don’t stack."
+    "enGB": "A number of times per day equal to your Wisdom bonus, you can feast upon the life essence of a creature that you hit with a scythe. Activating this ability is a swift action. When you do so, you gain a number of temporary hit points equal to the damage you dealt with the scythe attack. These temporary hit points last for 1 minute and don’t stack.",
+    "ruRu": "Вы можете выпить жизненные силы существа, по которому вы успешно совершили атаку косой. Количество раз в день, которое можно совершить это, равно вашему модификатору Мудрости. Активация этой способности требует быстрого действия. Использование этой способности даёт вам временные очки здоровья в количестве равном нанесённому косой урону. Эти временные очки здоровья остаются в силе в течение 1 минуты и не суммируются."
   },
 
   {
@@ -363,16 +418,6 @@
     "Key": "PairedOpportunists.Description",
     "enGB": "Whenever you are adjacent to an ally who also has this feat, you receive a +4 circumstance bonus on attacks of opportunity against creatures that you both threaten. Enemies that provoke attacks of opportunity from your ally also provoke attacks of opportunity from you so long as you threaten them. This does not allow you to take more than one attack of opportunity against a creature for a given action.",
     "ruRu": "Когда вы находитесь рядом с союзником, у которого тоже есть эта черта, вы получаете бонус ситуативный бонус +4 к броскам на попадание Внеочередными атаками по существам, которые находятся в зоне, контролируемой вами обоими. Враги, которые провоцируют Внеочередную атаку со сторонры вашего союзника также провоцируют Внеочередную атаку с вашей стороны. Вы не можете совершить более одной внеочередной атаки по противнику на каждоё совершённое им действие."
-  },
-
-  {
-    "Key": "PurifyingChannel.Name",
-    "ProcessTemplates": false,
-    "enGB": "Purifying Channel"
-  },
-  {
-    "Key": "PurifyingChannel.Description",
-    "enGB": "When you channel positive energy to heal, one creature excluded from your channeling takes an amount of fire damage equal to the healing provided, and is dazzled for 1 round by the light of these flames. A successful saving throw against your channel energy halves the fire damage and negates the dazzled effect."
   },
 
   {

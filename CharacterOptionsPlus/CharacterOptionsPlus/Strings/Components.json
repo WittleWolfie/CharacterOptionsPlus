@@ -1,18 +1,21 @@
-﻿[
+[
   {
     "Key": "AbilityCasterHasWeaponSubcategory.Restriction",
     "ProcessTemplates": false,
-    "enGB": "Requires an equipped weapon: {0}"
+    "enGB": "Requires an equipped weapon: {0}",
+    "ruRU": "Необходимо держать в руках оружие: "
   },
   {
     "Key": "AbilityTargetHasWeaponSubcategory.Restriction.Negated",
     "ProcessTemplates": false,
-    "enGB": "Wrong weapon type equipped: {0}"
+    "enGB": "Wrong weapon type equipped: {0}",
+    "ruRU": "Цель держит в руках неверный тип оружия: {0}"
   },
 
   {
     "Key": "AbilityTargetHasWeaponEquipped.Restriction",
     "ProcessTemplates": false,
-    "enGB": "Target has no weapon equipped"
+    "enGB": "Target has no weapon equipped",
+    "ruRU": "У цели нет оружия {0}"
   }
 ]

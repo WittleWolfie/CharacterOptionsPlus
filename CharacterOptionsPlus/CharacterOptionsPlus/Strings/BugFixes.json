@@ -70,10 +70,12 @@
   {
     "Key": "SlayerEvasionTalent.Name",
     "ProcessTemplates": false,
-    "enGB": "Slayer Evasion Talent"
+    "enGB": "Slayer Evasion Talent",
+    "ruRU": "Талант Палача - Уклонение"
   },
   {
     "Key": "SlayerEvasionTalent.Description",
-    "enGB": "REQUIRES RESTART\n\nAdds Evasion to the Slayer's Advanced Talent selection"
+    "enGB": "REQUIRES RESTART\n\nAdds Evasion to the Slayer's Advanced Talent selection",
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nДобавляет Уклонение к списку доступных для выбора Продвинутых Приёмов Палача."
   }
 ]

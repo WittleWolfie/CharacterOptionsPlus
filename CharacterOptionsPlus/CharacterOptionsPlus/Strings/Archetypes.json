@@ -65,41 +65,49 @@
   {
     "Key": "WinterWitch.Name",
     "ProcessTemplates": false,
-    "enGB": "Winter Witch"
+    "enGB": "Winter Witch",
+    "ruRU": "Ведьма Зимы"
   },
   {
     "Key": "WinterWitch.Description",
-    "enGB": "Winter witches are drawn to the cold, using it to enhance their powers and ensnare their foes."
+    "enGB": "Winter witches are drawn to the cold, using it to enhance their powers and ensnare their foes.",
+    "ruRU": "Ведьм Зимы манит холод, его использование для собственного усиления и запутывание противников его тенетами"
   },
 
   {
     "Key": "WinterWitch.IceMagic.Name",
     "ProcessTemplates": false,
-    "enGB": "Ice Magic"
+    "enGB": "Ice Magic",
+    "ruRU": "Магия льда"
   },
   {
     "Key": "WinterWitch.IceMagic.Description",
-    "enGB": "When a winter witch casts a spell with the cold descriptor, the save DC of the spell increases by +1. A winter witch cannot learn or cast spells with the fire descriptor at all."
+    "enGB": "When a winter witch casts a spell with the cold descriptor, the save DC of the spell increases by +1. A winter witch cannot learn or cast spells with the fire descriptor at all.",
+    "ruRU": "Когда Ведьма Зимы сотворяет заклинание с дескриптором Холод, сложность спасброска повышается на +1. Ведьма Зимы совершенно неспособна изучать или творить заклинания с дескриптором Огонь."
   },
 
   {
     "Key": "WinterWitch.ColdFlesh.Name",
     "ProcessTemplates": false,
-    "enGB": "Cold Flesh"
+    "enGB": "Cold Flesh",
+    "ruRU": "Холодная плоть"
   },
   {
     "Key": "WinterWitch.ColdFlesh.Description",
-    "enGB": "At 4th level, a winter witch gains cold resistance 5, making her comfortable in near-freezing temperatures. At 9th-level, this increases to cold resistance 10, and at 14th level, it becomes immunity to cold."
+    "enGB": "At 4th level, a winter witch gains cold resistance 5, making her comfortable in near-freezing temperatures. At 9th-level, this increases to cold resistance 10, and at 14th level, it becomes immunity to cold.",
+    "ruRU": "На 4-ом кровне Ведьма Зимы получает Сопротивление холоду 5, не чувствуя дискомфорта даже на лютом морозе. На 9-ом уровне, значение Сопротивления Холоду увеличивается до 10, а на 14-ом уровне Ведьма становится невосприимчива к холоду."
   },
 
   {
     "Key": "WinterWitch.FrozenCaress.Name",
     "ProcessTemplates": false,
-    "enGB": "Frozen Caress"
+    "enGB": "Frozen Caress",
+    "ruRU": "Морозная ласка"
   },
   {
     "Key": "WinterWitch.FrozenCaress.Description",
-    "enGB": "Whenever the winter witch casts a touch spell, she can infuse the magic with cold as a swift action. This grants the spell the cold descriptor, and adds 1d4 points of cold damage to the spell’s effect. If the touch spell allows a saving throw, a successful save negates this additional cold damage."
+    "enGB": "Whenever the winter witch casts a touch spell, she can infuse the magic with cold as a swift action. This grants the spell the cold descriptor, and adds 1d4 points of cold damage to the spell’s effect. If the touch spell allows a saving throw, a successful save negates this additional cold damage.",
+    "ruRU": "Когда Ведьма Зимы творит заклинание касанием, Быстрым действием она может насытить это заклинание холодом. В результате заклинание получает дескриптор Холод и наносит 1d4 урона холодом в помимо основного эффекта. Если заклинание позволяет совершение спасброска, успех отменяет этот дополнительный урон холодом."
   }
   // **************************** //
 ]

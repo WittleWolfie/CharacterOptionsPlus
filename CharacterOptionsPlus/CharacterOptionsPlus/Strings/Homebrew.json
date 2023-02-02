@@ -1,32 +1,38 @@
-﻿[
+[
   {
     "Key": "CompanionShareSpells.Name",
     "ProcessTemplates": false,
-    "enGB": "Share Spells (Animal Companion)"
+    "enGB": "Share Spells (Animal Companion)",
+    "ruRu": "Поделиться магией (с верным зверем)"
   },
   {
     "Key": "CompanionShareSpells.Description",
-    "enGB": "Spells with a range of personal can target animal companions.\nWhen this is enabled you will have to select a target when casting personal spells."
+    "enGB": "Spells with a range of personal can target animal companions.\nWhen this is enabled you will have to select a target when casting personal spells.",
+    "ruRu": "Вы можете накладывать на своего верного зверя заклинания, которые обычно можно накладывать только на себя. \nКогда эта способность активна, вам необходимо выбирать цель для заклинаний с дальностью 'на себя'"
   },
 
   {
     "Key": "ConeOfCold.WinterPatron.Name",
     "ProcessTemplates": false,
-    "enGB": "Cone of Cold - Winter Patron"
+    "enGB": "Cone of Cold - Winter Patron",
+    "ruRu": "Конус холода - Покровитель зимы"
   },
   {
     "Key": "ConeOfCold.WinterPatron.Description",
-    "enGB": "REQUIRES RESTART\n\nCone of Cold replaces Cold Ice Strike for the bonus spells granted by the Winter Patron."
+    "enGB": "REQUIRES RESTART\n\nCone of Cold replaces Cold Ice Strike for the bonus spells granted by the Winter Patron.",
+    "ruRu": "ТРЕБУЕТ РЕСТАРТ\n\n Конус холода заменяет Удар холодного льда в списке заклинаний, дарованных Ведьме зимы её покровителем"
   },
 
   {
     "Key": "Homebrew.FreezingSphere.Name",
     "ProcessTemplates": false,
-    "enGB": "Freezing Sphere - Selective"
+    "enGB": "Freezing Sphere - Selective",
+    "ruRu": "Сфера заморозки - Избирательное"
   },
   {
     "Key": "Homebrew.FreezingSphere.Description",
-    "enGB": "REQUIRES RESTART\n\nFreezing Sphere only hits enemies."
+    "enGB": "REQUIRES RESTART\n\nFreezing Sphere only hits enemies.",
+    "ruRu": "ТРЕБУЕТ РЕСТАРТА\n\nСфера заморозки воздействует только на врагов"
   },
 
   {
@@ -40,17 +46,19 @@
     "Key": "Homebrew.GloriousHeat.Description",
     "ProcessTemplates": false,
     "enGB": "REQUIRES RESTART\n\nThe default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing.",
-    "ruRU": "ТРЕБУЕТ РЕСТАРТ\n\nПо умолчанию Благостному Жару учитывает официальную эррату, согласно которой эффект лечения с 1/2 Уровня Персонажа до Круга Заклинания. Если эта настройка включена, то будет использоваться старая врсия правил, хотя лечение с Фокусов всё равно намеренно запрещено, чтобы не допустить возможности бесконечного лечения."
+    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nПо умолчанию Благостному Жару учитывает официальную эррату, согласно которой эффект лечения с 1/2 Уровня Персонажа до Круга Заклинания. Если эта настройка включена, то будет использоваться старая врсия правил, хотя лечение с Фокусов всё равно намеренно запрещено, чтобы не допустить возможности бесконечного лечения."
   },
 
   {
     "Key": "Implosion.DestructionDomain.Name",
     "ProcessTemplates": false,
-    "enGB": "Implosion - Destruction Domain"
+    "enGB": "Implosion - Destruction Domain",
+    "ruRu": "Схлопывание - домейн Разрушения"
   },
   {
     "Key": "Implosion.DestructionDomain.Description",
-    "enGB": "REQUIRES RESTART\n\nImplosion replaces Tsunami in for the bonus spells granted by the Destruction Domain."
+    "enGB": "REQUIRES RESTART\n\nImplosion replaces Tsunami in for the bonus spells granted by the Destruction Domain.",
+    "ruRu": "ТРЕБУЕТ РЕСТАРТА\n\nЗаклинание Схлопывание заменяет Цунами в списке дополнитульных заклинаний, даруемых домейном Разрушения"
   },
 
   {
