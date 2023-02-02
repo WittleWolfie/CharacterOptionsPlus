@@ -35,6 +35,8 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * Rogue
         * [Shadow Duplicate](https://www.d20pfsrd.com/classes/core-classes/rogue/rogue-talents/paizo-rogue-talents/shadow-duplicate-sp/)
     * Slayer
+        * [Armored Marauder](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/armored-marauder-ex/)
+        * [Armored Swiftness](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents-advanced/armored-swiftness-ex/)
         * [Slowing Strike](https://www.d20pfsrd.com/classes/hybrid-classes/slayer/slayer-talents/paizo-slayer-talents/slowing-strike/)
     * Witch
         * [Ice Tomb](https://www.d20pfsrd.com/classes/base-classes/witch/hexes/hexes/major-hexes/hex-major-ice-tomb-su/)
@@ -50,6 +52,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
         * Optionally uses original wording while excluding cantrips
     * [Hurtful](https://www.d20pfsrd.com/feats/combat-feats/hurtful-combat/)
     * [Paired Opportunists](https://www.d20pfsrd.com/feats/combat-feats/paired-opportunists-combat-teamwork/)
+    * [Purifying Channel](https://www.d20pfsrd.com/feats/general-feats/purifying-channel/)
     * [Signature Skill](https://www.d20pfsrd.com/feats/general-feats/signature-skill-general/)
         * Grants skill unlocks for all skills except Use Magic Device and Thievery
         * Automatically granted to rogue at level 5 / 10 / 15 / 20 per TT rules for unchained rogue
@@ -87,10 +90,12 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 
 * Cone of Cold can replace Icy Prison in the Winter Patron spell list
 * Evasion is available as a Slayer Advanced Talent
+* Classes with Animal Companions get Share Spells
 
 ## Bug Fixes
 
 * Heavenly Fire can be used 3 + Charisma Modifier times per day instead of just 3
+* Lord Beyond the Grave buff can bet set to permanent, preventing lag / encumberance issues while walking around
 * Serpent's Fang poison DC is calculated correctly
 * Serpent Friend grants +3 to Perception instead of +2, matching the feature description
 
