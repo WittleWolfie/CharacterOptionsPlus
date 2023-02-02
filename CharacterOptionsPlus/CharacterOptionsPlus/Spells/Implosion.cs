@@ -20,6 +20,8 @@ using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
+using Kingmaker.UnitLogic.Mechanics;
+using Kingmaker.UnitLogic.Mechanics.Components;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -101,12 +103,13 @@ namespace CharacterOptionsPlus.Spells
         .SetAnimation(CastAnimationStyle.Point)
         .SetShouldTurnToTarget()
         .SetActionType(CommandType.Standard)
+        .AddComponent<ImplosionCasterLevel>()
         .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithMultiplyByModifierProgression(10))
         .AddAbilityDeliverProjectile(
           type: AbilityProjectileType.Simple, projectiles: new() { ProjectileRefs.WindProjectile00.ToString() })
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
-            .ApplyBuff(concentrationBuff, ContextDuration.Fixed(1), isNotDispelable: true, toCaster: true)
+            .ApplyBuff(concentrationBuff, ContextDuration.Fixed(2), isNotDispelable: true, toCaster: true)
             .ConditionalSaved(
               failed: ActionsBuilder.New()
                 .DealDamage(DamageTypes.Direct(), ContextDice.Value(DiceType.Zero, bonus: ContextValues.Rank()))),
@@ -155,6 +158,38 @@ namespace CharacterOptionsPlus.Spells
           checkedFacts: new() { FeatureRefs.Incorporeal.ToString(), },
           inverted: true)
         .Configure();
+    }
+
+    [TypeId("7d3e66c3-21b1-4588-95b9-2a0b68a243b9")]
+    private class ImplosionCasterLevel : ContextAbilityParamsCalculator
+    {
+      private static BlueprintBuff _implosionBuff;
+      private static BlueprintBuff ImplosionBuff
+      {
+        get
+        {
+          _implosionBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.ImplosionBuff);
+          return _implosionBuff;
+        }
+      }
+
+      public override AbilityParams Calculate(MechanicsContext context)
+      {
+        try
+        {
+          var sourceBuff = context.MaybeCaster.GetFact(ImplosionBuff);
+          if (sourceBuff == null)
+            throw new InvalidOperationException($"{context.MaybeCaster} is using implosion but doesn't have the buff");
+
+          Logger.Verbose($"Setting the CL to: {sourceBuff.MaybeContext.Params.CasterLevel}");
+          return sourceBuff.MaybeContext.Params;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("ImplosionCasterLevel.Calculate", e);
+        }
+        return null;
+      }
     }
 
     [TypeId("9365d00f-c4e2-41e8-a3fa-2768f11f9c57")]

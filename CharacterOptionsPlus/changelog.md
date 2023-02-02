@@ -6,6 +6,7 @@
 * New Bugfixes
     * Eliminates lag caused by Lord Beyond the Grave
     * Fixed damage on Implosion
+    * Implosion works in turn-based mode
 
 ## v1.1.1
 
