@@ -1,5 +1,7 @@
 ## v1.1.2
 
+* Russian localization update
+
 * New Feats
     * Purifying Channel
 
