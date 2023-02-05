@@ -141,6 +141,7 @@ namespace CharacterOptionsPlus
         DazingAssault.Configure();
         DivineFightingTechnique.Configure();
         EldritchHeritage.Configure();
+        EnergyChannel.Configure();
         FuriousFocus.Configure();
         GloriousHeat.Configure();
         Hurtful.Configure();

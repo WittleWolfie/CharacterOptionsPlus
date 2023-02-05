@@ -119,6 +119,32 @@ namespace CharacterOptionsPlus.Util
     internal const string GreaterEldritchHeritageFeat = "e29ab08b-0b87-432d-a773-f0d3a39aac5a";
     internal const string EldritchHeritageEffectiveLevel = "64c2f8cd-be15-47d8-bb1b-638d04417f4b";
 
+    internal const string EnergyChannelFeat = "c6a6e381-41e4-413e-996d-5b4d8250a354";
+    internal const string EnergyChannelAir = "7a23d9f4-7628-4583-a391-e3bb0430d253";
+    internal const string EnergyChannelAirAbility = "3717de02-f6c5-410d-b821-bf404a5c8619";
+    internal const string EnergyChannelAirClericAbility = "c9be84f0-1327-4773-bf08-e5310fa2ad9f";
+    internal const string EnergyChannelAirWarpriestAbility = "184b5827-bae0-40d4-a9d8-f90b0802181a";
+    internal const string EnergyChannelAirClericBuff = "6adacf1b-e1d3-43c4-b540-bccec7fbceec";
+    internal const string EnergyChannelAirWarpriestBuff = "78a4d18a-0aab-4454-bc16-50707d5d4174";
+    internal const string EnergyChannelEarth = "0dde2a6a-0e36-454d-b8a4-ba70ebcfc880";
+    internal const string EnergyChannelEarthAbility = "06af267a-6940-4bc0-9b74-d6aee37e3c00";
+    internal const string EnergyChannelEarthClericBuff = "b6f059f1-2e6a-413a-af5a-51d5dda6cf82";
+    internal const string EnergyChannelEarthWarpriestBuff = "5dbbd391-9caa-4aa1-9f7c-b0664853044c";
+    internal const string EnergyChannelEarthClericAbility = "30e3ed38-3379-47c9-b34f-adef7518309f";
+    internal const string EnergyChannelEarthWarpriestAbility = "6734fc34-e0d3-4a30-9317-08eaaecb4a1a";
+    internal const string EnergyChannelFire = "03a8651d-7d32-4803-a182-f3245690409c";
+    internal const string EnergyChannelFireAbility = "30e05ca3-ca97-4ded-a63a-a010dc695bfe";
+    internal const string EnergyChannelFireClericBuff = "7683d39e-4abb-4881-9555-82d2dc844269";
+    internal const string EnergyChannelFireWarpriestBuff = "edb3cb5d-bdfc-4ceb-8c1a-721981f527aa";
+    internal const string EnergyChannelFireClericAbility = "0e58dfb5-0009-460c-9053-813d3056d5c5";
+    internal const string EnergyChannelFireWarpriestAbility = "55b5c92e-2219-468c-baba-edba59cf2a19";
+    internal const string EnergyChannelWater = "85bcbb62-68d1-41f6-8c47-a9e004436f96";
+    internal const string EnergyChannelWaterAbility = "7d4e472b-798a-44ec-ba70-4a31f5bf9847";
+    internal const string EnergyChannelWaterClericBuff = "ba32deb0-388f-4ca7-aad0-b285552090e6";
+    internal const string EnergyChannelWaterWarpriestBuff = "21e64502-325b-45d5-87b1-02808d291923";
+    internal const string EnergyChannelWaterClericAbility = "9e86135d-b223-4ba3-b700-5ff4bb941932";
+    internal const string EnergyChannelWaterWarpriestAbility = "9c251e08-c043-4c29-ba0b-730c5a16ae91";
+
     internal const string FuriousFocusFeat = "de9a75d3-1289-4098-a0b7-fda465a79576";
 
     internal const string GloriousHeatFeat = "860e19d3-a2ae-4b53-abd9-9673d635110f";
@@ -183,6 +209,7 @@ namespace CharacterOptionsPlus.Util
         (DazingAssaultFeat, DazingAssault.FeatDisplayName),
         (DivineFightingTechniqueFeat, DivineFightingTechnique.FeatDisplayName),
         (EldritchHeritageFeat, EldritchHeritage.FeatDisplayName),
+        (EnergyChannelFeat, EnergyChannel.FeatDisplayName),
         (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
@@ -642,11 +669,11 @@ namespace CharacterOptionsPlus.Util
       {
         guid = GUIDS[0];
         GUIDS.RemoveAt(0);
-        Logger.Verbose($"Reserving dynamic guid {guid}");
+        Logger.Verbose(() => $"Reserving dynamic guid {guid}");
         return guid;
       }
       guid = Guid.NewGuid().ToString();
-      Logger.Verbose($"Generating dynamic guid {guid}");
+      Logger.Verbose(() => $"Generating dynamic guid {guid}");
       return guid;
     }
     #endregion
