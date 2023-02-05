@@ -160,11 +160,11 @@ namespace CharacterOptionsPlus.Spells
         {
           if (command.Type == CommandType.Free || !command.CreatedByPlayer)
           {
-            Logger.Verbose("Ignoring, free | automatic command");
+            Logger.Verbose(() => "Ignoring, free | automatic command");
             return;
           }
 
-          Logger.Verbose($"{Owner.CharacterName} took an action {command.Type}, interrupting Frozen Note");
+          Logger.Verbose(() => $"{Owner.CharacterName} took an action {command.Type}, interrupting Frozen Note");
           Buff.Remove();
         }
         catch (Exception e)
@@ -181,7 +181,7 @@ namespace CharacterOptionsPlus.Spells
         {
           if (evt.Result > 0)
           {
-            Logger.Verbose($"{Owner.CharacterName} took damage, interrupting Frozen Note");
+            Logger.Verbose(() => $"{Owner.CharacterName} took damage, interrupting Frozen Note");
             Buff.Remove();
           }
         }

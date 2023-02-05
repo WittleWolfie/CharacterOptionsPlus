@@ -74,7 +74,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
       DamageDescription damageDescription = evt.DamageDescription.FirstItem();
       if (damageDescription != null && damageDescription.TypeDescription.Type == DamageType.Physical)
       {
-        Logger.Verbose("Calculating vital strike damage");
+        Logger.Verbose(() => "Calculating vital strike damage");
         var vitalDamage = CalculateVitalDamage(evt);
         evt.DamageDescription.Insert(1, vitalDamage);
       }
@@ -102,7 +102,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
 
           if (IsMythic)
           {
-            Logger.Verbose("Vital Strike is mythic");
+            Logger.Verbose(() => "Vital Strike is mythic");
             dd.AddModifier(
               new(
                 evt.DamageDescription.FirstItem().Bonus * Math.Max(1, DamageMod - 1),

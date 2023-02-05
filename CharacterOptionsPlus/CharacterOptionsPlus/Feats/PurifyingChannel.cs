@@ -62,7 +62,7 @@ namespace CharacterOptionsPlus.Feats
       FeatureConfigurator.New(FeatName, Guids.PurifyingChannelFeat, FeatureGroup.Feat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
-        .SetIcon(IconName)
+  //      .SetIcon(IconName)
         .AddFeatureTagsComponent(FeatureTag.ClassSpecific | FeatureTag.Damage)
         .AddPrerequisiteFeature(selectiveChannel)
         .AddPrerequisiteStatValue(StatType.Charisma, 15)
@@ -78,7 +78,7 @@ namespace CharacterOptionsPlus.Feats
       if (channel == null)
         return;
 
-      Logger.Verbose($"Adding purifying channel to {channel.Name}");
+      Logger.Verbose(() => $"Adding purifying channel to {channel.Name}");
       var purify =
         ActionsBuilder.New()
           .Conditional(

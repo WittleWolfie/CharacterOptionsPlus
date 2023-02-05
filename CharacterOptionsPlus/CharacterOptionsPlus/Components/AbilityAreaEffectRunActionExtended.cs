@@ -45,7 +45,7 @@ namespace CharacterOptionsPlus.Components
         // Assume this is right when the effect spawned
         if (Game.Instance.TimeController.GameTime - areaEffect.m_CreationTime < 0.25f.Seconds())
         {
-          Logger.Verbose($"Running spawn actions on {unit.CharacterName}");
+          Logger.Verbose(() => $"Running spawn actions on {unit.CharacterName}");
           using (ContextData<AreaEffectContextData>.Request().Setup(areaEffect))
           {
             using (context.GetDataScope(unit))

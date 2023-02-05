@@ -52,10 +52,10 @@ namespace CharacterOptionsPlus.Util
         InternalLog.LogException(key, e);
       }
 
-      internal void Verbose(string str)
+      internal void Verbose(Func<string> str)
       {
         if (VerboseLogging)
-          InternalLog.NativeLog(str);
+          InternalLog.NativeLog(str.Invoke());
       }
     }
   }

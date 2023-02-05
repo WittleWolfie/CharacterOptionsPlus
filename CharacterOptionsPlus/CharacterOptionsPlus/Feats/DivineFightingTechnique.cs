@@ -219,7 +219,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Data.AppliedFact is not null)
           {
-            Logger.Verbose("Already applied fact");
+            Logger.Verbose(() => "Already applied fact");
             return;
           }
 
@@ -227,13 +227,13 @@ namespace CharacterOptionsPlus.Feats
           {
             if (!Conditions.Check())
             {
-              Logger.Verbose("Conditions check failed");
+              Logger.Verbose(() => "Conditions check failed");
               return;
             }
           }
 
           var technique = AdvancedTechnique.Get();
-          Logger.Verbose($"Applying Advanced Technique: {technique.name}");
+          Logger.Verbose(() => $"Applying Advanced Technique: {technique.name}");
           Data.AppliedFact = Owner.AddFact(technique);
         }
         catch (Exception e)
@@ -248,7 +248,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Data.AppliedFact is not null)
           {
-            Logger.Verbose($"Removing {Data.AppliedFact.Name}");
+            Logger.Verbose(() => $"Removing {Data.AppliedFact.Name}");
             Owner.RemoveFact(Data.AppliedFact);
             Data.AppliedFact = null;
           }
@@ -554,7 +554,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Data.AppliedFact is not null)
           {
-            Logger.Verbose("Already applied fact (asmodeus)");
+            Logger.Verbose(() => "Already applied fact (asmodeus)");
             return;
           }
 
@@ -563,11 +563,11 @@ namespace CharacterOptionsPlus.Feats
               || !Owner.HasFact(FeatureRefs.CombatExpertiseFeature.Reference)
               || !Owner.HasFact(FeatureRefs.ImprovedDirtyTrick.Reference))
           {
-            Logger.Verbose("Requirements not met (asmodeus)");
+            Logger.Verbose(() => "Requirements not met (asmodeus)");
             return;
           }
 
-          Logger.Verbose($"Applying Asmodeus Advanced Technique");
+          Logger.Verbose(() => $"Applying Asmodeus Advanced Technique");
           Data.AppliedFact = Owner.AddFact(AdvancedTechnique);
         }
         catch (Exception e)
@@ -582,7 +582,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Data.AppliedFact is not null)
           {
-            Logger.Verbose($"Removing {Data.AppliedFact.Name}");
+            Logger.Verbose(() => $"Removing {Data.AppliedFact.Name}");
             Owner.RemoveFact(Data.AppliedFact);
             Data.AppliedFact = null;
           }
@@ -631,12 +631,12 @@ namespace CharacterOptionsPlus.Feats
           if (evt.Weapon.Blueprint.Category != WeaponCategory.HeavyMace
             && evt.Weapon.Blueprint.Category != WeaponCategory.LightMace)
           {
-            Logger.Verbose($"Not using a mace: {evt.Weapon.Blueprint.Category}");
+            Logger.Verbose(() => $"Not using a mace: {evt.Weapon.Blueprint.Category}");
             return;
           }
 
           var rounds = evt.AttackRoll.IsCriticalConfirmed ? 2 : 1;
-          Logger.Verbose($"{evt.Target.CharacterName} is sickened for {rounds} rounds");
+          Logger.Verbose(() => $"{evt.Target.CharacterName} is sickened for {rounds} rounds");
           evt.Target.AddBuff(Sickened, Context, rounds.Rounds().Seconds);
         }
         catch (Exception e)
@@ -677,13 +677,13 @@ namespace CharacterOptionsPlus.Feats
           if (evt.Weapon.Blueprint.Category != WeaponCategory.HeavyMace
             && evt.Weapon.Blueprint.Category != WeaponCategory.LightMace)
           {
-            Logger.Verbose($"Not using a mace: {evt.Weapon.Blueprint.Category}");
+            Logger.Verbose(() => $"Not using a mace: {evt.Weapon.Blueprint.Category}");
             return;
           }
 
           if (!Owner.HasSwiftAction())
           {
-            Logger.Verbose($"No swift action available");
+            Logger.Verbose(() => $"No swift action available");
             return;
           }
 
@@ -859,7 +859,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (!adjacentAllies.Any() && (!hasAdvancedTechnique || !nearbyAllies.Any()))
           {
-            Logger.Verbose("No allies nearby");
+            Logger.Verbose(() => "No allies nearby");
             return;
           }
 
@@ -906,7 +906,7 @@ namespace CharacterOptionsPlus.Feats
               || distracted.MaybeContext?.MaybeCaster is null)
             return;
 
-          Logger.Verbose($"Granting {evt.Target.CharacterName} +{Bonus} AC against {evt.Initiator.CharacterName}");
+          Logger.Verbose(() => $"Granting {evt.Target.CharacterName} +{Bonus} AC against {evt.Initiator.CharacterName}");
           evt.AddModifier(Bonus, Fact, ModifierDescriptor.UntypedStackable);
         }
         catch (Exception e)
@@ -1027,7 +1027,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.TryGetCustomData(HandlerKey, out ISubscriber handler))
           {
-            Logger.Verbose("Removing Vital Strike handler");
+            Logger.Verbose(() => "Removing Vital Strike handler");
             EventBus.Unsubscribe(handler);
           }
         }
@@ -1056,7 +1056,7 @@ namespace CharacterOptionsPlus.Feats
 
       private void RegisterVitalStrike(RuleAttackWithWeapon evt)
       {
-        Logger.Verbose("Adding Vital Strike handler");
+        Logger.Verbose(() => "Adding Vital Strike handler");
         var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
         var handler =
           new VitalStrikeEventHandler(
@@ -1189,7 +1189,7 @@ namespace CharacterOptionsPlus.Feats
           var targets = GameHelper.GetTargetsAround(Owner.Position, 120.Feet()).Where(unit => unit.IsAlly(Owner));
           foreach (var target in targets)
           {
-            Logger.Verbose($"Applying {Blessing.name} to {target.CharacterName}");
+            Logger.Verbose(() => $"Applying {Blessing.name} to {target.CharacterName}");
             target.AddBuff(Blessing, Context, 1.Minutes());
           }
         }
@@ -1553,7 +1553,7 @@ namespace CharacterOptionsPlus.Feats
               damage.BonusTargetRelated = 0;
             }
 
-            Logger.Verbose($"Setting bleed damage to {bleed}");
+            Logger.Verbose(() => $"Setting bleed damage to {bleed}");
             Context[AbilitySharedValue.Damage] = bleed;
           }
           catch (Exception e)
@@ -1593,7 +1593,7 @@ namespace CharacterOptionsPlus.Feats
           var target = evt.Target;
           if (target.HasFact(Immunity))
           {
-            Logger.Verbose($"{target.CharacterName} is immune");
+            Logger.Verbose(() => $"{target.CharacterName} is immune");
             return;
           }
 
@@ -1602,7 +1602,7 @@ namespace CharacterOptionsPlus.Feats
             if (buff.Blueprint.SpellDescriptor.HasFlag(SpellDescriptor.Bleed))
             {
               var dc = 10 + Owner.Stats.GetStat(StatType.BaseAttackBonus);
-              Logger.Verbose($"Triggering saving throw for {target.CharacterName} with DC {dc}");
+              Logger.Verbose(() => $"Triggering saving throw for {target.CharacterName} with DC {dc}");
               var savingThrow = Rulebook.Trigger<RuleSavingThrow>(new(target, SavingThrowType.Fortitude, dc));
               if (savingThrow.IsPassed)
                 target.AddBuff(Immunity, Context, 1.Rounds().Seconds);
@@ -1764,11 +1764,11 @@ namespace CharacterOptionsPlus.Feats
           var targetBuff = target.Buffs.GetBuff(Unaware);
           if (target.Memory.ContainsVisible(Owner) && (targetBuff is null || targetBuff.Context.MaybeCaster != Owner))
           {
-            Logger.Verbose($"{target.CharacterName} is aware of {Owner.CharacterName}");
+            Logger.Verbose(() => $"{target.CharacterName} is aware of {Owner.CharacterName}");
             return;
           }
 
-          Logger.Verbose("Increasing weapon size.");
+          Logger.Verbose(() => "Increasing weapon size.");
           evt.IncreaseWeaponSize(1);
         }
         catch (Exception e)
@@ -1852,7 +1852,7 @@ namespace CharacterOptionsPlus.Feats
           var bab = Owner.Stats.GetStat(StatType.BaseAttackBonus);
           int bonus = (int)(1 + Math.Floor(bab / 4f));
 
-          Logger.Verbose($"Reducing DR for {Owner.CharacterName} by {bonus}");
+          Logger.Verbose(() => $"Reducing DR for {Owner.CharacterName} by {bonus}");
           evt.DamageBundle.WeaponDamage.ReductionPenalty.Add(
             new Modifier(bonus, Fact, ModifierDescriptor.UntypedStackable));
         }
@@ -1973,7 +1973,7 @@ namespace CharacterOptionsPlus.Feats
           var aooPerRound = Owner.CombatState.AttackOfOpportunityPerRound;
           if (aooCount < aooPerRound - 1)
           {
-            Logger.Verbose($"Not the first AOO this round: {aooCount} / {aooPerRound}");
+            Logger.Verbose(() => $"Not the first AOO this round: {aooCount} / {aooPerRound}");
             return;
           }
 
@@ -1991,7 +1991,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.TryGetCustomData(HandlerKey, out ISubscriber handler))
           {
-            Logger.Verbose("Removing Vital Strike handler");
+            Logger.Verbose(() => "Removing Vital Strike handler");
             EventBus.Unsubscribe(handler);
 
             if (!evt.AttackRoll.IsCriticalConfirmed)
@@ -2010,7 +2010,7 @@ namespace CharacterOptionsPlus.Feats
 
       private void RegisterVitalStrike(RuleAttackWithWeapon evt)
       {
-        Logger.Verbose("Adding Vital Strike handler");
+        Logger.Verbose(() => "Adding Vital Strike handler");
         var vitalStrikeMod = Owner.HasFact(VitalStrikeGreater) ? 4 : Owner.HasFact(VitalStrikeImproved) ? 3 : 2;
         var handler =
           new VitalStrikeEventHandler(
@@ -2172,7 +2172,7 @@ namespace CharacterOptionsPlus.Feats
           var wisdom = Owner.Stats.GetStat(StatType.Wisdom) as ModifiableValueAttributeStat;
           var dc = 10 + Owner.Progression.CharacterLevel / 2 + wisdom.Bonus;
 
-          Logger.Verbose($"Attempting to infect {evt.Target.CharacterName} with {contagion.name}, DC {dc}");
+          Logger.Verbose(() => $"Attempting to infect {evt.Target.CharacterName} with {contagion.name}, DC {dc}");
           Owner.Resources.Spend(Resource, 1);
           if (!Rulebook.Trigger<RuleSavingThrow>(new(target, SavingThrowType.Fortitude, dc)).IsPassed)
           {
@@ -2241,7 +2241,7 @@ namespace CharacterOptionsPlus.Feats
           if (evt.Damage.Result < 1)
             return;
 
-          Logger.Verbose($"{Owner.CharacterName} drained {damage} HP from {evt.Target.CharacterName}");
+          Logger.Verbose(() => $"{Owner.CharacterName} drained {damage} HP from {evt.Target.CharacterName}");
           Owner.Resources.Spend(Resource, 1);
           Context[AbilitySharedValue.Heal] = damage;
           Owner.AddBuff(LifeBuff, Context, 1.Minutes());

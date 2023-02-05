@@ -138,7 +138,7 @@ namespace CharacterOptionsPlus.Spells
         {
           var chaMod = (Owner.Stats.GetStat(StatType.Charisma) as ModifiableValueAttributeStat).Bonus;
           var intMod = (Owner.Stats.GetStat(StatType.Intelligence) as ModifiableValueAttributeStat).Bonus;
-          Logger.Verbose($"Adding {chaMod} | {intMod} to attack");
+          Logger.Verbose(() => $"Adding {chaMod} | {intMod} to attack");
           evt.AddModifier(chaMod > intMod ? chaMod : intMod, Fact, ModifierDescriptor.Circumstance);
         }
         catch (Exception e)

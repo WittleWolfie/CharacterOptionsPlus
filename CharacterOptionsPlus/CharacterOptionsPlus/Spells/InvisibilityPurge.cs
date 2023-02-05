@@ -155,7 +155,7 @@ namespace CharacterOptionsPlus.Spells
         {
           if (condition == UnitCondition.Invisible)
           {
-            Logger.Verbose($"Adding FX to invisible unit: {unit}");
+            Logger.Verbose(() => $"Adding FX to invisible unit: {unit}");
             unit.AddBuff(FxBuff, Context);
           }
         }

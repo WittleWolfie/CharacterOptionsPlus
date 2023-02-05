@@ -76,26 +76,26 @@ namespace CharacterOptionsPlus.UnitParts
     //  - Lowest DC is prioritized (i.e. most likely to succeed)
     public void AddSupressBuff(Buff buff, bool appliesParalyze, bool appliesSlow)
     {
-      Logger.Verbose($"Adding suppress: {buff.Name}");
+      Logger.Verbose(() => $"Adding suppress: {buff.Name}");
       SuppressBuffs.Add(buff);
 
       if (SuppressTarget is null)
       {
-        Logger.Verbose("Updating target: no current target");
+        Logger.Verbose(() => "Updating target: no current target");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
         return;
       }
 
       if (appliesParalyze && appliesSlow && (!AppliesParalyze || !AppliesSlow))
       {
-        Logger.Verbose("Updating target: paralyze and slow applied");
+        Logger.Verbose(() => "Updating target: paralyze and slow applied");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
         return;
       }
 
       if (appliesParalyze && !AppliesParalyze)
       {
-        Logger.Verbose("Updating target: paralyze applied");
+        Logger.Verbose(() => "Updating target: paralyze applied");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
         return;
       }
@@ -103,7 +103,7 @@ namespace CharacterOptionsPlus.UnitParts
       var hasLowerDC = buff.Context.Params.DC < SuppressTarget.Context.Params.DC;
       if (hasLowerDC && AppliesParalyze == appliesParalyze && AppliesSlow == appliesSlow)
       {
-        Logger.Verbose("Updating target: higher DC");
+        Logger.Verbose(() => "Updating target: higher DC");
         UpdateSuppressTarget(buff, appliesParalyze, appliesSlow);
       }
     }
@@ -115,7 +115,7 @@ namespace CharacterOptionsPlus.UnitParts
 
       if (SuppressTarget == buff)
       {
-        Logger.Verbose("Updating target: buff removed");
+        Logger.Verbose(() => "Updating target: buff removed");
         UpdateSuppressTarget();
       }
 
@@ -134,7 +134,7 @@ namespace CharacterOptionsPlus.UnitParts
 
         if (parentBuff is not null)
         {
-          Logger.Verbose($"Removing suppression of {parentBuff.Name}");
+          Logger.Verbose(() => $"Removing suppression of {parentBuff.Name}");
           SuppressedBuffs.Remove(parentBuff);
           UpdateSuppressTarget();
         }
@@ -169,7 +169,7 @@ namespace CharacterOptionsPlus.UnitParts
 
       var unit = Owner.Unit;
       var dc = SuppressTarget.Context.Params.DC + 10;
-      Logger.Verbose(
+      Logger.Verbose(() => 
         $"Attempting to suppress slow and paralyze on {unit.CharacterName} caused by {SuppressTarget.Name}, DC {dc}");
 
       // This is basically whether or not this is activated automatically at start of round or by an active ability.
@@ -181,24 +181,24 @@ namespace CharacterOptionsPlus.UnitParts
 
         var actionCost =
           unit.Stats.GetStat(StatType.SkillAthletics).BaseValue >= 20 ? CommandType.Move : CommandType.Standard;
-        Logger.Verbose($"Spending an action: {actionCost}");
+        Logger.Verbose(() => $"Spending an action: {actionCost}");
         unit.SpendAction(actionCost, isFullRound: false, timeSinceCommandStart: 0);
       }
 
       var result = GameHelper.TriggerSkillCheck(new(unit, StatType.SkillAthletics, dc), SuppressTarget.Context);
       if (result.Success)
       {
-        Logger.Verbose("Athletics check passed");
+        Logger.Verbose(() => "Athletics check passed");
 
         var rounds = (1 + (result.RollResult - dc) / 5).Rounds();
         if (AppliesCondition(SuppressTarget, UnitCondition.Paralyzed))
         {
-          Logger.Verbose($"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
+          Logger.Verbose(() => $"Suppressing paralyze on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(ParalyzeBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
         if (AppliesCondition(SuppressTarget, UnitCondition.Slowed))
         {
-          Logger.Verbose($"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
+          Logger.Verbose(() => $"Suppressing slow on {unit.CharacterName} caused by {SuppressTarget.Name} for {rounds} rounds");
           SuppressTarget.StoreFact(unit.AddBuff(SlowBuff, SuppressTarget.Context, duration: rounds.Seconds));
         }
 

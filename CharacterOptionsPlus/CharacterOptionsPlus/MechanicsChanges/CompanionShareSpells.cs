@@ -45,7 +45,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
           var petType = target.Unit.Get<UnitPartPet>()?.Type;
           if (petType is null || petType != PetType.AnimalCompanion)
           {
-            Logger.Verbose($"Target is not an animal companion: {petType}");
+            Logger.Verbose(() => $"Target is not an animal companion: {petType}");
             __result = false;
             return false;
           }
@@ -53,7 +53,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
           var master = target.Unit.Master;
           if (master != __instance.Caster.Unit)
           {
-            Logger.Verbose($"Target is not the caster's pet: {target.Unit.CharacterName} is owned by {master.CharacterName}");
+            Logger.Verbose(() => $"Target is not the caster's pet: {target.Unit.CharacterName} is owned by {master.CharacterName}");
             __result = false;
             return false;
           }
@@ -87,7 +87,7 @@ namespace CharacterOptionsPlus.MechanicsChanges
 
           if (__instance.Caster.Unit.Get<UnitPartPetMaster>() == null)
           {
-            Logger.Verbose($"Caster has no animal companion: {__instance.Caster.Unit}");
+            Logger.Verbose(() => $"Caster has no animal companion: {__instance.Caster.Unit}");
             return true;
           }
 

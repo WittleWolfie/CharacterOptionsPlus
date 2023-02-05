@@ -54,7 +54,7 @@ namespace CharacterOptionsPlus.UnitParts
     {
       if (!Projectiles.ContainsKey(buff.Guid))
       {
-        Logger.Verbose($"No projetiles for buff");
+        Logger.Verbose(() => $"No projetiles for buff");
         return null;
       }
 
@@ -62,14 +62,14 @@ namespace CharacterOptionsPlus.UnitParts
       var projectile = projectiles.LastOrDefault();
       if (projectile is null || projectile.Handle is null)
       {
-        Logger.Verbose(projectile is null ? "Projectile is null" : "Projectile handle is null");
+        Logger.Verbose(() => projectile is null ? "Projectile is null" : "Projectile handle is null");
         return null;
       }
 
       projectiles.Remove(projectile);
       if (!projectiles.Any())
       {
-        Logger.Verbose($"No remaining projectiles");
+        Logger.Verbose(() => $"No remaining projectiles");
         Projectiles.Remove(buff.Guid);
       }
 
@@ -80,7 +80,7 @@ namespace CharacterOptionsPlus.UnitParts
     {
       if (!Projectiles.ContainsKey(buff.Guid))
       {
-        Logger.Verbose($"No projetiles for buff");
+        Logger.Verbose(() => $"No projetiles for buff");
         return;
       }
 
@@ -88,7 +88,7 @@ namespace CharacterOptionsPlus.UnitParts
       {
         if (projectile?.Handle is not null)
         {
-          Logger.Verbose($"Destroying a projectile");
+          Logger.Verbose(() => $"Destroying a projectile");
           FxHelper.Destroy(projectile.Handle);
         }
       }
@@ -158,7 +158,7 @@ namespace CharacterOptionsPlus.UnitParts
       while (!controlledProjectile.Handle.IsSpawned)
         yield return null;
 
-      Logger.Verbose("Projectile spawned");
+      Logger.Verbose(() => "Projectile spawned");
       // This setup is a mixture of AbilityDeliverProjectile.Deliver() and ProjectileController.Launch()
       var spawnedProjectile = controlledProjectile.Handle.SpawnedObject;
       var projectile =
@@ -177,7 +177,7 @@ namespace CharacterOptionsPlus.UnitParts
       var projectileController = Game.Instance.ProjectileController;
       if (projectileController.m_ViewParent is null)
       {
-        Logger.Verbose("Creating projectile view parent");
+        Logger.Verbose(() => "Creating projectile view parent");
         projectileController.m_ViewParent = new GameObject("__Projectiles__").transform;
         SceneManager.MoveGameObjectToScene(
           projectileController.m_ViewParent.gameObject, SceneManager.GetSceneByName("BaseMechanics"));
@@ -201,7 +201,7 @@ namespace CharacterOptionsPlus.UnitParts
       while (!projectile.IsHit && !projectile.Cleared)
         yield return null;
 
-      Logger.Verbose("Projectile animation completed");
+      Logger.Verbose(() => "Projectile animation completed");
       attackRoll.ConsumeMirrorImageIfNecessary();
       using (ContextData<BuffCollection.RemoveByRank>.Request())
         buff.Remove();
@@ -209,7 +209,7 @@ namespace CharacterOptionsPlus.UnitParts
 
       if (projectile.Cleared)
       {
-        Logger.Verbose("Projectile cleared");
+        Logger.Verbose(() => "Projectile cleared");
         yield break;
       }
 
@@ -247,7 +247,7 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.Verbose("Spawning projectiles on area load");
+          Logger.Verbose(() => "Spawning projectiles on area load");
           SpawnProjectiles();
         }
         catch (Exception e)
@@ -265,7 +265,7 @@ namespace CharacterOptionsPlus.UnitParts
       {
         try
         {
-          Logger.Verbose("Consuming projectiles on area unload");
+          Logger.Verbose(() => "Consuming projectiles on area unload");
           ConsumeAll();
         }
         catch (Exception e)

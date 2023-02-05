@@ -97,7 +97,7 @@ namespace CharacterOptionsPlus.Spells
       var alwaysSelective = Settings.IsEnabled(Homebrew.SelectiveFreezingSphere);
       if (!alwaysSelective)
       {
-        Logger.Verbose("Enabling Selective Metamagic");
+        Logger.Verbose(() => "Enabling Selective Metamagic");
         availableMetamagic.Add(Metamagic.Selective);
       }
 

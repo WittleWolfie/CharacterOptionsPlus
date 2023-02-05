@@ -181,7 +181,7 @@ namespace CharacterOptionsPlus.Spells
           if (sourceBuff == null)
             throw new InvalidOperationException($"{context.MaybeCaster} is using implosion but doesn't have the buff");
 
-          Logger.Verbose($"Setting the CL to: {sourceBuff.MaybeContext.Params.CasterLevel}");
+          Logger.Verbose(() => $"Setting the CL to: {sourceBuff.MaybeContext.Params.CasterLevel}");
           return sourceBuff.MaybeContext.Params;
         }
         catch (Exception e)
@@ -226,7 +226,7 @@ namespace CharacterOptionsPlus.Spells
         {
           if (!Rulebook.Trigger<RuleCheckConcentration>(new(Owner, Context.SourceAbilityContext.Ability, evt)).Success)
           {
-            Logger.Verbose("Failed to concentrate after taking damage");
+            Logger.Verbose(() => "Failed to concentrate after taking damage");
             Buff.Remove();
           }
         }
@@ -247,7 +247,7 @@ namespace CharacterOptionsPlus.Spells
 
           var cooldown = evt.SpellTarget.Unit.AddBuff(Cooldown, evt.Context, Buff.TimeLeft);
           cooldown.IsNotDispelable = true;
-          Logger.Verbose($"Storing {cooldown} for {evt.SpellTarget.Unit}");
+          Logger.Verbose(() => $"Storing {cooldown} for {evt.SpellTarget.Unit}");
           Data.AppliedBuffs.Add(cooldown);
         }
         catch (Exception e)
@@ -262,7 +262,7 @@ namespace CharacterOptionsPlus.Spells
         {
           foreach (var buff in Data.AppliedBuffs)
           {
-            Logger.Verbose($"Removing {buff} from {buff.Owner}");
+            Logger.Verbose(() => $"Removing {buff} from {buff.Owner}");
             if (buff.IsActive)
               buff.Remove();
           }

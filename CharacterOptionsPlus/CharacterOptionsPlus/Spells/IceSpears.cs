@@ -131,7 +131,7 @@ namespace CharacterOptionsPlus.Spells
             spearsPerTarget[i % numTargets]++;
           }
 
-          Logger.Verbose($"Distributing {numSpears} across {numTargets} targets");
+          Logger.Verbose(() => $"Distributing {numSpears} across {numTargets} targets");
           for (int i = 0; i < spearsPerTarget.Length; i++)
           {
             if (spearsPerTarget[i] < 1)
@@ -145,7 +145,7 @@ namespace CharacterOptionsPlus.Spells
               var spellDescriptor = buff.GetComponent<SpellDescriptorComponent>();
               if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Cold))
               {
-                Logger.Verbose($"{target} is affected by a cold spell");
+                Logger.Verbose(() => $"{target} is affected by a cold spell");
                 affectedByCold = true;
                 break;
               }
@@ -159,7 +159,7 @@ namespace CharacterOptionsPlus.Spells
               var spellDescriptor = area.Blueprint.GetComponent<SpellDescriptorComponent>();
               if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Cold))
               {
-                Logger.Verbose($"{target} is in a cold spell area");
+                Logger.Verbose(() => $"{target} is in a cold spell area");
                 affectedByCold = true;
                 break;
               }
@@ -191,7 +191,7 @@ namespace CharacterOptionsPlus.Spells
 
             if (saveResult.Success)
             {
-              Logger.Verbose($"{target} saved, skipping trip");
+              Logger.Verbose(() => $"{target} saved, skipping trip");
               continue;
             }
 
@@ -229,14 +229,14 @@ namespace CharacterOptionsPlus.Spells
 
           if (Context.HasMetamagic(Metamagic.Empower))
           {
-            Logger.Verbose("Spell is empowered");
+            Logger.Verbose(() => "Spell is empowered");
             cold.EmpowerBonus.Set(1.5f, Metamagic.Empower);
             piercing.EmpowerBonus.Set(1.5f, Metamagic.Empower);
           }
 
           if (Context.HasMetamagic(Metamagic.Maximize))
           {
-            Logger.Verbose("Spell is maximized");
+            Logger.Verbose(() => "Spell is maximized");
             cold.CalculationType.Set(DamageCalculationType.Maximized, Metamagic.Maximize);
             piercing.CalculationType.Set(DamageCalculationType.Maximized, Metamagic.Maximize);
           }

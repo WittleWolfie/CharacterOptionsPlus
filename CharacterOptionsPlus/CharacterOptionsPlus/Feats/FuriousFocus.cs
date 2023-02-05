@@ -90,14 +90,14 @@ namespace CharacterOptionsPlus.Feats
         {
           if (evt.Weapon is null || !evt.Weapon.HoldInTwoHands)
           {
-            Logger.Verbose("Skipped: not a 2H weapon attack.");
+            Logger.Verbose(() => "Skipped: not a 2H weapon attack.");
             return;
           }
 
           var rule = evt.Reason.Rule;
           if (rule is RuleAttackWithWeapon attackRule && !attackRule.IsFirstAttack)
           {
-            Logger.Verbose("Skipped: not first attack");
+            Logger.Verbose(() => "Skipped: not first attack");
             return;
           }
 
@@ -108,11 +108,11 @@ namespace CharacterOptionsPlus.Feats
               .FirstOrDefault();
           if (powerAttackModifier is null)
           {
-            Logger.Verbose("Skipped: power attack not applied");
+            Logger.Verbose(() => "Skipped: power attack not applied");
             return;
           }
 
-          Logger.Verbose($"Adding attack bonus to {Owner.CharacterName}'s attack");
+          Logger.Verbose(() => $"Adding attack bonus to {Owner.CharacterName}'s attack");
           evt.AddModifier(-powerAttackModifier.Value.Value, Fact);
           evt.Result -= powerAttackModifier.Value.Value;
         }

@@ -58,7 +58,7 @@ namespace CharacterOptionsPlus.UnitParts
       var spellLevelList = spellList.Where(list => list.Level == level).FirstOrDefault();
       if (spellLevelList is null)
       {
-        Logger.Verbose("Creating new spell level list");
+        Logger.Verbose(() => "Creating new spell level list");
         spellLevelList = new SpellsByLevel(level);
         spellList.Add(spellLevelList);
       }
@@ -66,7 +66,7 @@ namespace CharacterOptionsPlus.UnitParts
       if (spellLevelList.Spells.Contains(spell))
         return;
 
-      Logger.Verbose($"Adding to spell list for {Owner.CharacterName} - {clazz}");
+      Logger.Verbose(() => $"Adding to spell list for {Owner.CharacterName} - {clazz}");
       spellLevelList.Spells.Add(spell);
     }
 
@@ -86,7 +86,7 @@ namespace CharacterOptionsPlus.UnitParts
       if (!spellLevelList.Spells.Contains(spell))
         return;
 
-      Logger.Verbose($"Removing from spell list for {Owner.CharacterName} - {clazz}");
+      Logger.Verbose(() => $"Removing from spell list for {Owner.CharacterName} - {clazz}");
       spellLevelList.Spells.Remove(spell);
     }
 
@@ -101,7 +101,7 @@ namespace CharacterOptionsPlus.UnitParts
       newSelection = spellSelection;
       if (!Requirements.Exists(reqs => reqs.AreMet(spellSelection?.Spellbook, Owner)))
       {
-        Logger.Verbose($"Spell selection unmodified: {spellSelection?.Spellbook}");
+        Logger.Verbose(() => $"Spell selection unmodified: {spellSelection?.Spellbook}");
         return false;
       }
 
@@ -116,7 +116,7 @@ namespace CharacterOptionsPlus.UnitParts
           spellSelection.SpellList,
           extraSpells);
 
-      Logger.Verbose(
+      Logger.Verbose(() => 
         $"Returning spell selection for {Owner.CharacterName} - {spellSelection.Spellbook.m_CharacterClass}");
       newSelection = new SpellSelectionData(spellSelection.Spellbook, spellList);
       for (int i = 0; i < spellSelection.LevelCount.Length; i++)
@@ -137,14 +137,14 @@ namespace CharacterOptionsPlus.UnitParts
       expandedSpellList = null;
       if (!Requirements.Exists(reqs => reqs.AreMet(spellbook, Owner)))
       {
-        Logger.Verbose($"Spell selection unmodified: {spellbook}");
+        Logger.Verbose(() => $"Spell selection unmodified: {spellbook}");
         return false;
       }
 
       var extraSpells =
         ExtraSpells.ContainsKey(spellbook.m_CharacterClass) ? ExtraSpells[spellbook.m_CharacterClass] : new();
 
-      Logger.Verbose($"Returning spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
+      Logger.Verbose(() => $"Returning spell list for {Owner.CharacterName} - {spellbook.CharacterClass.Name}");
       expandedSpellList = GetExpandedSpellList(spellbook.m_CharacterClass, spellList, extraSpells);
       return true;
     }
@@ -165,13 +165,13 @@ namespace CharacterOptionsPlus.UnitParts
       SpellListConfigurator expandedList;
       if (BlueprintTool.TryGet<BlueprintSpellList>(spellListName, out var existingSpellList))
       {
-        Logger.Verbose($"Re-using expanded spell list for {Owner.CharacterName} - {clazz}");
+        Logger.Verbose(() => $"Re-using expanded spell list for {Owner.CharacterName} - {clazz}");
         expandedList = SpellListConfigurator.For(existingSpellList);
       }
       else
       {
         var guid = Guids.ReserveDynamic();
-        Logger.Verbose(
+        Logger.Verbose(() => 
           $"Creating expanded spell list for {Owner.CharacterName} - {clazz}, using dynamic guid {guid}");
         expandedList = SpellListConfigurator.New(spellListName, guid);
       }
@@ -227,7 +227,7 @@ namespace CharacterOptionsPlus.UnitParts
             unit.Ensure<UnitPartExpandedSpellList>().GetSpellSelection(
               __instance.m_SelectionData, out var selectionData))
           {
-            Logger.Verbose("Swapping selection data for CharGenSpellsPhaseVM");
+            Logger.Verbose(() => "Swapping selection data for CharGenSpellsPhaseVM");
             __instance.LevelUpController.State.SpellSelections.RemoveAll(
               selection =>
                 selection.Spellbook == __instance.m_SelectionData.Spellbook
@@ -263,7 +263,7 @@ namespace CharacterOptionsPlus.UnitParts
                 .GetSpellList(spellbook, spellList, out var expandedSpellList)
               && expandedSpellList != spellList)
           {
-            Logger.Verbose("Returning expanded spell list in DemandSpellSelection");
+            Logger.Verbose(() => "Returning expanded spell list in DemandSpellSelection");
             spellList = expandedSpellList;
           }
         }
@@ -284,7 +284,7 @@ namespace CharacterOptionsPlus.UnitParts
                 .GetSpellList(spellbook, spellList, out var expandedSpellList)
               && expandedSpellList != spellList)
           {
-            Logger.Verbose("Returning expanded spell list in GetSpellSelection");
+            Logger.Verbose(() => "Returning expanded spell list in GetSpellSelection");
             spellList = expandedSpellList;
           }
         }
@@ -309,7 +309,7 @@ namespace CharacterOptionsPlus.UnitParts
           var spellSelection = state.GetSpellSelection(__instance.Spellbook, __instance.SpellList);
           if (!spellSelection.SpellList.Contains(__instance.Spell))
           {
-            Logger.Verbose("Clearing invalid spell selection");
+            Logger.Verbose(() => "Clearing invalid spell selection");
             // Indicate the spell selection is not valid. This makes sure the user cannot break the leveling state by
             // selecting a bonus spell, then swapping the bonus spell with another. The bonus spell selection is
             // cleared and they are forced to select a different spell.
@@ -339,7 +339,7 @@ namespace CharacterOptionsPlus.UnitParts
           if (spellbook.Owner.Ensure<UnitPartExpandedSpellList>()
             .GetSpellList(spellbook.Blueprint, spellbook.Blueprint.SpellList, out var expandedSpellList))
           {
-            Logger.Verbose($"Returning expanded spells: {spellbook}");
+            Logger.Verbose(() => $"Returning expanded spells: {spellbook}");
             __result = expandedSpellList.GetSpells(level);
           }
         }
@@ -461,7 +461,7 @@ namespace CharacterOptionsPlus.UnitParts
           return;
         }
 
-        Logger.Verbose($"Adding {spell.Name} to {Owner.CharacterName} - {Clazz}");
+        Logger.Verbose(() => $"Adding {spell.Name} to {Owner.CharacterName} - {Clazz}");
         var spellRef = spell.ToReference<BlueprintAbilityReference>();
         int spellLevel =
           SourceSpellList.Get().SpellsByLevel.Where(list => list.m_Spells.Contains(spellRef)).First().SpellLevel;
@@ -484,7 +484,7 @@ namespace CharacterOptionsPlus.UnitParts
           return;
         }
 
-        Logger.Verbose($"Removing {spell.Name} from {Owner.CharacterName} - {Clazz}");
+        Logger.Verbose(() => $"Removing {spell.Name} from {Owner.CharacterName} - {Clazz}");
         var spellRef = spell.ToReference<BlueprintAbilityReference>();
         int spellLevel =
           SourceSpellList.Get().SpellsByLevel.Where(list => list.m_Spells.Contains(spellRef)).First().SpellLevel;

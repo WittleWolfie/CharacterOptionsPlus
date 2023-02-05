@@ -173,7 +173,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
-          Logger.Verbose("Activating (HorrificDoublesComponent)");
+          Logger.Verbose(() => "Activating (HorrificDoublesComponent)");
           Apply();
         }
         catch (Exception e)
@@ -186,7 +186,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
-          Logger.Verbose("New Round (HorrificDoublesComponent)");
+          Logger.Verbose(() => "New Round (HorrificDoublesComponent)");
           Apply();
         }
         catch (Exception e)
@@ -202,7 +202,7 @@ namespace CharacterOptionsPlus.Spells
           .Where(unit => !unit.HasFact(Horrified) && !unit.HasFact(HorrifiedImmunity));
         if (!enemies.Any())
         {
-          Logger.Verbose("No affected enemies");
+          Logger.Verbose(() => "No affected enemies");
           return;
         }
 
@@ -210,7 +210,7 @@ namespace CharacterOptionsPlus.Spells
         {
           if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Buff.Context, enemy)).IsSpellResisted)
           {
-            Logger.Verbose($"{enemy} resisted");
+            Logger.Verbose(() => $"{enemy} resisted");
             return;
           }
 
@@ -218,12 +218,12 @@ namespace CharacterOptionsPlus.Spells
               && (!Buff.Context.HasMetamagic(Metamagic.Persistent)
                 || Rulebook.Trigger(CreateSavingThrow(enemy, persistent: true)).IsPassed))
           {
-            Logger.Verbose($"{enemy} saved, granting immunity");
+            Logger.Verbose(() => $"{enemy} saved, granting immunity");
             enemy.AddBuff(HorrifiedImmunity, Buff.Context);
           }
           else
           {
-            Logger.Verbose($"{enemy} failed their save");
+            Logger.Verbose(() => $"{enemy} failed their save");
             enemy.AddBuff(Horrified, Buff.Context);
           }
         }
@@ -247,7 +247,7 @@ namespace CharacterOptionsPlus.Spells
       {
         try
         {
-          Logger.Verbose("Activating (HorrifiedComponent)");
+          Logger.Verbose(() => "Activating (HorrifiedComponent)");
           Buff.StoreFact(Owner.AddBuff(Shaken, Context));
         }
         catch (Exception e)
@@ -264,19 +264,19 @@ namespace CharacterOptionsPlus.Spells
         {
           if (evt.Target != Context.MaybeCaster)
           {
-            Logger.Verbose("Target is not caster");
+            Logger.Verbose(() => "Target is not caster");
             return;
           }
 
           if (evt.HitMirrorImageIndex < 1)
           {
-            Logger.Verbose("Missed images");
+            Logger.Verbose(() => "Missed images");
             return;
           }
 
           if (Owner.HasFact(HorrifiedImmunity))
           {
-            Logger.Verbose($"{Owner} is immune to the effects");
+            Logger.Verbose(() => $"{Owner} is immune to the effects");
             return;
           }
 
@@ -285,7 +285,7 @@ namespace CharacterOptionsPlus.Spells
 
           if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Buff.Context, Owner)).IsSpellResisted)
           {
-            Logger.Verbose($"{Owner} resisted");
+            Logger.Verbose(() => $"{Owner} resisted");
             return;
           }
 
@@ -293,7 +293,7 @@ namespace CharacterOptionsPlus.Spells
               && (!Buff.Context.HasMetamagic(Metamagic.Persistent)
                 || Rulebook.Trigger(CreateSavingThrow(Owner, persistent: true)).IsPassed))
           {
-            Logger.Verbose($"{Owner} passed their save");
+            Logger.Verbose(() => $"{Owner} passed their save");
             return;
           }
 
@@ -320,7 +320,7 @@ namespace CharacterOptionsPlus.Spells
 
           if (!caster.HasFact(HorrificDoublesBuff))
           {
-            Logger.Verbose($"Removing {Buff.Name} from {Owner.CharacterName} because {caster.CharacterName} has no images");
+            Logger.Verbose(() => $"Removing {Buff.Name} from {Owner.CharacterName} because {caster.CharacterName} has no images");
             Buff.Remove();
             return;
           }
@@ -329,7 +329,7 @@ namespace CharacterOptionsPlus.Spells
           {
             if (!Owner.HasFact(Shaken))
             {
-              Logger.Verbose($"Applying shaken to {Owner.CharacterName} because {caster.CharacterName} is in LOS");
+              Logger.Verbose(() => $"Applying shaken to {Owner.CharacterName} because {caster.CharacterName} is in LOS");
               Buff.StoreFact(Owner.AddBuff(Shaken, Context));
             }
             return;
@@ -341,14 +341,14 @@ namespace CharacterOptionsPlus.Spells
             var buff = fact as Buff;
             if (buff is not null && buff.Blueprint == Shaken)
             {
-              Logger.Verbose($"Removing {buff.Name} from {Owner.CharacterName} because {caster.CharacterName} is not in LOS");
+              Logger.Verbose(() => $"Removing {buff.Name} from {Owner.CharacterName} because {caster.CharacterName} is not in LOS");
               shakenBuff = buff;
               break;
             }
           }
           if (shakenBuff is not null)
           {
-            Logger.Verbose("Removing shaken");
+            Logger.Verbose(() => "Removing shaken");
             shakenBuff.Remove();
             Buff.m_StoredFacts.Remove(shakenBuff);
           }

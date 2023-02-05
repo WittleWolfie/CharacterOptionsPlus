@@ -473,7 +473,7 @@ namespace CharacterOptionsPlus.Feats
               foreach (var action in
                   buff.Blueprint.ElementsArray.Where(e => e is ContextActionBreakFree).Cast<ContextActionBreakFree>())
               {
-                Logger.Verbose($"Breaking free from: {buff.Name} for {target.CharacterName}");
+                Logger.Verbose(() => $"Breaking free from: {buff.Name} for {target.CharacterName}");
                 buff.RunActionInContext(new() { Actions = new GameAction[] { action } });
                 return;
               }
@@ -491,7 +491,7 @@ namespace CharacterOptionsPlus.Feats
               return;
             }
 
-            Logger.Verbose($"Breaking free from: {targetGrapple.m_Buff?.Name} for {target.CharacterName}");
+            Logger.Verbose(() => $"Breaking free from: {targetGrapple.m_Buff?.Name} for {target.CharacterName}");
             if (target.TryBreakFree(initiator, UnitHelper.BreakFreeFlags.Default, targetGrapple.Context))
               target.Remove<UnitPartGrappleTarget>();
             return;
@@ -546,7 +546,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (IsBreakFreeBuff(buff))
           {
-            Logger.Verbose($"Adding {buff.Name} to BreakFreeBuffs for {Owner.CharacterName}");
+            Logger.Verbose(() => $"Adding {buff.Name} to BreakFreeBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().BreakFreeBuffs.Add(buff);
             return;
           }
@@ -558,7 +558,7 @@ namespace CharacterOptionsPlus.Feats
           var appliesParalyze = UnitPartEscapeArtist.AppliesCondition(buff, UnitCondition.Paralyzed);
           if (appliesParalyze || appliesSlow)
           {
-            Logger.Verbose($"Adding {buff.Name} to SuppressBuffs for {Owner.CharacterName}");
+            Logger.Verbose(() => $"Adding {buff.Name} to SuppressBuffs for {Owner.CharacterName}");
             Owner.Ensure<UnitPartEscapeArtist>().AddSupressBuff(buff, appliesParalyze, appliesSlow);
           }
         }
@@ -826,7 +826,7 @@ namespace CharacterOptionsPlus.Feats
           if (skillRanks < 20)
             return;
 
-          Logger.Verbose($"Adding reroll for {Owner.CharacterName}.");
+          Logger.Verbose(() => $"Adding reroll for {Owner.CharacterName}.");
           evt.AddReroll(amount: 1, takeBest: true, Fact);
         }
         catch (Exception e)
@@ -847,7 +847,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = GetBonus(evt.Initiator);
-          Logger.Verbose($"Adding +{bonus} to saving throw for {evt.Initiator.CharacterName}");
+          Logger.Verbose(() => $"Adding +{bonus} to saving throw for {evt.Initiator.CharacterName}");
           evt.AddModifier(bonus, Fact, ModifierDescriptor.Competence);
         }
         catch (Exception e)
@@ -871,7 +871,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = GetBonus(evt.Initiator);
-          Logger.Verbose($"Adding +{bonus} to attack against {evt.Target.CharacterName}");
+          Logger.Verbose(() => $"Adding +{bonus} to attack against {evt.Target.CharacterName}");
           evt.AddModifier(bonus, Fact, ModifierDescriptor.Competence);
         }
         catch (Exception e)
@@ -895,7 +895,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = GetBonus(evt.Initiator);
-          Logger.Verbose($"Adding +{bonus} to spell resistance check against {evt.Target.CharacterName}");
+          Logger.Verbose(() => $"Adding +{bonus} to spell resistance check against {evt.Target.CharacterName}");
           evt.AddSpellPenetration(bonus, ModifierDescriptor.Competence);
         }
         catch (Exception e)
@@ -918,7 +918,8 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           checkBonus += Owner.Stats.GetStat(Skill).BaseValue;
-          Logger.Verbose($"Adding +{checkBonus} to identify success for {Owner.CharacterName}");
+          var bonus = checkBonus;
+          Logger.Verbose(() => $"Adding +{bonus} to identify success for {Owner.CharacterName}");
         }
         catch (Exception e)
         {
@@ -1242,7 +1243,7 @@ namespace CharacterOptionsPlus.Feats
         if (!evt.Initiator.HasFact(MobilityBuff))
           return;
 
-        Logger.Verbose($"Adding +5 to {evt.Target.CharacterName} CMD");
+        Logger.Verbose(() => $"Adding +5 to {evt.Target.CharacterName} CMD");
         evt.AddModifier(5, Fact);
       }
 
@@ -1256,7 +1257,7 @@ namespace CharacterOptionsPlus.Feats
           return;
 
         var bonus = ranks >= 20 ? 4 : 2;
-        Logger.Verbose($"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
+        Logger.Verbose(() => $"Adding (+{bonus}) to {evt.Target.CharacterName} CMD");
         evt.AddModifier(bonus, Fact);
       }
 
@@ -1276,7 +1277,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = ranks >= 20 ? 4 : 2;
-          Logger.Verbose($"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
+          Logger.Verbose(() => $"Adding (+{bonus}) to {Owner.CharacterName} Reflex");
           evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
@@ -1365,7 +1366,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = perceptionRanks >= 20 ? 10 : 5;
-          Logger.Verbose($"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
+          Logger.Verbose(() => $"Adding (+{bonus}) to {Owner.CharacterName} (hidden object)");
           evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
@@ -1384,7 +1385,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var bonus = perceptionRanks >= 20 ? 10 : 5;
-          Logger.Verbose($"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
+          Logger.Verbose(() => $"Adding (+{bonus}) to {Owner.CharacterName} (hidden unit)");
           evt.AddModifier(bonus, Fact);
         }
         catch (Exception e)
@@ -1426,7 +1427,7 @@ namespace CharacterOptionsPlus.Feats
           if (signatureSkill is not null)
           {
             var bonus = __result.Initiator.Stats.SkillPerception.BaseValue >= 15 ? 4 : 2;
-            Logger.Verbose($"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
+            Logger.Verbose(() => $"Adding (+{bonus}) to {__result.Initiator.CharacterName} (guard duty)");
             __result.AddModifier(bonus, signatureSkill);
           }
         }
@@ -1504,7 +1505,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (appliedBuff is null)
           {
-            Logger.Verbose($"{target.CharacterName} is immune to Persuasion");
+            Logger.Verbose(() => $"{target.CharacterName} is immune to Persuasion");
             return;
           }
 
@@ -1518,7 +1519,7 @@ namespace CharacterOptionsPlus.Feats
           var succeedBy = intimidateCheck.RollResult - intimidateCheck.DC;
           if (succeedBy < 10)
           {
-            Logger.Verbose($"Failed to exceed DC by 10: {succeedBy}");
+            Logger.Verbose(() => $"Failed to exceed DC by 10: {succeedBy}");
             return;
           }
 
@@ -1680,7 +1681,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (nearestEnemy is null)
           {
-            Logger.Verbose("No enemies nearby");
+            Logger.Verbose(() => "No enemies nearby");
             return;
           }
 
@@ -1695,7 +1696,7 @@ namespace CharacterOptionsPlus.Feats
           if (GameHelper.TriggerSkillCheck(
             new(unit, StatType.SkillStealth, enemyResult.RollResult - distanceBonus + ranksPenalty)).Success)
           {
-            Logger.Verbose($"Applying concealment to {unit.CharacterName} for 1 round.");
+            Logger.Verbose(() => $"Applying concealment to {unit.CharacterName} for 1 round.");
             if (skillRanks >= 10)
               unit.AddBuff(TotalConcealment, Context, 1.Rounds().Seconds);
             else
@@ -1703,7 +1704,7 @@ namespace CharacterOptionsPlus.Feats
           }
           else
           {
-            Logger.Verbose($"{unit.CharacterName} failed stealth check against {nearestEnemy.CharacterName}");
+            Logger.Verbose(() => $"{unit.CharacterName} failed stealth check against {nearestEnemy.CharacterName}");
           }
         }
         catch (Exception e)
@@ -1749,7 +1750,7 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           var duration = skillRanks >= 20 ? 2 : 1;
-          Logger.Verbose($"Denying Dexterity bonuses to {target.CharacterName} for {duration} rounds");
+          Logger.Verbose(() => $"Denying Dexterity bonuses to {target.CharacterName} for {duration} rounds");
           target.AddBuff(DenyDexterity, unit, duration: duration.Rounds().Seconds);
         }
         catch (Exception e)

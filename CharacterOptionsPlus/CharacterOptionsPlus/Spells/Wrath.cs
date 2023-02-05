@@ -132,7 +132,7 @@ namespace CharacterOptionsPlus.Spells
         {
           if (Context.Params.CasterLevel < 12 || evt.AttackWithWeapon?.Target?.HasFact(WrathBuff) != true)
           {
-            Logger.Verbose("Critical edge does not apply");
+            Logger.Verbose(() => "Critical edge does not apply");
             return;
           }
 

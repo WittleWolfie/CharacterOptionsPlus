@@ -161,7 +161,7 @@ namespace CharacterOptionsPlus.Spells
         .EditComponent<AbilityEffectRunAction>(
           c =>
           {
-            Logger.Verbose($"Editing {ability} to increase spawn count");
+            Logger.Verbose(() => $"Editing {ability} to increase spawn count");
             var spawnMonster =
               c.Actions.Actions.Where(
                 a => a is ContextActionSpawnMonster).Cast<ContextActionSpawnMonster>().FirstOrDefault();
@@ -212,19 +212,19 @@ namespace CharacterOptionsPlus.Spells
         {
           if (!Owner.HasFact(Undead))
           {
-            Logger.Verbose($"Skipping hit point bonus for {Owner.CharacterName}, not undead.");
+            Logger.Verbose(() => $"Skipping hit point bonus for {Owner.CharacterName}, not undead.");
             return;
           }
            
           if (!Owner.HasFact(Game.Instance.BlueprintRoot.SystemMechanics.SummonedUnitBuff))
           {
-            Logger.Verbose($"Skipping hit point bonus for {Owner.CharacterName}, not summoned.");
+            Logger.Verbose(() => $"Skipping hit point bonus for {Owner.CharacterName}, not summoned.");
             return;
           }
 
           var bonusHP = Owner.Descriptor.Progression.CharacterLevel;
 
-          Logger.Verbose($"Adding +{bonusHP} hit points to {Owner.CharacterName}");
+          Logger.Verbose(() => $"Adding +{bonusHP} hit points to {Owner.CharacterName}");
           Owner.Stats.HitPoints.RemoveModifiersFrom(Runtime);
           Owner.Stats.HitPoints.AddModifier(bonusHP, Runtime, ModifierDescriptor.UntypedStackable);
         }
@@ -252,11 +252,11 @@ namespace CharacterOptionsPlus.Spells
         {
           if (!Owner.HasFact(Undead))
           {
-            Logger.Verbose($"Skipping saving throw bonus for {Owner.CharacterName}, not undead.");
+            Logger.Verbose(() => $"Skipping saving throw bonus for {Owner.CharacterName}, not undead.");
             return;
           }
 
-          Logger.Verbose($"Adding +1 Profane bonus to saving throw for {Owner.CharacterName}");
+          Logger.Verbose(() => $"Adding +1 Profane bonus to saving throw for {Owner.CharacterName}");
           evt.AddModifier(1, source: Fact, descriptor: ModifierDescriptor.Profane);
         }
         catch (Exception e)

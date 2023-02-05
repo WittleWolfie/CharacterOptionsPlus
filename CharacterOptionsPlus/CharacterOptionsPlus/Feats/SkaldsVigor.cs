@@ -159,7 +159,7 @@ namespace CharacterOptionsPlus.Feats
           {
             return;
           }
-          Logger.Verbose("Inspired Rage deactivated.");
+          Logger.Verbose(() => "Inspired Rage deactivated.");
 
           var inspiredRageBuff = ability.Owner.Buffs.GetBuff(InspiredRageBuff);
           if (inspiredRageBuff is null)
@@ -174,7 +174,7 @@ namespace CharacterOptionsPlus.Feats
             var skaldsVigor = unit.GetFact<Buff>(SkaldsVigor);
             if (skaldsVigor?.Context?.MaybeCaster == ability.Owner.Unit)
             {
-              Logger.Verbose($"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
+              Logger.Verbose(() => $"Removing Skald's Vigor from {skaldsVigor.Context.MaybeOwner?.CharacterName}");
               skaldsVigor.Remove();
             }
           }

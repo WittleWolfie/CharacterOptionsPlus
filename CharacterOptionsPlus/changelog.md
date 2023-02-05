@@ -1,3 +1,7 @@
+## v1.1.3
+
+* Minor performance optimizations
+
 ## v1.1.2
 
 * Russian localization update

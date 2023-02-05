@@ -26,7 +26,7 @@ namespace CharacterOptionsPlus.Actions
           return;
         }
 
-        Logger.Verbose($"Result: {attack.AttackRoll.IsHit}");
+        Logger.Verbose(() => $"Result: {attack.AttackRoll.IsHit}");
         if (attack.AttackRoll.IsHit)
           OnHit.Run();
       }

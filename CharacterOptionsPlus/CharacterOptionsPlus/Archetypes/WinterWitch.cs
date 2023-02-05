@@ -435,7 +435,7 @@ namespace CharacterOptionsPlus.Archetypes
       {
         if (spell.Range == AbilityRange.Touch)
         {
-          Logger.Verbose("Touch range spell");
+          Logger.Verbose(() => "Touch range spell");
           return true;
         }
 
@@ -445,7 +445,7 @@ namespace CharacterOptionsPlus.Archetypes
           var attackType = projectile.Weapon?.Type?.AttackType;
           if (attackType is not null && (attackType == AttackType.Touch || attackType == AttackType.RangedTouch))
           {
-            Logger.Verbose("Projectile spell with touch attack type");
+            Logger.Verbose(() => "Projectile spell with touch attack type");
             return true;
           }
         }
@@ -453,7 +453,7 @@ namespace CharacterOptionsPlus.Archetypes
         var touch = spell.GetComponent<AbilityDeliverTouch>();
         if (touch is not null)
         {
-          Logger.Verbose("Touch spell");
+          Logger.Verbose(() => "Touch spell");
           return true;
         }
 
@@ -511,7 +511,7 @@ namespace CharacterOptionsPlus.Archetypes
             var descriptor = UnitPartChangeSpellElementalDamage.ReplaceSpellDescriptorIfCan(Owner, component.Descriptor);
             if (descriptor.HasAnyFlag(SpellDescriptor.Cold))
             {
-              Logger.Verbose("Already has cold descriptor");
+              Logger.Verbose(() => "Already has cold descriptor");
               return;
             }
           }

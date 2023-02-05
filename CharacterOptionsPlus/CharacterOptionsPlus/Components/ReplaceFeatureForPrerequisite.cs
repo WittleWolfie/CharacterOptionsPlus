@@ -41,7 +41,7 @@ namespace CharacterOptionsPlus.Components
           {
             if (__instance.Feature == replacement.Feature.Get())
             {
-              Logger.Verbose($"Qualifying for {__instance.Feature.name} using replacement");
+              Logger.Verbose(() => $"Qualifying for {__instance.Feature.name} using replacement");
               __result = true;
               return false;
             }
@@ -74,7 +74,7 @@ namespace CharacterOptionsPlus.Components
             var feature = replacement.Feature.Get();
             if (__instance.Features.Contains(feature))
             {
-              Logger.Verbose($"Qualifying for {feature.name} in list using replacement");
+              Logger.Verbose(() => $"Qualifying for {feature.name} in list using replacement");
               replacementCount++;
             }
           }

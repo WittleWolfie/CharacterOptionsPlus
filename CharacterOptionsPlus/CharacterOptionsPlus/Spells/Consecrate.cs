@@ -193,11 +193,11 @@ namespace CharacterOptionsPlus.Spells
         {
           if (!Owner.HasFact(Undead))
           {
-            Logger.Verbose("Owner is not undead");
+            Logger.Verbose(() => "Owner is not undead");
             return;
           }
 
-          Logger.Verbose($"Adding -1 penalty to saving throw for {Owner.CharacterName}");
+          Logger.Verbose(() => $"Adding -1 penalty to saving throw for {Owner.CharacterName}");
           evt.AddModifier(-1, source: Fact, descriptor: ModifierDescriptor.UntypedStackable);
         }
         catch (Exception e)

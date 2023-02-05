@@ -137,7 +137,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         {
           if (evt.Result == AttackResult.MirrorImage || evt.IsHit)
           {
-            Logger.Verbose($"Spending a resource.");
+            Logger.Verbose(() => $"Spending a resource.");
             evt.Target.Resources.Spend(Resource, 1);
           }
         }
@@ -169,7 +169,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         var sourceBlueprint = __instance.Source?.Blueprint;
         if (force && sourceBlueprint == RogueShadow)
         {
-          Logger.Verbose($"Skipping forced image spend. Attack missed by 5 or less.");
+          Logger.Verbose(() => $"Skipping forced image spend. Attack missed by 5 or less.");
           __result = 0;
           return false;
         }

@@ -126,7 +126,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (!Conditions.Check())
           {
-            Logger.Verbose($"Target not in melee range (or no melee weapon equipped)");
+            Logger.Verbose(() => $"Target not in melee range (or no melee weapon equipped)");
             return;
           }
 
@@ -139,7 +139,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (appliedBuff is null)
           {
-            Logger.Verbose($"{target.CharacterName} immune to demoralize");
+            Logger.Verbose(() => $"{target.CharacterName} immune to demoralize");
             return;
           }
 
@@ -159,7 +159,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (!caster.HasSwiftAction())
           {
-            Logger.Verbose($"No swift action available.");
+            Logger.Verbose(() => $"No swift action available.");
             return;
           }
 
@@ -172,7 +172,7 @@ namespace CharacterOptionsPlus.Feats
 
           if (!attack.AttackRoll.IsHit)
           {
-            Logger.Verbose($"Attack missed, removing demoralize effects: {appliedBuff.Name}");
+            Logger.Verbose(() => $"Attack missed, removing demoralize effects: {appliedBuff.Name}");
             target.RemoveFact(appliedBuff);
           }
         }

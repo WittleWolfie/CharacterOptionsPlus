@@ -145,7 +145,7 @@ namespace CharacterOptionsPlus.Spells
           var mainHand = target.Body.PrimaryHand.MaybeWeapon;
           if (mainHand is not null && !mainHand.Blueprint.IsUnarmed && !mainHand.Blueprint.IsNatural)
           {
-            Logger.Verbose($"Disarming {target.CharacterName}'s main hand weapon");
+            Logger.Verbose(() => $"Disarming {target.CharacterName}'s main hand weapon");
             target.Descriptor.AddBuff(
               BlueprintRoot.Instance.SystemMechanics.DisarmMainHandBuff, Context, disarmDuration.Seconds);
             return;
@@ -154,7 +154,7 @@ namespace CharacterOptionsPlus.Spells
           var offHand = target.Body.SecondaryHand.MaybeWeapon;
           if (offHand is not null && !offHand.Blueprint.IsUnarmed && !offHand.Blueprint.IsNatural)
           {
-            Logger.Verbose($"Disarming {target.CharacterName}'s off hand weapon");
+            Logger.Verbose(() => $"Disarming {target.CharacterName}'s off hand weapon");
             target.Descriptor.AddBuff(
               BlueprintRoot.Instance.SystemMechanics.DisarmOffHandBuff, Context, disarmDuration.Seconds);
             return;
@@ -216,7 +216,7 @@ namespace CharacterOptionsPlus.Spells
             (intLevel == StatLevel.Low && wisLevel != StatLevel.High)
             || (wisLevel == StatLevel.Low && intLevel != StatLevel.High))
           {
-            Logger.Verbose(
+            Logger.Verbose(() => 
               $"{target.CharacterName} is not too bright ({intLevel} Int, {wisLevel} Wis), they want to drop their weapon");
             return true;
           }
@@ -228,10 +228,10 @@ namespace CharacterOptionsPlus.Spells
             {
               case CasterType.None:
               case CasterType.Limited:
-                Logger.Verbose($"{target.CharacterName} needs their weapon");
+                Logger.Verbose(() => $"{target.CharacterName} needs their weapon");
                 return false;
               case CasterType.Full:
-                Logger.Verbose($"{target.CharacterName} relies on spells, they want to drop their weapon");
+                Logger.Verbose(() => $"{target.CharacterName} relies on spells, they want to drop their weapon");
                 return true;
             }
           }
@@ -244,10 +244,10 @@ namespace CharacterOptionsPlus.Spells
               switch (healthLevel)
               {
                 case HealthLevel.Critical:
-                  Logger.Verbose($"{target.CharacterName}'s health is {healthLevel}, they want to drop their weapon");
+                  Logger.Verbose(() => $"{target.CharacterName}'s health is {healthLevel}, they want to drop their weapon");
                   return true;
                 default:
-                  Logger.Verbose($"{target.CharacterName} can take the hit and needs their weapon");
+                  Logger.Verbose(() => $"{target.CharacterName} can take the hit and needs their weapon");
                   return false;
               }
             case CasterType.Limited:
@@ -255,14 +255,14 @@ namespace CharacterOptionsPlus.Spells
               {
                 case HealthLevel.Critical:
                 case HealthLevel.Low:
-                  Logger.Verbose($"{target.CharacterName}'s health is {healthLevel}, they want to drop their weapon");
+                  Logger.Verbose(() => $"{target.CharacterName}'s health is {healthLevel}, they want to drop their weapon");
                   return true;
                 default:
-                  Logger.Verbose($"{target.CharacterName} can take the hit and needs their weapon");
+                  Logger.Verbose(() => $"{target.CharacterName} can take the hit and needs their weapon");
                   return false;
               }
             case CasterType.Full:
-              Logger.Verbose($"{target.CharacterName} relies on spells, they want to drop their weapon");
+              Logger.Verbose(() => $"{target.CharacterName} relies on spells, they want to drop their weapon");
               return true;
           }
         }

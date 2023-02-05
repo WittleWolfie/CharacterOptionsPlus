@@ -30,7 +30,7 @@ namespace CharacterOptionsPlus.Actions
       {
         if (Context[Counter] >= Count)
         {
-          Logger.Verbose($"Skipping action, already run {Context[Counter]} times");
+          Logger.Verbose(() => $"Skipping action, already run {Context[Counter]} times");
           return;
         }
 

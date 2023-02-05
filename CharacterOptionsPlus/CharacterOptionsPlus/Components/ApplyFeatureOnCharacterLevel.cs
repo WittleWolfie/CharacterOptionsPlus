@@ -84,7 +84,7 @@ namespace CharacterOptionsPlus.Components
             Remove();
             Data.AppliedFact = Owner.AddFact(feature);
             Data.AppliedLevel = level;
-            Logger.Verbose($"Applied {Data.AppliedFact.Name} for level {level}.");
+            Logger.Verbose(() => $"Applied {Data.AppliedFact.Name} for level {level}.");
           }
           break;
         }
@@ -97,7 +97,7 @@ namespace CharacterOptionsPlus.Components
       {
         if (Data.AppliedFact is not null)
         {
-          Logger.Verbose($"Removing {Data.AppliedFact.Name}");
+          Logger.Verbose(() => $"Removing {Data.AppliedFact.Name}");
           Owner.RemoveFact(Data.AppliedFact);
           Data.AppliedFact = null;
           Data.AppliedLevel = -1;

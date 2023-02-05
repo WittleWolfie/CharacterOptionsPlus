@@ -53,7 +53,7 @@ namespace CharacterOptionsPlus.Components
           if (ranks >= rank && !Owner.HasFact(fact))
           {
             Data.AppliedFacts.Add(Owner.AddFact(fact));
-            Logger.Verbose($"Applied {fact.Get().Name} to {Owner.CharacterName} for {ranks} in {Skill}");
+            Logger.Verbose(() => $"Applied {fact.Get().Name} to {Owner.CharacterName} for {ranks} in {Skill}");
           }
         }
       }
@@ -71,7 +71,7 @@ namespace CharacterOptionsPlus.Components
         {
           if (fact is null)
             continue;
-          Logger.Verbose($"Removing {fact.Name} from {Owner.CharacterName}");
+          Logger.Verbose(() => $"Removing {fact.Name} from {Owner.CharacterName}");
           Owner.RemoveFact(fact);
         }
         Data.AppliedFacts.Clear();

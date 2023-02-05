@@ -817,7 +817,7 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Ability.deserializedGuid == evt.Spell?.AssetGuid)
           {
-            Logger.Verbose($"Binding {evt.Spell.Name} to effective level");
+            Logger.Verbose(() => $"Binding {evt.Spell.Name} to effective level");
             evt.ReplaceStat = StatType.Charisma;
             evt.ReplaceCasterLevel = EffectiveLevel.GetInt(Owner);
             evt.ReplaceSpellLevel = EffectiveLevel.GetInt(Owner) / 2;

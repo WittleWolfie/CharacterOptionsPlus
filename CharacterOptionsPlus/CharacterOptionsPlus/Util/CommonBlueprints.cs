@@ -13,22 +13,6 @@ namespace CharacterOptionsPlus.Util
   {
     private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(CommonBlueprints));
 
-    internal static readonly List<BlueprintReference<BlueprintAbility>> ChannelPositiveHeal =
-      new()
-      {
-          AbilityRefs.ChannelEnergy.Reference,
-          AbilityRefs.ChannelEnergyHospitalerHeal.Reference,
-          AbilityRefs.ChannelEnergyEmpyrealHeal.Reference,
-          AbilityRefs.ChannelEnergyPaladinHeal.Reference,
-          AbilityRefs.ShamanLifeSpiritChannelEnergy.Reference,
-          AbilityRefs.OracleRevelationChannelAbility.Reference,
-          AbilityRefs.WarpriestChannelEnergy.Reference,
-          AbilityRefs.HexChannelerChannelEnergy.Reference,
-          
-          // Homebrew Archetypes
-          BlueprintTool.GetRef<BlueprintReference<BlueprintAbility>>(Guids.EvangelistPositiveHeal),
-      };
-
     internal static void Configure()
     {
       Logger.Log($"Configuring {nameof(CommonBlueprints)}");
@@ -55,5 +39,23 @@ namespace CharacterOptionsPlus.Util
         .CopyFrom(BuffRefs.EyebitePanickedBuff, c => c is not AddFactContextActions)
         .Configure();
     }
+
+    #region Channel Blueprints
+    internal static readonly List<BlueprintReference<BlueprintAbility>> ChannelPositiveHeal =
+      new()
+      {
+          AbilityRefs.ChannelEnergy.Reference,
+          AbilityRefs.ChannelEnergyHospitalerHeal.Reference,
+          AbilityRefs.ChannelEnergyEmpyrealHeal.Reference,
+          AbilityRefs.ChannelEnergyPaladinHeal.Reference,
+          AbilityRefs.ShamanLifeSpiritChannelEnergy.Reference,
+          AbilityRefs.OracleRevelationChannelAbility.Reference,
+          AbilityRefs.WarpriestChannelEnergy.Reference,
+          AbilityRefs.HexChannelerChannelEnergy.Reference,
+          
+          // Homebrew Archetypes
+          BlueprintTool.GetRef<BlueprintReference<BlueprintAbility>>(Guids.EvangelistPositiveHeal),
+      };
+    #endregion
   }
 }

@@ -99,12 +99,12 @@ namespace CharacterOptionsPlus.ClassFeatures
         {
           if (evt.Armor.Blueprint.ProficiencyGroup != ArmorProficiencyGroup.Heavy)
           {
-            Logger.Verbose($"Armored swiftness does not apply: {evt.Armor.Blueprint.ProficiencyGroup}");
+            Logger.Verbose(() => $"Armored swiftness does not apply: {evt.Armor.Blueprint.ProficiencyGroup}");
             return;
           }
 
           var bonus = Bonus.Calculate(Context);
-          Logger.Verbose($"Increasing max dex limit by {bonus}");
+          Logger.Verbose(() => $"Increasing max dex limit by {bonus}");
           evt.AddBonus(bonus);
         }
         catch (Exception e)
