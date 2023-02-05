@@ -5,32 +5,22 @@ using BlueprintCore.Blueprints.CustomConfigurators.Classes.Selection;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
-using BlueprintCore.Conditions.Builder;
-using BlueprintCore.Conditions.Builder.ContextEx;
-using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
-using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.Designers.Mechanics.Buffs;
-using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules.Damage;
-using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
-using Kingmaker.UnitLogic.Abilities.Components;
-using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Mechanics;
 using System;
 using System.Collections.Generic;
 using TabletopTweaks.Core.NewActions;
-using static Dreamteck.Splines.SplineMesh;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 
@@ -108,14 +98,11 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName}");
 
-      var selectiveChannel = FeatureRefs.SelectiveChannel.Reference.Get();
       FeatureSelectionConfigurator.New(FeatName, Guids.EnergyChannelFeat, FeatureGroup.Feat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
   //      .SetIcon(IconName)
         .AddFeatureTagsComponent(FeatureTag.ClassSpecific | FeatureTag.Damage)
-        .AddPrerequisiteClassLevel(CharacterClassRefs.ClericClass.ToString(), level: 1)
-        .AddPrerequisiteClassLevel(CharacterClassRefs.WarpriestClass.ToString(), level: 1)
         .AddPrerequisiteFeaturesFromList(
           new()
           {

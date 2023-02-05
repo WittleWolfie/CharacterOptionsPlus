@@ -418,7 +418,7 @@
     "enGB": "EnergyChannel (Water)"
   },
   {
-    "Key": "EnergyChannel.Fire.Description",
+    "Key": "EnergyChannel.Water.Description",
     "enGB": "A swift action, you can expend one use of channel energy to grant your weapon attacks a bonus on damage rolls equal to twice the number of dice rolled for your channel energy. This additional damage is cold (Water). This effect lasts for your next three weapon attacks or until the end of combat, whichever comes first."
   },
 
