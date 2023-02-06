@@ -1,6 +1,14 @@
 ## v1.1.3
 
 * Minor performance optimizations
+* Updated icon for Purifying Channel
+
+* New Feats
+    * Energy Channel
+
+* New Spells
+    * Frostbite
+    * Chill Touch
 
 ## v1.1.2
 
