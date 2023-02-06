@@ -11,11 +11,14 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.ElementsSystem;
 using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Mechanics;
 using System;
@@ -264,6 +267,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(details.DisplayName)
         .SetDescription(details.Description)
         //.SetIcon(details.Icon)
+        .SetStacking(StackingType.Rank)
+        .SetRanks(3)
         .AddCombatStateTrigger(combatEndActions: ActionsBuilder.New().RemoveSelf())
         .AddComponent(new BonusDamage(type))
         .AddContextRankConfig(
@@ -281,6 +286,7 @@ namespace CharacterOptionsPlus.Feats
         .SetRange(AbilityRange.Personal)
         .SetParent(details.AbilityGuid)
         .SetType(AbilityType.Supernatural)
+        .AddAbilityCasterInCombat()
         .AddAbilityResourceLogic(
           requiredResource: AbilityResourceRefs.ChannelEnergyResource.ToString(),
           isSpendResource: true,
@@ -300,6 +306,8 @@ namespace CharacterOptionsPlus.Feats
         .SetDisplayName(details.DisplayName)
         .SetDescription(details.Description)
         //.SetIcon(details.Icon)
+        .SetStacking(StackingType.Rank)
+        .SetRanks(3)
         .AddCombatStateTrigger(combatEndActions: ActionsBuilder.New().RemoveSelf())
         .AddComponent(new BonusDamage(type))
         .AddContextRankConfig(
@@ -317,6 +325,7 @@ namespace CharacterOptionsPlus.Feats
         .SetRange(AbilityRange.Personal)
         .SetParent(details.AbilityGuid)
         .SetType(AbilityType.Supernatural)
+        .AddAbilityCasterInCombat()
         .AddAbilityResourceLogic(
           requiredResource: AbilityResourceRefs.WarpriestFervorResource.ToString(),
           isSpendResource: true,
@@ -374,7 +383,7 @@ namespace CharacterOptionsPlus.Feats
 
           var bonusDamage = Bonus.Calculate(Context);
           Logger.Verbose(() => $"Adding {bonusDamage} {Type} damage");
-          evt.AddUnsafe(DamageTypes.Energy(Type).CreateDamage(DiceFormula.One, bonusDamage));
+          evt.AddUnsafe(DamageTypes.Energy(Type).CreateDamage(DiceFormula.Zero, bonusDamage));
         } catch (Exception e)
         {
           Logger.LogException("BonusDamage.OnEventAboutToTrigger", e);
@@ -389,7 +398,8 @@ namespace CharacterOptionsPlus.Feats
             return;
 
           Logger.Verbose(() => "Damage added, removing a charge");
-          Buff.RemoveRank();
+          using (ContextData<BuffCollection.RemoveByRank>.Request())
+            Buff.Remove();
         } catch (Exception e)
         {
           Logger.LogException("BonusDamage.OnEventDidTrigger", e);
