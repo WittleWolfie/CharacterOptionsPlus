@@ -46,6 +46,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      AbilityConfigurator.New(EffectName, Guids.TouchOfBlindnessEffect).Configure();
       AbilityConfigurator.New(FeatureName, Guids.TouchOfBlindnessSpell).Configure();
     }
 
