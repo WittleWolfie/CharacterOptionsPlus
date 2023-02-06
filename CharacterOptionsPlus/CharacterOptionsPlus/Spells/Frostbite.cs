@@ -71,7 +71,7 @@ namespace CharacterOptionsPlus.Spells
         .Configure();
 
       var effectAbility = AbilityConfigurator.NewSpell(
-          EffectName, Guids.FrostbiteEffect, SpellSchool.Necromancy, canSpecialize: false, SpellDescriptor.Cold)
+          EffectName, Guids.FrostbiteEffect, SpellSchool.Transmutation, canSpecialize: false, SpellDescriptor.Cold)
         .SetDisplayName(TouchName)
         .SetDescription(Description)
         .SetIcon(icon)
