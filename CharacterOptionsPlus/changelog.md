@@ -10,6 +10,9 @@
     * Frostbite
     * Chill Touch
 
+* New Bugfixes
+    * Signature Skill: Persuasion no longer leaves the target shaken after panicked is removed
+
 ## v1.1.2
 
 * Russian localization update
