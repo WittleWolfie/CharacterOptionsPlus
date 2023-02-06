@@ -1477,7 +1477,7 @@ namespace CharacterOptionsPlus.Feats
       {
         get
         {
-          _panicked ??= BuffRefs.EyebitePanickedBuff.Reference.Get();
+          _panicked ??= BlueprintTool.Get<BlueprintBuff>(Guids.PanickedBuff);
           return _panicked;
         }
       }
