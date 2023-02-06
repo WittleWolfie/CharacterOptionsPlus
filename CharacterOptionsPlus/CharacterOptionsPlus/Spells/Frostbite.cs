@@ -29,6 +29,7 @@ namespace CharacterOptionsPlus.Spells
 
     internal const string DisplayName = "Frostbite.Name";
     private const string Description = "Frostbite.Description";
+    private const string TouchName = "Frostbite.Touch.Name";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
@@ -66,12 +67,12 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
-        .AddHealTrigger(action: ActionsBuilder.New().RemoveSelf())
+        .AddHealTrigger(onHealDamage: true, action: ActionsBuilder.New().RemoveSelf())
         .Configure();
 
       var effectAbility = AbilityConfigurator.NewSpell(
           EffectName, Guids.FrostbiteEffect, SpellSchool.Necromancy, canSpecialize: false, SpellDescriptor.Cold)
-        .SetDisplayName(DisplayName)
+        .SetDisplayName(TouchName)
         .SetDescription(Description)
         .SetIcon(icon)
         .SetRange(AbilityRange.Touch)
@@ -112,6 +113,7 @@ namespace CharacterOptionsPlus.Spells
       AbilityConfigurator.NewSpell(
           FeatureName, Guids.FrostbiteSpell, SpellSchool.Transmutation, canSpecialize: true, SpellDescriptor.Cold)
         .CopyFrom(effectAbility)
+        .SetDisplayName(DisplayName)
         .SetShouldTurnToTarget(true)
         .AddToSpellLists(
           level: 1, SpellList.Bloodrager, SpellList.Druid, SpellList.Magus, SpellList.Shaman, SpellList.Witch)

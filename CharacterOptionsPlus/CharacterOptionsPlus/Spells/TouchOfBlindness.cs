@@ -24,6 +24,7 @@ namespace CharacterOptionsPlus.Spells
 
     internal const string DisplayName = "TouchOfBlindness.Name";
     private const string Description = "TouchOfBlindness.Description";
+    private const string TouchName = "TouchOfBlindness.Touch.Name";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
@@ -57,7 +58,7 @@ namespace CharacterOptionsPlus.Spells
       var icon = AbilityRefs.Blindness.Reference.Get().Icon;
       var effectAbility = AbilityConfigurator.NewSpell(
           EffectName, Guids.TouchOfBlindnessEffect, SpellSchool.Necromancy, canSpecialize: false)
-        .SetDisplayName(DisplayName)
+        .SetDisplayName(TouchName)
         .SetDescription(Description)
         .SetIcon(icon)
         .SetLocalizedDuration(Duration.OneRound)
@@ -91,6 +92,7 @@ namespace CharacterOptionsPlus.Spells
       AbilityConfigurator.NewSpell(
           FeatureName, Guids.TouchOfBlindnessSpell, SpellSchool.Necromancy, canSpecialize: true)
         .CopyFrom(effectAbility)
+        .SetDisplayName(DisplayName)
         .SetShouldTurnToTarget(true)
         .AddToSpellLists(
           level: 1, SpellList.Bard, SpellList.Cleric, SpellList.Wizard, SpellList.Shaman, SpellList.Witch)

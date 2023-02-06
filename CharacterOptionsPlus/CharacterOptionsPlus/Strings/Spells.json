@@ -150,6 +150,11 @@
     "enGB": "Frostbite"
   },
   {
+    "Key": "Frostbite.Touch.Name",
+    "ProcessTemplates": false,
+    "enGB": "Frostbite (Touch)"
+  },
+  {
     "Key": "Frostbite.Description",
     "enGB": "Your melee touch attack deals 1d6 points of nonlethal cold damage + 1 point per level, and the target is fatigued. The fatigued condition ends when the target heals. This spell cannot make a creature exhausted even if it is already fatigued. You can use this melee touch attack up to one time per level."
   },
@@ -428,6 +433,11 @@
     "ProcessTemplates": false,
     "enGB": "Touch of Blindness",
     "ruRU": "Прикосновение слепоты"
+  },
+  {
+    "Key": "TouchOfBlindness.Touch.Name",
+    "ProcessTemplates": false,
+    "enGB": "Touch of Blindness (Touch)"
   },
   {
     "Key": "TouchOfBlindness.Description",
