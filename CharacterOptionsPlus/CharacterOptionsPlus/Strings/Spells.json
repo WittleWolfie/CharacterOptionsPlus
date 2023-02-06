@@ -24,6 +24,11 @@
     "enGB": "Reflex half, Will negates",
     "ruRU": "Спасбросок Реакции снижает наполовину, спасбросок Воли нейтрализует"
   },
+  {
+    "Key": "SavingThrow.FortPartial.Or.WillNegates",
+    "ProcessTemplates": false,
+    "enGB": "Fortitude partial or Will negates"
+  },
 
   {
     "Key": "BladedDash.Name",
@@ -58,6 +63,21 @@
     "Key": "BurningDisarm.Description",
     "enGB": "This spell causes the target's weapon to instantly become red hot. The target may attempt a Reflex save to drop it and take no damage, otherwise the hot metal deals 1d4 points of fire damage per caster level (maximum 5d4). If the target successfully drops it they are disarmed for 1 round per caster level (maximum 5)",
     "ruRU": "Это заклинание немедленно раскаляет оружие цели докрасна. Цель может попытаться совершить спасбросок Реакции, чтобы бросить оружие и не получить урон. В противном случае раскалённый металл наносит 1d4 огненного урона за каждый Уровень заклинателя (максимум 5d4). Если цель успешно бросила оружие, она считается безоружной на 1 уровень за каждый Уровень заклинателя (максимум 5 раундов)."
+  },
+
+  {
+    "Key": "ChillTouch.Name",
+    "ProcessTemplates": false,
+    "enGB": "ChillTouch"
+  },
+  {
+    "Key": "ChillTouch.Touch.Name",
+    "ProcessTemplates": false,
+    "enGB": "Chill Touch (Touch)"
+  },
+  {
+    "Key": "ChillTouch.Description",
+    "enGB": "A touch from your hand, which glows with blue energy, disrupts the life force of living creatures. Each touch channels negative energy that deals 1d6 points of damage. The touched creature also takes 1 point of Strength damage unless it makes a successful Fortitude saving throw. You can use this melee touch attack up to one time per level.\nAn undead creature you touch takes no damage of either sort, but it must make a successful Will saving throw or flee as if panicked for 1d4 rounds + 1 round per caster level."
   },
 
   {

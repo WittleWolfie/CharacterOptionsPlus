@@ -18,6 +18,7 @@ namespace CharacterOptionsPlus.Util
 
     internal static readonly string SavingThrowVaries = "SavingThrow.Varies";
     internal static readonly string SavingThrowReflexHalfWillNegates = "SavingThrow.ReflexHalf.WillNegates";
+    internal static readonly string SavingThrowFortPartialOrWillNegates = "SavingThrow.FortPartial.Or.WillNegates";
 
     /// <summary>
     /// Adds a new BlueprintFeatureReplaceSpellbook for an archetype which alters a spellbook.

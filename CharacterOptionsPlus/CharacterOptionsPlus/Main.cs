@@ -164,6 +164,7 @@ namespace CharacterOptionsPlus
 
         BladedDash.Configure();
         BurningDisarm.Configure();
+        ChillTouch.Configure();
         Consecrate.Configure();
         Desecrate.Configure();
         DimensionalBlade.Configure();
