@@ -3,6 +3,7 @@ using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace CharacterOptionsPlus.Util
         .Configure();
     }
 
+    // TODO: Just use frightened?? Panicked seems to be... not meaningfully different.
     private const string Panicked = "Panicked";
     private static void ConfigurePanicked()
     {

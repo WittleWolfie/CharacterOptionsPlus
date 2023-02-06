@@ -99,6 +99,7 @@ namespace CharacterOptionsPlus.Spells
                     onResult: ActionsBuilder.New()
                       .ConditionalSaved(
                         failed: ActionsBuilder.New()
+                        // TODO: Need to use a frightened buff that works on undead
                           .ApplyBuff(
                             Guids.PanickedBuff,
                             ContextDuration.VariableDice(DiceType.D4, diceCount: 1, bonus: ContextValues.Rank())))),
