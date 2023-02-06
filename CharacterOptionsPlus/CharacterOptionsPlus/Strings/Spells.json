@@ -145,6 +145,16 @@
   },
 
   {
+    "Key": "Frostbite.Name",
+    "ProcessTemplates": false,
+    "enGB": "Frostbite"
+  },
+  {
+    "Key": "Frostbite.Description",
+    "enGB": "Your melee touch attack deals 1d6 points of nonlethal cold damage + 1 point per level, and the target is fatigued. The fatigued condition ends when the target heals. This spell cannot make a creature exhausted even if it is already fatigued. You can use this melee touch attack up to one time per level."
+  },
+
+  {
     "Key": "FrostFall.Name",
     "ProcessTemplates": false,
     "enGB": "Frost Fall",

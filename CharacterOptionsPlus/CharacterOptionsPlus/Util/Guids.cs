@@ -472,6 +472,10 @@ namespace CharacterOptionsPlus.Util
     internal const string FreezingSphereSpell = "7958e4f6-74f0-4d14-8c6c-18ff72baf68a";
     internal const string FreezingSphereProjectile = "72f699d1-24f4-4a41-af20-30c8fbe8be8e";
 
+    internal const string FrostbiteSpell = "67b29b99-f13e-40a4-8a1a-95fbd909a298";
+    internal const string FrostbiteEffect = "ac97dec4-684c-4348-bc31-52d151127f5d";
+    internal const string FrostbiteBuff = "989a95b4-7a0b-4a77-8605-f292dfdc11b5";
+
     internal const string FrostFallSpell = "904d8cf8-38b2-4289-b041-f3ce573e707d";
     internal const string FrostFallAoE = "281520ac-2eef-4a71-8685-ca5035e5a622";
 
@@ -563,6 +567,7 @@ namespace CharacterOptionsPlus.Util
         (DimensionalBladeSpell, DimensionalBlade.DisplayName),
         (FleshwormInfestationSpell, FleshwormInfestation.DisplayName),
         (FreezingSphereSpell, FreezingSphere.DisplayName),
+        (FrostbiteSpell, Frostbite.DisplayName),
         (FrostFallSpell, FrostFall.DisplayName),
         (FrozenNoteSpell, FrozenNote.DisplayName),
         (HedgingWeaponsSpell, HedgingWeapons.DisplayName),

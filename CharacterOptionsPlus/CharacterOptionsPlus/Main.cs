@@ -169,6 +169,7 @@ namespace CharacterOptionsPlus
         DimensionalBlade.Configure();
         FleshwormInfestation.Configure();
         FreezingSphere.Configure();
+        Frostbite.Configure();
         FrostFall.Configure();
         FrozenNote.Configure();
         HedgingWeapons.Configure();
