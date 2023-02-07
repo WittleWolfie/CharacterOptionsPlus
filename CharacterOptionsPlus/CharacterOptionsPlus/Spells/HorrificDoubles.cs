@@ -3,13 +3,13 @@ using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.Controllers.Units;
-using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.PubSubSystem;
@@ -24,7 +24,7 @@ using Kingmaker.UnitLogic.Buffs.Components;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Utility;
 using System;
-using System.Linq;
+using static Kingmaker.UnitLogic.Abilities.Blueprints.BlueprintAbilityAreaEffect;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
 using static Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell;
 using static TabletopTweaks.Core.MechanicsChanges.MetamagicExtention;
@@ -38,10 +38,13 @@ namespace CharacterOptionsPlus.Spells
     internal const string DisplayName = "HorrificDoubles.Name";
     private const string Description = "HorrificDoubles.Description";
 
+    private const string AreaName = "HorrificDoubles.Area";
     private const string BuffName = "HorrificDoubles.Buff";
+    private const string FailedSaveName = "HorrificDoubles.Save.Failed";
     private const string ShakenName = "HorrificDoubles.Shaken";
     private const string ShakenImmunityName = "HorrificDoubles.Shaken.Immunity";
     private const string ShakenDescription = "HorrificDoubles.Shaken.Description";
+    private const string FrightenedImmunityName = "HorrificDoubles.Frightened.Immunity";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
@@ -64,8 +67,11 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
-      BuffConfigurator.New(ShakenImmunityName, Guids.HorrificDoublesShakenImmunity).Configure();
       BuffConfigurator.New(ShakenName, Guids.HorrificDoublesShaken).Configure();
+      BuffConfigurator.New(FailedSaveName, Guids.HorrificDoublesFailedSave).Configure();
+      BuffConfigurator.New(ShakenImmunityName, Guids.HorrificDoublesShakenImmunity).Configure();
+      BuffConfigurator.New(FrightenedImmunityName, Guids.HorrificDoublesFrightenedImmunity).Configure();
+      AbilityAreaEffectConfigurator.New(AreaName, Guids.HorrificDoublesArea).Configure();
       BuffConfigurator.New(BuffName, Guids.HorrificDoublesBuff).Configure();
       AbilityConfigurator.New(FeatureName, Guids.HorrificDoublesSpell).Configure();
     }
@@ -76,16 +82,55 @@ namespace CharacterOptionsPlus.Spells
 
       var icon = AbilityRefs.Lich1FalseGraceAbility.Reference.Get().Icon;
       var shaken = BuffConfigurator.New(ShakenName, Guids.HorrificDoublesShaken)
-        .CopyFrom(BuffRefs.Shaken)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .SetStacking(StackingType.Stack)
+        .AddSpellDescriptorComponent(SpellDescriptor.MindAffecting)
+        .AddFactContextActions(activated: ActionsBuilder.New().ApplyBuffPermanent(Shaken, asChild: true))
+        .Configure();
+
+      var failedSave = BuffConfigurator.New(FailedSaveName, Guids.HorrificDoublesFailedSave)
         .SetDisplayName(DisplayName)
         .SetDescription(ShakenDescription)
         .SetIcon(icon)
+        .SetStacking(StackingType.Stack)
         .AddSpellDescriptorComponent(SpellDescriptor.MindAffecting)
         .AddComponent<HorrifiedComponent>()
         .Configure();
 
       var shakenImmunity = BuffConfigurator.New(ShakenImmunityName, Guids.HorrificDoublesShakenImmunity)
         .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .SetStacking(StackingType.Stack)
+        .Configure();
+
+      BuffConfigurator.New(FrightenedImmunityName, Guids.HorrificDoublesFrightenedImmunity)
+        .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+        .SetStacking(StackingType.Stack)
+        .Configure();
+
+      var area = AbilityAreaEffectConfigurator.New(AreaName, Guids.HorrificDoublesArea)
+        .SetAffectEnemies(true)
+        .SetTargetType(TargetType.Enemy)
+        .SetSize(90.Feet())
+        .SetShape(AreaEffectShape.Cylinder)
+        .AddSpellDescriptorComponent(SpellDescriptor.MindAffecting)
+        .AddAbilityAreaEffectRunAction(
+          unitExit: ActionsBuilder.New().RemoveBuff(shaken),
+          unitEnter: ActionsBuilder.New()
+            .Conditional(
+              ConditionsBuilder.New().HasBuffFromThisAreaEffect(buff: failedSave),
+              ifTrue: ActionsBuilder.New().ApplyBuffPermanent(shaken),
+              ifFalse: ActionsBuilder.New()
+                .Conditional(
+                  ConditionsBuilder.New().HasBuffFromThisAreaEffect(buff: shakenImmunity),
+                  ifFalse: ActionsBuilder.New()
+                    .SavingThrow(
+                      SavingThrowType.Will,
+                      onResult: ActionsBuilder.New()
+                        .ConditionalSaved(
+                          succeed: ActionsBuilder.New().ApplyBuffPermanent(shakenImmunity),
+                          failed: ActionsBuilder.New()
+                            .ApplyBuffPermanent(failedSave)
+                            .ApplyBuffPermanent(shaken))))))
         .Configure();
 
       var buff = BuffConfigurator.New(BuffName, Guids.HorrificDoublesBuff)
@@ -93,7 +138,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
-        .AddComponent<HorrificDoublesComponent>()
+        .AddAreaEffect(areaEffect: area)
         .Configure();
 
       AbilityConfigurator.NewSpell(
@@ -138,124 +183,19 @@ namespace CharacterOptionsPlus.Spells
         return _shaken;
       }
     }
-    private static BlueprintBuff _horrified;
-    private static BlueprintBuff Horrified
+    private static BlueprintBuff _frightenedImmunity;
+    private static BlueprintBuff FrightenedImmunity
     {
       get
       {
-        _horrified ??= BlueprintTool.Get<BlueprintBuff>(Guids.HorrificDoublesShaken);
-        return _horrified;
-      }
-    }
-    private static BlueprintBuff _horrifiedImmunity;
-    private static BlueprintBuff HorrifiedImmunity
-    {
-      get
-      {
-        _horrifiedImmunity ??= BlueprintTool.Get<BlueprintBuff>(Guids.HorrificDoublesShakenImmunity);
-        return _horrifiedImmunity;
-      }
-    }
-    private static BlueprintBuff _horrificDoublesBuff;
-    private static BlueprintBuff HorrificDoublesBuff
-    {
-      get
-      {
-        _horrificDoublesBuff ??= BlueprintTool.Get<BlueprintBuff>(Guids.HorrificDoublesBuff);
-        return _horrificDoublesBuff;
-      }
-    }
-
-    [TypeId("caddd0ff-8ad9-40c1-9f70-a847e9658962")]
-    private class HorrificDoublesComponent : UnitBuffComponentDelegate, ITickEachRound
-    {
-      public override void OnActivate()
-      {
-        try
-        {
-          Logger.Verbose(() => "Activating (HorrificDoublesComponent)");
-          Apply();
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("HorrificDoublesComponent.OnActivate", e);
-        }
-      }
-
-      public void OnNewRound()
-      {
-        try
-        {
-          Logger.Verbose(() => "New Round (HorrificDoublesComponent)");
-          Apply();
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("HorrificDoublesComponent.OnNewRound", e);
-        }
-      }
-
-      private void Apply()
-      {
-        var enemies = GameHelper.GetTargetsAround(Owner.Position, 120.Feet())
-          .Where(unit => unit.IsEnemy(Owner))
-          .Where(unit => !unit.HasFact(Horrified) && !unit.HasFact(HorrifiedImmunity));
-        if (!enemies.Any())
-        {
-          Logger.Verbose(() => "No affected enemies");
-          return;
-        }
-
-        foreach (var enemy in enemies)
-        {
-          if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Buff.Context, enemy)).IsSpellResisted)
-          {
-            Logger.Verbose(() => $"{enemy} resisted");
-            return;
-          }
-
-          if (Rulebook.Trigger(CreateSavingThrow(enemy)).IsPassed
-              && (!Buff.Context.HasMetamagic(Metamagic.Persistent)
-                || Rulebook.Trigger(CreateSavingThrow(enemy, persistent: true)).IsPassed))
-          {
-            Logger.Verbose(() => $"{enemy} saved, granting immunity");
-            enemy.AddBuff(HorrifiedImmunity, Buff.Context);
-          }
-          else
-          {
-            Logger.Verbose(() => $"{enemy} failed their save");
-            enemy.AddBuff(Horrified, Buff.Context);
-          }
-        }
-      }
-
-      private RuleSavingThrow CreateSavingThrow(UnitEntityData target, bool persistent = false)
-      {
-        return
-          new(target, SavingThrowType.Will, Buff.Context.Params.DC)
-          {
-            Buff = Buff.Blueprint,
-            PersistentSpell = persistent
-          };
+        _frightenedImmunity ??= BlueprintTool.Get<BlueprintBuff>(Guids.HorrificDoublesFrightenedImmunity);
+        return _frightenedImmunity;
       }
     }
 
     [TypeId("8f520a35-dbc0-4d3d-9650-dba44f14a40f")]
-    private class HorrifiedComponent : UnitBuffComponentDelegate, ITickEachRound, IInitiatorRulebookHandler<RuleAttackRoll>
+    private class HorrifiedComponent : UnitBuffComponentDelegate, IInitiatorRulebookHandler<RuleAttackRoll>
     {
-      public override void OnActivate()
-      {
-        try
-        {
-          Logger.Verbose(() => "Activating (HorrifiedComponent)");
-          Buff.StoreFact(Owner.AddBuff(Shaken, Context));
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("HorrifiedComponent.OnActivate", e);
-        }
-      }
-
       public void OnEventAboutToTrigger(RuleAttackRoll evt) { }
 
       public void OnEventDidTrigger(RuleAttackRoll evt)
@@ -274,20 +214,13 @@ namespace CharacterOptionsPlus.Spells
             return;
           }
 
-          if (Owner.HasFact(HorrifiedImmunity))
+          if (Owner.HasFact(FrightenedImmunity))
           {
-            Logger.Verbose(() => $"{Owner} is immune to the effects");
-            return;
+            Logger.Verbose(() => "Already hit an image");
           }
 
           // Hit an image, make a will save (but only the first time)
-          Buff.StoreFact(Owner.AddBuff(HorrifiedImmunity, Buff.Context));
-
-          if (Rulebook.Trigger<RuleSpellResistanceCheck>(new(Buff.Context, Owner)).IsSpellResisted)
-          {
-            Logger.Verbose(() => $"{Owner} resisted");
-            return;
-          }
+          Buff.StoreFact(Owner.AddBuff(FrightenedImmunity, Buff.Context));
 
           if (Rulebook.Trigger(CreateSavingThrow(Owner)).IsPassed
               && (!Buff.Context.HasMetamagic(Metamagic.Persistent)
@@ -304,58 +237,6 @@ namespace CharacterOptionsPlus.Spells
         catch (Exception e)
         {
           Logger.LogException("HorrifiedComponent.OnEventDidTrigger", e);
-        }
-      }
-
-      public void OnNewRound()
-      {
-        try
-        {
-          var caster = Context.MaybeCaster;
-          if (caster is null)
-          {
-            Logger.Warning("No caster");
-            return;
-          }
-
-          if (!caster.HasFact(HorrificDoublesBuff))
-          {
-            Logger.Verbose(() => $"Removing {Buff.Name} from {Owner.CharacterName} because {caster.CharacterName} has no images");
-            Buff.Remove();
-            return;
-          }
-
-          if (GameHelper.CheckLOS(Owner, caster))
-          {
-            if (!Owner.HasFact(Shaken))
-            {
-              Logger.Verbose(() => $"Applying shaken to {Owner.CharacterName} because {caster.CharacterName} is in LOS");
-              Buff.StoreFact(Owner.AddBuff(Shaken, Context));
-            }
-            return;
-          }
-
-          Buff shakenBuff = null;
-          foreach (var fact in Buff.m_StoredFacts)
-          {
-            var buff = fact as Buff;
-            if (buff is not null && buff.Blueprint == Shaken)
-            {
-              Logger.Verbose(() => $"Removing {buff.Name} from {Owner.CharacterName} because {caster.CharacterName} is not in LOS");
-              shakenBuff = buff;
-              break;
-            }
-          }
-          if (shakenBuff is not null)
-          {
-            Logger.Verbose(() => "Removing shaken");
-            shakenBuff.Remove();
-            Buff.m_StoredFacts.Remove(shakenBuff);
-          }
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("HorrifiedComponent.OnNewRound", e);
         }
       }
 

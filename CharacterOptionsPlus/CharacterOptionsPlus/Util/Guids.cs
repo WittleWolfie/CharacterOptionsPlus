@@ -492,8 +492,11 @@ namespace CharacterOptionsPlus.Util
 
     internal const string HorrificDoublesSpell = "79b7eb84-9dfd-4184-9d0d-490c370d7fc3";
     internal const string HorrificDoublesBuff = "cd85fc3c-2fea-4da7-b02e-418227a6d016";
+    internal const string HorrificDoublesFailedSave = "0303dd48-1b91-4af0-83c5-2857969d8037";
+    internal const string HorrificDoublesArea = "32103af5-01a0-4a23-b3b6-e3607fe98c67";
     internal const string HorrificDoublesShaken = "f0d27bcd-d791-405f-ad9e-d252c3c0abed";
     internal const string HorrificDoublesShakenImmunity = "30331609-c2b9-40c6-b0ba-a48129b34793";
+    internal const string HorrificDoublesFrightenedImmunity = "f4949187-7c3c-4316-9533-5fd2508f1134";
 
     internal const string IceSlickSpell =   "ff0cd827-3f35-4ed7-a811-18cd716124ed";
     internal const string IceSlickAoE =     "b94a289c-49c2-4754-83a5-e171ad39fba6";
