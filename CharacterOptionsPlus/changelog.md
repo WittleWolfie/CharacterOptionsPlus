@@ -2,6 +2,8 @@
 
 * Minor performance optimizations
 * Updated icon for Purifying Channel
+* Signature Skill: Persuasion reworked
+    * Wrath doesn't have an implementation of the Panicked condition, so this now uses just Cowering and Frightened
 
 * New Feats
     * Energy Channel
@@ -9,9 +11,6 @@
 * New Spells
     * Frostbite
     * Chill Touch
-
-* New Bugfixes
-    * Signature Skill: Persuasion no longer leaves the target shaken after panicked is removed
 
 ## v1.1.2
 
