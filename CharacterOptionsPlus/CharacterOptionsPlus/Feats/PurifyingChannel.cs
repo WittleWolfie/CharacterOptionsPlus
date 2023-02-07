@@ -71,6 +71,8 @@ namespace CharacterOptionsPlus.Feats
 
       foreach (var bp in CommonBlueprints.ChannelPositiveHeal)
         AddPurifyToChannel(bp.Get());
+
+      Common.AddIsPrequisiteFor(FeatureRefs.SelectiveChannel, Guids.PurifyingChannelFeat);
     }
 
     private static void AddPurifyToChannel(BlueprintAbility channel)

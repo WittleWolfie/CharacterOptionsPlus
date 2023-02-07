@@ -1,7 +1,9 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes;
-using BlueprintCore.Blueprints.Configurators.Classes.Selection;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Selection;
 using BlueprintCore.Utils;
+using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Spells;
 using System;
@@ -55,6 +57,17 @@ namespace CharacterOptionsPlus.Util
       FeatureSelectionConfigurator.For(replacementSelection)
         .AddToAllFeatures(replacement)
         .Configure();
+    }
+
+    /// <summary>
+    /// Updates the prereq to have the provided features in its IsPrerequisiteFor
+    /// </summary>
+    /// <param name="prereq">The feature which is a prereq for the features</param>
+    /// <param name="features">Features the prereq leads to</param>
+    internal static void AddIsPrequisiteFor(
+      Blueprint<BlueprintReference<BlueprintFeature>> prereq, params Blueprint<BlueprintFeatureReference>[] features)
+    {
+      FeatureConfigurator.For(prereq).AddToIsPrerequisiteFor(features).Configure();
     }
   }
 }

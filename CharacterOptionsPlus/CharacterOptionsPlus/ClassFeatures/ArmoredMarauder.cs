@@ -85,6 +85,8 @@ namespace CharacterOptionsPlus.ClassFeatures
         .AddArmorSpeedPenaltyRemoval()
         .AddComponent<ArmoredSwiftness>()
         .Configure(delayed: true);
+
+      Common.AddIsPrequisiteFor(FeatureRefs.AdvanceTalents, Guids.ArmoredMarauderTalent, Guids.ArmoredSwiftnessTalent);
     }
 
     [TypeId("b8ebc7f2-eeaa-488f-bf71-de721348c41c")]

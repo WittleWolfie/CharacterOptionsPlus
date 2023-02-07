@@ -108,6 +108,8 @@ namespace CharacterOptionsPlus.Feats
         .AddRecommendationStatMiminum(stat: StatType.SkillPersuasion, minimalValue: 1, goodIfHigher: true)
         .AddFacts(new() { ability })
         .Configure(delayed: true);
+
+      Common.AddIsPrequisiteFor(FeatureRefs.PowerAttackFeature, Guids.HurtfulFeat);
     }
 
     [TypeId("fe3bdf24-c75d-4a6f-b8df-2df18f96ecbd")]

@@ -842,6 +842,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureAberrantHeritage1()
     {
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusKnowledgeWorld, Guids.AberrantHeritage);
+
       return AddRay(
         abilityName: AberrantHeritageRay,
         abilityGuid: Guids.AberrantHeritageRay,
@@ -918,6 +920,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureAbyssalHeritage1()
     {
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusPhysique, Guids.AbyssalHeritage);
+
       var abyssalBloodline = ProgressionRefs.BloodlineAbyssalProgression.Reference.Get();
       return AddClaws(
         AbyssalHeritageName,
@@ -986,6 +990,11 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureArcaneHeritage1()
     {
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusKnowledgeArcana, Guids.ArcaneHeritage);
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusKnowledgeWorld, Guids.ArcaneHeritage);
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusLoreNature, Guids.ArcaneHeritage);
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusLoreReligion, Guids.ArcaneHeritage);
+
       var arcaneBloodline = ProgressionRefs.BloodlineArcaneProgression.Reference.Get();
       return FeatureSelectionConfigurator.New(ArcaneHeritageName, Guids.ArcaneHeritage)
         .SetDisplayName(arcaneBloodline.m_DisplayName)
@@ -1050,6 +1059,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureCelestialHeritage1()
     {
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusLoreReligion, Guids.CelestialHeritage);
+
       return AddRay(
         abilityName: CelestialHeritageRay,
         abilityGuid: Guids.CelestialHeritageRay,
@@ -1146,6 +1157,8 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))
         .Configure();
 
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusKnowledgeWorld, Guids.DestinedHeritage);
+
       var touchOfDestiny = BlueprintTool.Get<BlueprintFeature>(Guids.DestinedBloodline);
       return FeatureConfigurator.New(DestinedHeritageName, Guids.DestinedHeritage)
         .SetDisplayName(touchOfDestiny.m_DisplayName)
@@ -1231,6 +1244,19 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureDraconicBlack1()
     {
+      Common.AddIsPrequisiteFor(
+        FeatureRefs.SkillFocusPerception,
+        Guids.DraconicBlackHeritage,
+        Guids.DraconicBlueHeritage,
+        Guids.DraconicBrassHeritage,
+        Guids.DraconicBronzeHeritage,
+        Guids.DraconicCopperHeritage,
+        Guids.DraconicGoldHeritage,
+        Guids.DraconicGreenHeritage,
+        Guids.DraconicRedHeritage,
+        Guids.DraconicSilverHeritage,
+        Guids.DraconicWhiteHeritage);
+
       var draconicBloodline = ProgressionRefs.BloodlineDraconicBlackProgression.Reference.Get();
       return AddDraconicClaws(
         DraconicBlackHeritage,
@@ -1946,6 +1972,13 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureElementalAir1()
     {
+      Common.AddIsPrequisiteFor(
+        FeatureRefs.SkillFocusAcrobatics,
+        Guids.ElementalAirHeritage,
+        Guids.ElementalEarthHeritage,
+        Guids.ElementalFireHeritage,
+        Guids.ElementalWaterHeritage);
+
       return AddElementalRay(
         abilityName: ElementalAirHeritageRay,
         abilityGuid: Guids.ElementalAirHeritageRay,
@@ -2221,6 +2254,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureFeyHeritage1()
     {
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusLoreNature, Guids.FeyHeritage);
+
       var feyBloodline = ProgressionRefs.BloodlineFeyProgression.Reference.Get();
       return FeatureConfigurator.New(FeyHeritageName, Guids.FeyHeritage)
         .SetDisplayName(feyBloodline.m_DisplayName)
@@ -2316,6 +2351,8 @@ namespace CharacterOptionsPlus.Feats
         .AddContextRankConfig(ContextRankConfigs.CustomProperty(EffectiveLevelProperty).WithDiv2Progression())
         .Configure();
 
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusKnowledgeWorld, Guids.InfernalHeritage);
+
       var infernalBloodline = ProgressionRefs.BloodlineInfernalProgression.Reference.Get();
       return FeatureConfigurator.New(InfernalHeritageName, Guids.InfernalHeritage)
         .SetDisplayName(infernalBloodline.m_DisplayName)
@@ -2378,6 +2415,8 @@ namespace CharacterOptionsPlus.Feats
 
     private static BlueprintFeature ConfigureSerpentineHeritage1()
     {
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusStealth, Guids.SerpentineHeritage);
+
       var serpentineBloodline = ProgressionRefs.BloodlineSerpentineProgression.Reference.Get();
       return FeatureConfigurator.New(SerpentineHeritageName, Guids.SerpentineHeritage)
         .SetDisplayName(serpentineBloodline.m_DisplayName)
@@ -2475,6 +2514,8 @@ namespace CharacterOptionsPlus.Feats
           ContextRankConfigs.CustomProperty(EffectiveLevelProperty, max: 10, min: 1).WithDiv2Progression())
         .AddContextRankConfig(ContextRankConfigs.CharacterLevel(type: AbilityRankType.DamageDice))
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.SkillFocusLoreReligion, Guids.UndeadHeritage);
 
       var undeadBloodline = ProgressionRefs.BloodlineUndeadProgression.Reference.Get();
       return FeatureConfigurator.New(UndeadHeritageName, Guids.UndeadHeritage)

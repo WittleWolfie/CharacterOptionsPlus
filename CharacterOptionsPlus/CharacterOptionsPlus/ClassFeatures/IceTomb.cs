@@ -138,6 +138,8 @@ namespace CharacterOptionsPlus.ClassFeatures
         .AddPrerequisiteFeature(FeatureRefs.WitchMajorHex.ToString())
         .AddFacts(new() { ability })
         .Configure(delayed: true);
+
+      Common.AddIsPrequisiteFor(FeatureRefs.WitchMajorHex, Guids.IceTombHex);
     }
   }
 }

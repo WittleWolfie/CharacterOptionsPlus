@@ -110,7 +110,7 @@ namespace CharacterOptionsPlus.ClassFeatures
         .AddAbilityCasterHasNoFacts(facts: new() { buff })
         .Configure();
 
-      FeatureConfigurator.New(FeatureName, Guids.ShimmeringMirageTalent, FeatureGroup.KineticWildTalent)
+      var shimmeringMirage = FeatureConfigurator.New(FeatureName, Guids.ShimmeringMirageTalent, FeatureGroup.KineticWildTalent)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)
@@ -119,6 +119,8 @@ namespace CharacterOptionsPlus.ClassFeatures
         .AddPrerequisiteClassLevel(CharacterClassRefs.KineticistClass.ToString(), level: 10)
         .AddFacts(new() { ability })
         .Configure(delayed: true);
+
+      Common.AddIsPrequisiteFor(FeatureRefs.ShroudOfWater, shimmeringMirage);
     }
   }
 }

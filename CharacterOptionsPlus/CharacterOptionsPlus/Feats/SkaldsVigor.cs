@@ -110,7 +110,9 @@ namespace CharacterOptionsPlus.Feats
           .AddToIsPrerequisiteFor(Guids.SkaldsVigorGreaterFeat) // Reference by Guid since it doesn't exist yet.
           .AddFeatureTagsComponent(FeatureTag.Defense | FeatureTag.ClassSpecific)
           .Configure(delayed: true);
-      
+
+      Common.AddIsPrequisiteFor(FeatureRefs.RagingSong, Guids.SkaldsVigorFeat);
+
       // Greater Skald's Vigor
       var greaterSkaldsVigor =
         FeatureConfigurator.New(

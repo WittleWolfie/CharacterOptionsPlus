@@ -15,6 +15,7 @@ using BlueprintCore.Utils;
 using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Actions;
+using CharacterOptionsPlus.ClassFeatures;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.MechanicsChanges;
@@ -386,7 +387,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFacts(new() { entangle })
         .Configure();
 
-      return FeatureConfigurator.New(AbadarName, Guids.AbadarTechnique)
+      var technique = FeatureConfigurator.New(AbadarName, Guids.AbadarTechnique)
         .SetDisplayName(AbadarDisplayName)
         .SetDescription(AbadarDescription)
         .SetIcon(AbadarIcon)
@@ -409,6 +410,10 @@ namespace CharacterOptionsPlus.Feats
               .HasFact(FeatureRefs.RapidShotFeature.ToString())))
         .AddFacts(new() { disarm })
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.AbadarFeature, technique);
+
+      return technique;
     }
     #endregion
 
@@ -479,7 +484,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFacts(new() { toggle, blind, entangle, sicken })
         .Configure();
 
-      return FeatureConfigurator.New(AsmodeusName, Guids.AsmodeusTechnique)
+      var technique = FeatureConfigurator.New(AsmodeusName, Guids.AsmodeusTechnique)
         .SetDisplayName(AsmodeusDisplayName)
         .SetDescription(AsmodeusDescription)
         .SetIcon(AsmodeusIcon)
@@ -491,6 +496,10 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent<AsmodeusAdvancedTechnique>()
         .AddPrerequisiteFeature(FeatureRefs.AsmodeusFeature.ToString())
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.AsmodeusFeature, technique);
+
+      return technique;
     }
 
     private static BlueprintActivatableAbility CreateAdvancedToggle(
@@ -769,7 +778,7 @@ namespace CharacterOptionsPlus.Feats
           ActionsBuilder.New().Add<RangedAttackExtended>(a => a.OnHit = ActionsBuilder.New().Add<Distract>().Build()))
         .Configure();
 
-      return FeatureConfigurator.New(ErastilName, Guids.ErastilTechnique)
+      var technique = FeatureConfigurator.New(ErastilName, Guids.ErastilTechnique)
         .SetDisplayName(ErastilDisplayName)
         .SetDescription(ErastilDescription)
         .SetIcon(ErastilIcon)
@@ -788,6 +797,10 @@ namespace CharacterOptionsPlus.Feats
               .HasFact(FeatureRefs.PreciseShot.ToString())))
         .AddFacts(new() { ability })
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.ErastilFeature, technique);
+
+      return technique;
     }
 
     private static BlueprintBuff _distracted;
@@ -972,7 +985,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       var applyBuff = ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1));
-      return FeatureConfigurator.New(GorumName, Guids.GorumTechnique)
+      var technique = FeatureConfigurator.New(GorumName, Guids.GorumTechnique)
         .SetDisplayName(GorumDisplayName)
         .SetDescription(GorumDescription)
         .SetIcon(GorumIcon)
@@ -996,6 +1009,10 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityUseTrigger(ability: AbilityRefs.VitalStrikeAbilityImproved.ToString(), action: applyBuff)
         .AddAbilityUseTrigger(ability: AbilityRefs.VitalStrikeAbilityGreater.ToString(), action: applyBuff)
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.GorumFeature, technique);
+
+      return technique;
     }
 
     [TypeId("9a1c3f73-4805-4a67-93d1-6ae52cd69862")]
@@ -1141,7 +1158,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFacts(new() { quickInspire })
         .Configure();
 
-      return FeatureConfigurator.New(IomedaeName, Guids.IomedaeTechnique)
+      var technique = FeatureConfigurator.New(IomedaeName, Guids.IomedaeTechnique)
         .SetDisplayName(IomedaeDisplayName)
         .SetDescription(IomedaeDescription)
         .SetIcon(IomedaeIcon)
@@ -1159,6 +1176,10 @@ namespace CharacterOptionsPlus.Feats
               .Add<HasWeaponFocus>(c => c.Category = WeaponCategory.Longsword)))
         .AddFacts(new() { inspire })
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.IomedaeFeature, technique);
+
+      return technique;
     }
 
     [TypeId("075ea01f-a0d5-4951-8fd2-2a3276a8951e")]
@@ -1280,7 +1301,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .Configure();
 
-      return FeatureConfigurator.New(IroriName, Guids.IroriTechnique)
+      var technique = FeatureConfigurator.New(IroriName, Guids.IroriTechnique)
         .SetDisplayName(IroriDisplayName)
         .SetDescription(IroriDescription)
         .SetIcon(IroriIcon)
@@ -1298,6 +1319,10 @@ namespace CharacterOptionsPlus.Feats
               .Add<HasWeaponFocus>(c => c.Category = WeaponCategory.UnarmedStrike)))
         .AddFacts(new() { toggle })
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.IroriFeature, technique);
+
+      return technique;
     }
 
     [TypeId("54d0ac2f-b470-4a04-a414-2fd87d31280f")]
@@ -1444,7 +1469,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent<LamashtusStaggeringSlice>()
         .Configure();
 
-      return FeatureConfigurator.New(LamashtuName, Guids.LamashtuTechnique)
+      var technique = FeatureConfigurator.New(LamashtuName, Guids.LamashtuTechnique)
         .SetDisplayName(LamashtuDisplayName)
         .SetDescription(LamashtuDescription)
         .SetIcon(LamashtuIcon)
@@ -1463,6 +1488,10 @@ namespace CharacterOptionsPlus.Feats
               .HasFact(FeatureRefs.PowerAttackFeature.ToString())))
         .AddFacts(new() { ability })
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.LamashtuFeature, technique);
+
+      return technique;
     }
 
     [TypeId("2f11e903-f246-4db2-8a65-a41412d03273")]
@@ -1664,7 +1693,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFacts(new() { toggle })
         .Configure();
 
-      return FeatureConfigurator.New(NorgorberName, Guids.NorgorberTechnique)
+      var technique = FeatureConfigurator.New(NorgorberName, Guids.NorgorberTechnique)
         .SetDisplayName(NorgorberDisplayName)
         .SetDescription(NorgorberDescription)
         .SetIcon(NorgorberIcon)
@@ -1678,6 +1707,10 @@ namespace CharacterOptionsPlus.Feats
             Guids.NorgorberAdvancedTechnique, ConditionsBuilder.New().StatValue(n: 10, stat: StatType.SkillStealth)))
         .AddComponent<NorgorbersHeavyShiv>()
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.NorgorberFeature, technique);
+
+      return technique;
     }
 
     private static BlueprintBuff _unaware;
@@ -1802,7 +1835,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent<RovagugsSmash>()
         .Configure();
 
-      return FeatureConfigurator.New(RovagugName, Guids.RovagugTechnique)
+      var technique = FeatureConfigurator.New(RovagugName, Guids.RovagugTechnique)
         .SetDisplayName(RovagugDisplayName)
         .SetDescription(RovagugDescription)
         .SetIcon(RovagugIcon)
@@ -1820,6 +1853,10 @@ namespace CharacterOptionsPlus.Feats
               .HasFact(FeatureRefs.PowerAttackFeature.ToString())))
         .AddComponent<RovagugsThunder>()
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.RovagugFeature, technique);
+
+      return technique;
     }
 
     [TypeId("4e0d37de-2577-4ae2-92c2-903c8fdc3c72")]
@@ -1925,7 +1962,7 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent<ToragsTrip>()
         .Configure();
 
-      return FeatureConfigurator.New(ToragName, Guids.ToragTechnique)
+      var technique = FeatureConfigurator.New(ToragName, Guids.ToragTechnique)
         .SetDisplayName(ToragDisplayName)
         .SetDescription(ToragDescription)
         .SetIcon(ToragIcon)
@@ -1951,6 +1988,10 @@ namespace CharacterOptionsPlus.Feats
         .AddComponent(
           new QualifyForPrerequisiteFeature(FeatureRefs.CombatReflexes.Cast<BlueprintFeatureReference>().Reference))
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.ToragFeature, technique);
+
+      return technique;
     }
 
     [TypeId("95d246a7-9551-47ef-b844-fe260c040299")]
@@ -2105,7 +2146,7 @@ namespace CharacterOptionsPlus.Feats
         .AddFacts(new() { advancedToggle })
         .Configure();
 
-      return FeatureConfigurator.New(UrgathoaName, Guids.UrgathoaTechnique)
+      var technique = FeatureConfigurator.New(UrgathoaName, Guids.UrgathoaTechnique)
         .SetDisplayName(UrgathoaDisplayName)
         .SetDescription(UrgathoaDescription)
         .SetIcon(UrgathoaIcon)
@@ -2124,6 +2165,10 @@ namespace CharacterOptionsPlus.Feats
         .AddAbilityResources(resource: resource, restoreAmount: true)
         .AddFacts(new() { toggle })
         .Configure();
+
+      Common.AddIsPrequisiteFor(FeatureRefs.UrgathoaFeature, technique);
+
+      return technique;
     }
 
     [TypeId("57e11b34-efb5-40a1-b0e8-b79d6bbc5e1c")]

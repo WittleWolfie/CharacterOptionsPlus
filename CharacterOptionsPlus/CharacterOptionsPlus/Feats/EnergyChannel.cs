@@ -101,6 +101,10 @@ namespace CharacterOptionsPlus.Feats
     {
       Logger.Log($"Configuring {FeatName}");
 
+      Common.AddIsPrequisiteFor(FeatureRefs.ChannelEnergyFeature, Guids.EnergyChannelFeat);
+      Common.AddIsPrequisiteFor(FeatureRefs.WarpriestChannelEnergyFeature, Guids.EnergyChannelFeat);
+      Common.AddIsPrequisiteFor(FeatureRefs.WarpriestShieldbearerChannelEnergyFeature, Guids.EnergyChannelFeat);
+
       FeatureSelectionConfigurator.New(FeatName, Guids.EnergyChannelFeat, FeatureGroup.Feat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)

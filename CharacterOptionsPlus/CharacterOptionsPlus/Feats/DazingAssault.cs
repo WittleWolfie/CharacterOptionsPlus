@@ -81,7 +81,7 @@ namespace CharacterOptionsPlus.Feats
         .SetBuff(buff)
         .Configure();
 
-      FeatureConfigurator.New(FeatName, Guids.DazingAssaultFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat)
+      var dazingAssault = FeatureConfigurator.New(FeatName, Guids.DazingAssaultFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
         .SetIcon(IconName)
@@ -92,6 +92,8 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisitePlayerHasFeature(FeatureRefs.PowerAttackFeature.ToString())
         .AddFacts(new() { toggle })
         .Configure(delayed: true);
+
+      Common.AddIsPrequisiteFor(FeatureRefs.PowerAttackFeature, dazingAssault);
     }
   }
 }
