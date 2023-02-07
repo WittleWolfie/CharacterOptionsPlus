@@ -22,13 +22,15 @@ namespace CharacterOptionsPlus.Components
   {
     private static readonly Logging.Logger Logger = Logging.GetLogger(nameof(AbilityCasterHasWeaponSubcategory));
 
-    private readonly List<WeaponSubCategory> SubCategories = new();
     private readonly bool Exclude;
+    private readonly bool MainHand;
+    private readonly List<WeaponSubCategory> SubCategories = new();
 
-    internal AbilityTargetHasWeaponSubcategory(bool exclude, params WeaponSubCategory[] subCategories)
+    internal AbilityTargetHasWeaponSubcategory(bool exclude, bool mainHand, params WeaponSubCategory[] subCategories)
     {
-      SubCategories.AddRange(subCategories);
       Exclude = exclude;
+      MainHand = mainHand;
+      SubCategories.AddRange(subCategories);
     }
 
     public string GetAbilityTargetRestrictionUIText(UnitEntityData caster, TargetWrapper target)
@@ -55,7 +57,7 @@ namespace CharacterOptionsPlus.Components
           return false;
         }
 
-        var weapon = unit.GetFirstWeapon();
+        var weapon = MainHand ? unit.Body.PrimaryHand.MaybeWeapon : unit.Body.SecondaryHand.MaybeWeapon;
         if (weapon is null)
           return false;
 

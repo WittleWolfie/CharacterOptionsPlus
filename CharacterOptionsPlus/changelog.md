@@ -1,9 +1,11 @@
 ## v1.2
 
-* Minor performance optimizations
-* Updated icon for Purifying Channel
 * Reworked Signature Skill: Persuasion and Mortal Terror
     * Wrath doesn't have an implementation of the Panicked condition so only Shaken, Cowering, and Frightened are used
+* Reworked Keen Edge and Weapon of Awe
+    * They can now explicitly target a Main Hand or Off Hand weapon
+* Minor performance optimizations
+* Updated icon for Purifying Channel
 
 * New Feats
     * Energy Channel

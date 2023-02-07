@@ -555,6 +555,8 @@ namespace CharacterOptionsPlus.Util
 
     internal const string WeaponOfAweSpell = "685de54b-0964-499e-9a5d-af234a618c54";
     internal const string WeaponOfAweEnchant = "e020060b-9ed7-47df-9689-1c787f271ed0";
+    internal const string WeaponOfAweMainHand = "44cc016d-e3a3-4fa3-8787-8432acf31dc3";
+    internal const string WeaponOfAweOffHand = "6afd9aa2-825d-43f0-8a45-dca078b4af2f";
 
     internal const string WrathSpell = "c31b0784-8523-43ce-a5f5-cb3a6121c43a";
     internal const string WrathBuff = "f47ab8be-368a-44a5-8448-fb1b8d756130";

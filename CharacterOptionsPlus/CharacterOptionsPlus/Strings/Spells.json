@@ -483,6 +483,16 @@
     "ruRU": "Оружие благоговения"
   },
   {
+    "Key": "WeaponOfAwe.MainHand.Name",
+    "ProcessTemplates": false,
+    "enGB": "Weapon of Awe (Main Hand)"
+  },
+  {
+    "Key": "WeaponOfAwe.OffHand.Name",
+    "ProcessTemplates": false,
+    "enGB": "Weapon of Awe (Off Hand)"
+  },
+  {
     "Key": "WeaponOfAwe.Description",
     "enGB": "You transform a single weapon into an awe-inspiring instrument. The weapon gains a +2 sacred bonus on damage rolls, and if the weapon scores a critical hit, the target of that critical hit becomes shaken for 1 round with no Saving Throw.\nThis is a mind-affecting fear effect. A ranged weapon affected by this spell applies these effects to its ammunition.\nYou can’t cast this spell on a natural weapon, but you can cast it on an unarmed strike.",
     "ruRU": "Вы превращаете одно своё оружие в объект, приводящий всех в благоговейный трепет. Оружие получает Сакральный бонус +2, и если атака им наносит критическое попадание, цель этого критического попадания оказывается потрясённой на 1 раунд без возможности совершить спасбросок для нейтрализации.\nЭто воздействующий на разум эффект страха. При использовании на оружие дальнего боя, эффект распространяется на используемые стрелы и другую используемую аммуницию.\nЭто заклинание нельзя использовать на естественное оружие, но можно  использовать на кулаки."
