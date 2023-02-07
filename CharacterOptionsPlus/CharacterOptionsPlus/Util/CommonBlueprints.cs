@@ -19,7 +19,7 @@ namespace CharacterOptionsPlus.Util
       Logger.Log($"Configuring {nameof(CommonBlueprints)}");
 
       ConfigureBlankProjectile();
-      ConfigurePanicked();
+      ConfigurePanickedDeprecated();
     }
 
     private const string BlankProjectile = "BlankProjectile";
@@ -33,13 +33,10 @@ namespace CharacterOptionsPlus.Util
         .Configure();
     }
 
-    // TODO: Just use frightened?? Panicked seems to be... not meaningfully different.
     private const string Panicked = "Panicked";
-    private static void ConfigurePanicked()
+    private static void ConfigurePanickedDeprecated()
     {
-      BuffConfigurator.New(Panicked, Guids.PanickedBuff)
-        .CopyFrom(BuffRefs.EyebitePanickedBuff, c => c is not AddFactContextActions)
-        .Configure();
+      BuffConfigurator.New(Panicked, Guids.PanickedBuffDeprecated).Configure();
     }
 
     #region Channel Blueprints

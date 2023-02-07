@@ -396,8 +396,7 @@
   },
   {
     "Key": "MortalTerror.Description",
-    "enGB": "The target is shaken, and the first time each round the target takes damage (including the first round of the spell’s duration), it must succeed at another Will save or its fear level increases by one step (from shaken to frightened, and from frightened to panicked). If the target fails a saving throw against this effect while panicked, it is transfixed in terror and is cowering for the remainder of the spell’s duration. If the target succeeds at the initial Will save, it is shaken for 1 round but its fear level cannot be further increased by this spell’s effects during that round.",
-    "ruRU": "Цель потрясена и первый раз в каждом раунде (включая тот раунд, когда заклинание было наложено), когда цель получает урон, она должна совершить успешный спасбросок Воли или эффект страха усилится на 1 ранг (из потрясения в испуг, из испуга в панику). Если цель проваливает спасбросое против этого эффекта уже будучи в панике, страх парализует её, и она неспособна предпринимать действия до конца действия заклинания. Если первый спасбросок был успешен, цель всё равно оказывается потрясённой на 1  раунд, но её ранг страха не может дальше увеличиться вследствие этого заклинания."
+    "enGB": "The target is shaken, and the first time each round the target takes damage (including the first round of the spell’s duration), it must succeed at another Will save or its fear level increases by one step (from shaken to frightened, and from frightened to cowering). If the target succeeds at the initial Will save, it is shaken for 1 round but its fear level cannot be further increased by this spell’s effects during that round."
   },
 
   {

@@ -634,7 +634,7 @@ namespace CharacterOptionsPlus.Util
     #region Common Blueprints
     internal const string BlankProjectile = "5172c4d9-a5a1-4fea-8600-fc5619d9f1de";
 
-    internal const string PanickedBuff = "22c82942-931a-4ca8-955d-78ce86944218";
+    internal const string PanickedBuffDeprecated = "22c82942-931a-4ca8-955d-78ce86944218";
     #endregion
 
     #region Dynamic GUIDs

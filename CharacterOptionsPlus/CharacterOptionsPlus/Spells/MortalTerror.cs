@@ -62,7 +62,6 @@ namespace CharacterOptionsPlus.Spells
 
       var shaken = BuffRefs.Shaken.ToString();
       var frightened = BuffRefs.Frightened.ToString();
-      var panicked = Guids.PanickedBuff;
       var cowering = BuffRefs.CowerBuff.ToString();
       var applyBuff = ActionsBuilder.New()
         .Conditional(
@@ -71,11 +70,7 @@ namespace CharacterOptionsPlus.Spells
           ifFalse: ActionsBuilder.New()
             .Conditional(
               ConditionsBuilder.New().HasBuff(frightened),
-              ifTrue: ActionsBuilder.New().RemoveBuff(frightened).ApplyBuffPermanent(panicked),
-              ifFalse: ActionsBuilder.New()
-                .Conditional(
-                  ConditionsBuilder.New().HasBuff(panicked),
-                  ifTrue: ActionsBuilder.New().RemoveBuff(panicked).ApplyBuffPermanent(cowering))));
+              ifTrue: ActionsBuilder.New().RemoveBuff(frightened).ApplyBuffPermanent(cowering)));
       var buff = BuffConfigurator.New(BuffName, Guids.MortalTerrorBuff)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
