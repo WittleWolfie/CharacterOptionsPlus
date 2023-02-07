@@ -11,6 +11,8 @@
 * Reduced range for abilities targeting "anyone you can see" from 120ft to 60ft
 * Minor performance optimizations
 * Updated icon for Purifying Channel
+* New feats and class features with prerequisites are now listed on their respective prerequisites
+* New spells should support scroll and potion crafting
 
 * New Feats
     * Energy Channel
