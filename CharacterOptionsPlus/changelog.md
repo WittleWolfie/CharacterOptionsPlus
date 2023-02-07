@@ -4,6 +4,11 @@
     * Wrath doesn't have an implementation of the Panicked condition so only Shaken, Cowering, and Frightened are used
 * Reworked Keen Edge and Weapon of Awe
     * They can now explicitly target a Main Hand or Off Hand weapon
+* Reworked Horrific Doubles
+    * Range reduced from 120ft to 60ft
+    * Performance improvements
+    * Improved compatibility with multiple instances (i.e. multiple characters using it simultaneously)
+* Reduced range for abilities targeting "anyone you can see" from 120ft to 60ft
 * Minor performance optimizations
 * Updated icon for Purifying Channel
 
