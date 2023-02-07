@@ -183,6 +183,14 @@ namespace CharacterOptionsPlus.Archetypes
           archetype: Guids.WinterWitchArchetype, characterClass: CharacterClassRefs.WitchClass.ToString())
         .AddFacts(new() { frozenCaress })
         .Configure(delayed: true);
+
+      // Add as pre-req for Winter Witch Prestige Class
+      CharacterClassConfigurator.For(CharacterClassRefs.WinterWitchClass)
+        .EditComponent<PrerequisiteFeaturesFromList>(
+          c => c.m_Features =
+            CommonTool.Append(
+              c.m_Features, BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.WinterWitchIceMagic)))
+        .Configure();
     }
 
     private static void ConfigureEnabledDelayed()
