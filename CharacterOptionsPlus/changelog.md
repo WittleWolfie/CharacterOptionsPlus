@@ -2,8 +2,8 @@
 
 * Minor performance optimizations
 * Updated icon for Purifying Channel
-* Signature Skill: Persuasion reworked
-    * Wrath doesn't have an implementation of the Panicked condition, so this now uses just Cowering and Frightened
+* Reworked Signature Skill: Persuasion and Mortal Terror
+    * Wrath doesn't have an implementation of the Panicked condition so only Shaken, Cowering, and Frightened are used
 
 * New Feats
     * Energy Channel
