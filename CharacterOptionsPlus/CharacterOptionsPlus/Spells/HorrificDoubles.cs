@@ -110,7 +110,7 @@ namespace CharacterOptionsPlus.Spells
       var area = AbilityAreaEffectConfigurator.New(AreaName, Guids.HorrificDoublesArea)
         .SetAffectEnemies(true)
         .SetTargetType(TargetType.Enemy)
-        .SetSize(90.Feet())
+        .SetSize(60.Feet())
         .SetShape(AreaEffectShape.Cylinder)
         .AddSpellDescriptorComponent(SpellDescriptor.MindAffecting)
         .AddAbilityAreaEffectRunAction(
