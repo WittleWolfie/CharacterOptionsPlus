@@ -1472,16 +1472,6 @@ namespace CharacterOptionsPlus.Feats
         }
       }
 
-      private static BlueprintBuff _panicked;
-      private static BlueprintBuff Panicked
-      {
-        get
-        {
-          _panicked ??= BlueprintTool.Get<BlueprintBuff>(Guids.PanickedBuff);
-          return _panicked;
-        }
-      }
-
       private static BlueprintBuff _cowering;
       private static BlueprintBuff Cowering
       {
@@ -1531,18 +1521,21 @@ namespace CharacterOptionsPlus.Feats
           if (result.IsPassed)
             return;
 
+          var duration = ContextValueHelper.CalculateDiceValue(DiceType.D4, diceCountValue: 1, bonusValue: 0, Context);
           if (succeedBy >= 20 && intimidateRanks >= 20)
           {
-            var cowerDuration =
-              ContextValueHelper.CalculateDiceValue(DiceType.D4, diceCountValue: 1, bonusValue: 0, Context);
-            target.AddBuff(Cowering, Context, duration: cowerDuration.Rounds().Seconds);
-            // Link duration of Panicked to the Persuasion buff
-            appliedBuff.StoreFact(target.AddBuff(Panicked, Context));
+            target.AddBuff(Cowering, Context, duration: duration.Rounds().Seconds);
+            // Link duration of Frightened to the Persuasion buff
+            appliedBuff.StoreFact(target.AddBuff(Frightened, Context));
           }
           else if (succeedBy >= 20 && intimidateRanks >= 15)
+          {
             target.AddBuff(Cowering, Context, duration: 1.Rounds().Seconds);
+            // Link duration of Frightened to the Persuasion buff
+            appliedBuff.StoreFact(target.AddBuff(Frightened, Context));
+          }
           else if (intimidateRanks >= 10)
-            target.AddBuff(Panicked, Context, duration: 1.Rounds().Seconds);
+            target.AddBuff(Frightened, Context, duration: duration.Rounds().Seconds);
           else
             target.AddBuff(Frightened, Context, duration: 1.Rounds().Seconds);
         }
