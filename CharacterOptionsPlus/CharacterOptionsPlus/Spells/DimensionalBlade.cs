@@ -80,7 +80,7 @@ namespace CharacterOptionsPlus.Spells
         .SetLocalizedDuration(Duration.OneRound)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true)
-        .SetAnimation(CastAnimationStyle.EnchantWeapon)
+        .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Swift)
         .SetAvailableMetamagic(Metamagic.CompletelyNormal, Metamagic.Extend)
         .AddToSpellLists(

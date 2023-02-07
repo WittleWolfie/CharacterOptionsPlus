@@ -1,4 +1,4 @@
-## v1.1.3
+## v1.2
 
 * Minor performance optimizations
 * Updated icon for Purifying Channel
@@ -11,6 +11,14 @@
 * New Spells
     * Frostbite
     * Chill Touch
+
+* New Bugfixes
+    * Fixed several abilities not working while mounted including:
+        * Weapon of Awe
+        * Keen Edge
+        * Hedging Weapons
+        * Dimensional Blade
+        * Iomedae's Inspiring Sword
 
 ## v1.1.2
 

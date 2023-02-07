@@ -112,7 +112,7 @@ namespace CharacterOptionsPlus.Spells
         .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true)
-        .SetAnimation(CastAnimationStyle.EnchantWeapon)
+        .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,

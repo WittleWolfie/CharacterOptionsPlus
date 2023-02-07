@@ -1107,7 +1107,7 @@ namespace CharacterOptionsPlus.Feats
         .SetRange(AbilityRange.Weapon)
         .SetNeedEquipWeapons()
         .AddAbilityCasterMainWeaponCheck(WeaponCategory.Longsword)
-        .SetAnimation(CastAnimationStyle.EnchantWeapon)
+        .SetAnimation(CastAnimationStyle.Omni)
         .SetIsFullRoundAction()
         .AddAbilityTargetsAround(targetType: TargetType.Ally, radius: 30.Feet())
         .AddAbilityEffectRunAction(

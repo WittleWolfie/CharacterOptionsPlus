@@ -63,7 +63,7 @@ namespace CharacterOptionsPlus.Spells
         .SetRange(AbilityRange.Close)
         .AllowTargeting(self: true, friends: true)
         .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
-        .SetAnimation(CastAnimationStyle.EnchantWeapon)
+        .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
           Metamagic.CompletelyNormal,
