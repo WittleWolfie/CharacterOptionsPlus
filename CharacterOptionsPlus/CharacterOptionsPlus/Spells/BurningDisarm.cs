@@ -8,6 +8,7 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.Root;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
@@ -111,6 +112,10 @@ namespace CharacterOptionsPlus.Spells
                       failed: dealDamage)),
               ifFalse: dealDamage))
         .AddComponent(AbilityTargetHasWeaponEquipped.AnyHand())
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.Reflex,
+          spellType: CraftSpellType.Debuff)
         .Configure();
     }
 

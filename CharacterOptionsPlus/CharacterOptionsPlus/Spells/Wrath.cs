@@ -8,6 +8,7 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem.Rules;
@@ -110,6 +111,10 @@ namespace CharacterOptionsPlus.Spells
           actions: ActionsBuilder.New()
             .ApplyBuff(buff: buff, ContextDuration.Fixed(1, rate: DurationRate.Minutes), isNotDispelable: true)
             .ApplyBuff(buff: selfBuff, ContextDuration.Fixed(1, rate: DurationRate.Minutes), toCaster: true))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure();
     }
 

@@ -9,6 +9,7 @@ using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic.Abilities;
@@ -115,6 +116,10 @@ namespace CharacterOptionsPlus.Spells
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank())))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.Fortitude,
+          spellType: CraftSpellType.Damage)
         .Configure();
     }
   }

@@ -10,6 +10,7 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -201,6 +202,10 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           (Metamagic)CustomMetamagic.Dazing)
         .AddToSpellLists(level: 4, SpellList.Inquisitor)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Other)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityAoERadius(radius: 30.Feet())
         .AddComponent(new AbilityDeliverBurst(30.Feet()))

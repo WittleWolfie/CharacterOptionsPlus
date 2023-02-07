@@ -11,6 +11,7 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
 using Kingmaker.UnitLogic;
@@ -140,6 +141,10 @@ namespace CharacterOptionsPlus.Spells
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
             .ApplyBuff(selfBuff, ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes)))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Debuff)
         .Configure();
     }
 

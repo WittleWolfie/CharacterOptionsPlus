@@ -6,6 +6,7 @@ using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -98,6 +99,10 @@ namespace CharacterOptionsPlus.Spells
           level: 1, SpellList.Bard, SpellList.Cleric, SpellList.Wizard, SpellList.Shaman, SpellList.Witch)
         .AddToSpellList(1, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddAbilityEffectStickyTouch(touchDeliveryAbility: effectAbility)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.Fortitude,
+          spellType: CraftSpellType.Debuff)
         .Configure(delayed: true);
     }
   }

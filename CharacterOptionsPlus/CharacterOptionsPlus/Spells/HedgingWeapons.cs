@@ -13,6 +13,7 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
@@ -136,6 +137,10 @@ namespace CharacterOptionsPlus.Spells
                   a.Rank = ContextValues.Rank(AbilityRankType.ProjectilesCount);
                   a.DurationValue = ContextDuration.Variable(ContextValues.Rank(), DurationRate.Minutes);
                 }))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure(delayed: true);
     }
 

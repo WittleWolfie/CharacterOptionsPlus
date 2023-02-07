@@ -9,6 +9,7 @@ using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -130,6 +131,10 @@ namespace CharacterOptionsPlus.Spells
                 .ConditionalSaved(
                   succeed: ActionsBuilder.New().ApplyBuff(BuffRefs.Shaken.ToString(), ContextDuration.Fixed(1)),
                   failed: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank())))))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.Will,
+          spellType: CraftSpellType.Debuff)
         .Configure(delayed: true);
     }
   }

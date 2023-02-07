@@ -7,6 +7,7 @@ using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
@@ -120,6 +121,10 @@ namespace CharacterOptionsPlus.Spells
                   failed: ActionsBuilder.New()
                     .DealDamageToAbility(StatType.Wisdom, ContextDice.Value(DiceType.D3, diceCount: 1)))),
           savingThrowType: SavingThrowType.Reflex)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.Reflex,
+          spellType: CraftSpellType.Damage)
         .Configure();
     }
   }

@@ -28,6 +28,7 @@
         * Hedging Weapons
         * Dimensional Blade
         * Iomedae's Inspiring Sword
+    * Implosion correctly indicates a Fortitude throw negates the effect
 
 ## v1.1.2
 

@@ -8,6 +8,7 @@ using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
@@ -121,6 +122,10 @@ namespace CharacterOptionsPlus.Spells
           SpellList.Wizard,
           SpellList.Witch)
         .AddAbilityEffectStickyTouch(touchDeliveryAbility: effect)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Damage)
         .Configure(delayed: true);
     }
 

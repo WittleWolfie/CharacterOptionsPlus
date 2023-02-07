@@ -9,6 +9,7 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.Enums;
 using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
@@ -93,6 +94,10 @@ namespace CharacterOptionsPlus.Spells
           SpellList.Wizard)
         .AddToSpellList(4, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddAbilityEffectRunAction(actions: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure();
     }
 

@@ -6,6 +6,7 @@ using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.Enums.Damage;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -113,6 +114,10 @@ namespace CharacterOptionsPlus.Spells
         .AddComponent(
           new AbilityTargetHasWeaponDamageType(
             exclude: false, mainHand: mainHand, PhysicalDamageForm.Piercing, PhysicalDamageForm.Slashing))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure();
     }
   }

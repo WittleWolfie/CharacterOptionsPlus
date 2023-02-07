@@ -6,6 +6,7 @@ using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
@@ -92,6 +93,10 @@ namespace CharacterOptionsPlus.Spells
         .AddToSpellLists(level: 3, SpellList.Druid, SpellList.Witch, SpellList.Wizard)
         .AddAbilityAoERadius(radius: 30.Feet())
         .AddAbilityEffectRunAction(actions: ActionsBuilder.New().Add<ApplyIceSpears>())
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.Reflex,
+          spellType: CraftSpellType.Damage)
         .Configure();
     }
 

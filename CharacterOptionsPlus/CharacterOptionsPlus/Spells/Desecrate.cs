@@ -13,6 +13,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
@@ -152,6 +153,10 @@ namespace CharacterOptionsPlus.Spells
             m_Item = ItemRefs.GoldCoins.Cast<BlueprintItemReference>().Reference,
             Count = 25
           })
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure();
     }
 

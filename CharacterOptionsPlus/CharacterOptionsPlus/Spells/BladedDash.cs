@@ -10,6 +10,7 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
@@ -98,6 +99,10 @@ namespace CharacterOptionsPlus.Spells
             .ApplyBuff(buff, ContextDuration.Fixed(1), toCaster: true)
             .MeleeAttack()
             .RemoveBuff(buff, toCaster: true))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Damage)
         .Configure();
 
       AbilityConfigurator.NewSpell(
@@ -125,6 +130,10 @@ namespace CharacterOptionsPlus.Spells
                 .ApplyBuff(buff, ContextDuration.Fixed(1), toCaster: true)
                 .MeleeAttack()
                 .RemoveBuff(buff, toCaster: true)))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Damage)
         .Configure();
     }
 

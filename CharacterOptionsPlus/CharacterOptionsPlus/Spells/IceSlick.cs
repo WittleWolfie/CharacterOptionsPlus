@@ -12,6 +12,7 @@ using Kingmaker;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Controllers;
+using Kingmaker.Craft;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
@@ -144,6 +145,10 @@ namespace CharacterOptionsPlus.Spells
           ActionsBuilder.New()
             .SpawnAreaEffect(area, ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes)))
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.Reflex,
+          spellType: CraftSpellType.Debuff)
         .Configure();
     }
 

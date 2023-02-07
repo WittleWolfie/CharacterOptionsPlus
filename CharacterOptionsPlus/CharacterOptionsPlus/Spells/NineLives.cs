@@ -7,6 +7,7 @@ using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.ElementsSystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
@@ -107,6 +108,10 @@ namespace CharacterOptionsPlus.Spells
                 a.Rank = 9;
                 a.DurationValue = ContextDuration.Variable(ContextValues.Rank(), DurationRate.Hours);
               }))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure(delayed: true);
     }
 

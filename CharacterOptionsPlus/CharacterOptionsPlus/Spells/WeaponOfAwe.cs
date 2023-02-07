@@ -8,6 +8,7 @@ using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Items.Ecnchantments;
+using Kingmaker.Craft;
 using Kingmaker.Enums;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -135,6 +136,10 @@ namespace CharacterOptionsPlus.Spells
               ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.Minutes),
               enchantment: enchantment,
               slot: mainHand ? SlotType.PrimaryHand : SlotType.SecondaryHand))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure();
     }
   }

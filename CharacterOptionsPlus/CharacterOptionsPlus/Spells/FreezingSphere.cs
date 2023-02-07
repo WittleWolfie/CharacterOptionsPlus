@@ -9,6 +9,7 @@ using BlueprintCore.Utils.Assets;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
@@ -145,6 +146,10 @@ namespace CharacterOptionsPlus.Spells
           targetType:  alwaysSelective ? TargetType.Enemy : TargetType.Any,
           spreadSpeed: 45.Feet())
         .AddAbilityEffectRunAction(attack)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.Reflex,
+          spellType: CraftSpellType.Damage)
         .Configure();
     }
 

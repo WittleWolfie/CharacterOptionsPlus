@@ -8,6 +8,7 @@ using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Conditions;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.UnitLogic;
@@ -118,6 +119,10 @@ namespace CharacterOptionsPlus.Spells
         .AddToSpellLists(
           level: 1, SpellList.Bloodrager, SpellList.Druid, SpellList.Magus, SpellList.Shaman, SpellList.Witch)
         .AddAbilityEffectStickyTouch(touchDeliveryAbility: effectAbility)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Damage)
         .Configure(delayed: true);
     }
   }

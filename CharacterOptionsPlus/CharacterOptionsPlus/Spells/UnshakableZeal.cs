@@ -7,6 +7,7 @@ using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -99,6 +100,10 @@ namespace CharacterOptionsPlus.Spells
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
             .ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank(), DurationRate.Hours)))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.None,
+          spellType: CraftSpellType.Buff)
         .Configure();
     }
 

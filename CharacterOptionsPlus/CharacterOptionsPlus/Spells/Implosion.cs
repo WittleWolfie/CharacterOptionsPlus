@@ -8,6 +8,7 @@ using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.PubSubSystem;
 using Kingmaker.RuleSystem;
@@ -97,6 +98,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDescription(Description)
         .SetIcon(icon)
         .SetLocalizedDuration(Common.DurationRoundPerTwoLevels)
+        .SetLocalizedSavingThrow(SavingThrow.FortNegates)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()
@@ -135,6 +137,7 @@ namespace CharacterOptionsPlus.Spells
         .SetDescription(Description)
         .SetIcon(icon)
         .SetLocalizedDuration(Common.DurationRoundPerTwoLevels)
+        .SetLocalizedSavingThrow(SavingThrow.FortNegates)
         .SetRange(AbilityRange.Close)
         .AllowTargeting(enemies: true)
         .SetSpellResistance()
@@ -157,6 +160,10 @@ namespace CharacterOptionsPlus.Spells
         .AddAbilityTargetHasFact(
           checkedFacts: new() { FeatureRefs.Incorporeal.ToString(), },
           inverted: true)
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.None,
+          savingThrow: CraftSavingThrow.Fortitude,
+          spellType: CraftSpellType.Damage)
         .Configure();
     }
 

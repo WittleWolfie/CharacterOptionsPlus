@@ -8,6 +8,7 @@ using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Craft;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
@@ -141,6 +142,10 @@ namespace CharacterOptionsPlus.Spells
         .AddContextRankConfig(ContextRankConfigs.CasterLevel().WithDiv2Progression())
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New().SpawnAreaEffect(area, ContextDuration.Variable(ContextValues.Rank())))
+        .AddCraftInfoComponent(
+          aOEType: CraftAOE.AOE,
+          savingThrow: CraftSavingThrow.Fortitude,
+          spellType: CraftSpellType.Debuff)
         .Configure();
     }
 
