@@ -383,6 +383,16 @@
     "ruRU": "Бритвенная острота"
   },
   {
+    "Key": "KeenEdge.MainHand.Name",
+    "ProcessTemplates": false,
+    "enGB": "Keen Edge (Main Hand)"
+  },
+  {
+    "Key": "KeenEdge.OffHand.Name",
+    "ProcessTemplates": false,
+    "enGB": "Keen Edge (Off Hand)"
+  },
+  {
     "Key": "KeenEdge.Description",
     "enGB": "This spell makes a weapon magically keen, improving its ability to deal telling blows. This transmutation doubles the threat range of the weapon. A threat range of 20 becomes 19-20, a threat range of 19-20 becomes 17-20, and a threat range of 18-20 becomes 15-20. The spell can be cast only on piercing or slashing weapons.\nMultiple effects that increase a weapon’s threat range (such as the keen special weapon property and the Improved Critical feat) don’t stack. You can’t cast this spell on a natural weapon, such as a claw.",
     "ruRU": "Это заклинание делает оружие по-волшебному острым, повышая его шансы нанести решающий удар. Эта трансмутация удваивает диапазон критического удара оружия. Диапазон 20-20 становится 19-20, 19-20 становится 17-20, а 18-20 становится 15-20. Это заклинание можно применить только на режущее или колющее оружие.\nРазличные эффекты, увеличивающие диапазон критического удара (такие как особенность магического оружия Острое или черта Улучшенный критический удар) не складываются между собой. Это заклинание нельзя применить на естественное оружие, такое как когти."

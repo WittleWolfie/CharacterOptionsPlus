@@ -347,7 +347,7 @@ namespace CharacterOptionsPlus.Feats
             WeaponCategory.HeavyRepeatingCrossbow,
             WeaponCategory.LightCrossbow,
             WeaponCategory.LightRepeatingCrossbow)
-        .AddComponent<AbilityTargetHasWeaponEquipped>()
+        .AddComponent(AbilityTargetHasWeaponEquipped.AnyHand())
         .SetAnimation(CastAnimationStyle.Special)
         .SetActionType(CommandType.Standard)
         .AllowTargeting(enemies: true)

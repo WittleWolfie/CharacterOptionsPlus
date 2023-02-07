@@ -530,6 +530,8 @@ namespace CharacterOptionsPlus.Util
     internal const string JudgementLightSmitingAdamantiteBuff = "17f401da-c2cc-4de7-af65-df50d8e57c5f";
 
     internal const string KeenEdgeSpell = "103e53fe-89de-48a1-b85e-9efcb1de4860";
+    internal const string KeenEdgeMainHand = "1224de36-fe6e-4420-9a28-efe0dbc25ae9";
+    internal const string KeenEdgeOffHand = "0002a4d9-5326-4e47-9666-5ea8085de3be";
 
     internal const string MortalTerrorSpell = "a33f2bff-0db5-471f-b2ae-3d78d35ecbc3";
     internal const string MortalTerrorBuff =  "2ea610bf-ff22-4bec-9cb3-cc87702c4c40";

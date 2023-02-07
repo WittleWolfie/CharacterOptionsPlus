@@ -3,10 +3,8 @@ using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
-using CharacterOptionsPlus.Actions;
 using CharacterOptionsPlus.Components;
 using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Enums.Damage;
 using Kingmaker.UnitLogic.Abilities;
@@ -25,6 +23,11 @@ namespace CharacterOptionsPlus.Spells
 
     internal const string DisplayName = "KeenEdge.Name";
     private const string Description = "KeenEdge.Description";
+
+    private const string MainHandAbility = "KeenEdge.MainHand";
+    private const string MainHandName = "KeenEdge.MainHand.Name";
+    private const string OffHandAbility = "KeenEdge.OffHand";
+    private const string OffHandName = "KeenEdge.OffHand.Name";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
@@ -47,6 +50,8 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      AbilityConfigurator.New(MainHandAbility, Guids.WeaponOfAweMainHand).Configure();
+      AbilityConfigurator.New(OffHandAbility, Guids.WeaponOfAweOffHand).Configure();
       AbilityConfigurator.New(FeatureName, Guids.KeenEdgeSpell).Configure();
     }
 
@@ -71,17 +76,43 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Reach)
         .AddToSpellLists(level: 3, SpellList.Bloodrager, SpellList.Inquisitor, SpellList.Magus, SpellList.Wizard)
+        .AddAbilityVariants(new() { ConfigureVariant(mainHand: true), ConfigureVariant(mainHand: false) })
+        .Configure();
+    }
+
+    private static BlueprintAbility ConfigureVariant(bool mainHand)
+    {
+      return AbilityConfigurator.NewSpell(
+          mainHand ? MainHandAbility : OffHandAbility,
+          mainHand ? Guids.KeenEdgeMainHand : Guids.KeenEdgeOffHand,
+          SpellSchool.Transmutation,
+          canSpecialize: true)
+        .SetDisplayName(mainHand ? MainHandName : OffHandName)
+        .SetDescription(Description)
+        .SetIcon(BuffRefs.WeaponBondKeenBuff.Reference.Get().Icon)
+        .SetLocalizedDuration(Duration.TenMinutesPerLevel)
+        .SetRange(AbilityRange.Close)
+        .AllowTargeting(self: true, friends: true)
+        .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
+        .SetAnimation(CastAnimationStyle.Omni)
+        .SetActionType(CommandType.Standard)
+        .SetAvailableMetamagic(
+          Metamagic.CompletelyNormal,
+          Metamagic.Extend,
+          Metamagic.Quicken,
+          Metamagic.Reach)
+        .SetParent(Guids.KeenEdgeSpell)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
             .EnchantWornItem(
               ContextDuration.Variable(ContextValues.Rank(), rate: DurationRate.TenMinutes),
               WeaponEnchantmentRefs.Keen.ToString(),
-              slot: SlotType.PrimaryHand))
-        .AddComponent<AbilityTargetHasWeaponEquipped>()
+              slot: mainHand ? SlotType.PrimaryHand : SlotType.SecondaryHand))
+        .AddComponent(mainHand ? AbilityTargetHasWeaponEquipped.MainHand() : AbilityTargetHasWeaponEquipped.OffHand())
         .AddComponent(
           new AbilityTargetHasWeaponDamageType(
-            exclude: false, PhysicalDamageForm.Piercing, PhysicalDamageForm.Slashing))
+            exclude: false, mainHand: mainHand, PhysicalDamageForm.Piercing, PhysicalDamageForm.Slashing))
         .Configure();
     }
   }

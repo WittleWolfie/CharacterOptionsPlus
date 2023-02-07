@@ -110,7 +110,7 @@ namespace CharacterOptionsPlus.Spells
                       succeed: ActionsBuilder.New().Add<Disarm>(),
                       failed: dealDamage)),
               ifFalse: dealDamage))
-        .AddComponent<AbilityTargetHasWeaponEquipped>()
+        .AddComponent(AbilityTargetHasWeaponEquipped.AnyHand())
         .Configure();
     }
 
