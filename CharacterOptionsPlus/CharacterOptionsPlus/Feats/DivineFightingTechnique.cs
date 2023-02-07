@@ -1186,7 +1186,7 @@ namespace CharacterOptionsPlus.Feats
           if (!evt.AttackRoll.IsHit)
             return;
 
-          var targets = GameHelper.GetTargetsAround(Owner.Position, 120.Feet()).Where(unit => unit.IsAlly(Owner));
+          var targets = GameHelper.GetTargetsAround(Owner.Position, 60.Feet()).Where(unit => unit.IsAlly(Owner));
           foreach (var target in targets)
           {
             Logger.Verbose(() => $"Applying {Blessing.name} to {target.CharacterName}");
@@ -1229,7 +1229,7 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          var targets = GameHelper.GetTargetsAround(caster.Position, 120.Feet()).Where(unit => unit.IsAlly(caster));
+          var targets = GameHelper.GetTargetsAround(caster.Position, 60.Feet()).Where(unit => unit.IsAlly(caster));
 
           foreach (var target in targets)
             target.AddBuff(InspireBuff, Context, 1.Minutes());
@@ -1716,7 +1716,7 @@ namespace CharacterOptionsPlus.Feats
           }
 
           var target =
-            GameHelper.GetTargetsAround(caster.Position, 120.Feet())
+            GameHelper.GetTargetsAround(caster.Position, 60.Feet())
               .Where(unit => unit.IsEnemy(caster))
               .FirstOrDefault();
           if (target is null)

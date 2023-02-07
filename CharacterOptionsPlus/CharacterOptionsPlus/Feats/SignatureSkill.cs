@@ -954,7 +954,7 @@ namespace CharacterOptionsPlus.Feats
 
           var targetType = Context.MainTarget.Unit.Blueprint.Type;
           targets.AddRange(
-            GameHelper.GetTargetsAround(Context.MaybeCaster.Position, 120.Feet())
+            GameHelper.GetTargetsAround(Context.MaybeCaster.Position, 60.Feet())
               .Where(unit => unit.IsEnemy(Context.MaybeCaster) && unit.Blueprint.Type == targetType));
 
           foreach (var target in targets)
@@ -1659,7 +1659,7 @@ namespace CharacterOptionsPlus.Feats
 
           UnitEntityData nearestEnemy = null;
           float nearestDistance = 99999f;
-          foreach (var target in GameHelper.GetTargetsAround(unit.Position, 120.Feet()))
+          foreach (var target in GameHelper.GetTargetsAround(unit.Position, 60.Feet()))
           {
             if (target.IsEnemy(unit))
             {
