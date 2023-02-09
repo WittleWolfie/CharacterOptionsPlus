@@ -38,8 +38,12 @@ namespace CharacterOptionsPlus.Feats
     private const string ClericVariantDisplayName = "EnergyChannel.Cleric.Name";
     private const string WarpriestVariantDisplayName = "EnergyChannel.Warpriest.Name";
 
-    private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconPrefix = "assets/icons/channel";
+    private const string IconName = IconPrefix + "energy.png";
+    private const string IconAir = IconPrefix + "electricity.png";
+    private const string IconEarth = IconPrefix + "acid.png";
+    private const string IconFire = IconPrefix + "fire.png";
+    private const string IconWater = IconPrefix + "cold.png";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatName);
 
@@ -108,7 +112,7 @@ namespace CharacterOptionsPlus.Feats
       FeatureSelectionConfigurator.New(FeatName, Guids.EnergyChannelFeat, FeatureGroup.Feat)
         .SetDisplayName(FeatDisplayName)
         .SetDescription(FeatDescription)
-  //      .SetIcon(IconName)
+        .SetIcon(IconName)
         .AddFeatureTagsComponent(FeatureTag.ClassSpecific | FeatureTag.Damage)
         .AddPrerequisiteFeaturesFromList(
           new()
@@ -183,7 +187,7 @@ namespace CharacterOptionsPlus.Feats
             FeatureName = "EnergyChannel.Air",
             DisplayName = "EnergyChannel.Air.Name",
             Description = "EnergyChannel.Air.Description",
-            Icon = "",
+            Icon = IconAir,
 
             Domain = FeatureRefs.AirDomainBaseFeature.ToString(),
             Blessing = FeatureRefs.AirBlessingFeature.ToString(),
@@ -207,7 +211,7 @@ namespace CharacterOptionsPlus.Feats
             FeatureName = "EnergyChannel.Earth",
             DisplayName = "EnergyChannel.Earth.Name",
             Description = "EnergyChannel.Earth.Description",
-            Icon = "",
+            Icon = IconEarth,
 
             Domain = FeatureRefs.EarthDomainBaseFeature.ToString(),
             Blessing = FeatureRefs.EarthBlessingFeature.ToString(),
@@ -231,7 +235,7 @@ namespace CharacterOptionsPlus.Feats
             FeatureName = "EnergyChannel.Fire",
             DisplayName = "EnergyChannel.Fire.Name",
             Description = "EnergyChannel.Fire.Description",
-            Icon = "",
+            Icon = IconFire,
 
             Domain = FeatureRefs.FireDomainBaseFeature.ToString(),
             Blessing = FeatureRefs.FireBlessingFeature.ToString(),
@@ -255,7 +259,7 @@ namespace CharacterOptionsPlus.Feats
             FeatureName = "EnergyChannel.Water",
             DisplayName = "EnergyChannel.Water.Name",
             Description = "EnergyChannel.Water.Description",
-            Icon = "",
+            Icon = IconWater,
 
             Domain = FeatureRefs.WaterDomainBaseFeature.ToString(),
             Blessing = FeatureRefs.WaterBlessingFeature.ToString(),
@@ -270,7 +274,7 @@ namespace CharacterOptionsPlus.Feats
       var clericBuff = BuffConfigurator.New($"{details.FeatureName}.Cleric.Buff", details.ClericBuffGuid)
         .SetDisplayName(details.DisplayName)
         .SetDescription(details.Description)
-        //.SetIcon(details.Icon)
+        .SetIcon(details.Icon)
         .SetStacking(StackingType.Rank)
         .SetRanks(3)
         .AddCombatStateTrigger(combatEndActions: ActionsBuilder.New().RemoveSelf())
@@ -283,7 +287,7 @@ namespace CharacterOptionsPlus.Feats
       var clericVariant = AbilityConfigurator.New($"{details.FeatureName}.ClericVariant", details.ClericVariantGuid)
         .SetDisplayName(ClericVariantDisplayName)
         .SetDescription(details.Description)
-        //.SetIcon(details.Icon)
+        .SetIcon(details.Icon)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Swift)
@@ -309,7 +313,7 @@ namespace CharacterOptionsPlus.Feats
       var warpriestBuff = BuffConfigurator.New($"{details.FeatureName}.Warpriest.Buff", details.WarpriestBuffGuid)
         .SetDisplayName(details.DisplayName)
         .SetDescription(details.Description)
-        //.SetIcon(details.Icon)
+        .SetIcon(details.Icon)
         .SetStacking(StackingType.Rank)
         .SetRanks(3)
         .AddCombatStateTrigger(combatEndActions: ActionsBuilder.New().RemoveSelf())
@@ -322,7 +326,7 @@ namespace CharacterOptionsPlus.Feats
       var warpriestVariant = AbilityConfigurator.New($"{details.FeatureName}.WarpriestVariant", details.WarpriestVariantGuid)
         .SetDisplayName(WarpriestVariantDisplayName)
         .SetDescription(details.Description)
-        //.SetIcon(details.Icon)
+        .SetIcon(details.Icon)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Swift)
@@ -348,7 +352,7 @@ namespace CharacterOptionsPlus.Feats
       var ability = AbilityConfigurator.New($"{details.FeatureName}.Ability", details.AbilityGuid)
         .SetDisplayName(details.DisplayName)
         .SetDescription(details.Description)
-        //.SetIcon(details.Icon)
+        .SetIcon(details.Icon)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Swift)
@@ -361,7 +365,7 @@ namespace CharacterOptionsPlus.Feats
         .SetIsClassFeature()
         .SetDisplayName(details.DisplayName)
         .SetDescription(details.Description)
-        //.SetIcon(details.Icon)
+        .SetIcon(details.Icon)
         .AddPrerequisiteFeaturesFromList(new() { details.Domain, details.Blessing }, amount: 1)
         .AddFacts(new() { ability })
         .Configure();

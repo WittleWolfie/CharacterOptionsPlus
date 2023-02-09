@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1764010946
+CRC: 212930119
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c986eeacbd4d26f79562000d2e60f692
+    Hash: ba8b8ce591b4ea16157bb911a11327af
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -17,8 +17,10 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Icons/IroriTechnique.png
 - Assets/Icons/NorgorberAdvancedTechnique.png
+- Assets/Icons/ChannelEnergy.png
 - Assets/Icons/EldritchHeritage.png
 - Assets/Icons/BladedDashGreater.png
+- Assets/Icons/ChannelElectricity.png
 - Assets/Icons/Desecrate.png
 - Assets/Icons/GorumTechnique.png
 - Assets/Icons/InvisibilityPurge.png
@@ -41,12 +43,13 @@ Assets:
 - Assets/Icons/NineLives.png
 - Assets/Icons/AbadarTechnique.png
 - Assets/Icons/BladedDash.png
-- Assets/Icons/AsmodeusBlind.png
+- Assets/Icons/ChannelAcid.png
 - Assets/Icons/IomedaeAdvancedTechnique.png
 - Assets/Icons/GloriousHeat.png
-- Assets/Icons/Consecrate.png
+- Assets/Icons/AsmodeusBlind.png
 - Assets/Icons/BreakFree.png
 - Assets/Icons/DazingAssault.png
+- Assets/Icons/Consecrate.png
 - Assets/Icons/SuppressParalyze.png
 - Assets/Icons/AsmodeusAdvancedTechnique.png
 - Assets/Icons/GreaterSkaldVigor.png
@@ -63,11 +66,13 @@ Assets:
 - Assets/Icons/Hurtful.png
 - Assets/Icons/FuriousFocus.png
 - Assets/Icons/IceSpears.png
+- Assets/Icons/ChannelCold.png
 - Assets/Icons/SignatureKnowledge.png
 - Assets/Icons/FrostFall.png
 - Assets/Illustrations/wolfie.png
 - Assets/Icons/MortalTerror.png
 - Assets/Icons/BurningDisarm.png
+- Assets/Icons/ChannelFire.png
 - Assets/Icons/DistractingShot.png
 - Assets/Icons/JudgementLight.png
 - Assets/Icons/Wrath.png

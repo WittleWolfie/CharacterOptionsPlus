@@ -28,7 +28,7 @@ namespace CharacterOptionsPlus.Feats
     private const string FeatDescription = "PurifyingChannel.Description";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "gloriousheat.png";
+    private const string IconName = IconPrefix + "channelfire.png";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatName);
 
