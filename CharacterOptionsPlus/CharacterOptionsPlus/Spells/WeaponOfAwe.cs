@@ -78,10 +78,7 @@ namespace CharacterOptionsPlus.Spells
           FeatureName,
           Guids.WeaponOfAweSpell,
           SpellSchool.Transmutation,
-          canSpecialize: true,
-          SpellDescriptor.Emotion,
-          SpellDescriptor.MindAffecting,
-          SpellDescriptor.Fear)
+          canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(BuffRefs.ArcaneStrikeBuff.Reference.Get().Icon)

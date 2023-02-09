@@ -113,7 +113,6 @@ namespace CharacterOptionsPlus.Spells
         .SetTargetType(TargetType.Enemy)
         .SetSize(60.Feet())
         .SetShape(AreaEffectShape.Cylinder)
-        .AddSpellDescriptorComponent(SpellDescriptor.MindAffecting)
         .AddAbilityAreaEffectRunAction(
           unitExit: ActionsBuilder.New().RemoveBuff(shaken),
           unitEnter: ActionsBuilder.New()
@@ -146,8 +145,7 @@ namespace CharacterOptionsPlus.Spells
           FeatureName,
           Guids.HorrificDoublesSpell,
           SpellSchool.Illusion,
-          canSpecialize: true,
-          SpellDescriptor.MindAffecting)
+          canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(icon)

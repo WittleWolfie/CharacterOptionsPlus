@@ -1,3 +1,8 @@
+## v1.2.1
+
+* New Bugfixes
+    * Horrific Doubles and Weapon of Awe can now be cast on characters immune to mind-affecting abilities
+
 ## v1.2
 
 * Reworked Signature Skill: Persuasion and Mortal Terror
