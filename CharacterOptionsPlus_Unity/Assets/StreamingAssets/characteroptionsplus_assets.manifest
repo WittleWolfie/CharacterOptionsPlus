@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 212930119
+CRC: 2361347669
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ba8b8ce591b4ea16157bb911a11327af
+    Hash: 9956ce1f986f459984f40ec4d9177ebb
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -17,6 +17,7 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Icons/IroriTechnique.png
 - Assets/Icons/NorgorberAdvancedTechnique.png
+- Assets/Icons/CheetahSprint.png
 - Assets/Icons/ChannelEnergy.png
 - Assets/Icons/EldritchHeritage.png
 - Assets/Icons/BladedDashGreater.png

@@ -66,6 +66,16 @@
   },
 
   {
+    "Key": "CheetahSprint.Name",
+    "ProcessTemplates": false,
+    "enGB": "Cheetah's Sprint"
+  },
+  {
+    "Key": "CheetahSprint.Description",
+    "enGB": "This spell increases your base speed by 90 feet for 1 round. This is an enhancement bonus."
+  },
+
+  {
     "Key": "ChillTouch.Name",
     "ProcessTemplates": false,
     "enGB": "ChillTouch"

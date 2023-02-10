@@ -455,6 +455,9 @@ namespace CharacterOptionsPlus.Util
 
     internal const string BurningDisarmSpell = "4445e61d-3dff-4985-9eb5-37169a0e85bc";
 
+    internal const string CheetahSprintSpell = "54f4bb4a-38e2-4b43-b61c-1fc2ca1b60dd";
+    internal const string CheetahSprintBuff = "22cde4be-da13-45c4-b765-e6232fdb1d3e";
+
     internal const string ChillTouchSpell = "3f184aa1-610d-498d-bdaf-41eec77b1319";
     internal const string ChillTouchEffect = "d13a3597-2299-4f44-9887-256a3f5c6e14";
 
@@ -572,6 +575,7 @@ namespace CharacterOptionsPlus.Util
       {
         (BladedDashSpell, BladedDash.DisplayName),
         (BurningDisarmSpell, BurningDisarm.DisplayName),
+        (CheetahSprintSpell, CheetahSprint.DisplayName),
         (ChillTouchSpell, ChillTouch.DisplayName),
         (ConsecrateSpell, Consecrate.DisplayName),
         (DesecrateSpell, Desecrate.DisplayName),
