@@ -67,7 +67,7 @@ namespace CharacterOptionsPlus.Util
     internal static void AddIsPrequisiteFor(
       Blueprint<BlueprintReference<BlueprintFeature>> prereq, params Blueprint<BlueprintFeatureReference>[] features)
     {
-      FeatureConfigurator.For(prereq).AddToIsPrerequisiteFor(features).Configure();
+      FeatureConfigurator.For(prereq).SkipAddToSelections().AddToIsPrerequisiteFor(features).Configure();
     }
   }
 }
