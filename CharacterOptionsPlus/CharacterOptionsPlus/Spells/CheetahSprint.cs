@@ -51,6 +51,7 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
+      BuffConfigurator.New(BuffName, Guids.CheetahSprintBuff).Configure();
       AbilityConfigurator.New(FeatureName, Guids.CheetahSprintSpell).Configure();
     }
 

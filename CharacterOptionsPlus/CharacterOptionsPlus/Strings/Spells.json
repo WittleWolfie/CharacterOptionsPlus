@@ -103,6 +103,16 @@
   },
 
   {
+    "Key": "DefensiveShock.Name",
+    "ProcessTemplates": false,
+    "enGB": "Defensive Shock"
+  },
+  {
+    "Key": "DefensiveShock.Description",
+    "enGB": "Electrical energy floods your body, shocking the next creature that touches you. Any creature striking you in melee takes 1d6 points of electricity damage per two caster levels (maximum 6d6). If the attacker has spell resistance, it applies against this damage. Each time the spell discharges, the number of damage dice it deals is halved (rounded down); when the spell’s damage dice reach 0, the spell ends."
+  },
+
+  {
     "Key": "DeliverTouch.Name",
     "ProcessTemplates": false,
     "enGB": "Deliver Touch Spell",

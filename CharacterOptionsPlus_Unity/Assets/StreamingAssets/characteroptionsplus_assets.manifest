@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2361347669
+CRC: 1832829561
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9956ce1f986f459984f40ec4d9177ebb
+    Hash: 0fd8c64b28a28cf8f16001c47d4b328f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
@@ -28,6 +28,7 @@ Assets:
 - Assets/Icons/DivineFightingTechnique.png
 - Assets/Icons/PairedOpportunists.png
 - Assets/Icons/ErastilTechnique.png
+- Assets/Icons/DefensiveShock.png
 - Assets/Icons/RovagugTechnique.png
 - Assets/Icons/EldritchHeritageImproved.png
 - Assets/Icons/IceSlick.png

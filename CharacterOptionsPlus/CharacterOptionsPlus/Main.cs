@@ -167,6 +167,7 @@ namespace CharacterOptionsPlus
         CheetahSprint.Configure();
         ChillTouch.Configure();
         Consecrate.Configure();
+        DefensiveShock.Configure();
         Desecrate.Configure();
         DimensionalBlade.Configure();
         FleshwormInfestation.Configure();
