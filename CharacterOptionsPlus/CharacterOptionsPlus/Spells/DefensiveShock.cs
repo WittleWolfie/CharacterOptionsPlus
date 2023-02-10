@@ -35,6 +35,9 @@ namespace CharacterOptionsPlus.Spells
     private const string IconPrefix = "assets/icons/";
     private const string IconName = IconPrefix + "defensiveshock.png";
 
+    // common_electrobuff00
+    private const string BuffFx = "8304b3b886f756542ae0068668c8ad2f";
+
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
     internal static void Configure()
@@ -70,6 +73,7 @@ namespace CharacterOptionsPlus.Spells
         .SetStacking(StackingType.Rank)
         .AddSpellDescriptorComponent(SpellDescriptor.Electricity)
         .SetRanks(6)
+        .SetFxOnStart(BuffFx)
         .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.DefensiveShockBuff))
         .AddTargetAttackRollTrigger(
           onlyHit: true,
