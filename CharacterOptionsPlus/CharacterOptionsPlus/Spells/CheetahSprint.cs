@@ -28,7 +28,7 @@ namespace CharacterOptionsPlus.Spells
     private const string BuffName = "CheetahSprint.Buff";
 
     private const string IconPrefix = "assets/icons/";
-    private const string IconName = IconPrefix + "CheetahSprint.png";
+    private const string IconName = IconPrefix + "cheetahsprint.png";
 
     private static readonly Logging.Logger Logger = Logging.GetLogger(FeatureName);
 
