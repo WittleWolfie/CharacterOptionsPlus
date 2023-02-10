@@ -4,6 +4,9 @@
     * Cheetah's Sprint
     * Defensive Shock
 
+* New Bufixes
+    * Compatibility fix for Expanded Content mod
+
 ## v1.2.1
 
 * New Bugfixes
