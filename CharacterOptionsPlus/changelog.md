@@ -1,3 +1,9 @@
+## v1.2.2
+
+* New Spells
+    * Cheetah's Sprint
+    * Defensive Shock
+
 ## v1.2.1
 
 * New Bugfixes
