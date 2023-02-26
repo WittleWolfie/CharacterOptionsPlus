@@ -1,3 +1,13 @@
+## v1.2.3
+
+* Update for Patch 2.1 Beta
+* Removed redundant fixes
+    * Cone of Cold on Witch Spell List
+
+* Mortal Terror is now disabled by default
+    * Owlcat implemented it but you can still enable COP if you prefer.
+    * If you're mid-playthrough then you might want to respec and use Owlcat's version
+
 ## v1.2.2
 
 * New Spells
