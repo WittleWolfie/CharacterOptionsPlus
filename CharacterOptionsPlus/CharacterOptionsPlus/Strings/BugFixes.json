@@ -1,15 +1,5 @@
 [
   {
-    "Key": "ConeOfCold.WitchSpell.Name",
-    "ProcessTemplates": false,
-    "enGB": "Cone of Cold - Witch Spell"
-  },
-  {
-    "Key": "ConeOfCold.WitchSpell.Description",
-    "enGB": "REQUIRES RESTART\n\nCone of Cold is on the Witch spell list."
-  },
-
-  {
     "Key": "HeavenlyFireResourceAmount.Name",
     "ProcessTemplates": false,
     "enGB": "Heavenly Fire Resource Amount",

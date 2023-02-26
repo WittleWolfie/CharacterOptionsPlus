@@ -1,9 +1,7 @@
-﻿using BlueprintCore.Actions.Builder;
-using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
+﻿using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
 using BlueprintCore.Blueprints.CustomConfigurators;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Selection;
-using BlueprintCore.Blueprints.CustomConfigurators.Classes.Spells;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Conditions.Builder;
@@ -11,7 +9,6 @@ using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
@@ -19,7 +16,6 @@ using Kingmaker.UnitLogic.Abilities.Components.AreaEffects;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
-using Kingmaker.Utility;
 using System.Collections.Generic;
 using static Kingmaker.UnitLogic.Mechanics.Actions.ContextActionSavingThrow;
 
@@ -31,8 +27,6 @@ namespace CharacterOptionsPlus
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(ConeOfColdWitchSpell))
-        FixConeOfColdWitchSpell();
       if (Settings.IsEnabled(HeavenlyFireResourceAmount))
         FixHeavenlyFireResourceAmount();
       if (Settings.IsEnabled(LordBeyondTheGraveLag))
@@ -150,20 +144,6 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
-    internal const string ConeOfColdWitchSpell = "cone-of-cold-witch-spell-fix";
-    internal static void FixConeOfColdWitchSpell()
-    {
-      Logger.Log("Patching Cone of Cold Witch Spell");
-      SpellListConfigurator.For(SpellListRefs.WitchSpellList)
-        .ModifySpellsByLevel(
-          spells =>
-          {
-            if (spells.SpellLevel == 6)
-              spells.m_Spells.Add(AbilityRefs.ConeOfCold.Cast<BlueprintAbilityReference>().Reference);
-          })
-        .Configure();
-    }
-
     internal const string SlayerEvasionTalent = "slayer-evasion-talent";
     internal static void AddSlayerEvasionTalent()
     {
@@ -176,7 +156,6 @@ namespace CharacterOptionsPlus
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
-        (ConeOfColdWitchSpell, "ConeOfCold.WitchSpell.Name", "ConeOfCold.WitchSpell.Description"),
         (HeavenlyFireResourceAmount, "HeavenlyFireResourceAmount.Name", "HeavenlyFireResourceAmount.Description"),
         (LordBeyondTheGraveLag, "LordBeyondTheGraveLag.Name", "LordBeyondTheGraveLag.Description"),
         (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
