@@ -160,6 +160,9 @@
       <LocalAssembly Include="$(AssemblyName).dll" />
       <ILStrip Include="&quot;$(SolutionDir)\tools\BrokenEvent.ILStrip.CLI.exe&quot;" />
 
+      <!-- System Entry Points -->
+      <Entry Include="System.Runtime.CompilerServices.RefSafetyRulesAttribute" />
+
       <!-- BlueprintCore Entry Points -->
       <Entry Include="BlueprintCore.Utils.Assets.AssetTool/AssetBundle_Patch" />
       <Entry Include="BlueprintCore.Utils.Assets.AssetTool/BlueprintsCaches_Patch" />

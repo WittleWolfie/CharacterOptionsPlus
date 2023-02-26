@@ -352,7 +352,7 @@ namespace CharacterOptionsPlus.Feats
         .SetAnimation(CastAnimationStyle.Special)
         .SetActionType(CommandType.Standard)
         .AllowTargeting(enemies: true)
-        .AddAbilityEffectRunActionOnClickedTarget(
+        .AddAbilityEffectRunAction(
           ActionsBuilder.New()
             .CombatManeuver(onSuccess: ActionsBuilder.New(), CombatManeuver.Disarm, newStat: StatType.Dexterity))
         .Configure();
@@ -373,7 +373,7 @@ namespace CharacterOptionsPlus.Feats
         .SetAnimation(CastAnimationStyle.Special)
         .SetActionType(CommandType.Standard)
         .AllowTargeting(enemies: true)
-        .AddAbilityEffectRunActionOnClickedTarget(
+        .AddAbilityEffectRunAction(
           ActionsBuilder.New()
             .CombatManeuver(
               onSuccess: ActionsBuilder.New(), CombatManeuver.DirtyTrickEntangle, newStat: StatType.Dexterity))
@@ -774,7 +774,7 @@ namespace CharacterOptionsPlus.Feats
         .SetAnimation(CastAnimationStyle.Special)
         .AddAbilityCasterHasWeaponWithRangeType(WeaponRangeType.Ranged)
         .AddAbilityCasterMainWeaponCheck(WeaponCategory.Longbow, WeaponCategory.Shortbow)
-        .AddAbilityEffectRunActionOnClickedTarget(
+        .AddAbilityEffectRunAction(
           ActionsBuilder.New().Add<RangedAttackExtended>(a => a.OnHit = ActionsBuilder.New().Add<Distract>().Build()))
         .Configure();
 
@@ -1144,8 +1144,8 @@ namespace CharacterOptionsPlus.Feats
         .AllowTargeting(enemies: true)
         .SetAnimation(CastAnimationStyle.Special)
         .SetActionType(CommandType.Standard)
-        .AddAbilityEffectRunActionOnClickedTarget(
-          action: ActionsBuilder.New()
+        .AddAbilityEffectRunAction(
+          ActionsBuilder.New()
             .Add<MeleeAttackExtended>(attack => attack.OnHit = ActionsBuilder.New().Add<Inspire>().Build()))
         .Configure();
 

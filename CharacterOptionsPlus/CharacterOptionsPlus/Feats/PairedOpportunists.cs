@@ -166,7 +166,10 @@ namespace CharacterOptionsPlus.Feats
             if (unit != Owner
               && unit.IsAlly(Owner)
               && unit.Descriptor.HasFact(PairedOpportunists)
-              && unit.IsEngage(evt.Target))
+              && unit.IsEngage(
+                evt.Target,
+                canEngage: unit.Descriptor.State.CanAct,
+                threatRange: (float)unit.GetThreatRange(attack.WeaponSlot)))
             {
               AddAttackBonus(evt);
               return;
@@ -193,25 +196,19 @@ namespace CharacterOptionsPlus.Feats
         {
           if (Provoking)
           {
-#if DEBUG
-          Logger.NativeLog("Not Provoking: Currently resolving provoke attack.");
-#endif
+            Logger.Verbose(() => "Not Provoking: Currently resolving provoke attack.");
             return;
           }
 
           if (attacker == Owner)
           {
-#if DEBUG
-          Logger.NativeLog("Not Provoking: Attacker is owner.");
-#endif
+            Logger.Verbose(() => "Not Provoking: Attacker is owner.");
             return;
           }
 
           if (!Owner.HasFact(OpportunistBuff))
           {
-#if DEBUG
-          Logger.NativeLog("Not Provoking: Ability turned off.");
-#endif
+            Logger.Verbose(() => "Not Provoking: Ability turned off.");
             return;
           }
 
@@ -220,17 +217,19 @@ namespace CharacterOptionsPlus.Feats
               && attacker.Descriptor.HasFact(PairedOpportunists)
               && attacker.DistanceTo(Owner) < Adjacency.Meters))
           {
-#if DEBUG
-          Logger.NativeLog("Not Provoking: No supporting ally.");
-#endif
+            Logger.Verbose(() => "Not Provoking: No supporting ally.");
             return;
           }
 
-          if (!Owner.IsAttackOfOpportunityReach(target, Owner.GetThreatHand()))
+          var threatRange = Owner.GetThreatRange(Owner.GetThreatHand());
+          if (threatRange is null)
           {
-#if DEBUG
-          Logger.NativeLog($"Not Provoking: Not in range of {target.CharacterName}.");
-#endif
+            Logger.Verbose(() => "Not Provoking: Not threat range");
+          }
+
+          if (!Owner.IsAttackOfOpportunityReach(target, threatRange.Value))
+          {
+            Logger.Verbose(() => $"Not Provoking: Not in range of {target.CharacterName}.");
             return;
           }
 
