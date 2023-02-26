@@ -2,6 +2,7 @@
 using Kingmaker.Blueprints;
 using Kingmaker.Localization;
 using ModMenu.Settings;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityModManagerNet;
@@ -39,7 +40,7 @@ namespace CharacterOptionsPlus.Util
           .AddToggle(
             Toggle.New(GetKey(VerboseLoggingKey), defaultValue: false, GetString("VerboseLogging"))
               .WithLongDescription(GetString("VerboseLogging.Description"))
-              .OnValueChanged(enabled => Logging.EnableVerboseLogging(enabled)))
+              .OnValueChanged(Logging.EnableVerboseLogging))
           .AddDefaultButton(OnDefaultsApplied);
 
       settings.AddSubHeader(GetString("Homebrew.Title"), startExpanded: true);
@@ -54,7 +55,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (key, name, description) in BugFixes.Entries)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(key), defaultValue: true, GetString(name, usePrefix: false))
+          Toggle.New(GetKey(key), defaultValue: GetDefault(key), GetString(name, usePrefix: false))
             .WithLongDescription(GetString(description, usePrefix: false)));
       }
 
@@ -62,7 +63,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.Archetypes)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
+          Toggle.New(GetKey(guid), defaultValue: GetDefault(guid), GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -70,7 +71,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.ClassFeatures)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
+          Toggle.New(GetKey(guid), defaultValue: GetDefault(guid), GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -78,7 +79,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.Feats)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
+          Toggle.New(GetKey(guid), defaultValue: GetDefault(guid), GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -86,7 +87,7 @@ namespace CharacterOptionsPlus.Util
       foreach (var (guid, name) in Guids.Spells)
       {
         settings.AddToggle(
-          Toggle.New(GetKey(guid), defaultValue: true, GetString(name, usePrefix: false))
+          Toggle.New(GetKey(guid), defaultValue: GetDefault(guid), GetString(name, usePrefix: false))
             .WithLongDescription(GetString("EnableFeature")));
       }
 
@@ -108,6 +109,12 @@ namespace CharacterOptionsPlus.Util
     private static string GetKey(string partialKey)
     {
       return $"{RootKey}.{partialKey}";
+    }
+
+    private static readonly List<string> DefaultDisabled = new() { Guids.MortalTerrorSpell };
+    private static bool GetDefault(string key)
+    {
+      return !DefaultDisabled.Contains(key);
     }
   }
 }
