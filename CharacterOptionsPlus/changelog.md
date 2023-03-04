@@ -1,3 +1,10 @@
+## v1.2.4
+
+* Compatibility for Patch 2.1
+
+* New Bugfixes
+    * Frozen Caress now adds damage to all touch spells
+
 ## v1.2.3
 
 * Update for Patch 2.1 Beta
