@@ -1,5 +1,4 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes;
-using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
@@ -32,7 +31,6 @@ using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Linq;
 using static Kingmaker.UnitLogic.Commands.Base.UnitCommand;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Archetypes
 {
@@ -422,7 +420,7 @@ namespace CharacterOptionsPlus.Archetypes
     private class FrozenCaressComponent :
       UnitBuffComponentDelegate,
       IInitiatorRulebookHandler<RuleCalculateAbilityParams>,
-      IInitiatorRulebookHandler<RuleDealDamage>
+      IInitiatorRulebookHandler<RuleCastSpell>
     {
       public void OnEventAboutToTrigger(RuleCastSpell evt)
       {
@@ -431,6 +429,7 @@ namespace CharacterOptionsPlus.Archetypes
           if (!IsTouchSpell(evt.Spell.Blueprint))
             return;
 
+          Logger.Verbose(() => $"Adding cold descriptor to {evt.Spell.Blueprint.Name}");
           evt.Context.AddSpellDescriptor(SpellDescriptor.Cold);
         }
         catch (Exception e)
@@ -441,6 +440,13 @@ namespace CharacterOptionsPlus.Archetypes
 
       private bool IsTouchSpell(BlueprintAbility spell)
       {
+        var stickyTouch = spell.GetComponent<AbilityEffectStickyTouch>();
+        if (stickyTouch is not null)
+        {
+          Logger.Verbose(() => "Touch cast, not the effect");
+          return false;
+        }
+
         if (spell.Range == AbilityRange.Touch)
         {
           Logger.Verbose(() => "Touch range spell");
@@ -468,9 +474,7 @@ namespace CharacterOptionsPlus.Archetypes
         return false;
       }
 
-      public void OnEventDidTrigger(RuleCastSpell evt) { }
-
-      public void OnEventAboutToTrigger(RuleDealDamage evt)
+      public void OnEventDidTrigger(RuleCastSpell evt)
       {
         try
         {
@@ -491,16 +495,19 @@ namespace CharacterOptionsPlus.Archetypes
           if (savingThrow is not null && savingThrow.IsPassed)
             return;
 
+          Logger.Verbose(() => $"Adding cold damage to touch spell");
           var damage = DamageTypes.Energy(DamageEnergyType.Cold);
-          evt.Add(damage.CreateDamage(new DiceFormula(rollsCount: 1, diceType: DiceType.D4), bonus: 0));
+          evt.Context.TriggerRule<RuleDealDamage>(
+            new(
+              Owner,
+              evt.GetRuleTarget(),
+              damage.CreateDamage(new DiceFormula(rollsCount: 1, diceType: DiceType.D4), bonus: 0)));
         }
         catch (Exception e)
         {
-          Logger.LogException("FrozenCaressComponent.OnEventAboutToTrigger(RuleDealDamage)", e);
+          Logger.LogException("FrozenCaressComponent.OnEventDidTrigger(RuleCastSpell)", e);
         }
       }
-
-      public void OnEventDidTrigger(RuleDealDamage evt) { }
 
       public void OnEventAboutToTrigger(RuleCalculateAbilityParams evt)
       {
