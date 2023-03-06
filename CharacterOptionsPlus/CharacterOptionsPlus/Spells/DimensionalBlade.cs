@@ -6,13 +6,12 @@ using BlueprintCore.Blueprints.ModReferences;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Craft;
-using Kingmaker.Enums;
 using Kingmaker.Enums.Damage;
 using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Abilities;
@@ -105,10 +104,9 @@ namespace CharacterOptionsPlus.Spells
     private class DimensionalBladeComponent :
       UnitBuffComponentDelegate,
       IInitiatorRulebookHandler<RuleCalculateWeaponStats>,
-      IInitiatorRulebookHandler<RuleCalculateAC>,
-      IInitiatorRulebookHandler<RuleAttackWithWeaponResolve>
+      IInitiatorRulebookHandler<RuleAttackWithWeaponResolve>,
+      IInitiatorRulebookHandler<RuleAttackRoll>
     {
-      public void OnEventAboutToTrigger(RuleCalculateAC evt) { }
 
       public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt) { }
 
@@ -133,6 +131,22 @@ namespace CharacterOptionsPlus.Spells
         }
       }
 
+      public void OnEventAboutToTrigger(RuleAttackRoll evt)
+      {
+        try
+        {
+          if (!Applies(evt.RuleAttackWithWeapon?.WeaponStats))
+            return;
+
+          Logger.Verbose(() => "Changing to touch attack");
+          evt.AttackType = AttackType.Touch;
+        }
+        catch (Exception e)
+        {
+          Logger.LogException("DimensionalBladeComponent.OnEventAboutToTrigger(RuleAttackRoll)", e);
+        }
+      }
+
       public void OnEventDidTrigger(RuleCalculateWeaponStats evt)
       {
         try
@@ -154,88 +168,9 @@ namespace CharacterOptionsPlus.Spells
         }
       }
 
-      public void OnEventDidTrigger(RuleCalculateAC evt)
-      {
-        try
-        {
-          if (evt.Reason?.Rule is not RuleAttackWithWeapon attack)
-          {
-            Logger.Warning("No attack");
-            return;
-          }
-
-          var weaponStats = attack.WeaponStats;
-          if (!Applies(weaponStats))
-            return;
-
-          int penalty = 0;
-          foreach (var bonus in evt.AllBonuses)
-          {
-            if (bonus.Descriptor == ModifierDescriptor.Armor
-                || bonus.Descriptor == ModifierDescriptor.ArmorEnhancement
-                || bonus.Descriptor == ModifierDescriptor.ArmorFocus
-                || bonus.Descriptor == ModifierDescriptor.NaturalArmor
-                || bonus.Descriptor == ModifierDescriptor.NaturalArmorEnhancement
-                || bonus.Descriptor == ModifierDescriptor.NaturalArmorForm
-                || bonus.Descriptor == ModifierDescriptor.Shield
-                || bonus.Descriptor == ModifierDescriptor.ShieldEnhancement
-                || bonus.Descriptor == ModifierDescriptor.ShieldFocus
-                || bonus.Descriptor == ModifierDescriptor.Focus)
-            {
-              var spellDescriptor = bonus.Fact.GetComponent<SpellDescriptorComponent>();
-              if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
-              {
-                Logger.Verbose(() => "Skipping force modifier");
-                continue;
-              }
-
-              spellDescriptor = bonus.Fact.SourceAbility?.GetComponent<SpellDescriptorComponent>();
-              if (spellDescriptor is not null && spellDescriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
-              {
-                Logger.Verbose(() => "Skipping force modifier");
-                continue;
-              }
-
-              Logger.Verbose(() => $"Adding AC penalty from AllBonuses: {bonus}");
-              penalty += bonus.Value;
-            }
-          }
-
-          foreach (var bonus in evt.Target.Stats.AC.Modifiers)
-          {
-            if (bonus.ModDescriptor == ModifierDescriptor.Armor
-                || bonus.ModDescriptor == ModifierDescriptor.ArmorEnhancement
-                || bonus.ModDescriptor == ModifierDescriptor.ArmorFocus
-                || bonus.ModDescriptor == ModifierDescriptor.NaturalArmor
-                || bonus.ModDescriptor == ModifierDescriptor.NaturalArmorEnhancement
-                || bonus.ModDescriptor == ModifierDescriptor.NaturalArmorForm
-                || bonus.ModDescriptor == ModifierDescriptor.Shield
-                || bonus.ModDescriptor == ModifierDescriptor.ShieldEnhancement
-                || bonus.ModDescriptor == ModifierDescriptor.ShieldFocus
-                || bonus.ModDescriptor == ModifierDescriptor.Focus)
-            {
-
-              var descriptor = bonus.Source?.GetComponent<SpellDescriptorComponent>();
-              if (descriptor is not null && descriptor.Descriptor.HasAnyFlag(SpellDescriptor.Force))
-              {
-                Logger.Verbose(() => "Skipping force modifier");
-                continue;
-              }
-
-              Logger.Verbose(() => $"Adding AC penalty from AC Modifier: {bonus}");
-              penalty += bonus.ModValue;
-            }
-          }
-
-          attack.AttackRoll.AddModifier(penalty, Buff, ModifierDescriptor.UntypedStackable);
-        }
-        catch (Exception e)
-        {
-          Logger.LogException("DimensionalBladeComponent.OnEventDidTrigger(RuleCalculateAC)", e);
-        }
-      }
-
       public void OnEventDidTrigger(RuleAttackWithWeaponResolve evt) { }
+
+      public void OnEventDidTrigger(RuleAttackRoll evt) { }
 
       private bool Applies(RuleCalculateWeaponStats weaponStats)
       {
