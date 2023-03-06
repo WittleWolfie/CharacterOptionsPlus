@@ -4,6 +4,7 @@
 
 * New Bugfixes
     * Frozen Caress now adds damage to all touch spells
+    * Dimensional Blade actually changes the attack type instead of granting an attack bonus
 
 ## v1.2.3
 
