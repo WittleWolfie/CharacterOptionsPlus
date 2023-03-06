@@ -47,6 +47,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Eldritch Heritage](https://www.d20pfsrd.com/feats/general-feats/eldritch-heritage/)
         * Includes [Improved](https://www.d20pfsrd.com/feats/general-feats/improved-eldritch-heritage/) and [Greater](https://www.d20pfsrd.com/feats/general-feats/greater-eldritch-heritage/) feats
         * Supports Aberrant and Destined bloodlines from TTT-Base
+    * [Energy Channel](https://www.d20pfsrd.com/feats/general-feats/energy-channel/)
     * [Furious Focus](https://www.d20pfsrd.com/feats/combat-feats/furious-focus-combat/)
     * [Glorious Heat](https://www.d20pfsrd.com/feats/general-feats/glorious-heat/)
         * Optionally uses original wording while excluding cantrips
@@ -60,15 +61,20 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Spells
     * [Bladed Dash](https://www.d20pfsrd.com/magic/all-spells/b/bladed-dash/)
     * [Burning Disarm](https://www.d20pfsrd.com/magic/all-spells/b/burning-disarm/)
+    * [Cheetah's Sprint](https://www.d20pfsrd.com/magic/all-spells/c/cheetah-s-sprint/)
+    * [Chill Touch](https://www.d20pfsrd.com/magic/all-spells/c/chill-touch/)
     * [Consecrate](https://www.d20pfsrd.com/magic/all-spells/c/consecrate/)
+    * [Defensive Shock](https://www.d20pfsrd.com/magic/all-spells/d/defensive-shock/)
     * [Desecrate](https://www.d20pfsrd.com/magic/all-spells/d/desecrate/)
     * [Dimensional Blade](https://www.d20pfsrd.com/magic/all-spells/d/dimensional-blade/)
     * [Fleshworm Infestation](https://www.d20pfsrd.com/magic/all-spells/f/fleshworm-infestation/)
     * [Freezing Sphere](https://www.d20pfsrd.com/magic/all-spells/f/freezing-sphere/)
         * Optionally is Selective by default
+    * [Frostbite](https://www.d20pfsrd.com/magic/all-spells/f/frostbite/)
     * [Frost Fall](https://www.d20pfsrd.com/magic/all-spells/f/frost-fall/)
     * [Frozen Note](https://www.d20pfsrd.com/magic/all-spells/f/frozen-note/)
     * [Hedging Weapons](https://www.d20pfsrd.com/magic/all-spells/h/hedging-weapons/)
+    * [Horrific Doubles](https://www.d20pfsrd.com/magic/all-spells/h/horrific-doubles/)
     * [Ice Slick](https://www.d20pfsrd.com/magic/all-spells/i/ice-slick/)
     * [Ice Spears](https://www.d20pfsrd.com/magic/all-spells/i/ice-spears/)
     * [Implosion](https://www.d20pfsrd.com/magic/all-spells/i/implosion/)
