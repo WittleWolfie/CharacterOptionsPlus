@@ -191,9 +191,17 @@ namespace CharacterOptionsPlus.Archetypes
         .Configure();
     }
 
+    // TODO: Add properly gated support for TabletopTweaks-Base Loremaster (to ArrowsongMinstrel too).
+    // TODO: Add Secret support which I'm pretty sure is not functional.
     private static void ConfigureEnabledDelayed()
     {
       PopulateSpellList();
+
+      // LoremasterTT Support
+      //FeatureSelectionConfigurator.For("af469dfb-c8c3-424a-b2eb-a33b754c3077")
+      //  .AddToAllFeatures(Guids.WinterWitchLoremaster)
+      //  .SkipAddToSelections()
+      //  .Configure();
     }
 
     #region Spells
