@@ -193,6 +193,7 @@ namespace CharacterOptionsPlus.Archetypes
 
     // TODO: Add properly gated support for TabletopTweaks-Base Loremaster (to ArrowsongMinstrel too).
     // TODO: Add Secret support which I'm pretty sure is not functional.
+    // TODO: Apply the correct limitations to TTT's second patron ability
     private static void ConfigureEnabledDelayed()
     {
       PopulateSpellList();
