@@ -56,6 +56,7 @@ namespace CharacterOptionsPlus.Util
 
       FeatureSelectionConfigurator.For(replacementSelection)
         .AddToAllFeatures(replacement)
+        .SkipAddToSelections()
         .Configure();
     }
 
