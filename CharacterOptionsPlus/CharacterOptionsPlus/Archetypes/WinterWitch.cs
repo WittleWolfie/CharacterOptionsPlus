@@ -100,7 +100,7 @@ namespace CharacterOptionsPlus.Archetypes
       }
       catch (Exception e)
       {
-        Logger.LogException("EldritchHeritage.ConfigureDelayed", e);
+        Logger.LogException("WinterWitch.ConfigureDelayed", e);
       }
     }
 
@@ -191,18 +191,43 @@ namespace CharacterOptionsPlus.Archetypes
         .Configure();
     }
 
-    // TODO: Add properly gated support for TabletopTweaks-Base Loremaster (to ArrowsongMinstrel too).
-    // TODO: Add Secret support which I'm pretty sure is not functional.
-    // TODO: Apply the correct limitations to TTT's second patron ability
     private static void ConfigureEnabledDelayed()
     {
       PopulateSpellList();
 
-      // LoremasterTT Support
-      //FeatureSelectionConfigurator.For("af469dfb-c8c3-424a-b2eb-a33b754c3077")
-      //  .AddToAllFeatures(Guids.WinterWitchLoremaster)
-      //  .SkipAddToSelections()
-      //  .Configure();
+      if (!Settings.IsTTTBaseEnabled())
+        return;
+
+      Logger.Log("Patching TTT Loremaster compatbility for Winter Witch");
+      FeatureSelectionConfigurator.For(Guids.TTTLoremasterSpellbookSelection)
+        .AddToAllFeatures(Guids.WinterWitchLoremaster)
+        .SkipAddToSelections()
+        .Configure();
+      Common.AddToLoremasterSecrets(
+        Guids.WinterWitchLoremaster,
+        Guids.TTTLoremasterClericSecretWitch,
+        Guids.TTTLoremasterDruidSecretWitch,
+        Guids.TTTLoremasterWizardSecretWitch);
+
+      Logger.Log("Patching TTT Second Patron support for Winter Witch");
+      foreach (var patron in FeatureSelectionRefs.WitchPatronSelection.Reference.Get().AllFeatures)
+      {
+        if (patron == ProgressionRefs.WitchAncestorsPatronProgression.Reference.Get())
+          continue;
+        if (patron == ProgressionRefs.WitchDeceptionPatronProgression.Reference.Get())
+          continue;
+        if (patron == ProgressionRefs.WitchEndurancePatronProgression.Reference.Get())
+          continue;
+        if (patron == ProgressionRefs.WitchTransformationhPatronProgression.Reference.Get())
+          continue;
+        if (patron == ProgressionRefs.WitchWinterPatronProgression.Reference.Get())
+          continue;
+
+        FeatureConfigurator.For(patron)
+          .AddPrerequisiteNoArchetype(Guids.WinterWitchArchetype, CharacterClassRefs.WitchClass.ToString())
+          .SkipAddToSelections()
+          .Configure();
+      }
     }
 
     #region Spells
@@ -264,6 +289,11 @@ namespace CharacterOptionsPlus.Archetypes
         replacementGuid: Guids.WinterWitchLoremaster,
         spellbook: spellbook,
         replacementSelection: FeatureSelectionRefs.LoremasterSpellbookSelection.ToString());
+      Common.AddToLoremasterSecrets(
+        Guids.WinterWitchLoremaster,
+        ParametrizedFeatureRefs.LoremasterClericSecretWitch.ToString(),
+        ParametrizedFeatureRefs.LoremasterDruidSecretWitch.ToString(),
+        ParametrizedFeatureRefs.LoremasterWizardSecretWitch.ToString());
 
       // Mystic Theurge Support
       Common.ConfigureArchetypeSpellbookReplacement(

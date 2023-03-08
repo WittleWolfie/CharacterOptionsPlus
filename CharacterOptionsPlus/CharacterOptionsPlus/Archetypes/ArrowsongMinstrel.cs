@@ -3,6 +3,7 @@ using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.Configurators.Classes.Spells;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.ActivatableAbilities;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
+using BlueprintCore.Blueprints.CustomConfigurators.Classes.Selection;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Spells;
 using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
@@ -23,7 +24,6 @@ using Kingmaker.UnitLogic.Parts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static UnityModManagerNet.UnityModManager.ModEntry;
 
 namespace CharacterOptionsPlus.Archetypes
 {
@@ -81,6 +81,19 @@ namespace CharacterOptionsPlus.Archetypes
       catch (Exception e)
       {
         Logger.LogException("ArrowsongMinstrel.Configure", e);
+      }
+    }
+
+    internal static void ConfigureDelayed()
+    {
+      try
+      {
+        if (Settings.IsEnabled(Guids.ArrowsongMinstrelArchetype))
+          ConfigureEnabledDelayed();
+      }
+      catch (Exception e)
+      {
+        Logger.LogException("ArrowsongMinstrel.ConfigureDelayed", e);
       }
     }
 
@@ -184,6 +197,23 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToAddFeatures(16, bonusSpellSelection)
         .AddToAddFeatures(20, bonusSpellSelection);
       archetype.Configure();
+    }
+
+    private static void ConfigureEnabledDelayed()
+    {
+      if (!Settings.IsTTTBaseEnabled())
+        return;
+
+      Logger.Log("Patching TTT Loremaster compatbility for Arrowsong Minstrel");
+      FeatureSelectionConfigurator.For(Guids.TTTLoremasterSpellbookSelection)
+        .AddToAllFeatures(Guids.ArrowsongMinstrelLoremaster)
+        .SkipAddToSelections()
+        .Configure();
+      Common.AddToLoremasterSecrets(
+        Guids.ArrowsongMinstrelLoremaster,
+        Guids.TTTLoremasterClericSecretBard,
+        Guids.TTTLoremasterDruidSecretBard,
+        Guids.TTTLoremasterWizardSecretBard);
     }
 
     private static BlueprintFeature CreateProficiencies()
@@ -331,6 +361,11 @@ namespace CharacterOptionsPlus.Archetypes
         replacementGuid: Guids.ArrowsongMinstrelLoremaster,
         spellbook,
         replacementSelection: FeatureSelectionRefs.LoremasterSpellbookSelection.ToString());
+      Common.AddToLoremasterSecrets(
+        Guids.ArrowsongMinstrelLoremaster,
+        ParametrizedFeatureRefs.LoremasterClericSecretBard.ToString(),
+        ParametrizedFeatureRefs.LoremasterDruidSecretBard.ToString(),
+        ParametrizedFeatureRefs.LoremasterWizardSecretBard.ToString());
 
       // MysticTheurge
       Common.ConfigureArchetypeSpellbookReplacement(

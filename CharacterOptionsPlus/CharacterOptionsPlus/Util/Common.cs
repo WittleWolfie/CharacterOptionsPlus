@@ -1,4 +1,5 @@
 ﻿using BlueprintCore.Blueprints.Configurators.Classes;
+using BlueprintCore.Blueprints.Configurators.Classes.Selection;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.Classes.Selection;
 using BlueprintCore.Utils;
@@ -58,6 +59,22 @@ namespace CharacterOptionsPlus.Util
         .AddToAllFeatures(replacement)
         .SkipAddToSelections()
         .Configure();
+    }
+
+    /// <summary>
+    /// Adds the replace spellbook feature to the prerequisites for the specified secrets for loremaster.
+    /// </summary>
+    internal static void AddToLoremasterSecrets(string replaceSpellbook, params string[] secrets)
+    {
+      foreach (var secret in secrets)
+      {
+        ParametrizedFeatureConfigurator.For(secret)
+          .EditComponent<PrerequisiteFeaturesFromList>(
+            c =>
+              c.m_Features =
+                CommonTool.Append(c.m_Features, BlueprintTool.GetRef<BlueprintFeatureReference>(replaceSpellbook)))
+          .Configure();
+      }
     }
 
     /// <summary>

@@ -640,6 +640,14 @@ namespace CharacterOptionsPlus.Util
     internal const string DestinedItWasMeantToBeResourceIncrease = "95e4d84e-67da-4f4c-b6da-265c720518a7";
     internal const string DestinedWithinReach = "9ccea48d-deba-4b14-b30d-f3bbd382f843";
 
+    internal const string TTTLoremasterSpellbookSelection = "af469dfb-c8c3-424a-b2eb-a33b754c3077";
+
+    internal const string TTTLoremasterClericSecretBard = "92265d68-63cc-4d4a-ab6d-b4c35cc5791c";
+    internal const string TTTLoremasterClericSecretWitch = "bf411659-1712-4528-a578-43affcf796d3";
+    internal const string TTTLoremasterDruidSecretBard = "121f16ed-4759-4b2e-a051-d1b14f2e5603";
+    internal const string TTTLoremasterDruidSecretWitch = "0139fa7a-aa3e-4e39-a77f-7ed621addd95";
+    internal const string TTTLoremasterWizardSecretBard = "dfd15244-6f1a-4e4b-a966-596b022ae380";
+    internal const string TTTLoremasterWizardSecretWitch = "6566b6e9-3e1a-41f6-a2af-ecc0f1a7245c";
     #endregion
 
     #region Homebrew Archetypes
