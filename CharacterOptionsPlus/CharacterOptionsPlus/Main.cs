@@ -119,6 +119,7 @@ namespace CharacterOptionsPlus
       {
         Logger.Log($"Configuring Archetypes delayed.");
 
+        ArrowsongMinstrel.ConfigureDelayed();
         WinterWitch.ConfigureDelayed();
       }
 

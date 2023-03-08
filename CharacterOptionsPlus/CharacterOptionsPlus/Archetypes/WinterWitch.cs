@@ -203,11 +203,6 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToAllFeatures(Guids.WinterWitchLoremaster)
         .SkipAddToSelections()
         .Configure();
-      Common.AddToLoremasterSecrets(
-        Guids.WinterWitchLoremaster,
-        Guids.TTTLoremasterClericSecretWitch,
-        Guids.TTTLoremasterDruidSecretWitch,
-        Guids.TTTLoremasterWizardSecretWitch);
 
       Logger.Log("Patching TTT Second Patron support for Winter Witch");
       foreach (var patron in FeatureSelectionRefs.WitchPatronSelection.Reference.Get().AllFeatures)

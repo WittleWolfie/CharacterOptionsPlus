@@ -209,11 +209,6 @@ namespace CharacterOptionsPlus.Archetypes
         .AddToAllFeatures(Guids.ArrowsongMinstrelLoremaster)
         .SkipAddToSelections()
         .Configure();
-      Common.AddToLoremasterSecrets(
-        Guids.ArrowsongMinstrelLoremaster,
-        Guids.TTTLoremasterClericSecretBard,
-        Guids.TTTLoremasterDruidSecretBard,
-        Guids.TTTLoremasterWizardSecretBard);
     }
 
     private static BlueprintFeature CreateProficiencies()
