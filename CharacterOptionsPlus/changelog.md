@@ -1,3 +1,12 @@
+## v1.2.5
+
+* Compatibility fixes for TTT-Base
+    * Arrowsong Minstrel and Winter Witch are compatible with TTT-Base Loremaster
+    * Second Patron no longer lets you select invalid patrons if you have the Winter Witch archetype
+
+* New Bugfixes
+    * Loremaster secrets should work properly for Winter Witch and Arrowsong Minstrel
+
 ## v1.2.4
 
 * Compatibility for Patch 2.1
