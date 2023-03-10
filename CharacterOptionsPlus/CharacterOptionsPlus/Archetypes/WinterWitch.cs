@@ -525,6 +525,9 @@ namespace CharacterOptionsPlus.Archetypes
           if (!IsTouchSpell(ability))
             return;
 
+          if (evt.GetRuleTarget().IsAlly(Owner))
+            return;
+
           var savingThrow = evt.Reason.Context.SavingThrow;
           if (savingThrow is not null && savingThrow.IsPassed)
             return;
