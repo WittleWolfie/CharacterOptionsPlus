@@ -1,3 +1,8 @@
+## v1.2.6
+
+* New Bufixes
+    * Frozen Caress no longer turns buff spells into a bad touch
+
 ## v1.2.5
 
 * Compatibility fixes for TTT-Base
