@@ -1,4 +1,4 @@
-# Character Options+
+﻿# Character Options+
 
 Adds character build options from the tabletop ruleset.
 
@@ -150,6 +150,11 @@ This will not:
 * Vek17 for [TabletopTweaks-Core](https://github.com/Vek17/TabletopTweaks-Core), so I don't have to distribute my transpilers.
 * The modding community on [Discord](https://discord.com/invite/owlcat), an invaluable and supportive resource for help modding.
 * All the Owlcat modders who came before me, wrote documents, and open sourced their code.
+
+### Localization
+
+* Kurufinve - Russian
+* 呶呶BOT - Chinese
 
 ## Interested in modding?
 

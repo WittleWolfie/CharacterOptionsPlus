@@ -1,3 +1,7 @@
+﻿## v1.2.7
+
+* Chinese Localization courtesy of 呶呶BOT
+
 ## v1.2.6
 
 * New Bufixes
