@@ -1,4 +1,8 @@
-﻿## v1.2.7
+﻿## v1.2.8
+
+* Localization fixes
+
+## v1.2.7
 
 * Chinese Localization courtesy of 呶呶BOT
 
