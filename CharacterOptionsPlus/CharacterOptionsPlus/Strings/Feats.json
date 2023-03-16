@@ -628,7 +628,7 @@
   {
     "Key": "SignatureSkill.Athletics.Suppress.Passive.Description",
     "enGB": "At the start of each round make an Athletics check to suppress a paralysis effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action.",
-    "zhCN": "每轮开始使用标准动作可以尝试运动检定来压制麻痹效果1轮，每超过DC5点额外1轮。如果拥有10级运动变为移动动作。",
+    "zhCN": "每轮开始使用标准动作可以尝试运动检定来压制麻痹效果1轮，每超过DC5点额外1轮。如果拥有20级运动变为移动动作。",
     "ruRu": "В начале каждого раунда совершите проверку Атлетики, чтобы подавить эффект паралича на 1 раунд + 1 раунд за каждые 5 очков успеха сверх сложности. Для этого требуется Стандартное действие. Если у вас больше 20 уровней в навыке Атлетика, вы можете совершить эту проверку Вспомогательным действием."
   },
   {
@@ -641,7 +641,7 @@
   {
     "Key": "SignatureSkill.Athletics.Suppress.Active.Description",
     "enGB": "You can attempt an Athletics check to suppress a slow effect for 1 round, plus 1 round for every 5 by which you exceed the DC. This uses a standard action. If you have 20 Ranks in Athletics it uses a move action.",
-    "zhCN": "使用标准动作可以尝试运动检定来压制减速效果1轮，每超过DC5点额外1轮。如果拥有10级运动变为移动动作。",
+    "zhCN": "使用标准动作可以尝试运动检定来压制减速效果1轮，每超过DC5点额外1轮。如果拥有20级运动变为移动动作。",
     "ruRu": "В начале каждого раунда совершите проверку Атлетики, чтобы подавить эффект замедления на 1 раунд + 1 раунд за каждые 5 очков успеха сверх сложности. Для этого требуется Стандартное действие. Если у вас больше 20 уровней в навыке Атлетика, вы можете совершить эту проверку Вспомогательным действием."
   },
   {
