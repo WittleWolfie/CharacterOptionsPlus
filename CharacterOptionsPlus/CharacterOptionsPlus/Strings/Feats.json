@@ -37,7 +37,7 @@
   {
     "Key": "DFT.Abadar.Description",
     "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.\nAdvanced Prerequisites: Rapid Shot, BAB +10\nAdvanced Effect: While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.",
-    "zhCN": "你可以使用十字弓进行一次远程的缴械战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。\n进阶前提：快速射击，BAB +10\n进阶效果：你可以使用十字弓进行一次远程的阴招-纠缠战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。",
+    "zhCN": "你可以使用弩进行一次远程的缴械战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。\n进阶前提：快速射击，BAB +10\n进阶效果：你可以使用弩进行一次远程的阴招-纠缠战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。",
     "ruRu": "При стребльбе из арбалета вы можете попытаться совершить боевой приём Разоружение в дальнем бою, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра. \nТребования для продвинутого преимущества: Быстрый выстрел, Базовый модификатор атаки +10 \nПродвинутое преимущество: При стрельбе из арбалета выможете совершить боевой приём Грязный Трюк в дальнем бою, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра."
   },
   {
@@ -50,7 +50,7 @@
   {
     "Key": "DFT.Abadar.Advanced.Description",
     "enGB": "While using a crossbow, you can attempt a ranged dirty trick entangle combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.",
-    "zhCN": "你可以使用十字弓进行一次远程的阴招-纠缠战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。",
+    "zhCN": "你可以使用弩进行一次远程的阴招-纠缠战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。",
     "ruRu": "При стрельбе из арбалета выможете совершить в дальнем бою боевой приём Грязный Трюк - Опутывание, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра."
   },
   {
@@ -64,7 +64,7 @@
     "Key": "DFT.Abadar.Disarm.Description",
     "ProcessTemplates": false,
     "enGB": "While using a crossbow, you can attempt a ranged disarm combat maneuver, using your Dexterity modifier in place of your Strength modifier to calculate your CMB.",
-    "zhCN": "你可以使用十字弓进行一次远程的缴械战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。",
+    "zhCN": "你可以使用弩进行一次远程的缴械战技攻击，并且在计算CMB时使用你的敏捷调整值而非力量调整值。",
     "ruRu": "При стребльбе из арбалета вы можете попытаться совершить боевой приём Разоружение в дальнем бою, используя свой бонус Ловкости вместо своего бонуса Силы при расчёте Модификатора боевого манёвра."
   },
 
