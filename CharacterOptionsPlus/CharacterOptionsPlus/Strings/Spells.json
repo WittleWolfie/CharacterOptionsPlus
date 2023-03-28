@@ -52,12 +52,12 @@
     "Key": "BladedDash.Greater.Name",
     "ProcessTemplates": false,
     "enGB": "Bladed Dash, Greater",
-    "zhCN": "飞刃袭",
+    "zhCN": "高等飞刃袭",
     "ruRU": "Поустпь клинка, Высшая"
   },
   {
     "Key": "BladedDash.Greater.Description",
-    "zhCN": "当你施放该法术时，你会立即向30尺内一个目标直线移动，用自身基本攻击加值对穿越的每个生物进行单次近战攻击。你的攻击检定获得等同于智力或者魅力调整值（取较高者）的环境加值。",
+    "zhCN": "当你施放该法术时，你会立即向30尺内一个目标直线移动，用自身基本攻击加值对路径上所有生物进行单次近战攻击。你的攻击检定获得等同于智力或者魅力调整值（取较高者）的环境加值。",
     "enGB": "When you cast this spell, you immediately move in a straight line to any one target within 30 feet. You make a single melee attack against at your base attack bonus against every creature you pass. You gain a circumstance bonus on your attack rolls equal to your Intelligence or Charisma modifier, whichever is higher.",
     "ruRU": "Сотворив это заклинание, вы немедленно перемещаетесь по прямой линии к одной цели в пределах 30 футов. Вы совершаете одну атаку ближнего боя со своим базовым бонусом атаки по каждому существ на вашем пути. Вы получаете Ситуативный бонус к этим броскам атаки в размере, равном наибольшему из ваших модификаторов Интеллекта или Харизмы"
   },
