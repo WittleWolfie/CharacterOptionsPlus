@@ -1,4 +1,11 @@
-﻿## v1.2.8
+﻿## v1.2.9
+
+* Localization fixes
+* New Bugfixes
+    * Keen Edge works on daggers
+    * Paired Opportunists won't trigger attacks targeting allies
+
+## v1.2.8
 
 * Localization fixes
 
