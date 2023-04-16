@@ -52,12 +52,12 @@
     "Key": "BladedDash.Greater.Name",
     "ProcessTemplates": false,
     "enGB": "Bladed Dash, Greater",
-    "zhCN": "飞刃袭",
+    "zhCN": "高等飞刃袭",
     "ruRU": "Поустпь клинка, Высшая"
   },
   {
     "Key": "BladedDash.Greater.Description",
-    "zhCN": "当你施放该法术时，你会立即向30尺内一个目标直线移动，用自身基本攻击加值对穿越的每个生物进行单次近战攻击。你的攻击检定获得等同于智力或者魅力调整值（取较高者）的环境加值。",
+    "zhCN": "当你施放该法术时，你会立即向30尺内一个目标直线移动，用自身基本攻击加值对路径上所有生物进行单次近战攻击。你的攻击检定获得等同于智力或者魅力调整值（取较高者）的环境加值。",
     "enGB": "When you cast this spell, you immediately move in a straight line to any one target within 30 feet. You make a single melee attack against at your base attack bonus against every creature you pass. You gain a circumstance bonus on your attack rolls equal to your Intelligence or Charisma modifier, whichever is higher.",
     "ruRU": "Сотворив это заклинание, вы немедленно перемещаетесь по прямой линии к одной цели в пределах 30 футов. Вы совершаете одну атаку ближнего боя со своим базовым бонусом атаки по каждому существ на вашем пути. Вы получаете Ситуативный бонус к этим броскам атаки в размере, равном наибольшему из ваших модификаторов Интеллекта или Харизмы"
   },
@@ -494,7 +494,7 @@
     "Key": "MortalTerror.Name",
     "ProcessTemplates": false,
     "enGB": "Mortal Terror",
-    "zhCN": "凡人怖惧",
+    "zhCN": "惧死术",
     "ruRU": "Смертный ужас"
   },
   {
@@ -513,7 +513,7 @@
   {
     "Key": "NineLives.Description",
     "enGB": "Despite its name, this powerful ward does not grant the target multiple lives, but rather gives the target the ability to get out of trouble and relieves harmful effects and conditions. For the spell’s duration, the target is protected by the following abilities, but only up to a total of nine times, at which point the spell ends.\nCat's Luck: Reroll a failed saving throw.\nFortitude: Negate a critical hit or sneak attack.\nRejuvenate: When reduced to 0 or fewer hit points, immediately heal 3d6 points of damage.\nShake Off: Negate blinded, confused, cowering, dazed, dazzled, entangled, exhausted, fatigued, frightened, nauseated, shaken, sickened, or staggered.\nShimmy Out: Escape from being grappled.\nStay Up: Do not fall prone.",
-    "zhCN": "和法术的名字不同，这个强大的法术并不能赋予目标更多的生命，而是在一定程度上给予目标脱离险境以及减轻有害效果的能力。在法术持续时间内，目标h会被以下能力保护，但是使用9次效果后，法术结束。\n猫之幸运：重投一次失败的豁免检定。\n坚韧：抵消一次重击或者偷袭。\n回春：生命值减少到0或更低时，立即只掉3d6伤害。\n摆脱： 抵消目盲、困惑、畏缩、眩晕、目眩、纠缠、力竭、疲劳、惊恐、反胃、战栗、反胃或恍惚。\n逃脱：从擒抱中脱离。\n稳定：防止摔倒。",
+    "zhCN": "和法术的名字不同，这个强大的法术并不能赋予目标更多的生命，而是在一定程度上给予目标脱离险境以及减轻有害效果的能力。在法术持续时间内，目标会被以下能力保护，但是使用9次效果后，法术结束。\n猫之幸运：重投一次失败的豁免检定。\n坚韧：抵消一次重击或者偷袭。\n回春：生命值减少到0或更低时，立即只掉3d6伤害。\n摆脱： 抵消目盲、困惑、畏缩、眩晕、目眩、纠缠、力竭、疲劳、惊恐、反胃、战栗、反胃或恍惚。\n逃脱：从擒抱中脱离。\n稳定：防止摔倒。",
     "ruRU": "Несмотря на своё название, этот могущественный оберег не ограждает свою цель от смерти и не возвращает к жизни. Вместо этого он просто даёт возможность выбраться из передряги и нейтрализует негативные воздействия. На время действия заклинания на кель накладываются следующие эффекты, но в сумме они могут сработать только 9 раз, после чего заклинание развеивается.\nКошачья удача: перебросьте неудачный спасбросок.\nСтойкость: нейтрализуйте критическое попадание или атаку исподтишка. \nВливание жизненных сил: когда здоровье падает до 0, мгновенно исцелите 3d6 урона. \nИзбавление: нейтрализуйте состояние ослепления, замешательства, паники, ступора, растерянности, обессиливания, усталости, испуга, тошноты, болезни и потрясения. \nВыскользнуть: вырветесь из захвата.\nВставай: не окажитесь сбитым с ног."
   },
 
