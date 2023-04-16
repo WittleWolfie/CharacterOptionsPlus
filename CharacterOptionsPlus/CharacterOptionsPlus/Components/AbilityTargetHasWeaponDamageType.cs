@@ -63,7 +63,7 @@ namespace CharacterOptionsPlus.Components
         {
           // If there's a match either we're excluding it (Exclude is true, so return false), or we're including it
           // (Exclude is false, so return true)
-          if (weapon.Blueprint.DamageType.IsPhysical && weapon.Blueprint.DamageType.Physical.Form == type)
+          if (weapon.Blueprint.DamageType.IsPhysical && weapon.Blueprint.DamageType.Physical.Form.HasFlag(type))
             return !Exclude;
         }
         // No match. If Exclude is true then the type is not excluded, return true; otherwise return false.
