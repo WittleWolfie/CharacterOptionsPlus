@@ -206,6 +206,12 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
+          if (!attacker.IsAlly(Owner))
+          {
+            Logger.Verbose(() => "Not Provoking: Attacker is an enemy.");
+            return;
+          }
+
           if (!Owner.HasFact(OpportunistBuff))
           {
             Logger.Verbose(() => "Not Provoking: Ability turned off.");
