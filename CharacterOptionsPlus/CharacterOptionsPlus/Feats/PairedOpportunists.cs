@@ -206,9 +206,9 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
-          if (!attacker.IsAlly(Owner))
+          if (target.IsAlly(Owner))
           {
-            Logger.Verbose(() => "Not Provoking: Attacker is an enemy.");
+            Logger.Verbose(() => "Not Provoking: Target is ally.");
             return;
           }
 
