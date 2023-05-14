@@ -201,6 +201,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Persistent,
           Metamagic.Quicken,
           (Metamagic)CustomMetamagic.Dazing)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(level: 4, SpellList.Inquisitor)
         .AddCraftInfoComponent(
           aOEType: CraftAOE.AOE,

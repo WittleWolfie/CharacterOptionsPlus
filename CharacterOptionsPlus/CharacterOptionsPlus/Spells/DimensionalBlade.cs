@@ -71,14 +71,13 @@ namespace CharacterOptionsPlus.Spells
           FeatureName,
           Guids.DimensionalBladeSpell,
           SpellSchool.Conjuration,
-          canSpecialize: true,
-          SpellDescriptor.Summoning,
-          SpellDescriptor.Evil)
+          canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.ArcaneAccuracyAbility.Reference.Get().Icon)
         .SetLocalizedDuration(Duration.OneRound)
         .SetRange(AbilityRange.Personal)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Swift)

@@ -159,6 +159,12 @@ namespace CharacterOptionsPlus.Feats
             return;
           }
 
+          if (!caster.IsInCombat)
+          {
+            Logger.Verbose(() => $"Not in combat");
+            return;
+          }
+
           if (!caster.HasSwiftAction())
           {
             Logger.Verbose(() => $"No swift action available.");

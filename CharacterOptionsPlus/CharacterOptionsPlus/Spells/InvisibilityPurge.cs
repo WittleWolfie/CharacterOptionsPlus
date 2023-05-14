@@ -136,6 +136,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Extend,
           Metamagic.Quicken,
           Metamagic.Selective)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(level: 3, SpellList.Cleric, SpellList.Inquisitor)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(

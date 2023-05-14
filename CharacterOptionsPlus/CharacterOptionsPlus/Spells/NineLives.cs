@@ -96,6 +96,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Heighten,
           Metamagic.Quicken,
           Metamagic.Reach)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(level: 8, SpellList.Cleric, SpellList.Witch)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(

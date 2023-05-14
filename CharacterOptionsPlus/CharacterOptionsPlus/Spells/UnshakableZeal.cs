@@ -95,6 +95,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Reach,
           (Metamagic)CustomMetamagic.Encouraging)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(level: 5, SpellList.Bard, SpellList.Inquisitor)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(

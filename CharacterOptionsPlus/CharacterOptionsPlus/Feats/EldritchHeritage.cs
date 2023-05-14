@@ -1168,6 +1168,7 @@ namespace CharacterOptionsPlus.Feats
         .AddPrerequisiteFeature(FeatureRefs.SkillFocusKnowledgeWorld.ToString())
         .AddPrerequisiteNoFeature(Guids.DestinedBloodlineRequisiteFeature)
         .AddAbilityResources(resource: Guids.DestinedTouchOfDestinyResource, restoreAmount: true)
+        .AddFacts(new() { ability })
         .Configure();
     }
 

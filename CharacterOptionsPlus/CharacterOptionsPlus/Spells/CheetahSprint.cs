@@ -76,6 +76,7 @@ namespace CharacterOptionsPlus.Spells
         .SetLocalizedDuration(Duration.OneRound)
         .SetActionType(CommandType.Swift)
         .SetAvailableMetamagic()
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))
         .AddToSpellLists(
           level: 1, SpellList.Bloodrager, SpellList.Druid, SpellList.Ranger, SpellList.Shaman, SpellList.Witch)

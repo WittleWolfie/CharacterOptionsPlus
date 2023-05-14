@@ -113,6 +113,7 @@ namespace CharacterOptionsPlus.Spells
         .SetTargetType(TargetType.Enemy)
         .SetSize(60.Feet())
         .SetShape(AreaEffectShape.Cylinder)
+        .SetAggroEnemies(false)
         .AddAbilityAreaEffectRunAction(
           unitExit: ActionsBuilder.New().RemoveBuff(shaken),
           unitEnter: ActionsBuilder.New()

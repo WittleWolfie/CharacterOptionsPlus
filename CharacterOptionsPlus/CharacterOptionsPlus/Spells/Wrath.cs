@@ -106,6 +106,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken,
           Metamagic.Extend,
           (Metamagic)CustomMetamagic.Encouraging)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(level: 1, SpellList.Inquisitor, SpellList.LichInquisitorMinor)
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()

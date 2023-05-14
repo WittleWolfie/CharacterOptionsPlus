@@ -1,4 +1,13 @@
-﻿## v1.2.9
+﻿## v1.3.0
+
+* Horrific Doubles no longer aggros enemies
+* New Bugfixes
+    * Fixed game freeze caused by Hurtful triggering off of Assassinate
+    * Fixed descriptors for dimensional Blade
+    * Buffs are no long blocked by descriptor immunity
+    * Eldritch Heritage: Destined now correctly grants a touch attack ability
+
+## v1.2.9
 
 * Localization fixes
 * New Bugfixes

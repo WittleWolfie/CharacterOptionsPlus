@@ -120,6 +120,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Extend,
           Metamagic.Heighten,
           Metamagic.Quicken)
+        .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(
           level: 1, SpellList.Cleric, SpellList.Inquisitor, SpellList.LichInquisitorMinor, SpellList.Paladin)
         .AddToSpellList(level: 1, ModSpellListRefs.AntipaladinSpelllist.ToString())

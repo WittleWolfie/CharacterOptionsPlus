@@ -102,6 +102,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Extend,
           Metamagic.Quicken,
           Metamagic.Reach)
+        .SetIgnoreSpellResistanceForAlly(true)
         .SetParent(Guids.KeenEdgeSpell)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(

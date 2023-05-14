@@ -86,6 +86,7 @@ namespace CharacterOptionsPlus.Spells
         .SetRange(AbilityRange.Touch)
         .AllowTargeting(friends: true)
         .SetEffectOnAlly(AbilityEffectOnUnit.Helpful)
+        .SetIgnoreSpellResistanceForAlly(true)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
         .SetAvailableMetamagic(
