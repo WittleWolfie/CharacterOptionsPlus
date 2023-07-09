@@ -1,4 +1,9 @@
-﻿## v1.3.0
+﻿## v1.3.1
+
+* New Bugfixes
+    * Hedging Weapons AC bonus now shows on the character screen and applies against non-weapon attacks (e.g. spellss)
+
+## v1.3.0
 
 * Horrific Doubles no longer aggros enemies
 * New Bugfixes
@@ -24,7 +29,7 @@
 
 ## v1.2.6
 
-* New Bufixes
+* New Bugfixes
     * Frozen Caress no longer turns buff spells into a bad touch
 
 ## v1.2.5

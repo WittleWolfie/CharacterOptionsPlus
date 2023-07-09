@@ -54,7 +54,7 @@ namespace CharacterOptionsPlus.UnitParts
     {
       if (!Projectiles.ContainsKey(buff.Guid))
       {
-        Logger.Verbose(() => $"No projetiles for buff");
+        Logger.Verbose(() => $"No projectiles for buff");
         return null;
       }
 
@@ -80,7 +80,7 @@ namespace CharacterOptionsPlus.UnitParts
     {
       if (!Projectiles.ContainsKey(buff.Guid))
       {
-        Logger.Verbose(() => $"No projetiles for buff");
+        Logger.Verbose(() => $"No projectiles for buff");
         return;
       }
 

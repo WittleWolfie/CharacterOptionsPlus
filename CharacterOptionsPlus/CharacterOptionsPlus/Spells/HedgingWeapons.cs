@@ -87,7 +87,7 @@ namespace CharacterOptionsPlus.Spells
         .AddComponent<HedgingWeaponsController>()
         .AddComponent<ControlledProjectilesHolder>()
         .AddFacts(new() { Guids.HedgingWeaponsThrow })
-        .AddACBonusAgainstAttacks(value: ContextValues.Rank(), descriptor: ModifierDescriptor.Deflection)
+        .AddContextStatBonus(StatType.AC, ContextValues.Rank(), descriptor: ModifierDescriptor.Deflection)
         .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.HedgingWeaponsBuff))
         .Configure();
 
