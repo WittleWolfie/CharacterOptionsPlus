@@ -372,7 +372,7 @@ namespace CharacterOptionsPlus.Feats
     }
 
     [TypeId("9086afa7-61ea-49b2-bf79-7d98d656d533")]
-    private class BonusDamage : UnitBuffComponentDelegate, IInitiatorRulebookHandler<RuleCalculateDamage>
+    private class BonusDamage : UnitBuffComponentDelegate, IInitiatorRulebookHandler<RulePrepareDamage>
     {
       private readonly ContextValue Bonus = ContextValues.Rank();
       private readonly DamageEnergyType Type;
@@ -382,7 +382,7 @@ namespace CharacterOptionsPlus.Feats
         Type = type;
       }
 
-      public void OnEventAboutToTrigger(RuleCalculateDamage evt)
+      public void OnEventAboutToTrigger(RulePrepareDamage evt)
       {
         try
         {
@@ -391,14 +391,14 @@ namespace CharacterOptionsPlus.Feats
 
           var bonusDamage = Bonus.Calculate(Context);
           Logger.Verbose(() => $"Adding {bonusDamage} {Type} damage");
-          evt.AddUnsafe(DamageTypes.Energy(Type).CreateDamage(DiceFormula.Zero, bonusDamage));
+          evt.Add(DamageTypes.Energy(Type).CreateDamage(DiceFormula.Zero, bonusDamage));
         } catch (Exception e)
         {
           Logger.LogException("BonusDamage.OnEventAboutToTrigger", e);
         }
       }
 
-      public void OnEventDidTrigger(RuleCalculateDamage evt)
+      public void OnEventDidTrigger(RulePrepareDamage evt)
       {
         try
         {
