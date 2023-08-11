@@ -391,7 +391,9 @@ namespace CharacterOptionsPlus.Feats
 
           var bonusDamage = Bonus.Calculate(Context);
           Logger.Verbose(() => $"Adding {bonusDamage} {Type} damage");
-          evt.Add(DamageTypes.Energy(Type).CreateDamage(DiceFormula.Zero, bonusDamage));
+          var baseDamage = DamageTypes.Energy(Type).CreateDamage(DiceFormula.Zero, bonusDamage);
+          baseDamage.CriticalModifier = evt.DamageBundle.WeaponDamage.CriticalModifier;
+          evt.Add(baseDamage);
         } catch (Exception e)
         {
           Logger.LogException("BonusDamage.OnEventAboutToTrigger", e);
