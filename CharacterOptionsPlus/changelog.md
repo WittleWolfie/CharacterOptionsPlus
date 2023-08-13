@@ -1,13 +1,9 @@
-﻿## v1.3.2
+﻿## v1.3.1
 
 * New Bugfixes
+    * Hedging Weapons AC bonus now shows on the character screen and applies against non-weapon attacks (e.g. spells)
     * Energy Channel should apply more consistently
     * Damage from Energy Channel is multiplied on crits
-
-## v1.3.1
-
-* New Bugfixes
-    * Hedging Weapons AC bonus now shows on the character screen and applies against non-weapon attacks (e.g. spellss)
 
 ## v1.3.0
 
