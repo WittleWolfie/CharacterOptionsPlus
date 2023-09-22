@@ -31,13 +31,14 @@ namespace CharacterOptionsPlus
     internal static void ConfigureDreadfulCarnagePrereq()
     {
       Logger.Log("Patching Dreadful Carnage prerequisites");
+      var dazzlingDisplay = FeatureRefs.DazzlingDisplayFeature.Reference;
       FeatureConfigurator.For(FeatureRefs.DreadfulCarnage)
         .RemoveComponents(
           c =>
           {
             if (c is not PrerequisiteFeature prereq)
               return false;
-            return prereq.m_Feature == FeatureRefs.DazzlingDisplayFeature.Cast<BlueprintFeatureReference>().Reference;
+            return prereq.m_Feature.deserializedGuid == dazzlingDisplay.deserializedGuid;
           })
         .AddPrerequisiteFeature(Guids.FuriousFocusFeat)
         .Configure();
