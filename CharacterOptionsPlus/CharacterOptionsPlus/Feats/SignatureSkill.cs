@@ -16,6 +16,7 @@ using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.Root;
@@ -1515,6 +1516,7 @@ namespace CharacterOptionsPlus.Feats
 
           var intimidateRanks = Owner.Stats.SkillPersuasion.BaseValue;
           var ruleSavingThrow = new RuleSavingThrow(target, SavingThrowType.Will, 10 + intimidateRanks);
+          Context.AddSpellDescriptor(SpellDescriptor.Fear);
           ruleSavingThrow.Reason = Context;
 
           var result = Context.TriggerRule(ruleSavingThrow);
