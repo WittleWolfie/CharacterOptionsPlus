@@ -92,11 +92,14 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
     * [Weapon of Awe](https://www.d20pfsrd.com/magic/all-spells/w/weapon-of-awe/)
     * [Wrath](https://www.d20pfsrd.com/magic/all-spells/w/wrath/)
 
-## Base Game Changes
+## Base Game Changes (Optional)
 
-* Cone of Cold can replace Icy Prison in the Winter Patron spell list
-* Evasion is available as a Slayer Advanced Talent
 * Classes with Animal Companions get Share Spells
+* Dreadful Carnage requires Furious Focus instead of Dazzling Display
+* Implosion replaces the Tsunami bonus spell granted by the Destruction Domain
+* Only a single Draconic Bloodline can be selected
+* Only a single Elemental Bloodline can be selected
+* The Winter Patron spell list more closely matches the tabletop version
 
 ## Bug Fixes
 
@@ -104,6 +107,7 @@ If you do not want to use ModFinder, download [CharacterOptionsPlus.*.zip](https
 * Lord Beyond the Grave buff can bet set to permanent, preventing lag / encumberance issues while walking around
 * Serpent's Fang poison DC is calculated correctly
 * Serpent Friend grants +3 to Perception instead of +2, matching the feature description
+* Evasion can be selected as a Slayer's Advanced Talent
 
 ## Reporting Problems
 
