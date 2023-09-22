@@ -1,6 +1,6 @@
 ﻿## v1.3.2
 
-* New Cleric spells are now available to Warpriests
+* New Cleric spells are now available to Warpriest
 * Cone of Cold Winter Patron option replaced by a Winter Patron spell list overhaul
     * This attempts to match the tabletop spell list accurately, including granting spells one level early
 
