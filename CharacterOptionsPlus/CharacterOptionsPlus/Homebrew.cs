@@ -19,41 +19,12 @@ namespace CharacterOptionsPlus
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(ConeOfColdWinterPatron))
-        ConfigureConeOfColdWinterPatron();
       if (Settings.IsEnabled(DreadfulCarnagePrereq))
         ConfigureDreadfulCarnagePrereq();
       if (Settings.IsEnabled(ImplosionDestructionDomain))
         ConfigureImplosionDestructionDomain();
-    }
-
-    internal const string ConeOfColdWinterPatron = "cone-of-cold-winter-patron";
-    internal static void ConfigureConeOfColdWinterPatron()
-    {
-      Logger.Log("Patching Cone of Cold Winter Patron");
-      var coldIceStrike = AbilityRefs.ColdIceStrike.Reference;
-      var coneOfCold = AbilityRefs.ConeOfCold.Cast<BlueprintAbilityReference>().Reference;
-      ProgressionConfigurator.For(ProgressionRefs.WitchWinterPatronProgression)
-        .EditComponent<AddSpellsToDescription>(
-          c =>
-          {
-            bool replaced = false;
-            for (int i = 0; i < c.m_Spells.Length; i++)
-            {
-              if (c.m_Spells[i].deserializedGuid == coldIceStrike.deserializedGuid)
-              {
-                replaced = true;
-                c.m_Spells[i] = coneOfCold;
-              }
-            }
-            if (!replaced)
-              Logger.Warning("Cold Ice Strike was not found in the description");
-          })
-        .Configure();
-
-      FeatureConfigurator.For(FeatureRefs.WitchPatronSpellLevel6_Winter)
-        .EditComponent<AddKnownSpell>(c => c.m_Spell = coneOfCold)
-        .Configure();
+      if (Settings.IsEnabled(WinterPatronSpells))
+        ConfigureWinterPatronSpells();
     }
 
     internal const string DreadfulCarnagePrereq = "dreadful-carnage-prereq";
@@ -82,6 +53,62 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
+    internal const string WinterPatronSpells = "winter-patron-spells";
+    internal static void ConfigureWinterPatronSpells()
+    {
+      // Level 1 - Snowball
+      // Level 2 - Resist Fire
+      // Level 3 - Ice Storm (New) [Protection from Fire]
+      // Level 4 - Icy Prison (New) [Ice Storm]
+      // Level 5 - Cone of Cold (New) [Icy Prison]
+      // Level 6 - Freezing Sphere (New) [Cold Ice Strike]
+      // Level 7 - Icy Body
+      // Level 8 - Polar Ray
+      // Level 9 - Polar Midnight
+      Logger.Log("Patching Winter Patron Spells");
+
+      // First fix the spells description
+      var protectionFromFire = AbilityRefs.ProtectionFromFire.Reference;
+      var freezingSphere = BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.FreezingSphereSpell);
+
+      var coldIceStrike = AbilityRefs.ColdIceStrike.Reference;
+      var coneOfCold = AbilityRefs.ConeOfCold.Cast<BlueprintAbilityReference>().Reference;
+      ProgressionConfigurator.For(ProgressionRefs.WitchWinterPatronProgression)
+        .EditComponent<AddSpellsToDescription>(
+          c =>
+          {
+            for (int i = 0; i < c.m_Spells.Length; i++)
+            {
+              var guid = c.m_Spells[i].deserializedGuid;
+              if (guid == coldIceStrike.deserializedGuid)
+                c.m_Spells[i] = coneOfCold;
+              else if (guid == protectionFromFire.deserializedGuid)
+                c.m_Spells[i] = freezingSphere;
+            }
+          })
+        .Configure();
+
+      FeatureConfigurator.For(FeatureRefs.WitchPatronSpellLevel3_Winter)
+        .EditComponent<AddKnownSpell>(
+          c => c.m_Spell = AbilityRefs.IceStorm.Cast<BlueprintAbilityReference>().Reference)
+        .Configure();
+
+      FeatureConfigurator.For(FeatureRefs.WitchPatronSpellLevel4_Winter)
+        .EditComponent<AddKnownSpell>(
+          c => c.m_Spell = AbilityRefs.IcyPrison.Cast<BlueprintAbilityReference>().Reference)
+        .Configure();
+
+      FeatureConfigurator.For(FeatureRefs.WitchPatronSpellLevel5_Winter)
+        .EditComponent<AddKnownSpell>(
+          c => c.m_Spell = coneOfCold)
+        .Configure();
+
+      FeatureConfigurator.For(FeatureRefs.WitchPatronSpellLevel6_Winter)
+        .EditComponent<AddKnownSpell>(
+          c => c.m_Spell = BlueprintTool.GetRef<BlueprintAbilityReference>(Guids.FreezingSphereSpell))
+        .Configure();
+    }
+
     // Change is in GloriousHeat
     internal const string OriginalGloriousHeat = "glorious-heat-og";
 
@@ -99,13 +126,13 @@ namespace CharacterOptionsPlus
       new()
       {
         (CompanionShareSpells, "CompanionShareSpells.Name", "CompanionShareSpells.Description"),
-        (ConeOfColdWinterPatron, "ConeOfCold.WinterPatron.Name", "ConeOfCold.WinterPatron.Description"),
         (DreadfulCarnagePrereq, "DreadfulCarnagePrereq.Name", "DreadfulCarnagePrereq.Description"),
         (ImplosionDestructionDomain, "Implosion.DestructionDomain.Name", "Implosion.DestructionDomain.Description"),
         (SelectiveFreezingSphere, "Homebrew.FreezingSphere.Name", "Homebrew.FreezingSphere.Description"),
         (OriginalGloriousHeat, "Homebrew.GloriousHeat.Name", "Homebrew.GloriousHeat.Description"),
         (SingleDraconicBloodline, "SingleDraconicBloodline.Name", "SingleDraconicBloodline.Description"),
         (SingleElementalBloodline, "SingleElementalBloodline.Name", "SingleElementalBloodline.Description"),
+        (WinterPatronSpells, "WinterPatronSpells.Name", "WinterPatronSpells.Description"),
       };
   }
 }

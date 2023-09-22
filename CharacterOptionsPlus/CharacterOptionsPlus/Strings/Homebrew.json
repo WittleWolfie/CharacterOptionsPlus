@@ -14,17 +14,13 @@
   },
 
   {
-    "Key": "ConeOfCold.WinterPatron.Name",
+    "Key": "WinterPatronSpells.Name",
     "ProcessTemplates": false,
-    "enGB": "Cone of Cold - Winter Patron",
-    "zhCN": "寒冰锥- 寒冬庇护主",
-    "ruRu": "Конус холода - Покровитель зимы"
+    "enGB": "Winter Patron Spells"
   },
   {
-    "Key": "ConeOfCold.WinterPatron.Description",
-    "enGB": "REQUIRES RESTART\n\nCone of Cold replaces Cold Ice Strike for the bonus spells granted by the Winter Patron.",
-    "zhCN": "需要重启\n\n寒冰锥替代了寒冬庇护主法术表中的碎冰击。",
-    "ruRu": "ТРЕБУЕТ РЕСТАРТ\n\n Конус холода заменяет Удар холодного льда в списке заклинаний, дарованных Ведьме зимы её покровителем"
+    "Key": "WinterPatronSpells.Description",
+    "enGB": "REQUIRES RESTART\n\nUpdates the list of spells granted by the Winter Patron to better match the tabletop version."
   },
 
   {
