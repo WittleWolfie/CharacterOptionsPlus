@@ -79,5 +79,15 @@
     "enGB": "REQUIRES RESTART\n\nAdds Evasion to the Slayer's Advanced Talent selection",
     "zhCN": "需要重启\n\n将反射闪避加入高级杀手绝技选项中。",
     "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nДобавляет Уклонение к списку доступных для выбора Продвинутых Приёмов Палача."
+  },
+
+  {
+    "Key": "DreadfulCarnagePrereq.Name",
+    "ProcessTemplates": false,
+    "enGB": "Dreadful Carnage Prerequisites"
+  },
+  {
+    "Key": "DreadfulCarnagePrereq.Description",
+    "enGB": "REQUIRES RESTART\n\nRemoves Dazzling Display as a preqrequisite and replaces it with Furious Focus, consistent with the tabletop rules."
   }
 ]

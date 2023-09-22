@@ -9,7 +9,9 @@ using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.UnitLogic.Abilities.Components.AreaEffects;
@@ -27,6 +29,8 @@ namespace CharacterOptionsPlus
 
     internal static void Configure()
     {
+      if (Settings.IsEnabled(DreadfulCarnagePrereq))
+        FixDreadfulCarnagePrereq();
       if (Settings.IsEnabled(HeavenlyFireResourceAmount))
         FixHeavenlyFireResourceAmount();
       if (Settings.IsEnabled(LordBeyondTheGraveLag))
@@ -47,6 +51,22 @@ namespace CharacterOptionsPlus
       Logger.Log("Patching PackRager Teamwork Selection");
       FeatureSelectionConfigurator.For(FeatureSelectionRefs.PackRagerTeamworkFeatSelection)
         .SetGroup(FeatureGroup.TeamworkFeat)
+        .Configure();
+    }
+
+    internal const string DreadfulCarnagePrereq = "dreadful-carnage-prereq-fix";
+    internal static void FixDreadfulCarnagePrereq()
+    {
+      Logger.Log("Patching Dreadful Carnage prerequisites");
+      FeatureConfigurator.For(FeatureRefs.DreadfulCarnage)
+        .RemoveComponents(
+          c =>
+          {
+            if (c is not PrerequisiteFeature prereq)
+              return false;
+            return prereq.m_Feature == FeatureRefs.DazzlingDisplayFeature.Cast<BlueprintFeatureReference>().Reference;
+          })
+        .AddPrerequisiteFeature(Guids.FuriousFocusFeat)
         .Configure();
     }
 
@@ -156,6 +176,7 @@ namespace CharacterOptionsPlus
     internal static readonly List<(string key, string name, string description)> Entries =
       new()
       {
+        (DreadfulCarnagePrereq, "DreadfulCarnagePrereq.Name", "DreadfulCarnagePrereq.Description"),
         (HeavenlyFireResourceAmount, "HeavenlyFireResourceAmount.Name", "HeavenlyFireResourceAmount.Description"),
         (LordBeyondTheGraveLag, "LordBeyondTheGraveLag.Name", "LordBeyondTheGraveLag.Description"),
         (PackRagerTeamworkSelection, "PackRagerTeamworkSelection.Name", "PackRagerTeamworkSelection.Description"),
