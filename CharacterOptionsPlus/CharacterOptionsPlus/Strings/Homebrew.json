@@ -14,13 +14,13 @@
   },
 
   {
-    "Key": "WinterPatronSpells.Name",
+    "Key": "DreadfulCarnagePrereq.Name",
     "ProcessTemplates": false,
-    "enGB": "Winter Patron Spells"
+    "enGB": "Dreadful Carnage Prerequisites"
   },
   {
-    "Key": "WinterPatronSpells.Description",
-    "enGB": "REQUIRES RESTART\n\nUpdates the list of spells granted by the Winter Patron to better match the tabletop version."
+    "Key": "DreadfulCarnagePrereq.Description",
+    "enGB": "REQUIRES RESTART\n\nRemoves Dazzling Display as a preqrequisite and replaces it with Furious Focus, consistent with the tabletop rules."
   },
 
   {
@@ -96,12 +96,12 @@
   },
 
   {
-    "Key": "DreadfulCarnagePrereq.Name",
+    "Key": "WinterPatronSpells.Name",
     "ProcessTemplates": false,
-    "enGB": "Dreadful Carnage Prerequisites"
+    "enGB": "Winter Patron Spells"
   },
   {
-    "Key": "DreadfulCarnagePrereq.Description",
-    "enGB": "REQUIRES RESTART\n\nRemoves Dazzling Display as a preqrequisite and replaces it with Furious Focus, consistent with the tabletop rules."
+    "Key": "WinterPatronSpells.Description",
+    "enGB": "REQUIRES RESTART\n\nUpdates the list of spells granted by the Winter Patron to better match the tabletop version."
   }
 ]
