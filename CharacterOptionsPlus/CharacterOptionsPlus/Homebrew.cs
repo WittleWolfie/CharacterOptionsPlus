@@ -27,7 +27,6 @@ namespace CharacterOptionsPlus
         ConfigureImplosionDestructionDomain();
     }
 
-
     internal const string ConeOfColdWinterPatron = "cone-of-cold-winter-patron";
     internal static void ConfigureConeOfColdWinterPatron()
     {
