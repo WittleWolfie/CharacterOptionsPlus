@@ -1,4 +1,11 @@
-﻿## v1.3.1
+﻿## v1.3.2
+
+* New Cleric spells are now available to Warpriests
+* New Bugfixes
+    * Dreadful Carnage requires Furious Focus as a prerequisite instead of Dazzling Display
+    * The saving throw for Signature Skill: Persuasion has the Fear descriptor
+
+## v1.3.1
 
 * New Bugfixes
     * Hedging Weapons AC bonus now shows on the character screen and applies against non-weapon attacks (e.g. spells)
