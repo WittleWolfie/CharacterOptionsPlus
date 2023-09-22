@@ -40,9 +40,7 @@
     <EmbeddedResource Include="Strings\BugFixes.json" />
     <EmbeddedResource Include="Strings\ClassFeatures.json" />
     <EmbeddedResource Include="Strings\Components.json" />
-    <EmbeddedResource Include="Strings\Feats.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Strings\Feats.json" />
     <EmbeddedResource Include="Strings\Homebrew.json" />
     <EmbeddedResource Include="Strings\Settings.json" />
     <EmbeddedResource Include="Strings\Spells.json" />
