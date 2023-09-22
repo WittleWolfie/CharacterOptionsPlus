@@ -4,6 +4,7 @@ using BlueprintCore.Blueprints.References;
 using BlueprintCore.Utils;
 using CharacterOptionsPlus.Util;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.UnitLogic.FactLogic;
 using System.Collections.Generic;
 
@@ -20,6 +21,8 @@ namespace CharacterOptionsPlus
     {
       if (Settings.IsEnabled(ConeOfColdWinterPatron))
         ConfigureConeOfColdWinterPatron();
+      if (Settings.IsEnabled(DreadfulCarnagePrereq))
+        ConfigureDreadfulCarnagePrereq();
       if (Settings.IsEnabled(ImplosionDestructionDomain))
         ConfigureImplosionDestructionDomain();
     }
@@ -54,6 +57,22 @@ namespace CharacterOptionsPlus
         .Configure();
     }
 
+    internal const string DreadfulCarnagePrereq = "dreadful-carnage-prereq";
+    internal static void ConfigureDreadfulCarnagePrereq()
+    {
+      Logger.Log("Patching Dreadful Carnage prerequisites");
+      FeatureConfigurator.For(FeatureRefs.DreadfulCarnage)
+        .RemoveComponents(
+          c =>
+          {
+            if (c is not PrerequisiteFeature prereq)
+              return false;
+            return prereq.m_Feature == FeatureRefs.DazzlingDisplayFeature.Cast<BlueprintFeatureReference>().Reference;
+          })
+        .AddPrerequisiteFeature(Guids.FuriousFocusFeat)
+        .Configure();
+    }
+
     internal const string ImplosionDestructionDomain = "implosion-destruction-domain";
     internal static void ConfigureImplosionDestructionDomain()
     {
@@ -82,6 +101,7 @@ namespace CharacterOptionsPlus
       {
         (CompanionShareSpells, "CompanionShareSpells.Name", "CompanionShareSpells.Description"),
         (ConeOfColdWinterPatron, "ConeOfCold.WinterPatron.Name", "ConeOfCold.WinterPatron.Description"),
+        (DreadfulCarnagePrereq, "DreadfulCarnagePrereq.Name", "DreadfulCarnagePrereq.Description"),
         (ImplosionDestructionDomain, "Implosion.DestructionDomain.Name", "Implosion.DestructionDomain.Description"),
         (SelectiveFreezingSphere, "Homebrew.FreezingSphere.Name", "Homebrew.FreezingSphere.Description"),
         (OriginalGloriousHeat, "Homebrew.GloriousHeat.Name", "Homebrew.GloriousHeat.Description"),

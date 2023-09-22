@@ -97,5 +97,15 @@
     "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline.",
     "zhCN": "需要重启\n\n阻止选择多个不同的元素血承。",
     "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nЗапрещает выбор нескольких Стихийных Наследий одним персонажем."
+  },
+
+  {
+    "Key": "DreadfulCarnagePrereq.Name",
+    "ProcessTemplates": false,
+    "enGB": "Dreadful Carnage Prerequisites"
+  },
+  {
+    "Key": "DreadfulCarnagePrereq.Description",
+    "enGB": "REQUIRES RESTART\n\nRemoves Dazzling Display as a preqrequisite and replaces it with Furious Focus, consistent with the tabletop rules."
   }
 ]
