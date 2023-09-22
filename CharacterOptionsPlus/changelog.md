@@ -1,6 +1,9 @@
 ﻿## v1.3.2
 
 * New Cleric spells are now available to Warpriests
+* Cone of Cold Winter Patron option replaced by a Winter Patron spell list overhaul
+    * This attempts to match the tabletop spell list accurately, including granting spells one level early
+
 * New Bugfixes
     * Dreadful Carnage requires Furious Focus as a prerequisite instead of Dazzling Display
     * The saving throw for Signature Skill: Persuasion has the Fear descriptor
