@@ -112,7 +112,13 @@ namespace CharacterOptionsPlus.Spells
           (Metamagic)CustomMetamagic.ElementalElectricity,
           (Metamagic)CustomMetamagic.ElementalFire,
           (Metamagic)CustomMetamagic.Piercing)
-        .AddToSpellLists(level: 4, SpellList.Cleric, SpellList.Inquisitor, SpellList.Witch, SpellList.Wizard)
+        .AddToSpellLists(
+          level: 4,
+          SpellList.Cleric,
+          SpellList.Inquisitor,
+          SpellList.Warpriest,
+          SpellList.Witch,
+          SpellList.Wizard)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank())))

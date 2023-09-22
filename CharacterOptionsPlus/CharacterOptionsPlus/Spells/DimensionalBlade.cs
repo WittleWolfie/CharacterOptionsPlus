@@ -89,6 +89,7 @@ namespace CharacterOptionsPlus.Spells
           SpellList.Inquisitor,
           SpellList.Paladin,
           SpellList.Magus,
+          SpellList.Warpriest,
           SpellList.Wizard)
         .AddToSpellList(4, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddAbilityEffectRunAction(actions: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))

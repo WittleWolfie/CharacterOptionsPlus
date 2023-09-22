@@ -94,7 +94,7 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Extend,
           Metamagic.Quicken,
           Metamagic.Reach)
-        .AddToSpellLists(level: 2, SpellList.Cleric, SpellList.Inquisitor, SpellList.Paladin)
+        .AddToSpellLists(level: 2, SpellList.Cleric, SpellList.Inquisitor, SpellList.Paladin, SpellList.Warpriest)
         .AddAbilityVariants(
           new() { ConfigureVariant(mainHand: true, enchant), ConfigureVariant(mainHand: false, enchant) })
         .Configure();

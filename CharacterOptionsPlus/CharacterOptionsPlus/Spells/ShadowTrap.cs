@@ -126,6 +126,7 @@ namespace CharacterOptionsPlus.Spells
           SpellList.Bloodrager,
           SpellList.Cleric,
           SpellList.Shaman,
+          SpellList.Warpriest,
           SpellList.Wizard,
           SpellList.Witch)
         .AddToSpellList(level: 1, ModSpellListRefs.AntipaladinSpelllist.ToString())

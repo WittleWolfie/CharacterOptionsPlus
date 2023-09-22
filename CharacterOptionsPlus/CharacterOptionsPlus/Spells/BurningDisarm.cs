@@ -97,7 +97,7 @@ namespace CharacterOptionsPlus.Spells
           (Metamagic)CustomMetamagic.Flaring,
           (Metamagic)CustomMetamagic.Intensified,
           (Metamagic)CustomMetamagic.Piercing)
-        .AddToSpellLists(level: 1, SpellList.Cleric, SpellList.Druid, SpellList.Wizard)
+        .AddToSpellLists(level: 1, SpellList.Cleric, SpellList.Druid, SpellList.Warpriest, SpellList.Wizard)
         .AddContextRankConfig(ContextRankConfigs.CasterLevel(max: 5))
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()

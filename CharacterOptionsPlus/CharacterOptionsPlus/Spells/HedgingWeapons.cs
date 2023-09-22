@@ -122,7 +122,12 @@ namespace CharacterOptionsPlus.Spells
           Metamagic.Quicken)
         .SetIgnoreSpellResistanceForAlly(true)
         .AddToSpellLists(
-          level: 1, SpellList.Cleric, SpellList.Inquisitor, SpellList.LichInquisitorMinor, SpellList.Paladin)
+          level: 1,
+          SpellList.Cleric,
+          SpellList.Inquisitor,
+          SpellList.Warpriest,
+          SpellList.LichInquisitorMinor,
+          SpellList.Paladin)
         .AddToSpellList(level: 1, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddContextRankConfig(ContextRankConfigs.CasterLevel())
         .AddContextRankConfig(

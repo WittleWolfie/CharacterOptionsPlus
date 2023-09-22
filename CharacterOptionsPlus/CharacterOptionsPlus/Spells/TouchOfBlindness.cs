@@ -96,7 +96,13 @@ namespace CharacterOptionsPlus.Spells
         .SetDisplayName(DisplayName)
         .SetShouldTurnToTarget(true)
         .AddToSpellLists(
-          level: 1, SpellList.Bard, SpellList.Cleric, SpellList.Wizard, SpellList.Shaman, SpellList.Witch)
+          level: 1,
+          SpellList.Bard,
+          SpellList.Cleric,
+          SpellList.Warpriest,
+          SpellList.Wizard,
+          SpellList.Shaman,
+          SpellList.Witch)
         .AddToSpellList(1, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddAbilityEffectStickyTouch(touchDeliveryAbility: effectAbility)
         .AddCraftInfoComponent(

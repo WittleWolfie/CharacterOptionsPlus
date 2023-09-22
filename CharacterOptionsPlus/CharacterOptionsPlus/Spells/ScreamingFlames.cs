@@ -99,7 +99,7 @@ namespace CharacterOptionsPlus.Spells
           (Metamagic)CustomMetamagic.ElementalCold,
           (Metamagic)CustomMetamagic.Intensified,
           (Metamagic)CustomMetamagic.Piercing)
-        .AddToSpellLists(level: 3, SpellList.Cleric)
+        .AddToSpellLists(level: 3, SpellList.Cleric, SpellList.Warpriest)
         .AddToSpellList(level: 3, ModSpellListRefs.AntipaladinSpelllist.ToString())
         .AddAbilityAoERadius(radius: 15.Feet(), targetType: TargetType.Any)
         .AddAbilityDeliverProjectile(type: AbilityProjectileType.Simple, projectiles: new() { projectile })
