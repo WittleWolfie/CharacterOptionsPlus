@@ -152,48 +152,8 @@
     <ILRepack OutputType="Dll" MainAssembly="@(OutputAssembly)" OutputAssembly="@(OutputAssembly)" InputAssemblies="@(InputAssemblies)" WorkingDirectory="$(OutputPath)" />
   </Target>
 
-  <!-- Minimizes the assembly size -->
-  <Target Name="ILStrip" AfterTargets="ILRepack">
-    <ItemGroup>
-      <LocalAssembly Include="$(AssemblyName).dll" />
-      <ILStrip Include="&quot;$(SolutionDir)\tools\BrokenEvent.ILStrip.CLI.exe&quot;" />
-
-      <!-- System Entry Points -->
-      <Entry Include="System.Runtime.CompilerServices.RefSafetyRulesAttribute" />
-
-      <!-- BlueprintCore Entry Points -->
-      <Entry Include="BlueprintCore.Utils.Assets.AssetTool/AssetBundle_Patch" />
-      <Entry Include="BlueprintCore.Utils.Assets.AssetTool/BlueprintsCaches_Patch" />
-      <Entry Include="BlueprintCore.Utils.Assets.AssetTool/BundlesLoadService_Patch" />
-      <Entry Include="BlueprintCore.Utils.LocalizationTool/LocalizationManager_Patch" />
-      <Entry Include="BlueprintCore.UnitParts.Replacements.UnitPartBuffSuppressFixed/Buff_OnAttach_Suppression_Patch" />
-
-      <!-- Project Entry Points -->
-      <Entry Include="CharacterOptionsPlus.Main" />
-
-      <Entry Include="CharacterOptionsPlus.Archetypes.ArrowsongMinstrel/UnitPartMagus_Patch" />
-
-      <Entry Include="CharacterOptionsPlus.ClassFeatures.ShadowDuplicate/UnitPartMirrorImage_Patch" />
-
-      <Entry Include="CharacterOptionsPlus.Components.QualifyForPrerequisiteFeature/PrerequisiteFeature_Patch" />
-      <Entry Include="CharacterOptionsPlus.Components.QualifyForPrerequisiteFeature/PrerequisiteFeaturesFromList_Patch" />
-      
-      <Entry Include="CharacterOptionsPlus.MechanicsChanges.ExpandedActivatableAbilityGroup/UnitPartActivatableAbility_Patch" />
-      <Entry Include="CharacterOptionsPlus.MechanicsChanges.CompanionShareSpells/CompanionShareSpells_Patch" />
-      
-      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartTouchCharges/TouchSpellsController_Patch" />
-
-      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartEscapeArtist/Buff_Patch" />
-      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/CharGenSpellsPhaseVM_Patch" />
-      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/LevelUpState_Patch" />
-      <Entry Include="CharacterOptionsPlus.UnitParts.UnitPartExpandedSpellList/SelectSpell_Patch" />
-    </ItemGroup>
-
-    <Exec WorkingDirectory="$(OutputPath)" Command="@(ILStrip) @(LocalAssembly) @(LocalAssembly) -e @(Entry, ' -e ')" />
-  </Target>
-
   <!-- Automatically deploys the mod on build -->
-  <Target Name="Deploy" AfterTargets="ILStrip">
+  <Target Name="Deploy" AfterTargets="ILRepack">
     <ItemGroup>
       <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
       <ModConfig Include="$(OutputPath)\Info.json" />
@@ -206,7 +166,7 @@
   </Target>
   
   <!-- Automatically creates a release zip -->
-  <Target Name="ZipRelease" AfterTargets="ILStrip" Condition="'$(Configuration)' == 'Release'">
+  <Target Name="ZipRelease" AfterTargets="ILRepack" Condition="'$(Configuration)' == 'Release'">
     <ItemGroup>
       <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
       <ModConfig Include="$(OutputPath)\Info.json" />
