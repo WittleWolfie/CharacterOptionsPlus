@@ -1,4 +1,8 @@
-﻿## v1.3.2
+﻿## v1.3.3
+
+* Update for Lord of the North DLC
+
+## v1.3.2
 
 * New Cleric spells are now available to Warpriest
 * Cone of Cold Winter Patron option replaced by a Winter Patron spell list overhaul
