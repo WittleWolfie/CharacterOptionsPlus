@@ -433,7 +433,7 @@
   {
     "Key": "EnergyChannel.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel",
+    "enGB": "Energy Channel",
     "zhCN": "元素能量引导"
   },
   {
@@ -444,19 +444,19 @@
   {
     "Key": "EnergyChannel.Cleric.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel (Cleric)",
+    "enGB": "Energy Channel (Cleric)",
     "zhCN": "元素能量引导 （牧师）"
   },
   {
     "Key": "EnergyChannel.Warpriest.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel (Warpriest)",
+    "enGB": "Energy Channel (Warpriest)",
     "zhCN": "元素能量引导（战斗祭司）"
   },
   {
     "Key": "EnergyChannel.Air.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel (Air)",
+    "enGB": "Energy Channel (Air)",
     "zhCN": "元素能量引导 （气）"
   },
   {
@@ -467,7 +467,7 @@
   {
     "Key": "EnergyChannel.Earth.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel (Earth)",
+    "enGB": "Energy Channel (Earth)",
     "zhCN": "元素能量引导 （地）"
   },
   {
@@ -478,7 +478,7 @@
   {
     "Key": "EnergyChannel.Fire.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel (Fire)",
+    "enGB": "Energy Channel (Fire)",
     "zhCN": "元素能量引导 （火）"
   },
   {
@@ -489,7 +489,7 @@
   {
     "Key": "EnergyChannel.Water.Name",
     "ProcessTemplates": false,
-    "enGB": "EnergyChannel (Water)",
+    "enGB": "Energy Channel (Water)",
     "zhCN": "元素能量引导 （水）"
   },
   {

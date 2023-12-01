@@ -180,7 +180,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       // Add to the appropriate selections
-      FeatureConfigurator.For(selection)
+      FeatureConfigurator.For(selection, updateSelections: true)
         .SetGroups(FeatureGroup.Feat, FeatureGroup.CombatFeat)
         .Configure(delayed: true);
     }

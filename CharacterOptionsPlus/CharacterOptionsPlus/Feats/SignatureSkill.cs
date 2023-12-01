@@ -147,7 +147,7 @@ namespace CharacterOptionsPlus.Feats
         .Configure();
 
       // Add to feat selection
-      FeatureConfigurator.For(FeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+      FeatureConfigurator.For(FeatName, updateSelections: true).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
 
       // Grant as a bonus feature for rogues
       ProgressionConfigurator.For(ProgressionRefs.RogueProgression)

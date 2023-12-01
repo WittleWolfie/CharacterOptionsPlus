@@ -410,7 +410,7 @@ namespace CharacterOptionsPlus.Feats
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
-      FeatureConfigurator.For(FeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+      FeatureConfigurator.For(FeatName, updateSelections: true).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
 
       FeatureSelectionConfigurator.New(ImprovedFeatName, Guids.ImprovedEldritchHeritageFeat)
         .SetDisplayName(ImprovedFeatDisplayName)
@@ -489,7 +489,7 @@ namespace CharacterOptionsPlus.Feats
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
-      FeatureConfigurator.For(ImprovedFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+      FeatureConfigurator.For(ImprovedFeatName, updateSelections: true).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
 
       FeatureSelectionConfigurator.New(GreaterFeatName, Guids.GreaterEldritchHeritageFeat)
         .SetDisplayName(GreaterFeatDisplayName)
@@ -547,7 +547,7 @@ namespace CharacterOptionsPlus.Feats
 
       // Since feature selection logic is only in FeatureConfigurator, do this instead of trying to do in parametrized
       // configurator.
-      FeatureConfigurator.For(GreaterFeatName).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
+      FeatureConfigurator.For(GreaterFeatName, updateSelections: true).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
     }
 
     private static void ConfigureEnabledDelayed()

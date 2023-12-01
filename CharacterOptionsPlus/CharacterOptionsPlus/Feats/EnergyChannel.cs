@@ -145,6 +145,8 @@ namespace CharacterOptionsPlus.Feats
           // Water
           ConfigureEnergyChannel(DamageEnergyType.Cold))
         .Configure(delayed: true);
+
+      FeatureConfigurator.For(FeatName, updateSelections: true).AddToGroups(FeatureGroup.Feat).Configure(delayed: true);
     }
 
     private struct EnergyChannelDetails
