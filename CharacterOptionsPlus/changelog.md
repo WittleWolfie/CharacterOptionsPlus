@@ -1,4 +1,8 @@
-﻿## v1.3.3
+﻿## v1.3.4
+
+* Fixed a bug preventing some feats from being shown while leveling
+
+## v1.3.3
 
 * Update for Lord of the North DLC
 
