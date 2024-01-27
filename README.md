@@ -1,4 +1,6 @@
-﻿# Character Options+
+### This is no longer in active development. I will maintain compatibility with patches and fix major bugs, but I am not adding new features.
+ 
+ # Character Options+
 
 Adds character build options from the tabletop ruleset.
 
