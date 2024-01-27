@@ -189,6 +189,14 @@ namespace CharacterOptionsPlus.Archetypes
             CommonTool.Append(
               c.m_Features, BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.WinterWitchIceMagic)))
         .Configure();
+
+      // Add pre-req to Winter Witch Hex Progression
+      FeatureSelectionConfigurator.For(FeatureSelectionRefs.WinterWitchWitchHexSelection)
+        .EditComponent<PrerequisiteFeaturesFromList>(
+          c => c.m_Features =
+            CommonTool.Append(
+              c.m_Features, BlueprintTool.GetRef<BlueprintFeatureReference>(Guids.WinterWitchWinterWitch)))
+        .Configure();
     }
 
     private static void ConfigureEnabledDelayed()
