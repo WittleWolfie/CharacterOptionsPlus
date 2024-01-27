@@ -1,4 +1,8 @@
-﻿## v1.3.4
+﻿## v1.3.5
+
+* Fixed a bug preventing Winter Witch prestige class from getting hexes if you have Winter Witch archetype
+
+## v1.3.4
 
 * Fixed a bug preventing some feats from being shown while leveling
 
