@@ -1,4 +1,8 @@
-﻿## v1.3.5
+﻿## v1.3.6
+
+* Fixed a bug with Paired Opportunists logic
+
+## v1.3.5
 
 * Fixed a bug preventing Winter Witch prestige class from getting hexes if you have Winter Witch archetype
 

@@ -166,10 +166,11 @@ namespace CharacterOptionsPlus.Feats
             if (unit != Owner
               && unit.IsAlly(Owner)
               && unit.Descriptor.HasFact(PairedOpportunists)
+              && unit.GetThreatHand() is not null
               && unit.IsEngage(
                 evt.Target,
                 canEngage: unit.Descriptor.State.CanAct,
-                threatRange: (float)unit.GetThreatRange(attack.WeaponSlot)))
+                threatRange: (float)unit.GetThreatRange(unit.GetThreatHand())))
             {
               AddAttackBonus(evt);
               return;
