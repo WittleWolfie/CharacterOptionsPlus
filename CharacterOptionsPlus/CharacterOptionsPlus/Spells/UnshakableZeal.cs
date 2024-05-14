@@ -77,9 +77,7 @@ namespace CharacterOptionsPlus.Spells
           FeatureName,
           Guids.UnshakableZealSpell,
           SpellSchool.Enchantment,
-          canSpecialize: true,
-          SpellDescriptor.Summoning,
-          SpellDescriptor.Evil)
+          canSpecialize: true)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.BurstOfGlory.Reference.Get().Icon)
