@@ -77,7 +77,10 @@ namespace CharacterOptionsPlus.Spells
           FeatureName,
           Guids.UnshakableZealSpell,
           SpellSchool.Enchantment,
-          canSpecialize: true)
+          canSpecialize: true,
+          SpellDescriptor.MindAffecting,
+          SpellDescriptor.Compulsion,
+          SpellDescriptor.Emotion)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.BurstOfGlory.Reference.Get().Icon)
