@@ -4,7 +4,7 @@
     "ProcessTemplates": false,
     "enGB": "Character Options+",
     "zhCN": "Character Options+",
-    "ruRU": "Расширенные опции персонажа"
+    "ruRU": "Character Options+"
   },
 
   {
@@ -19,7 +19,7 @@
     "ProcessTemplates": false,
     "enGB": "REQUIRES RESTART\nTurn this on and restart your game to get detailed logs for capturing bug reports.\nThis will probably cause lag as the logging is extremely detailed, but this makes it a lot easier to identify and fix bugs quickly.",
     "zhCN": "需要重启\n开启该选项并重启游戏，获得用于报告BUG的详细日志。\n可能造成卡顿，但是有助于快速找到并修复BUG。",
-    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nВключите эту опцию и перезапустите игру, чтобы получить подробный лог, если хотите послать баг-репорт.\nДанная настройка может вызвать заметное снижение производительности, но позволит проще выявить и устранить ошибки."
+    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nВключите эту опцию и перезапустите игру, чтобы получить подробный лог, если хотите отправить баг-репорт.\nДанная настройка может вызвать заметное снижение производительности, но позволит проще выявить и устранить ошибки."
   },
 
   {
@@ -75,6 +75,6 @@
     "ProcessTemplates": false,
     "enGB": "REQUIRES RESTART\n\nTurning this off prevents the feature from working: characters cannot select this feature and characters with it cannot use it. You can still load save games that reference it.",
     "zhCN": "需要重启\n\n关闭此选项防止对应特性工作：角色不能选择此特性，已有此特性的角色也不能使用。你依然可以正常加载拥有此特性的存档。",
-    "ruRU": "ТРЕБУЕТ РЕСТАРТА\n\nЕсли вы отключите эту настройку, черта перестанет работать: персонажи, у которых она уже есть, не смогут ею пользоваться. Но это не помешает загружать сохранения, в которых присутствует эта черта."
+    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЕсли вы отключите эту настройку, черта перестанет работать: персонажи, у которых она уже есть, не смогут ею пользоваться. Но это не помешает загружать сохранения, в которых присутствует эта черта."
   }
 ]
