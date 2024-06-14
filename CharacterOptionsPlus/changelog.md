@@ -1,4 +1,12 @@
-﻿## v1.3.6
+﻿## v1.3.7
+
+* Update for A Dance of Masks DLC
+    * Furious Focus can no longer be selected, replaced by the base game's Focused Strike
+
+* New Bugfixes
+    * Skalds Vigor should now work with all versions of Inspired Rage
+
+## v1.3.6
 
 * Fixed a bug with Paired Opportunists logic
 

@@ -8,6 +8,7 @@ using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using CharacterOptionsPlus.Util;
+using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.JsonSystem;
@@ -128,20 +129,38 @@ namespace CharacterOptionsPlus.Feats
             .Configure(delayed: true);
 
       var applyBuff = ActionsBuilder.New().ApplyBuffPermanent(BuffName, isNotDispelable: true);
-      BuffConfigurator.For(BuffRefs.InspiredRageEffectBuff)
-        .AddFactContextActions(
-          activated:
-            // Since it is actually part of the Inspired Rage buff it's not a valid dispel target.
-            ActionsBuilder.New()
-              .Conditional(
-                ConditionsBuilder.New().TargetIsYourself().HasFact(skaldsVigor),
-                ifTrue: applyBuff)
-              .Conditional(
-                ConditionsBuilder.New().CasterHasFact(greaterSkaldsVigor),
-                ifTrue: applyBuff))
-        // Prevents Inspired Rage from being removed and reapplied each round.
-        .SetStacking(StackingType.Ignore)
-        .Configure();
+      AddToEffectBuffs(
+        skaldsVigor,
+        greaterSkaldsVigor,
+        applyBuff,
+        BuffRefs.InspiredRageEffectBuff,
+        BuffRefs.InspiredRageEffectBuffBeforeMasterSkald,
+        BuffRefs.InspiredRageEffectBuffMythic);
+    }
+
+    private static void AddToEffectBuffs(
+      BlueprintFeature skaldsVigor,
+      BlueprintFeature greaterSkaldsVigor,
+      ActionsBuilder applyBuff,
+      params Blueprint<BlueprintReference<BlueprintBuff>>[] effectBuffs)
+    {
+      foreach (var buff in effectBuffs)
+      {
+        BuffConfigurator.For(buff)
+          .AddFactContextActions(
+            activated:
+              // Since it is actually part of the Inspired Rage buff it's not a valid dispel target.
+              ActionsBuilder.New()
+                .Conditional(
+                  ConditionsBuilder.New().TargetIsYourself().HasFact(skaldsVigor),
+                  ifTrue: applyBuff)
+                .Conditional(
+                  ConditionsBuilder.New().CasterHasFact(greaterSkaldsVigor),
+                  ifTrue: applyBuff))
+          // Prevents effect buff from being removed and reapplied each round.
+          .SetStacking(StackingType.Ignore)
+          .Configure();
+      }
     }
 
     [TypeId("5ae05713-a303-4b4e-8bec-be5f6d17108a")]
