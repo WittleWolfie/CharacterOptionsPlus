@@ -32,9 +32,10 @@ namespace CharacterOptionsPlus.Feats
     {
       try
       {
-        if (Settings.IsEnabled(Guids.FuriousFocusFeat))
-          ConfigureEnabled();
-        else
+        // Disabled since Focused Strike is now available
+        //if (Settings.IsEnabled(Guids.FuriousFocusFeat))
+        //  ConfigureEnabled();
+        //else
           ConfigureDisabled();
       }
       catch (Exception e)

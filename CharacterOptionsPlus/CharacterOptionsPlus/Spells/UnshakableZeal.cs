@@ -76,10 +76,11 @@ namespace CharacterOptionsPlus.Spells
       AbilityConfigurator.NewSpell(
           FeatureName,
           Guids.UnshakableZealSpell,
-          SpellSchool.Conjuration,
+          SpellSchool.Enchantment,
           canSpecialize: true,
-          SpellDescriptor.Summoning,
-          SpellDescriptor.Evil)
+          SpellDescriptor.MindAffecting,
+          SpellDescriptor.Compulsion,
+          SpellDescriptor.Emotion)
         .SetDisplayName(DisplayName)
         .SetDescription(Description)
         .SetIcon(AbilityRefs.BurstOfGlory.Reference.Get().Icon)

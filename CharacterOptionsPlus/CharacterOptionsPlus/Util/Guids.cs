@@ -210,7 +210,7 @@ namespace CharacterOptionsPlus.Util
         (DivineFightingTechniqueFeat, DivineFightingTechnique.FeatDisplayName),
         (EldritchHeritageFeat, EldritchHeritage.FeatDisplayName),
         (EnergyChannelFeat, EnergyChannel.FeatDisplayName),
-        (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
+//        (FuriousFocusFeat, FuriousFocus.FeatDisplayName),
         (GloriousHeatFeat, GloriousHeat.FeatDisplayName),
         (HurtfulFeat, Hurtful.FeatDisplayName),
         (PairedOpportunistsFeat, PairedOpportunists.FeatDisplayName),
