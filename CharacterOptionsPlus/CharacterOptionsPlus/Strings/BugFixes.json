@@ -18,13 +18,13 @@
     "ProcessTemplates": false,
     "enGB": "Lord Beyond The Grave Lag",
     "zhCN": "墓穴之主卡顿",
-	"ruRU": "Лаг способности Владыка загробного мира"
+    "ruRU": "Лаг способности Владыка загробного мира"
   },
   {
     "Key": "LordBeyondTheGraveLag.Description",
     "enGB": "REQUIRES RESTART\n\nMakes Lord Beyond the Grave a permanent buff to your allies, once applied. This prevents their stats from changing constantly leading to lag when you walk around.",
     "zhCN": "需要重启\n\n将墓穴领主的效果应用给盟友后变为被动BUFF，防止在你移动时，他们的状态持续不断变化引发的卡顿。",
-	"ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nСпособность Владыка загробного мира становится перманентной для ваших союзников после применения. Это предотвращает постоянное изменение их характеристик, приводящее к лагам при ходьбе."
+    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nСпособность Владыка загробного мира становится перманентной для ваших союзников после применения. Это предотвращает постоянное изменение их характеристик, приводящее к лагам при ходьбе."
   },
 
   {
