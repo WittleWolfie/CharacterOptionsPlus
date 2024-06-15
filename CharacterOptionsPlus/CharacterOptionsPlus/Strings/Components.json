@@ -4,7 +4,7 @@
     "ProcessTemplates": false,
     "enGB": "Requires an equipped weapon: {0}",
     "zhCN": "需要一把装备中武器： {0}",
-    "ruRU": "Необходимо держать в руках оружие: "
+    "ruRU": "Необходимо держать в руках оружие: {0}"
   },
   {
     "Key": "AbilityTargetHasWeaponSubcategory.Restriction.Negated",
@@ -19,6 +19,6 @@
     "ProcessTemplates": false,
     "enGB": "Target has no weapon equipped",
     "zhCN": "目标没有装备武器",
-    "ruRU": "У цели нет оружия {0}"
+    "ruRU": "У цели нет оружия"
   }
 ]
