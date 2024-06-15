@@ -103,11 +103,11 @@
     "Key": "WinterPatronSpells.Name",
     "ProcessTemplates": false,
     "enGB": "Winter Patron Spells",
-	"ruRU": "Заклинания покровителя зимы."
+    "ruRU": "Заклинания покровителя зимы."
   },
   {
     "Key": "WinterPatronSpells.Description",
     "enGB": "REQUIRES RESTART\n\nUpdates the list of spells granted by the Winter Patron to better match the tabletop version.",
-	"ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nОбновляет список заклинаний покровителя ведьмы - Зима, чтобы он больше соответствовал настольной версии."
+    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nОбновляет список заклинаний покровителя ведьмы - Зима, чтобы он больше соответствовал настольной версии."
   }
 ]
