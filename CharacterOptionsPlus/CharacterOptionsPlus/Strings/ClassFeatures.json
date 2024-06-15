@@ -4,13 +4,13 @@
     "ProcessTemplates": false,
     "enGB": "Armored Marauder",
     "zhCN": "装甲强袭",
-	"ruRU": "Бронированный мародер"
+    "ruRU":"Бронированный мародер"
   },
   {
     "Key": "ArmoredMarauder.Description",
     "enGB": "The slayer gains proficiency with heavy armor. In addition, the armor check penalty of any heavy armor the slayer wears is reduced by 1 for every 6 slayer levels he has.",
     "zhCN": "杀手获得擅长重甲。此外，每6个杀手等级使其穿着重甲时防具检定减值-1。",
-	"ruRU": "Палач учится обращаться с тяжелой броней. Кроме того, штраф за ношение тяжелой брони уменьшается на 1 за каждые 6 уровней палача."
+    "ruRU": "Палач учится обращаться с тяжелой броней. Кроме того, штраф за ношение тяжелой брони уменьшается на 1 за каждые 6 уровней палача."
   },
 
   {
@@ -18,13 +18,13 @@
     "ProcessTemplates": false,
     "enGB": "Armored Swiftness",
     "zhCN": "迅捷甲士",
-	"ruRU": "Бронированная стремительность"
+    "ruRU": "Бронированная стремительность"
   },
   {
     "Key": "ArmoredSwiftness.Description",
     "enGB": "A slayer with this talent can move at full speed in heavy armor. In addition, the maximum Dexterity bonus of heavy armor the slayer wears increases by 1 for every 6 class levels he has. A slayer must have the armored marauder slayer talent to select this talent.",
     "zhCN": "拥有该绝技的杀手在穿着重甲时依然可以全速移动。此外每6个杀手等级使其穿着重甲时最大敏捷加值+1。杀手必须拥有装甲强袭才能学习此绝技。",
-	"ruRU": "Палач с этим талантом не получает штраф к скорости передвижения при ношении тяжелой брони. В дополнение, Максимальный бонус Ловкости тяжелой брони в которую облачен палач увеличивается на 1 за каждые 6 уровней палача. Палач должен иметь талант Бронированный мародер чтобы выбрать этот талант."
+    "ruRU": "Палач с этим талантом не получает штраф к скорости передвижения при ношении тяжелой брони. В дополнение, Максимальный бонус Ловкости тяжелой брони в которую облачен палач увеличивается на 1 за каждые 6 уровней палача. Палач должен иметь талант Бронированный мародер чтобы выбрать этот талант."
   },
 
   {
