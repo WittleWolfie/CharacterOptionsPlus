@@ -778,7 +778,7 @@
     "ProcessTemplates": false,
     "enGB": "Signature Skill: Persuasion",
     "zhCN": "标志性技能： 沟通",
-    "ruRU": "Знаковый наывк: Убеждение"
+    "ruRU": "Знаковый навык: Убеждение"
   },
   {
     "Key": "SignatureSkill.Persuasion.Description",
