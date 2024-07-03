@@ -32,11 +32,10 @@ namespace CharacterOptionsPlus.Feats
     {
       try
       {
-        // Disabled since Focused Strike is now available
         //if (Settings.IsEnabled(Guids.FuriousFocusFeat))
-        //  ConfigureEnabled();
+          ConfigureEnabled();
         //else
-          ConfigureDisabled();
+        //  ConfigureDisabled();
       }
       catch (Exception e)
       {
@@ -61,6 +60,7 @@ namespace CharacterOptionsPlus.Feats
 
       FeatureConfigurator.New(
         FeatName, Guids.FuriousFocusFeat, FeatureGroup.Feat, FeatureGroup.CombatFeat, FeatureGroup.RangerStyle)
+          .SkipAddToSelections() // Skip since this is replaced by a built-in feature
           .SetDisplayName(FeatDisplayName)
           .SetDescription(FeatDescription)
           .SetIcon(IconName)
@@ -75,7 +75,7 @@ namespace CharacterOptionsPlus.Feats
           .AddToRangerStyles(RangerStyle.TwoHanded6)
           .Configure(delayed: true);
 
-      Common.AddIsPrequisiteFor(FeatureRefs.PowerAttackFeature, Guids.FuriousFocusFeat);
+      //Common.AddIsPrequisiteFor(FeatureRefs.PowerAttackFeature, Guids.FuriousFocusFeat);
     }
 
     [TypeId("d7aa29aa-b4d0-4739-8856-6ee954d84aa8")]

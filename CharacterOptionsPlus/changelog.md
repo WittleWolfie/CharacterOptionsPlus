@@ -1,4 +1,8 @@
-﻿## v1.3.7
+﻿## v1.3.8
+
+* Minor fixes and localization updates
+
+## v1.3.7
 
 * Update for A Dance of Masks DLC
     * Furious Focus can no longer be selected, replaced by the base game's Focused Strike

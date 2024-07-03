@@ -19,8 +19,9 @@ namespace CharacterOptionsPlus
 
     internal static void Configure()
     {
-      if (Settings.IsEnabled(DreadfulCarnagePrereq))
-        ConfigureDreadfulCarnagePrereq();
+      // Not needed anymore
+      //if (Settings.IsEnabled(DreadfulCarnagePrereq))
+      //  ConfigureDreadfulCarnagePrereq();
       if (Settings.IsEnabled(ImplosionDestructionDomain))
         ConfigureImplosionDestructionDomain();
       if (Settings.IsEnabled(WinterPatronSpells))
@@ -127,7 +128,7 @@ namespace CharacterOptionsPlus
       new()
       {
         (CompanionShareSpells, "CompanionShareSpells.Name", "CompanionShareSpells.Description"),
-        (DreadfulCarnagePrereq, "DreadfulCarnagePrereq.Name", "DreadfulCarnagePrereq.Description"),
+     //   (DreadfulCarnagePrereq, "DreadfulCarnagePrereq.Name", "DreadfulCarnagePrereq.Description"),
         (ImplosionDestructionDomain, "Implosion.DestructionDomain.Name", "Implosion.DestructionDomain.Description"),
         (SelectiveFreezingSphere, "Homebrew.FreezingSphere.Name", "Homebrew.FreezingSphere.Description"),
         (OriginalGloriousHeat, "Homebrew.GloriousHeat.Name", "Homebrew.GloriousHeat.Description"),
