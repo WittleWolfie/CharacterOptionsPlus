@@ -81,6 +81,7 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName}");
 
       DoubleSummons(AbilityRefs.AnimateDead.ToString());
+      DoubleSummons(AbilityRefs.AnimateDeadLesser.ToString());
       DoubleSummons(AbilityRefs.DirgeBardAnimateDead.ToString());
       DoubleSummons(AbilityRefs.OracleBonesAnimateDead.ToString());
 
