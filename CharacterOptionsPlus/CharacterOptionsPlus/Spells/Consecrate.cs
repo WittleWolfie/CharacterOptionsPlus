@@ -76,6 +76,12 @@ namespace CharacterOptionsPlus.Spells
       Logger.Log($"Configuring {FeatureName}");
 
       ProhibitSummons(AbilityRefs.AnimateDead.ToString());
+      ProhibitSummons(AbilityRefs.AnimateDeadLesser.ToString());
+      ProhibitSummons(AbilityRefs.CreateUndeadGreaterDevourer.ToString());
+      ProhibitSummons(AbilityRefs.CreateUndeadGreaterShadowGreater.ToString());
+      ProhibitSummons(AbilityRefs.CreateUndeadLivingArmor.ToString());
+      ProhibitSummons(AbilityRefs.CreateUndeadGraveknight.ToString());
+      ProhibitSummons(AbilityRefs.ConjureBloodServantAbility.ToString());
       ProhibitSummons(AbilityRefs.DirgeBardAnimateDead.ToString());
       ProhibitSummons(AbilityRefs.OracleBonesAnimateDead.ToString());
       ProhibitSummons(AbilityRefs.LichSummonAbilityTier2.ToString());
