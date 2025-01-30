@@ -85,13 +85,16 @@ namespace CharacterOptionsPlus.Spells
         .AddToSpellLists(
           level: 4,
           SpellList.Bloodrager,
-          SpellList.Cleric,
-          SpellList.Inquisitor,
-          SpellList.Paladin,
-          SpellList.Magus,
-          SpellList.Warpriest,
-          SpellList.Wizard)
+          SpellList.Paladin)
         .AddToSpellList(4, ModSpellListRefs.AntipaladinSpelllist.ToString())
+        .AddToSpellLists(
+          level: 5,
+          SpellList.Magus,
+          SpellList.Inquisitor)
+        .AddToSpellLists(
+          level: 6,
+          SpellList.Cleric,
+          SpellList.Wizard)
         .AddAbilityEffectRunAction(actions: ActionsBuilder.New().ApplyBuff(buff, ContextDuration.Fixed(1)))
         .AddCraftInfoComponent(
           aOEType: CraftAOE.None,
