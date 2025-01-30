@@ -51,8 +51,8 @@ namespace CharacterOptionsPlus.Spells
     {
       Logger.Log($"Configuring {FeatureName} (disabled)");
 
-      AbilityConfigurator.New(MainHandAbility, Guids.WeaponOfAweMainHand).Configure();
-      AbilityConfigurator.New(OffHandAbility, Guids.WeaponOfAweOffHand).Configure();
+      AbilityConfigurator.New(MainHandAbility, Guids.KeenEdgeMainHand).Configure();
+      AbilityConfigurator.New(OffHandAbility, Guids.KeenEdgeMainHand).Configure();
       AbilityConfigurator.New(FeatureName, Guids.KeenEdgeSpell).Configure();
     }
 
