@@ -1,4 +1,8 @@
-﻿## v1.3.8
+﻿## v1.3.9
+
+* Minor fixes
+
+## v1.3.8
 
 * Minor fixes and localization updates
 
