@@ -133,6 +133,7 @@ namespace CharacterOptionsPlus.Spells
         .SetRange(AbilityRange.Close)
         .AllowTargeting(self: true)
         .SetSpellResistance()
+        .SetIgnoreSpellResistanceForAlly()
         .SetEffectOnEnemy(AbilityEffectOnUnit.Harmful)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
