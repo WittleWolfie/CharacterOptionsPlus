@@ -104,6 +104,7 @@ namespace CharacterOptionsPlus.Spells
         .SetLocalizedDuration(Duration.MinutePerLevel)
         .SetRange(AbilityRange.Personal)
         .SetSpellResistance()
+        .SetIgnoreSpellResistanceForAlly()
         .AllowTargeting(self: true)
         .SetAnimation(CastAnimationStyle.Omni)
         .SetActionType(CommandType.Standard)
