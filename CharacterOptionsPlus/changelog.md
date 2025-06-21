@@ -1,4 +1,9 @@
-﻿## v1.3.9
+﻿## v1.4.0
+
+* Spanish Localization (Machine Translation, provided by jofrancose)
+* Minor fixes
+
+## v1.3.9
 
 * Minor fixes
 
