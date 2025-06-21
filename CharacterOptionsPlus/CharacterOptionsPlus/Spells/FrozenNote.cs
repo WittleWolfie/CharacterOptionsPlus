@@ -130,7 +130,7 @@ namespace CharacterOptionsPlus.Spells
         .SetIcon(IconName)
         .SetLocalizedDuration(Duration.RoundPerLevel)
         .SetLocalizedSavingThrow(SavingThrow.WillNegates)
-        .SetRange(AbilityRange.Close)
+        .SetRange(AbilityRange.Personal)
         .AllowTargeting(self: true)
         .SetSpellResistance()
         .SetIgnoreSpellResistanceForAlly()
@@ -148,6 +148,7 @@ namespace CharacterOptionsPlus.Spells
         .AddAbilityEffectRunAction(
           actions: ActionsBuilder.New()
             .ApplyBuff(buff, ContextDuration.Variable(ContextValues.Rank()), toCaster: true))
+        .AddAbilityAoERadius(radius: 30.Feet())
         .AddCraftInfoComponent(
           aOEType: CraftAOE.AOE,
           savingThrow: CraftSavingThrow.Will,
