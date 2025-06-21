@@ -1,113 +1,119 @@
 [
-  {
-    "Key": "CompanionShareSpells.Name",
-    "ProcessTemplates": false,
-    "enGB": "Share Spells (Animal Companion)",
-    "zhCN": "共享法术（动物同伴）",
-    "ruRu": "Поделиться магией (с верным зверем)"
-  },
-  {
-    "Key": "CompanionShareSpells.Description",
-    "enGB": "Spells with a range of personal can target animal companions.\nWhen this is enabled you will have to select a target when casting personal spells.",
-    "zhCN": "目标为自身的法术可以分享给动物同伴。\n激活后释放这些法术时需要选择目标。",
-    "ruRu": "Вы можете накладывать на своего верного зверя заклинания, которые обычно можно накладывать только на себя. \nКогда эта способность активна, вам необходимо выбирать цель для заклинаний с дальностью 'на себя'"
-  },
-
-  {
-    "Key": "DreadfulCarnagePrereq.Name",
-    "ProcessTemplates": false,
-    "enGB": "Dreadful Carnage Prerequisites",
-    "ruRu": "Требования черты Ужасающая резня"
-	
-  },
-  {
-    "Key": "DreadfulCarnagePrereq.Description",
-    "enGB": "REQUIRES RESTART\n\nRemoves Dazzling Display as a preqrequisite and replaces it with Furious Focus, consistent with the tabletop rules.",
-    "ruRu": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nДля взятия черты Ужасающая резня вместо Демонстрации силы требуется Сосредоточенный удар, согласно настольным правилам."
-	
-  },
-
-  {
-    "Key": "Homebrew.FreezingSphere.Name",
-    "ProcessTemplates": false,
-    "enGB": "Freezing Sphere - Selective",
-    "zhCN": "冰封法球 - 甄选",
-    "ruRu": "Сфера заморозки - Избирательное"
-  },
-  {
-    "Key": "Homebrew.FreezingSphere.Description",
-    "enGB": "REQUIRES RESTART\n\nFreezing Sphere only hits enemies.",
-    "zhCN": "需要重启\n\n冰封法球只会击中敌人。",
-    "ruRu": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nСфера заморозки воздействует только на врагов"
-  },
-
-  {
-    "Key": "Homebrew.GloriousHeat.Name",
-    "ProcessTemplates": false,
-    "enGB": "Use original Glorious Heat",
-    "zhCN": "使用原版火热荣耀",
-    "ruRU": "Не использовать исправленную версию Благостного жара."
-  },
-
-  {
-    "Key": "Homebrew.GloriousHeat.Description",
-    "ProcessTemplates": false,
-    "enGB": "REQUIRES RESTART\n\nThe default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing.",
-    "zhCN": "需要重启\n\n默认情况下的火热荣耀会应用勘误，将治疗量从等于1/2角色等级降低到等于法术等级。如果开启此选项，会恢复原本的描述，然而戏法触发治疗依然会为了防止无限治疗被禁用。",
-    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nПо умолчанию Благостному Жару учитывает официальную эррату, согласно которой эффект лечения с 1/2 Уровня Персонажа до Круга Заклинания. Если эта настройка включена, то будет использоваться старая врсия правил, хотя лечение с Фокусов всё равно намеренно запрещено, чтобы не допустить возможности бесконечного лечения."
-  },
-
-  {
-    "Key": "Implosion.DestructionDomain.Name",
-    "ProcessTemplates": false,
-    "enGB": "Implosion - Destruction Domain",
-    "zhCN": "内爆术 - 毁灭领域",
-    "ruRu": "Имплозия - Домейн Разрушения"
-  },
-  {
-    "Key": "Implosion.DestructionDomain.Description",
-    "enGB": "REQUIRES RESTART\n\nImplosion replaces Tsunami in for the bonus spells granted by the Destruction Domain.",
-    "zhCN": "需要重启\n\n内爆术替代毁灭领域的奖励法术津波。",
-    "ruRu": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЗаклинание Имплозия заменяет Цунами в списке дополнительных заклинаний, даруемых Домейном Разрушения"
-  },
-
-  {
-    "Key": "SingleDraconicBloodline.Name",
-    "ProcessTemplates": false,
-    "enGB": "Single Draconic Bloodline",
-    "zhCN": "单龙裔血承",
-    "ruRU": "Одиночное драконье наследие"
-  },
-  {
-    "Key": "SingleDraconicBloodline.Description",
-    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the draconic bloodline.",
-    "zhCN": "需要重启\n\n阻止选择多个不同的龙裔血承。",
-    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЗапрещает выбор нескольких драконьих наследий одним персонажем."
-  },
-
-  {
-    "Key": "SingleElementalBloodline.Name",
-    "ProcessTemplates": false,
-    "enGB": "Single Elemental Bloodline",
-    "zhCN": "单元素血承",
-    "ruRU": "Одиночное стихийное наследие"
-  },
-  {
-    "Key": "SingleElementalBloodline.Description",
-    "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline.",
-    "zhCN": "需要重启\n\n阻止选择多个不同的元素血承。",
-    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЗапрещает выбор нескольких стихийных наследий одним персонажем."
-  },
-
-  {
-    "Key": "WinterPatronSpells.Name",
-    "ProcessTemplates": false,
-    "enGB": "Winter Patron Spells",
-    "ruRU": "Заклинания покровителя зимы."
-  },
-  {
-    "Key": "WinterPatronSpells.Description",
-    "enGB": "REQUIRES RESTART\n\nUpdates the list of spells granted by the Winter Patron to better match the tabletop version.",
-    "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nОбновляет список заклинаний покровителя ведьмы - Зима, чтобы он больше соответствовал настольной версии."
-  }
+    {
+        "Key": "CompanionShareSpells.Name",
+        "ProcessTemplates": false,
+        "enGB": "Share Spells (Animal Companion)",
+        "zhCN": "共享法术（动物同伴）",
+        "ruRu": "Поделиться магией (с верным зверем)",
+        "esES": "Compartir hechizos (compañero animal)"
+    },
+    {
+        "Key": "CompanionShareSpells.Description",
+        "enGB": "Spells with a range of personal can target animal companions.\nWhen this is enabled you will have to select a target when casting personal spells.",
+        "zhCN": "目标为自身的法术可以分享给动物同伴。\n激活后释放这些法术时需要选择目标。",
+        "ruRu": "Вы можете накладывать на своего верного зверя заклинания, которые обычно можно накладывать только на себя. \nКогда эта способность активна, вам необходимо выбирать цель для заклинаний с дальностью 'на себя'",
+        "esES": "Los hechizos con una variedad de personajes personales pueden atacar a los compañeros animales.\nCuando esto esté habilitado, tendrá que seleccionar un objetivo al lanzar hechizos personales."
+    },
+    {
+        "Key": "DreadfulCarnagePrereq.Name",
+        "ProcessTemplates": false,
+        "enGB": "Dreadful Carnage Prerequisites",
+        "ruRu": "Требования черты Ужасающая резня",
+        "esES": "Prerrequisitos de carnicería terribles"
+    },
+    {
+        "Key": "DreadfulCarnagePrereq.Description",
+        "enGB": "REQUIRES RESTART\n\nRemoves Dazzling Display as a preqrequisite and replaces it with Furious Focus, consistent with the tabletop rules.",
+        "ruRu": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nДля взятия черты Ужасающая резня вместо Демонстрации силы требуется Сосредоточенный удар, согласно настольным правилам.",
+        "esES": "Requiere reiniciar\n\nElimina la pantalla deslumbrante como un prequisito previo y lo reemplaza con un enfoque furioso, consistente con las reglas de la mesa."
+    },
+    {
+        "Key": "Homebrew.FreezingSphere.Name",
+        "ProcessTemplates": false,
+        "enGB": "Freezing Sphere - Selective",
+        "zhCN": "冰封法球 - 甄选",
+        "ruRu": "Сфера заморозки - Избирательное",
+        "esES": "Congelación de la esfera - selectivo"
+    },
+    {
+        "Key": "Homebrew.FreezingSphere.Description",
+        "enGB": "REQUIRES RESTART\n\nFreezing Sphere only hits enemies.",
+        "zhCN": "需要重启\n\n冰封法球只会击中敌人。",
+        "ruRu": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nСфера заморозки воздействует только на врагов",
+        "esES": "Requiere reiniciar\n\nLa esfera de congelación solo golpea enemigos."
+    },
+    {
+        "Key": "Homebrew.GloriousHeat.Name",
+        "ProcessTemplates": false,
+        "enGB": "Use original Glorious Heat",
+        "zhCN": "使用原版火热荣耀",
+        "ruRU": "Не использовать исправленную версию Благостного жара.",
+        "esES": "Use el calor glorioso original"
+    },
+    {
+        "Key": "Homebrew.GloriousHeat.Description",
+        "ProcessTemplates": false,
+        "enGB": "REQUIRES RESTART\n\nThe default implementation of Glorious Heat applies the errata, reducing the healing from 1/2 Character Level to Spell Level. If this is turned on the original implementation is restored although healing from cantrips is disabled explicitly to prevent unlimited healing.",
+        "zhCN": "需要重启\n\n默认情况下的火热荣耀会应用勘误，将治疗量从等于1/2角色等级降低到等于法术等级。如果开启此选项，会恢复原本的描述，然而戏法触发治疗依然会为了防止无限治疗被禁用。",
+        "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nПо умолчанию Благостному Жару учитывает официальную эррату, согласно которой эффект лечения с 1/2 Уровня Персонажа до Круга Заклинания. Если эта настройка включена, то будет использоваться старая врсия правил, хотя лечение с Фокусов всё равно намеренно запрещено, чтобы не допустить возможности бесконечного лечения.",
+        "esES": "Requiere reiniciar\n\nLa implementación predeterminada del calor glorioso aplica la errata, reduciendo la curación del nivel de carácter de 1/2 al nivel de hechizo. Si esto se enciende, la implementación original se restaura, aunque la curación de cantrips se deshabilita explícitamente para evitar la curación ilimitada."
+    },
+    {
+        "Key": "Implosion.DestructionDomain.Name",
+        "ProcessTemplates": false,
+        "enGB": "Implosion - Destruction Domain",
+        "zhCN": "内爆术 - 毁灭领域",
+        "ruRu": "Имплозия - Домейн Разрушения",
+        "esES": "Implosión - Dominio de destrucción"
+    },
+    {
+        "Key": "Implosion.DestructionDomain.Description",
+        "enGB": "REQUIRES RESTART\n\nImplosion replaces Tsunami in for the bonus spells granted by the Destruction Domain.",
+        "zhCN": "需要重启\n\n内爆术替代毁灭领域的奖励法术津波。",
+        "ruRu": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЗаклинание Имплозия заменяет Цунами в списке дополнительных заклинаний, даруемых Домейном Разрушения",
+        "esES": "Requiere reiniciar\n\nLa implosión reemplaza el tsunami por los hechizos de bonificación otorgados por el dominio de destrucción."
+    },
+    {
+        "Key": "SingleDraconicBloodline.Name",
+        "ProcessTemplates": false,
+        "enGB": "Single Draconic Bloodline",
+        "zhCN": "单龙裔血承",
+        "ruRU": "Одиночное драконье наследие",
+        "esES": "Línea de sangre dracónica única"
+    },
+    {
+        "Key": "SingleDraconicBloodline.Description",
+        "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the draconic bloodline.",
+        "zhCN": "需要重启\n\n阻止选择多个不同的龙裔血承。",
+        "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЗапрещает выбор нескольких драконьих наследий одним персонажем.",
+        "esES": "Requiere reiniciar\n\nEvita la selección de múltiples versiones de la línea de sangre dracónica."
+    },
+    {
+        "Key": "SingleElementalBloodline.Name",
+        "ProcessTemplates": false,
+        "enGB": "Single Elemental Bloodline",
+        "zhCN": "单元素血承",
+        "ruRU": "Одиночное стихийное наследие",
+        "esES": "Línea de sangre elemental única"
+    },
+    {
+        "Key": "SingleElementalBloodline.Description",
+        "enGB": "REQUIRES RESTART\n\nPrevents picking multiple versions of the elemental bloodline.",
+        "zhCN": "需要重启\n\n阻止选择多个不同的元素血承。",
+        "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nЗапрещает выбор нескольких стихийных наследий одним персонажем.",
+        "esES": "Requiere reiniciar\n\nEvita la selección de múltiples versiones de la línea de sangre elemental."
+    },
+    {
+        "Key": "WinterPatronSpells.Name",
+        "ProcessTemplates": false,
+        "enGB": "Winter Patron Spells",
+        "ruRU": "Заклинания покровителя зимы.",
+        "esES": "Hechizos de patrón de invierno"
+    },
+    {
+        "Key": "WinterPatronSpells.Description",
+        "enGB": "REQUIRES RESTART\n\nUpdates the list of spells granted by the Winter Patron to better match the tabletop version.",
+        "ruRU": "ТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА\n\nОбновляет список заклинаний покровителя ведьмы - Зима, чтобы он больше соответствовал настольной версии.",
+        "esES": "Requiere reiniciar\n\nActualiza la lista de hechizos otorgados por el patrón de invierno para que coincida mejor con la versión de mesa."
+    }
 ]

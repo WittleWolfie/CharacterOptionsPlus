@@ -161,6 +161,7 @@ This will not:
 
 * Kurufinve - Russian
 * 呶呶BOT - Chinese
+* jofrancose - Spanish (Machine Translation)
 
 ## Interested in modding?
 
